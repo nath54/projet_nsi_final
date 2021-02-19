@@ -1,0 +1,29 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+    <rect fill="white" width="100%" height="100%" />
+    <ellipse cx="100" cy="50" rx="25" ry="25" class="corps"/>
+    <!-- Torse -->
+    <line x1="100" y1="50" x2="100" y2="120" stroke-linecap="round" stroke-width="13" class="corps" />
+    <!-- Bras gauche -->
+    <line x1="100" y1="85" x2="70" y2="90" stroke-linecap="round" stroke-width="13" class="corps" />
+    <!-- Avant bras gauche -->
+    <line x1="70" y1="90" x2="55" y2="110" stroke-linecap="round" stroke-width="13" class="corps" />
+    <!-- Bras droit -->
+    <line x1="100" y1="85" x2="130" y2="90" stroke-linecap="round" stroke-width="13" class="corps" />
+    <!-- Avant bras droit -->
+    <line x1="130" y1="90" x2="150" y2="110" stroke-linecap="round" stroke-width="13" class="corps" />
+    <!-- Cuisse gauche -->
+    <line  x1="100" y1="120" x2="80" y2="155" stroke-linecap="round" stroke-width="13" class="corps" />
+    <!-- Jambe gauche -->
+    <line  x1="80" y1="155" x2="78" y2="180" stroke-linecap="round" stroke-width="13" class="corps" />
+    <!-- Cuisse droite -->
+    <line  x1="100" y1="120" x2="120" y2="155" stroke-linecap="round" stroke-width="13" class="corps" />
+    <!-- Jambe gauche -->
+    <line  x1="120" y1="155" x2="122" y2="180" stroke-linecap="round" stroke-width="13" class="corps" />
+</svg>
+<style>
+.corps{
+    fill: rgb(180,140,130);
+    stroke: rgb(180,140,130);
+}
+</style>
