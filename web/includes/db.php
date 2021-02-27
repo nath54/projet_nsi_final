@@ -50,11 +50,11 @@ function requete_prep($db, $requested, $vars=array()){
 // Fonction pour faire plus facilement des actions préparées
 // Rappel : Pour faire une action préparée, ce cera sous la forme
 //  $action = "INSERT INTO comptes SET nom=:nom, email=:email", et $vars = array(":nom"=>$nom, ":email"=>$email)
-// Cette fonction ne renvoie rien
-// (Mais si jamais il y a des problèmes, on pourra essayer de s'arranger pour qu'elle renvoie s'il y a eu des erreurs)
+// Cette fonction renvoie s'il y a eu une erreur ou pas
 function action_prep($db, $action, $vars=array()){
     $statement = $db->prepare($action, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-    $statement->execute($vars);
+    $succeed = $statement->execute($vars);
+    return $succeed;
 }
 
 ?>

@@ -1,4 +1,20 @@
 <!DOCTYPE html>
+<?php
+
+include_once "../includes/init.php";
+
+// On va générer un petit token, pour vérifier que la requête provient bien de cette page là
+// PS : On va aussi brouiller les pistes pour un éventuel hacker
+$token = gen_key();
+$_SESSION["token"] = $token;
+$_SESSION["code_token"] = gen_key();
+
+if(isset($_SESSION["erreur_inscription"])){
+    echo "<script>alert(\"".$_SESSION["erreur_inscription"]."\");</script>";
+    unset($_SESSION["erreur_inscription"]);
+}
+
+?>
 <html>
     <head>
         <meta charset="utf-8" />
@@ -7,19 +23,24 @@
     </head>
     <body>
         <div class="container">
-            <form id="form" action="../includes/inscription.php" method="POST">
+            <form id="form" action="../includes/inscription.php" method="POST" token="<?php echo gen_key(); ?>">                
+                <?php
+                for($x=0; $x<random_int(5,20); $x++){
+                    echo '<input type="text" value="'.gen_key().'" name="'.gen_key().'" style="display:none" />';
+                }
+                ?>
                 <!-- Titre -->
                 <div>
                     <h1>Inscription :</h1>
                 </div>
                 <!-- Pseudo -->
                 <div>
-                    <label>Pseudo / : </label>
+                    <label>Pseudo : </label>
                     <input type="text" name="pseudo" id="pseudo" />
                 </div>
                 <!-- Email -->
                 <div>
-                    <label>Email / : </label>
+                    <label>Email : </label>
                     <input type="email" name="email" id="email" />
                 </div>
                 <!-- Mot de Passe -->
@@ -38,6 +59,17 @@
                     le formulaire va être envoyé avant que l'on puisse le tester-->
                     <a class="bouton_form" onclick="test_form();">Ok</a>
                 </div>
+                <?php
+                for($x=0; $x<random_int(2,10); $x++){
+                    echo '<input type="text" val!ue="'.gen_key().'" name="'.gen_key().'" style="display:none" />';
+                }
+                ?>
+                <input type="text" value="<?php echo $token ?>" name="<?php $_SESSION["code_token"] ?>" style="display:none" />
+                <?php
+                for($x=0; $x<random_int(2,10); $x++){
+                    echo '<input type="text" value="'.gen_key().'" name="'.gen_key().'" style="display:none" />';
+                }
+                ?>
             </form>
         </div>
     </body>

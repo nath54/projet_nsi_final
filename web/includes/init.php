@@ -11,14 +11,21 @@ if(true){ // a enlever quand le projet sera fini, on peut le désactiver/activer
 
 // Fonction pour se déconnecter, pour vider les variables de sessions et de cookies
 function disconnect($redirect=false){
-    unset($_SESSION["id"]);
-    unset($_SESSION["key"]);
-    unset($_SESSION["error"]);
-    // unset($_COOKIE["id"]);
-    // unset($_COOKIE["key"]);
+    $potentiels_sessions_names = ["id_compte", "token", "code_token", "erreur_inscription"];
+    foreach($potentiels_sessions_names as $i=>$nom){
+        if(isset($_SESSION[$nom])){
+            unset($_SESSION[$nom]);
+        }
+    }
+    $potentiels_cookies_names = [];
+    foreach($potentiels_cookies_names as $i=>$nom){
+        if(isset($_COOKIE[$nom])){
+            unset($_COOKIE[$nom]);
+        }
+    }
     // Si on veut directement rediriger vers l'index lors de la déconnexion
     if($redirect){
-        header("Location: index.php");
+        header("Location: ../web/index.php");
     }
 }
 
