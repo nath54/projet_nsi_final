@@ -11,7 +11,7 @@ if(true){ // a enlever quand le projet sera fini, on peut le désactiver/activer
 
 // Fonction pour se déconnecter, pour vider les variables de sessions et de cookies
 function disconnect($redirect=false){
-    $potentiels_sessions_names = ["id_compte", "token", "code_token", "erreur_inscription"];
+    $potentiels_sessions_names = ["id_compte", "token", "code_token", "erreur_inscription", "code_email"];
     foreach($potentiels_sessions_names as $i=>$nom){
         if(isset($_SESSION[$nom])){
             unset($_SESSION[$nom]);
