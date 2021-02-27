@@ -33,7 +33,7 @@ function disconnect($redirect=false){
 // a appeler au début d'un fichier php si ce fichier nécessite que l'utilisateur soit connecté
 function test_connected($redirect=false){
     if(isset($_SESSION["id"]) && isset($_SESSION["key"])){
-        $id = $_SESSION["id"];
+        $id = $_SESSION["id_compte"];
         $key = $_SESSION["key"];
         // on va tester la clé de connection enregistrée dans la session
         $bdd = load_db();
