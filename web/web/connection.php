@@ -10,7 +10,7 @@
             <form action="../includes/connection.php" method="POST">
                 <!-- Titre -->
                 <div>
-                    <h1>Inscription :</h1>
+                    <h1>Connection :</h1>
                 </div>
                 <!-- Pseudo / Email -->
                 <div>

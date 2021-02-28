@@ -23,8 +23,8 @@ $db=load_db();
                         echo "<a class='bouton' href='../web/game.php'>Jouer</a>";
                     }
                     else{
-                        echo "<a class='bouton' href='../web/connection.php'>Se connecter</a>'";
-                        echo "<a class='bouton' href='../web/inscription.php'>S'inscrire</a>'";
+                        echo "<a class='bouton' href='../web/connection.php'>Se connecter</a>";
+                        echo "<a class='bouton' href='../web/inscription.php'>S'inscrire</a>";
                     }
                 ?>
             </div>
