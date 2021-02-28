@@ -43,15 +43,15 @@ function test_connected($redirect=false){
         }
         else{
             return false;
-            disconnect(true);
+            disconnect($redirect);
         }
     }
     else{
         // au cas où un petit $_SESSION["id"] ou un cookie qui trainerai ou autre
-        disconnect(true);
+        disconnect($redirect);
         return false;
     }
-    disconnect(true);
+    disconnect($redirect);
     return false;
 }
 
