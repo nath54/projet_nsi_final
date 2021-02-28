@@ -46,12 +46,12 @@ if(isset($_SESSION["erreur_inscription"])){
                 <!-- Mot de Passe -->
                 <div>
                     <label>Password : </label>
-                    <input type="secret" name="password" id="password" />
+                    <input type="password" name="password" id="password" />
                 </div>
                 <!-- Mot de Passe (Confirmation) -->
                 <div>
                     <label>Password (confirm) : </label>
-                    <input type="secret" name="password_confirm" id="password_confirm" />
+                    <input type="password" name="password_confirm" id="password_confirm" />
                 </div>
                 <!-- Bouton -->
                 <div>
