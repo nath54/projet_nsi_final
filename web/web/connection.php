@@ -26,6 +26,9 @@
                 <div>
                     <input type="submit" value="Ok" class="bouton_form" />
                 </div>
+                <div>
+                    <p>Vous n'avez pas de comptes ? <a href="../web/inscription.php">Inscrivez vous!</a></p>
+                </div>
             </form>
         </div>
     </body>

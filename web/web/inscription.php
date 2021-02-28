@@ -57,7 +57,10 @@ if(isset($_SESSION["erreur_inscription"])){
                 <div>
                     <!-- On doit mettre un <a> car si on met un bouton,
                     le formulaire va être envoyé avant que l'on puisse le tester-->
-                    <a class="bouton_form" onclick="test_form();">Ok</a>
+                    <a class="bouton_form" href="#" onclick="test_form();">Ok</a>
+                </div>
+                <div>
+                    <p>Vous avez déjà un compte ? <a href="../web/connection.php">Connectez vous!</a></p>
                 </div>
                 <?php
                 for($x=0; $x<random_int(2,10); $x++){
