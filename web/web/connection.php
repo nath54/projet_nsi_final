@@ -1,4 +1,21 @@
 <!DOCTYPE html>
+<?php
+
+include_once "../includes/init.php";
+
+// On va générer un petit token, pour vérifier que la requête provient bien de cette page là
+// PS : On va aussi brouiller les pistes pour un éventuel hacker
+$token = gen_key();
+$_SESSION["token"] = $token;
+$_SESSION["code_token"] = gen_key();
+
+if(isset($_SESSION["erreur_connection"])){
+    echo "<script>alert(\"".$_SESSION["erreur_connection"]."\");</script>";
+    unset($_SESSION["erreur_connection"]);
+}
+
+?>
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />

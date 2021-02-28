@@ -25,8 +25,12 @@ CREATE USER nsi@localhost IDENTIFIED BY "jJA3j4Knboa3"
 
 ## Table `comptes` :
  - `id` *INT PRIMARY KEY AUTO_INCREMENT* : id du compte
- - `pseudo` _TEXT UNIQUE NOT NULL_ : pseudo du compte
- - `email` _TEXT UNIQUE NOT NULL_ : email du compte
- - `password_` _TEXT UNIQUE NOT NULL_ : mot de passe du compte (**chiffré avec MD5()**)
+ - `pseudo` _TEXT NOT NULL_ : pseudo du compte
+ - `email` _TEXT NOT NULL_ : email du compte
+ - `password_` _TEXT NOT NULL_ : mot de passe du compte (**chiffré avec MD5()**)
  - `valid` _TINYINT DEFAULT 0 NOT NULL_ : si l'email du compte a été validé
  - `key_connected` _TEXT DEFAULT NULL_ : la clé de connexion du compte quand il se connecte
+
+```sql
+CREATE TABLE `comptes` (id INT PRIMARY KEY AUTO_INCREMENT, pseudo TEXT NOT NULL, email TEXT NOT NULL, password_ TEXT NOT NULL, valid TEXT NOT NULL, key_connected TEXT DEFAULT NULL);
+```
