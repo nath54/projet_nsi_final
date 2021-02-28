@@ -15,8 +15,11 @@ Si vous utilisez phpmyadmin, vous pouvez lorsque vous créez un compte et lui as
 
 ## Créer un utilisateur qui a accès à la base de donnée
 
-Il faudra ensuite créer un utilisateur et lui donner tous les droits à la base de donnée que créée précedemment.
+Il faudra ensuite créer un utilisateur et lui donner tous les droits à la base de donnée créée précedemment.
 
+```sql
+CREATE USER nsi@localhost IDENTIFIED BY "jJA3j4Knboa3"
+```
 
 # Structure de la base de donnée
 
