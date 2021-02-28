@@ -11,7 +11,8 @@ if(true){ // a enlever quand le projet sera fini, on peut le désactiver/activer
 
 // Fonction pour se déconnecter, pour vider les variables de sessions et de cookies
 function disconnect($redirect=false){
-    $potentiels_sessions_names = ["id_compte", "token", "code_token", "erreur_inscription", "code_email"];
+    $potentiels_sessions_names = ["id_compte", "token", "code_token", "erreur_inscription", "code_email",
+                                  "key_connected"];
     foreach($potentiels_sessions_names as $i=>$nom){
         if(isset($_SESSION[$nom])){
             unset($_SESSION[$nom]);
@@ -34,7 +35,7 @@ function disconnect($redirect=false){
 function test_connected($redirect=false){
     if(isset($_SESSION["id"]) && isset($_SESSION["key"])){
         $id = $_SESSION["id_compte"];
-        $key = $_SESSION["key"];
+        $key = $_SESSION["key_connected"];
         // on va tester la clé de connection enregistrée dans la session
         $bdd = load_db();
         $data = requete_prep($bdd, "SELECT key_connected FROM comptes WHERE id=:id", array(":id"=>$id));
