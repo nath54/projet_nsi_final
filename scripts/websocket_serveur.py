@@ -6,7 +6,7 @@ import json
 import random
 from datetime import datetime
 
-class Serveur_Websocket:
+class ServeurWebsocket:
     """
     Ceci est la classe websocket pour communiquer avec le client websocket javascript
     """
@@ -14,7 +14,7 @@ class Serveur_Websocket:
     ###################################### INITIALISATION ######################################
 
     def __init__(self):
-        """Constructeur de la classe Serveur_Websocket
+        """Constructeur de la classe ServeurWebsocket
         """
         config = load_config("config.json") # Fichier de configuration
         self.IP = config["host"] # Ip/Information Réseau pour la connection websocket
