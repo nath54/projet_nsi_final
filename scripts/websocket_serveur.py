@@ -9,12 +9,15 @@ from datetime import datetime
 class ServeurWebsocket:
     """
     Ceci est la classe websocket pour communiquer avec le client websocket javascript
+    
     """
 
     ###################################### INITIALISATION ######################################
 
     def __init__(self):
         """Constructeur de la classe ServeurWebsocket
+
+        Author : Nathan
         """
         config = self.load_config("config.json") # Fichier de configuration
         self.IP = config["host_websocket"] # Ip/Information Réseau pour la connection websocket
@@ -30,7 +33,9 @@ class ServeurWebsocket:
             path (str): chemin utilisé pour lire le fichier de configuration
 
         Returns:
-            [dict]: Renvoie un dictionnaire contenant les infos du fichier de configuration
+            [dict]: Renvoie un dictionnaire contenant les infos du fichier de configuration 
+        
+        Author : Nathan
         """
         data = json.load(open(path, "r"))
         return data
@@ -40,6 +45,8 @@ class ServeurWebsocket:
 
         Args:
             *message (list): La liste des informations a afficher
+
+        Author : Nathan
         """
         if self.DEBUG:
             now = datetime.now().time() # time object
@@ -52,6 +59,8 @@ class ServeurWebsocket:
 
         Args:
             websocket (websocket): client websocket
+
+        Author : Nathan
         """
         self.debug("Client connected !", websocket)
         self.USERS[websocket] = dict() # On va pouvoir stocker des informations
@@ -62,6 +71,8 @@ class ServeurWebsocket:
 
         Args:
             websocket (websocket): client websocket
+
+        Author : Nathan
         """
         self.debug("Client disconnected !", websocket)
         del(self.USERS[websocket]) # On enleve l'utilisateur
@@ -80,6 +91,8 @@ class ServeurWebsocket:
         Args:
             websocket (websocket): client websocket
             message (dict/str): message à envoyer
+
+        Author : Nathan
         """
         message = json.dumps(message) # On convertit en json
         await websocket.send(message) # On envoie le message
@@ -90,6 +103,8 @@ class ServeurWebsocket:
 
         Args:
             websocket (websocket): client websocket
+
+        Author : Nathan
         """
         await self.register(websocket) # On enregistre l'utilisateur
         try:
@@ -105,6 +120,8 @@ class ServeurWebsocket:
         Args:
             websocket (websocket): client websocket
             data (str): message recu
+
+        Author : Nathan
         """
         data = json.loads(message)
         self.debug("get from ", websocket, " : ", data)
@@ -121,6 +138,8 @@ class ServeurWebsocket:
     def start(self):
         """Lance le serveur websocket,
            à appeler dans le serveur.py, 
+
+        Author : Nathan
         """
         print("Server starting...")
         self.serveur = ws.serve(self.handle, self.IP, self.PORT) # On initialise le serveur

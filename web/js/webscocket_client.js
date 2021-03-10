@@ -10,6 +10,8 @@ var websocket = null; // On prépare la variable globale
 function start_websocket() {
     /**
      * Fonction qui initialise et lance le serveur websocket
+     * 
+     * @author Nathan
      */
 
     // On se connecte au websocket
@@ -30,6 +32,10 @@ function start_websocket() {
 function send_mes(message) {
     /**
      * Envoie un message au websocket en convertissant le message en JSON
+     * 
+     * @params message : Message a envoyer, sous la forme d'un dictionnaire
+     * 
+     * @author Nathan
      */
     // On convertit en json
     message = JSON.stringify(message);
@@ -38,6 +44,13 @@ function send_mes(message) {
 }
 
 function on_message(event) {
+    /**
+     * Fonction qui gere tous les messages recus du serveur
+     * 
+     * @params event : Evenement message géré par js
+     * 
+     * @author Nathan
+     */
     // On recoit les informations
     data = JSON.parse(event.data);
     // On traite les informations
