@@ -6,7 +6,7 @@ class Serveur:
     def __init__(self):
         # TODO : init du serveur
 
-        self.serveurWebsocket = ServeurWebsocket
+        self.serveurWebsocket = ServeurWebsocket()
 
     def start(self):
         # TODO : lancer le serveur
@@ -15,7 +15,7 @@ class Serveur:
         self.serveurWebsocket.start()
 
 
-if _name__=='__main__':
+if __name__=='__main__':
     # On lance le serveur ici
     server = Serveur()
     server.start()

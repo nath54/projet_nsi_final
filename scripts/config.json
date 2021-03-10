@@ -4,5 +4,6 @@
     "database": "projetclasse",
     "user": "projetclasse",
     "password": "proj#17CLASSE",
-    "port_websocket": 6546
+    "port_websocket": 6546,
+    "host_websocket": ""
 }

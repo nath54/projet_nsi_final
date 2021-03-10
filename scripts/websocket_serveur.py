@@ -16,9 +16,9 @@ class ServeurWebsocket:
     def __init__(self):
         """Constructeur de la classe ServeurWebsocket
         """
-        config = load_config("config.json") # Fichier de configuration
-        self.IP = config["host"] # Ip/Information Réseau pour la connection websocket
-        self.PORT = config["port"] # Port utilisée pour la connection websocket
+        config = self.load_config("config.json") # Fichier de configuration
+        self.IP = config["host_websocket"] # Ip/Information Réseau pour la connection websocket
+        self.PORT = config["port_websocket"] # Port utilisée pour la connection websocket
         self.USERS = dict() # Dictionnaire des utilisateurs actuellement connectés au serveur websocket
 
         self.DEBUG = True # Permettra d'afficher des messages d'erreurs/de debuggage lors des tests
@@ -32,7 +32,7 @@ class ServeurWebsocket:
         Returns:
             [dict]: Renvoie un dictionnaire contenant les infos du fichier de configuration
         """
-        data = json.parse(path)
+        data = json.load(open(path, "r"))
         return data
 
     def debug(self, *message):
