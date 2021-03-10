@@ -1,21 +1,37 @@
 <?php
 
-
+/**
+ * Ouvre un fichier .json et renvoie son contenu
+ *
+ * @param str $file_path
+ *
+ * @return Array (str, str)
+ *
+ * @author Nathan
+**/
 function open_json($file_path){
-    if( file_exists($file_path) ){
+    if(file_exists($file_path)){
         $texte = file_get_contents($file_path);
         $data = json_decode($texte, true);
     }
     else{
-		echo("File doesn't exists : ".$file_path);
-        $data=[];
+		echo("File doesn't exists: " . $file_path);
+        $data = [];
     }
     return $data;
 }
 
-
+/**
+ * Charge la base de données
+ *
+ * @uses open_json()
+ *
+ * @return PDO
+ *
+ * @author Nathan
+**/
 function load_db(){
-    $file_path = $_SESSION["path_includes"]."config.json";
+    $file_path = "config.json";
     $data_account = open_json($file_path);
     $pseudo = $data_account["user"];
     $password = $data_account["password"];
@@ -27,7 +43,7 @@ function load_db(){
         // $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
     catch(Exception $e) {
-        die("Error : " . $e->getMessage());
+        die("Error: " . $e->getMessage());
     }
     return $db;
 }
@@ -38,6 +54,18 @@ function load_db(){
 //     return $tab;
 // }
 
+
+/**
+ * Exécute une requête préparée et renvoie son résultat.
+ *
+ * @param PDO $db
+ * @param string $requested : Requête SQL. Passer les arguments comme `?`
+ * @param array $vars : Variables à passer dans la requête. 
+ *
+ * @return Array : Résultats de la requête
+ *
+ * @author Nathan
+ */
 function requete_prep($db, $requested, $vars=array()){
     $statement = $db->prepare($requested, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
     $reponse = $statement->execute($vars);
@@ -51,5 +79,3 @@ function action_prep($db, $requested, $vars=array()){
     $statement = $db->prepare($requested, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
     $statement->execute($vars);
 }
-
-?>
