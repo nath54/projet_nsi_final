@@ -75,7 +75,22 @@ function requete_prep($db, $requested, $vars=array()){
     return $arr;
 }
 
+/**
+ * Exécute juste une requête préparée et renvoie si elle s'est bien passée
+ *
+ * @param PDO $db
+ * @param string $requested : Requête SQL. Passer les arguments comme `?`
+ * @param array $vars : Variables à passer dans la requête. 
+ *
+ * @return bool : Si l'action c'est bien passée
+ *
+ * @author Nathan
+ */
 function action_prep($db, $requested, $vars=array()){
     $statement = $db->prepare($requested, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-    $statement->execute($vars);
+    $succeed = $statement->execute($vars);
+    if($succeed){
+        return true;
+    }
+    return false;
 }
