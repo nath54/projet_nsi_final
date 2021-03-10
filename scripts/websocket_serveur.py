@@ -70,11 +70,9 @@ class ServeurWebsocket:
     ################################ INTERACTION CLIENT/SERVEUR ################################
 
     
-    async def send(self, websocket, message, is_json=True):
+    async def send(self, websocket, message):
         """fonction qui envoie un message au websocket
-           `message` peut être sous format parsable par json,
-           mais peut aussi être sous format str
-           (is_json devra alors être False)
+           `message` peut être sous format parsable par json
 
            S'utilise de la manière suivante : 
             await self.send(websocket, {"exemple", "ex", "encore_exemple", "ex"})
@@ -82,10 +80,8 @@ class ServeurWebsocket:
         Args:
             websocket (websocket): client websocket
             message (dict/str): message à envoyer
-            is_json (bool, optional): Si le message est un dict à envoyer sous le format json
         """
-        if is_json:
-            message = json.dumps(message) # Si c'est à compresser par json, on le fait
+        message = json.dumps(message) # On convertit en json
         await websocket.send(message) # On envoie le message
 
     async def handle(self, websocket):
