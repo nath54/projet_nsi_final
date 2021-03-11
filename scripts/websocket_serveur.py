@@ -9,7 +9,6 @@ from datetime import datetime
 class ServeurWebsocket:
     """
     Ceci est la classe websocket pour communiquer avec le client websocket javascript
-    
     """
 
     ###################################### INITIALISATION ######################################
@@ -25,7 +24,7 @@ class ServeurWebsocket:
         self.USERS = dict() # Dictionnaire des utilisateurs actuellement connectés au serveur websocket
 
         self.DEBUG = True # Permettra d'afficher des messages d'erreurs/de debuggage lors des tests
-    
+
     def load_config(self, path):
         """Fonction pour récupérer la configuration du serveur enregistrée dans un fichier json 
 
@@ -34,7 +33,7 @@ class ServeurWebsocket:
 
         Returns:
             [dict]: Renvoie un dictionnaire contenant les infos du fichier de configuration 
-        
+
         Author : Nathan
         """
         data = json.load(open(path, "r"))
@@ -80,7 +79,6 @@ class ServeurWebsocket:
 
     ################################ INTERACTION CLIENT/SERVEUR ################################
 
-    
     async def send(self, websocket, message):
         """fonction qui envoie un message au websocket
            `message` peut être sous format parsable par json
@@ -109,17 +107,17 @@ class ServeurWebsocket:
         await self.register(websocket) # On enregistre l'utilisateur
         try:
             async for message in websocket: # on traite tous les messages que l'on recoit
-                await self.gere_messages(websocket, data)
+                await self.gere_messages(websocket, message)
         finally:
             await self.unregister(websocket) # On supprime l'utilisateur
-    
-    async def gere_messages(self, websocket, data):
+
+    async def gere_messages(self, websocket, message):
         """analyse tous les messages qu'elle recoit,
            et réagit en conséquence
 
         Args:
             websocket (websocket): client websocket
-            data (str): message recu
+            message (str): message recu
 
         Author : Nathan
         """
@@ -137,7 +135,7 @@ class ServeurWebsocket:
 
     def start(self):
         """Lance le serveur websocket,
-           à appeler dans le serveur.py, 
+           à appeler dans le serveur.py,
 
         Author : Nathan
         """
