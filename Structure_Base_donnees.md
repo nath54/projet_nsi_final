@@ -54,15 +54,15 @@ CREATE TABLE inventaire (id_quete INT,
 ```
 
 
-## TABLE `inventaire`:
- - `id_objet` _INT_ : id objet
- - `id_utilisateur` _INT_ : id user
- -  `quantite` _INT_ : Quantite d'un objet 
+## TABLE `pnj`:
+ - `id_pnj` _INT_ : id pnj
+ - `nom_pnj` _TEXT_ : nom_pnj
+ -  `role` _TEXT_ : métier d'un pnj
 
 ```sql
-CREATE TABLE inventaire (id_objet  INT,
-	     id_utilisateur INT,
-	     quantite INT)
+CREATE TABLE pnj (id_pnj INT,
+	     nom_pnj TEXT,
+	     role TEXT)
 ```
 
 
