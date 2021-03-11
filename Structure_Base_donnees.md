@@ -46,6 +46,18 @@ CREATE TABLE inventaire (id_objet  INT,
 ```
 
 
+## TABLE `monde`:
+ - `ville` _TEXT_ : nom ville
+ - `region` _TEXT_ : region du monde
+ - `niveau` _INT_ : niveau des villes ou region
+ 
+```sql
+CREATE TABLE monde (ville TEXT,
+	     region TEXT,
+		 niveau INT)
+```
+
+
 ## TABLE `quete`:
  - `id_quete` _INT_ : id quete
  - `quetes` _TEXT_ : Quêtes dans le monde
