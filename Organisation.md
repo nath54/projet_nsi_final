@@ -15,6 +15,18 @@
 ## Hugo :
  - Différents éléments enn php
 
-## 
+## Nathan
+ - websocket
 
+## Loghann :
+ - web
+ - CSS
+
+## Alexis
+
+## Léo
+
+## Léa
+
+## Abdel
 
