@@ -3,6 +3,7 @@
 ## TABLE `utilisateurs`:
  - `id_utilisateur` *INT PRIMARY KEY AUTO_INCREMENT* : id user
  - `pseudo` _TEXT_ : pseudo
+ - `mdp` _TEXT_ : mdp du user
  - `vie_max` _INT_ : Vie max du joueur
  - `classe` _TEXT_ : classe du joueur
  - `niveau` _INT_ : niveau du joueur
@@ -12,7 +13,8 @@
 ```sql
 CREATE TABLE utilisateurs (id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
 	       pseudo TEXT,
-		   mdp TEXT, 
+		   mdp TEXT,
+		   vie_max INT, 
 		   classe TEXT,
 		   niveau INT, 
 		   experience INT,
@@ -23,7 +25,7 @@ CREATE TABLE utilisateurs (id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
 ## TABLE `objet`:
  - `id_objet` _INT_ : id objet dans le jeu
  - `nom_objet` _TEXT_ : nom des objets
- -  `quantite` _INT_ : Quantite d'un objet 
+ - `quantite` _INT_ : Quantite d'un objet 
 
 ```sql
 CREATE TABLE objet (id_objet INT,
@@ -35,7 +37,7 @@ CREATE TABLE objet (id_objet INT,
 ## TABLE `inventaire`:
  - `id_objet` _INT_ : id objet
  - `id_utilisateur` _INT_ : id user
- -  `quantite` _INT_ : Quantite d'un objet 
+ - `quantite` _INT_ : Quantite d'un objet 
 
 ```sql
 CREATE TABLE inventaire (id_objet  INT,
@@ -57,7 +59,7 @@ CREATE TABLE inventaire (id_quete INT,
 ## TABLE `pnj`:
  - `id_pnj` _INT_ : id pnj
  - `nom_pnj` _TEXT_ : nom_pnj
- -  `role` _TEXT_ : métier d'un pnj
+ - `role` _TEXT_ : métier d'un pnj
 
 ```sql
 CREATE TABLE pnj (id_pnj INT,
@@ -65,5 +67,20 @@ CREATE TABLE pnj (id_pnj INT,
 	     role TEXT)
 ```
 
+
+## TABLE `monstre`:
+ - `id_monstre` _INT_ : id d'un monstre
+ - `nom_monstre` _TEXT_ : nom du monstre
+ - `pv` _INT_ : pv du monstre 
+ - `armure` _INT_ : armure du monstre
+ - `dgt` _INT_ : dégats infligés par le monstre
+
+```sql
+CREATE TABLE inventaire (id_monstre  INT,
+	     nom_monstre TEXT,
+	     pv INT,
+		 armure INT,
+		 dgt INT)
+```
 
 
