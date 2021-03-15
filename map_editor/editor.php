@@ -16,6 +16,11 @@ foreach(requete_prep($db, $requete) as $i=>$data){
 }
 
 ?>
+<script>
+
+var tuile_selected = "herbe";
+
+</script>
 <html>
     <head>
         <meta charset="UTF-8" />
@@ -79,7 +84,9 @@ foreach(requete_prep($db, $requete) as $i=>$data){
     </body>
 </html>
 <script>
-function change_case(){
 
+function change_case(x, y){
+    document.getElementById("");
 }
+
 </script>
