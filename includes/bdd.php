@@ -3,9 +3,11 @@
 /**
  * Ouvre un fichier .json et renvoie son contenu
  *
- * @param str $file_path
+ * @param string $file_path
+ *      Chemin vers le fichier .json
  *
  * @return Array (str, str)
+ *      Dictionnaire des données .json
  *
  * @author Nathan
 **/
@@ -31,8 +33,8 @@ function open_json($file_path){
  * @author Nathan
 **/
 function load_db(){
-    $file_path = "config.json";
-    $data_account = open_json($file_path);
+    $FILE_PATH = "config.json";
+    $data_account = open_json($FILE_PATH);
     $pseudo = $data_account["user"];
     $password = $data_account["password"];
     $db_name = $data_account["database"];
@@ -59,13 +61,17 @@ function load_db(){
  * Exécute une requête préparée et renvoie son résultat.
  *
  * @param PDO $db
- * @param string $requested : Requête SQL. Passer les arguments comme `?`
- * @param array $vars : Variables à passer dans la requête. 
+ *      Instance de la base de données
+ * @param string $requested
+ *      Requête SQL. Passer les arguments comme `?`
+ * @param array $vars
+ *      Variables à passer dans la requête. 
  *
- * @return Array : Résultats de la requête
+ * @return Array
+ *      Résultats de la requête
  *
  * @author Nathan
- */
+**/
 function requete_prep($db, $requested, $vars=array()){
     $statement = $db->prepare($requested, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
     $reponse = $statement->execute($vars);
@@ -76,21 +82,22 @@ function requete_prep($db, $requested, $vars=array()){
 }
 
 /**
- * Exécute juste une requête préparée et renvoie si elle s'est bien passée
+ * Exécute une requête préparée et renvoie si elle s'est bien passée
  *
  * @param PDO $db
- * @param string $requested : Requête SQL. Passer les arguments comme `?`
- * @param array $vars : Variables à passer dans la requête. 
+ *      Instance de la base de données
+ * @param string $requested
+ *      Requête SQL. Passer les arguments comme `?`
+ * @param array $vars
+ *      Variables à passer dans la requête. 
  *
- * @return bool : Si l'action c'est bien passée
+ * @return bool
+ *      true si l'action a bien été réussie, false sinon
  *
  * @author Nathan
- */
+**/
 function action_prep($db, $requested, $vars=array()){
     $statement = $db->prepare($requested, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
     $succeed = $statement->execute($vars);
-    if($succeed){
-        return true;
-    }
-    return false;
+    return $succeed;
 }
