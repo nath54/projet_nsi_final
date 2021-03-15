@@ -14,6 +14,8 @@
 
 ## Hugo :
  - Différents éléments en php
+ - Directeur en chef de la brigade de la Documentation
+ - Gouverneur général de la syntaxe du code
 
 ## Nathan
  - websocket

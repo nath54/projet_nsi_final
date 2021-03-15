@@ -56,11 +56,11 @@ foreach(requete_prep($db, $requete) as $i=>$data){
                 <!-- TODO -->
                 <svg viewBox="0 0 100 100" id="kln" style="display:block;margin:auto;background:red;" xmlns="http://www.w3.org/2000/svg">
                     <?php
-                        for($y=0; $y<$ty; $y++){
-                            for($x=0; $x<$tx; $x++){
+                        for($x=0; $x<$tx; $x++){
+                            for($y=0; $y<$ty; $y++){
                                 $cx = $x * $tc;
                                 $cy = $y * $tc;
-                                echo "<rect x=\"$cx\" y=\"$cy\" width=\"$tc\" height=\"$tc\" style=\"herbe\"></rect>";
+                                echo "<rect x=\"$cx\" y=\"$cy\" width=\"$tc\" height=\"$tc\" id=\"\"onclick=\"change_case($cx, $cy); \" style=\"herbe\"></rect>";
                             }
                         }
                     ?>
@@ -78,3 +78,8 @@ foreach(requete_prep($db, $requete) as $i=>$data){
         </div>
     </body>
 </html>
+<script>
+function change_case(){
+
+}
+</script>
