@@ -1,9 +1,9 @@
 ##Lancelot
 
 class personnage : 
-    def __init__(self, nom, classe):
+    def __init__(self, nom, classe, sexe):
         self.nom = nom
-        self.taille_sprite = 
+        self.sexe = sexe
         self.sprite_fixe = "penser me transmettre un sprite pour le perso quand il bouge pas"
         self.sprite_droite = "penser me transmettre un sprite pour le perso quand il va a droite"
         self.sprite_gauche = "penser me transmettre un sprite pour le perso quand il va a gauche"
@@ -31,8 +31,14 @@ class personnage :
     def selectionner(self):
         pass
 
+    def interagir(self):
+        pass
+
     def level_up(self):
         pass
+
+    def new_position(self):
+        pass 
 
 def test():
     print("début des tests")

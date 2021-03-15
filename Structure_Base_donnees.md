@@ -9,6 +9,10 @@
  - `niveau` _INT_ : niveau du joueur
  - `experience` _INT_ : expérience du joueur
  - `competence` __TEXT_ : qualité du personnage
+ - `quetes` _TEXT_ : les quetes réalisée par le joueur 
+ - `id_quete` _INT_ : id des quetes
+ - `complete` _BOOLEAN_ : si la quete est complété ou non par le joueur
+
 
 ```sql
 CREATE TABLE utilisateurs (id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
@@ -18,7 +22,10 @@ CREATE TABLE utilisateurs (id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
 		   classe TEXT,
 		   niveau INT, 
 		   experience INT,
-		   competence TEXT)
+		   competence TEXT,
+		   quetes TEXT,
+		   id_quete INT,
+		   complete BOOLEAN)
 ```
 
 
@@ -61,10 +68,12 @@ CREATE TABLE monde (ville TEXT,
 ## TABLE `quete`:
  - `id_quete` _INT_ : id quete
  - `quetes` _TEXT_ : Quêtes dans le monde
+ - `id_utilisateur` _INT_ : id des utilisateur ayant complété la quete (Jointure à réaliser)
  
 ```sql
 CREATE TABLE inventaire (id_quete INT,
-	     quetes TEXT)
+	     quetes TEXT,
+		 id_utilisateur INT)
 ```
 
 
@@ -119,7 +128,7 @@ CREATE TABLE inventaire (id_monstre  INT,
  - `image` TEXT : image du terrain
  - `cultivable` BOOLEAN : si l'on peut cultiver dessus
  - `objet_dessus` BOOLEAN : si il y a un objet dessus
- 
+
 ```sql
 CREATE TABLE inventaire (id_terrain INT PRIMARY KEY AUTO_INCREMENT,
 		 image TEXT,
@@ -128,6 +137,10 @@ CREATE TABLE inventaire (id_terrain INT PRIMARY KEY AUTO_INCREMENT,
 		 cultivable BOOLEAN,
 		 objet_dessus BOOLEAN)
 ```
+
+
+
+
 
 
 
