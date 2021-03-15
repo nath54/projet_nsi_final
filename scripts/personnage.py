@@ -11,7 +11,7 @@ class personnage :
         self.sprite_bas = "penser me transmettre un sprite pour le perso quand il va en bas"
         self.classe = classe
         self.vie = 20
-        self.niveau = 0 
+        self.niveau = 0  
         self.stamina = 20
         self.mana = 20
         self.armor = 0 
