@@ -7,9 +7,10 @@
 
 ## Mehdi :
  - Acceuil
+ - La connection/inscription
 
 ## Victor :
- - La connection/inscription
+ - Menu
  - Sprites
 
 ## Hugo :
@@ -17,16 +18,26 @@
 
 ## Nathan
  - websocket
+ - créateur de la map
 
 ## Loghann :
  - web
  - CSS
+ - travaille avec Mehdi
 
 ## Alexis
+ - règles du jeu
+ - histoire
 
 ## Léo
-
-## Léa
+ - pareil que Victor
 
 ## Abdel
+ - pareil que Victor
+
+
+## Léa
+ - règles du jeu
+ - histoire
+
 
