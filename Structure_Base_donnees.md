@@ -96,3 +96,39 @@ CREATE TABLE inventaire (id_monstre  INT,
 ```
 
 
+## TABLE `classe`:
+ - `id_classe` _INT_ : id de la classe
+ - `nom_classe` _TEXT_ : nom de la classe
+ - `force` _INT_ : force de base de la classe
+ - `armure` _INT_ : armure de monstre
+ - `dgt` _INT_ : dégats infligés par le monstre
+
+```sql
+CREATE TABLE inventaire (id_monstre  INT,
+	     nom_monstre TEXT,
+	     pv INT,
+		 armure INT,
+		 dgt INT)
+```
+
+
+## TABLE `terrain`:
+ - `id_terrain` *INT PRIMARY KEY AUTO_INCREMENT* : id du terrain
+ - `nom` TEXT : nom du terrain
+ - `peut_marcher` BOOLEAN : si on peut marcher sur la case
+ - `image` TEXT : image du terrain
+ - `cultivable` BOOLEAN : si l'on peut cultiver dessus
+ - `objet_dessus` BOOLEAN : si il y a un objet dessus
+ 
+```sql
+CREATE TABLE inventaire (id_terrain INT PRIMARY KEY AUTO_INCREMENT,
+		 image TEXT,
+		 nom  TEXT,
+	     peut_marcher BOOLEAN,
+		 cultivable BOOLEAN,
+		 objet_dessus BOOLEAN)
+```
+
+
+
+

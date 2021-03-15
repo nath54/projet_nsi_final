@@ -3,7 +3,12 @@
 class personnage : 
     def __init__(self, nom, classe):
         self.nom = nom
-        self.sprite = "penser me transmettre un sprite pour le perso"
+        self.taille_sprite = 
+        self.sprite_fixe = "penser me transmettre un sprite pour le perso quand il bouge pas"
+        self.sprite_droite = "penser me transmettre un sprite pour le perso quand il va a droite"
+        self.sprite_gauche = "penser me transmettre un sprite pour le perso quand il va a gauche"
+        self.sprite_haut = "penser me transmettre un sprite pour le perso quand il va en haut"
+        self.sprite_bas = "penser me transmettre un sprite pour le perso quand il va en bas"
         self.classe = classe
         self.vie = 20
         self.niveau = 0
