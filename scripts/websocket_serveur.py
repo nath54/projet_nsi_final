@@ -32,7 +32,7 @@ class ServeurWebsocket:
             path (str): chemin utilisé pour lire le fichier de configuration
 
         Returns:
-            [dict]: Renvoie un dictionnaire contenant les infos du fichier de configuration 
+            [dict]: Renvoie un dictionnaire contenant les infos du fichier de configuration
 
         Author : Nathan
         """
@@ -83,7 +83,7 @@ class ServeurWebsocket:
         """fonction qui envoie un message au websocket
            `message` peut être sous format parsable par json
 
-           S'utilise de la manière suivante : 
+           S'utilise de la manière suivante :
             await self.send(websocket, {"exemple", "ex", "encore_exemple", "ex"})
 
         Args:
