@@ -1,0 +1,24 @@
+.case {
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.herbe {
+    background-image: url("../imgs/tuiles/herbe.png");
+}
+
+.terre {
+    background-image: url("../imgs/tuiles/terre.png");
+}
+
+.sable {
+    background-image: url("../imgs/tuiles/herbe.png");
+}
+
+.neige {
+    background-image: url("../imgs/tuiles/herbe.png");
+}
+
+.vide {
+    background-image: url("../imgs/tuiles/herbe.png");
+}

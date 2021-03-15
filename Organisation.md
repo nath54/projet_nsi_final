@@ -1,20 +1,19 @@
 # Organisation
 
-
 ## Lancelot :
  - Moteur du jeu
  - structure de la bdd
 
 ## Mehdi :
  - Acceuil
- - La connection/inscription
+ - La connexion/inscrixion
 
 ## Victor :
  - Menu
  - Sprites
 
 ## Hugo :
- - Différents éléments enn php
+ - Différents éléments en php
 
 ## Nathan
  - websocket

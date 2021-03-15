@@ -3,6 +3,12 @@ include "../includes/bdd.php";
 
 $db = load_db();
 
+$tx = 0;
+$ty = 0;
+
+$requete = "SELECT nom FROM terrain;";
+
+
 ?>
 <html>
     <head>
@@ -27,7 +33,7 @@ $db = load_db();
                             echo "<option onclick='change_map($id)>$nom</option>";
                         }
 
-                    ?>            
+                    ?>
 
                 </select>
 
@@ -42,6 +48,17 @@ $db = load_db();
 
             <div>
                 <!-- TODO -->
+                <svg viewBox="0 0 100 100" id="kln" style="display:block;margin:auto;background:red;" xmlns="http://www.w3.org/2000/svg">
+                    <?php
+                        for($y=0; $y<$ty; $y++){
+                            for($x=0; $x<$tx; $x++){
+                                $cx = $x * $tc;
+                                $cy = $y * $tc;
+                                echo "<rect x=\"$cx\" y=\"$cy\" width=\"$tc\" height=\"$tc\" style=\"herbe\"></rect>";
+                            }
+                        }
+                    ?>
+                </svg>
             </div>
 
             <!-- tiles menu -->
