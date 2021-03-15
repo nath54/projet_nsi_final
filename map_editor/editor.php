@@ -6,8 +6,14 @@ $db = load_db();
 $tx = 0;
 $ty = 0;
 
-$requete = "SELECT nom FROM terrain;";
-
+$requete = "SELECT nom, image_ FROM terrain;";
+$terrains = array();
+foreach(requete_prep($db, $requete) as $i=>$data){
+    $nom = $data["nom"];
+    $img = $data["img"];
+    $terrains[$i] = $data["nom"];
+    echo "<style>.$nom{ background-img:url(\"../imgs/tuiles/$img.png\"); }</style>";
+}
 
 ?>
 <html>
@@ -50,11 +56,11 @@ $requete = "SELECT nom FROM terrain;";
                 <!-- TODO -->
                 <svg viewBox="0 0 100 100" id="kln" style="display:block;margin:auto;background:red;" xmlns="http://www.w3.org/2000/svg">
                     <?php
-                        for($y=0; $y<$ty; $y++){
-                            for($x=0; $x<$tx; $x++){
+                        for($x=0; $x<$tx; $x++){
+                            for($y=0; $y<$ty; $y++){
                                 $cx = $x * $tc;
                                 $cy = $y * $tc;
-                                echo "<rect x=\"$cx\" y=\"$cy\" width=\"$tc\" height=\"$tc\" style=\"herbe\"></rect>";
+                                echo "<rect x=\"$cx\" y=\"$cy\" width=\"$tc\" height=\"$tc\" id=\"\"onclick=\"change_case($cx, $cy); \" style=\"herbe\"></rect>";
                             }
                         }
                     ?>
@@ -72,3 +78,8 @@ $requete = "SELECT nom FROM terrain;";
         </div>
     </body>
 </html>
+<script>
+function change_case(){
+
+}
+</script>
