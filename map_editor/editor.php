@@ -6,8 +6,14 @@ $db = load_db();
 $tx = 0;
 $ty = 0;
 
-$requete = "SELECT nom FROM terrain;";
-
+$requete = "SELECT nom, image_ FROM terrain;";
+$terrains = array();
+foreach(requete_prep($db, $requete) as $i=>$data){
+    $nom = $data["nom"];
+    $img = $data["img"];
+    $terrains[$i] = $data["nom"];
+    echo "<style>.$nom{ background-img:url(\"../imgs/tuiles/$img.png\"); }</style>";
+}
 
 ?>
 <html>
