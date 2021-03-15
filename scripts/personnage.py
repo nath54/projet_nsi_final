@@ -13,7 +13,7 @@ class personnage :
         self.vie = 20
         self.niveau = 0  
         self.stamina = 20
-        self.mana = 20
+        self.mana = 20 
         self.armor = 0 
 
     def afficher(self):
