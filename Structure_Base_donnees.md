@@ -9,7 +9,7 @@
  - `niveau` _INT_ : niveau du joueur
  - `experience` _INT_ : expérience du joueur
  - `competence` __TEXT_ : qualité du personnage
- - `quetes` _TEXT_ : les quetes réalisée par le joueur 
+ - `quetes` _TEXT_ : les quetes réalisée par le joueur
  - `id_quete` _INT_ : id des quetes
  - `complete` _BOOLEAN_ : si la quete est complété ou non par le joueur
 
@@ -18,9 +18,9 @@
 CREATE TABLE utilisateurs (id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
 	       pseudo TEXT,
 		   mdp TEXT,
-		   vie_max INT, 
+		   vie_max INT,
 		   classe TEXT,
-		   niveau INT, 
+		   niveau INT,
 		   experience INT,
 		   competence TEXT,
 		   quetes TEXT,
@@ -32,7 +32,7 @@ CREATE TABLE utilisateurs (id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
 ## TABLE `objet`:
  - `id_objet` _INT_ : id objet dans le jeu
  - `nom_objet` _TEXT_ : nom des objets
- - `quantite` _INT_ : Quantite d'un objet 
+ - `quantite` _INT_ : Quantite d'un objet
 
 ```sql
 CREATE TABLE objet (id_objet INT,
@@ -44,7 +44,7 @@ CREATE TABLE objet (id_objet INT,
 ## TABLE `inventaire`:
  - `id_objet` _INT_ : id objet
  - `id_utilisateur` _INT_ : id user
- - `quantite` _INT_ : Quantite d'un objet 
+ - `quantite` _INT_ : Quantite d'un objet
 
 ```sql
 CREATE TABLE inventaire (id_objet  INT,
@@ -57,7 +57,7 @@ CREATE TABLE inventaire (id_objet  INT,
  - `ville` _TEXT_ : nom ville
  - `region` _TEXT_ : region du monde
  - `niveau` _INT_ : niveau des villes ou region
- 
+
 ```sql
 CREATE TABLE monde (ville TEXT,
 	     region TEXT,
@@ -69,7 +69,7 @@ CREATE TABLE monde (ville TEXT,
  - `id_quete` _INT_ : id quete
  - `quetes` _TEXT_ : Quêtes dans le monde
  - `id_utilisateur` _INT_ : id des utilisateur ayant complété la quete (Jointure à réaliser)
- 
+
 ```sql
 CREATE TABLE inventaire (id_quete INT,
 	     quetes TEXT,
@@ -92,7 +92,7 @@ CREATE TABLE pnj (id_pnj INT,
 ## TABLE `monstre`:
  - `id_monstre` _INT_ : id d'un monstre
  - `nom_monstre` _TEXT_ : nom du monstre
- - `pv` _INT_ : pv du monstre 
+ - `pv` _INT_ : pv du monstre
  - `armure` _INT_ : armure du monstre
  - `dgt` _INT_ : dégats infligés par le monstre
 
@@ -138,9 +138,22 @@ CREATE TABLE inventaire (id_terrain INT PRIMARY KEY AUTO_INCREMENT,
 		 objet_dessus BOOLEAN)
 ```
 
+## TABLE `regions`
+ - `id_region` *INT PRIMARY KEY AUTO_INCREMENT* : id de la region
+ - `nom` _TEXT_ : nom de la region
+ - `tx` _INT_ : nombre de cases horizontales de la region
+ - `ty` _INT_ : nombre de cases verticales de la region
+ - `voisin_droite` _INT DEFAULT NULL_ : id de la region qui se situe à droite de cette région
+ - `voisin_gauche` _INT DEFAULT NULL_ : id de la region qui se situe à gauche de cette région
+ - `voisin_haut` _INT DEFAULT NULL_ : id de la region qui se situe à haut de cette région
+ - `voisin_bas` _INT DEFAULT NULL_ : id de la region qui se situe à bas de cette région
 
-
-
+## TABLE `regions_terrains`
+- `id` *INT PRIMARY KEY AUTO_INCREMENT* : id de la case de la region
+- `id_region` _INT_ : id de la region
+- `x` _INT_
+- `y` _INT_
+- `id_terrain` _INT DEFAULT 0_ :
 
 
 
