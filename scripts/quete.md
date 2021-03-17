@@ -1,0 +1,44 @@
+# Format de quête :
+
+```SQL
+CREATE TABLE quete
+{
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT
+    nom TEXT,
+    description TEXT,
+    condition TEXT,
+    objectif TEXT,
+    recompense TEXT
+}
+```
+
+# Formats de `condition`, `objectif`, `recompense`
+
+## `condition`
+
+Dictionnaire {str: str|list(int)} : format `.json`
+```JSON
+
+{
+    "classe": "|nom_classe|",
+    "niveau": |int niveau|,
+    "quete": [int id_quete_1, int id_quete_2, ...]
+}
+```
+
+## `objectif`
+
+Dictionnaire ...
+```JSON
+...
+```
+
+## `recompense`
+Dictionnaire {str: int|list((int, int))} : format `.json`
+```JSON
+{
+    "Argent": |nb_argent|,
+    "XP": |nb_point_exp|,
+    "Objet": [(id_obj_1, qt), (id_obj_2, qt), ...]
+}
+```
