@@ -32,6 +32,8 @@ CREATE TABLE utilisateurs (id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
 ## TABLE `objet`:
  - `id_objet` _INT_ : id objet dans le jeu
  - `nom_objet` _TEXT_ : nom des objets
+ - `description` _TEXT_ : description de l'objet
+ - `image` _TEXT_ : image de l'objet
  - `quantite` _INT_ : Quantite d'un objet
 
 ```sql

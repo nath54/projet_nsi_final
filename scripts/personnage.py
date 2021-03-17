@@ -38,7 +38,7 @@ class personnage :
             self.niveau = self.niveau + 1
 
     def new_position(self):
-        pass 
+        pass
 
     def perdre_vie(self, dgt_monstre):
         pass
