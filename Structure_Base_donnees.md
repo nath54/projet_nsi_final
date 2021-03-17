@@ -25,7 +25,7 @@ CREATE TABLE utilisateurs (id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
 		   competence TEXT,
 		   quetes TEXT,
 		   id_quete INT,
-		   complete BOOLEAN)
+		   complete BOOLEAN);
 ```
 
 
@@ -41,7 +41,7 @@ CREATE TABLE objet (id_objet INT,
 	     nom_objet TEXT,
 		 description_ TEXT,
 		 image_ TEXT,
-	     quantite INT)
+	     quantite INT);
 ```
 
 
@@ -53,7 +53,7 @@ CREATE TABLE objet (id_objet INT,
 ```sql
 CREATE TABLE inventaire (id_objet  INT,
 	     id_utilisateur INT,
-	     quantite INT)
+	     quantite INT);
 ```
 
 
@@ -65,19 +65,19 @@ CREATE TABLE inventaire (id_objet  INT,
 ```sql
 CREATE TABLE monde (ville TEXT,
 	     region TEXT,
-		 niveau INT)
+		 niveau INT);
 ```
 
 
 ## TABLE `quete`:
  - `id_quete` _INT_ : id quete
  - `quetes` _TEXT_ : Quêtes dans le monde
- - `id_utilisateur` _INT_ : id des utilisateur ayant complété la quete (Jointure à réaliser)
+ - `id_utilisateur` _INT_ : id des utilisateur ayant complété la quete (Jointure à réaliser);
 
 ```sql
 CREATE TABLE inventaire (id_quete INT,
 	     quetes TEXT,
-		 id_utilisateur INT)
+		 id_utilisateur INT);
 ```
 
 
@@ -89,7 +89,7 @@ CREATE TABLE inventaire (id_quete INT,
 ```sql
 CREATE TABLE pnj (id_pnj INT,
 	     nom_pnj TEXT,
-	     role TEXT)
+	     role TEXT);
 ```
 
 
@@ -105,7 +105,7 @@ CREATE TABLE inventaire (id_monstre  INT,
 	     nom_monstre TEXT,
 	     pv INT,
 		 armure INT,
-		 dgt INT)
+		 dgt INT);
 ```
 
 
@@ -121,7 +121,7 @@ CREATE TABLE inventaire (id_monstre  INT,
 	     nom_monstre TEXT,
 	     pv INT,
 		 armure INT,
-		 dgt INT)
+		 dgt INT);
 ```
 
 
@@ -139,7 +139,7 @@ CREATE TABLE inventaire (id_terrain INT PRIMARY KEY AUTO_INCREMENT,
 		 nom  TEXT,
 	     peut_marcher BOOLEAN,
 		 cultivable BOOLEAN,
-		 objet_dessus BOOLEAN)
+		 objet_dessus BOOLEAN);
 ```
 
 ## TABLE `regions`
