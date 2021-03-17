@@ -32,13 +32,15 @@ CREATE TABLE utilisateurs (id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
 ## TABLE `objet`:
  - `id_objet` _INT_ : id objet dans le jeu
  - `nom_objet` _TEXT_ : nom des objets
- - `description` _TEXT_ : description de l'objet
- - `image` _TEXT_ : image de l'objet
+ - `description_` _TEXT_ : description de l'objet
+ - `image_` _TEXT_ : image de l'objet
  - `quantite` _INT_ : Quantite d'un objet
 
 ```sql
 CREATE TABLE objet (id_objet INT,
 	     nom_objet TEXT,
+		 description_ TEXT,
+		 image_ TEXT,
 	     quantite INT)
 ```
 
@@ -127,13 +129,13 @@ CREATE TABLE inventaire (id_monstre  INT,
  - `id_terrain` *INT PRIMARY KEY AUTO_INCREMENT* : id du terrain
  - `nom` TEXT : nom du terrain
  - `peut_marcher` BOOLEAN : si on peut marcher sur la case
- - `image` TEXT : image du terrain
+ - `image_` TEXT : image du terrain
  - `cultivable` BOOLEAN : si l'on peut cultiver dessus
  - `objet_dessus` BOOLEAN : si il y a un objet dessus
 
 ```sql
 CREATE TABLE inventaire (id_terrain INT PRIMARY KEY AUTO_INCREMENT,
-		 image TEXT,
+		 image_ TEXT,
 		 nom  TEXT,
 	     peut_marcher BOOLEAN,
 		 cultivable BOOLEAN,
