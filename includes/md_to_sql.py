@@ -16,11 +16,13 @@ def traite(nom_fich):
             ni = txt.find("```sql", i+1)
             ii = txt.find("```\n", i)
             if ii < ni:
-                nouveau_txt+=txt[i:ii]+"\n"
+                nouveau_txt+=txt[i+len("```sql"):ii]+"\n"
             i = ni
 
 
         nouveau_nom_fich = ".".join(nom_fich.split(".")[:-1])+".sql"
+
+        print(nouveau_nom_fich)
 
         nf = open(nouveau_nom_fich, "w", encoding="utf-8")
         nf.write(nouveau_txt)
