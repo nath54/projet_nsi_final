@@ -20,6 +20,7 @@ class personnage :
         self.armor = 0 
 
     def afficher(self):
+        img_perso = self.sprite_fixe
         pass
 
     def bouger(self, touche): #déplacement sous la forme de dict (dep x, dep y)
@@ -32,6 +33,8 @@ class personnage :
         elif touche == "down":
             self.position["y"] = self.position["y"] - 1
         
+    def emplacement(self):
+        self.position
 
     def prendre_objet(self, touche):
         if touche == "e" or touche =="E":
