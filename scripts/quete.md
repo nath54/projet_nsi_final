@@ -20,7 +20,7 @@ Dictionnaire {str: str|list(int)} : format `.json`
 ```JSON
 
 {
-    "classe": "|nom_classe|",
+    "classe": "nom_classe",
     "niveau": |int niveau|,
     "quete": [int id_quete_1, int id_quete_2, ...]
 }
@@ -28,17 +28,17 @@ Dictionnaire {str: str|list(int)} : format `.json`
 
 ## `objectif`
 
-Dictionnaire ...
+Dictionnaire {str: ???} : format `.json`
 ```JSON
 ...
 ```
 
 ## `recompense`
-Dictionnaire {str: int|list((int, int))} : format `.json`
+Dictionnaire {str: int|list<[int, int]>} : format `.json`
 ```JSON
 {
-    "Argent": |nb_argent|,
-    "XP": |nb_point_exp|,
-    "Objet": [(id_obj_1, qt), (id_obj_2, qt), ...]
+    "Argent": int nb_argent,
+    "XP": int nb_point_exp,
+    "Objet": [[int id_obj_1, int qt], [int id_obj_2, int qt], ...]
 }
 ```
