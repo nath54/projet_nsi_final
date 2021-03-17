@@ -30,14 +30,14 @@ CREATE TABLE utilisateurs (id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
 
 
 ## TABLE `objet`:
- - `id_objet` _INT_ : id objet dans le jeu
+ - `id_objet` *INT PRIMARY KEY AUTO_INCREMENT* : id objet dans le jeu
  - `nom_objet` _TEXT_ : nom des objets
  - `description_` _TEXT_ : description de l'objet
  - `image_` _TEXT_ : image de l'objet
  - `quantite` _INT_ : Quantite d'un objet
 
 ```sql
-CREATE TABLE objet (id_objet INT,
+CREATE TABLE objet (id_objet INT PRIMARY KEY AUTO_INCREMENT,
 	     nom_objet TEXT,
 		 description_ TEXT,
 		 image_ TEXT,
@@ -46,12 +46,12 @@ CREATE TABLE objet (id_objet INT,
 
 
 ## TABLE `inventaire`:
- - `id_objet` _INT_ : id objet
+ - `id_objet` *INT PRIMARY KEY AUTO_INCREMENT* : id objet
  - `id_utilisateur` _INT_ : id user
  - `quantite` _INT_ : Quantite d'un objet
 
 ```sql
-CREATE TABLE inventaire (id_objet  INT,
+CREATE TABLE inventaire (id_objet  INT PRIMARY KEY AUTO_INCREMENT,
 	     id_utilisateur INT,
 	     quantite INT);
 ```
@@ -70,38 +70,38 @@ CREATE TABLE monde (ville TEXT,
 
 
 ## TABLE `quete`:
- - `id_quete` _INT_ : id quete
+ - `id_quete` *INT PRIMARY KEY AUTO_INCREMENT* : id quete
  - `quetes` _TEXT_ : Quêtes dans le monde
  - `id_utilisateur` _INT_ : id des utilisateur ayant complété la quete (Jointure à réaliser);
 
 ```sql
-CREATE TABLE quete (id_quete INT,
+CREATE TABLE quete (id_quete INT PRIMARY KEY AUTO_INCREMENT,
 	     quetes TEXT,
 		 id_utilisateur INT);
 ```
 
 
 ## TABLE `pnj`:
- - `id_pnj` _INT_ : id pnj
+ - `id_pnj` *INT PRIMARY KEY AUTO_INCREMENT* : id pnj
  - `nom_pnj` _TEXT_ : nom_pnj
  - `role` _TEXT_ : métier d'un pnj
 
 ```sql
-CREATE TABLE pnj (id_pnj INT,
+CREATE TABLE pnj (id_pnj INT PRIMARY KEY AUTO_INCREMENT,
 	     nom_pnj TEXT,
 	     role TEXT);
 ```
 
 
 ## TABLE `monstre`:
- - `id_monstre` _INT_ : id d'un monstre
+ - `id_monstre` *INT PRIMARY KEY AUTO_INCREMENT* : id d'un monstre
  - `nom_monstre` _TEXT_ : nom du monstre
  - `pv` _INT_ : pv du monstre
  - `armure` _INT_ : armure du monstre
  - `dgt` _INT_ : dégats infligés par le monstre
 
 ```sql
-CREATE TABLE monstre (id_monstre  INT,
+CREATE TABLE monstre (id_monstre  INT PRIMARY KEY AUTO_INCREMENT,
 	     nom_monstre TEXT,
 	     pv INT,
 		 armure INT,
@@ -110,14 +110,14 @@ CREATE TABLE monstre (id_monstre  INT,
 
 
 ## TABLE `classe`:
- - `id_classe` _INT_ : id de la classe
+ - `id_classe` *INT PRIMARY KEY AUTO_INCREMENT* : id de la classe
  - `nom_classe` _TEXT_ : nom de la classe
  - `force` _INT_ : force de base de la classe
  - `armure` _INT_ : armure de monstre
  - `dgt` _INT_ : dégats infligés par le monstre
 
 ```sql
-CREATE TABLE classe (id_classe  INT,
+CREATE TABLE classe (id_classe  INT PRIMARY KEY AUTO_INCREMENT,
 	     nom_classe TEXT,
 	     force INT,
 		 armure INT,
