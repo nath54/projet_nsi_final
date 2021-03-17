@@ -21,9 +21,9 @@ class personnage :
     def afficher(self):
         pass
 
-    def bouger(self, touche, self.position_x, self.position_y): #déplacement sous la forme de tuples (dep x, dep y)
+    def bouger(self, touche): #déplacement sous la forme de tuples (dep x, dep y)
         if touche == "up":
-            self.position_y = self.position_y +1
+            self.position_y = self.position_y + 1
         elif touche == "right":
             self.position_x = self.position_x + 1
         elif touche == "left" :
@@ -35,10 +35,10 @@ class personnage :
     def prendre_objet(self, touche):
         pass
 
-    def attaquer(self):
+    def attaquer(self, touche):
         pass
 
-    def interagir(self):
+    def interagir(self, touche):
         pass
 
     def level_up(self):
