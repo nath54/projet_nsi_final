@@ -4,5 +4,6 @@
     "database": "projetclasse",
     "user": "projetclasse",
     "password": "proj#17CLASSE",
-    "port_websocket": 6546
+    "port_websocket": 6546,
+    "url_websocket": "https://el-professor.hd.free.fr/proj/terminamath/"
 }
