@@ -75,7 +75,7 @@ CREATE TABLE monde (ville TEXT,
  - `id_utilisateur` _INT_ : id des utilisateur ayant complété la quete (Jointure à réaliser);
 
 ```sql
-CREATE TABLE inventaire (id_quete INT,
+CREATE TABLE quete (id_quete INT,
 	     quetes TEXT,
 		 id_utilisateur INT);
 ```
@@ -101,7 +101,7 @@ CREATE TABLE pnj (id_pnj INT,
  - `dgt` _INT_ : dégats infligés par le monstre
 
 ```sql
-CREATE TABLE inventaire (id_monstre  INT,
+CREATE TABLE monstre (id_monstre  INT,
 	     nom_monstre TEXT,
 	     pv INT,
 		 armure INT,
@@ -117,9 +117,9 @@ CREATE TABLE inventaire (id_monstre  INT,
  - `dgt` _INT_ : dégats infligés par le monstre
 
 ```sql
-CREATE TABLE inventaire (id_monstre  INT,
-	     nom_monstre TEXT,
-	     pv INT,
+CREATE TABLE classe (id_classe  INT,
+	     nom_classe TEXT,
+	     force INT,
 		 armure INT,
 		 dgt INT);
 ```
@@ -134,7 +134,7 @@ CREATE TABLE inventaire (id_monstre  INT,
  - `objet_dessus` BOOLEAN : si il y a un objet dessus
 
 ```sql
-CREATE TABLE inventaire (id_terrain INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE terrain (id_terrain INT PRIMARY KEY AUTO_INCREMENT,
 		 image_ TEXT,
 		 nom  TEXT,
 	     peut_marcher BOOLEAN,

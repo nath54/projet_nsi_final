@@ -33,7 +33,9 @@ class personnage :
         
 
     def prendre_objet(self, touche):
-        pass
+        if touche == "e" or touche =="E":
+
+            pass
 
     def attaquer(self, touche):
         pass
@@ -56,7 +58,13 @@ class personnage :
 
 def test():
     print("début des tests")
-    pass
+    p = personnage()
+
+    p.bouger("up")
+    assert self.position_x == 0
+    assert self.position_y == 1
+    
+    print("fin des tests")
 
 
     
