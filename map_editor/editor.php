@@ -1,5 +1,6 @@
 <?php
-include "../includes/bdd.php";
+include_once "../includes/init.php";
+include_once "../includes/bdd.php";
 
 $db = load_db();
 
