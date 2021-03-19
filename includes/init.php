@@ -19,7 +19,6 @@ function clog($texte){
 }
 
 function script($texte){
-    $texte = htmlspecialchars($texte);
     echo "<script>$texte</script>";
 }
 
