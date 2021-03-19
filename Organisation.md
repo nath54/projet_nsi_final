@@ -6,7 +6,7 @@
 
 ## Mehdi :
  - Acceuil
- - La connexion/inscrixion
+ - La connexion/inscription
 
 ## Victor :
  - Menu

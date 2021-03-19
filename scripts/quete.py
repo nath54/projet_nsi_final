@@ -34,7 +34,7 @@ class Quete:
     """
     def __init__(self, id, db):
         self.id = id
-        load_quete(id, db)
+        self.load_quete(id, db)
         pass
 
     def load_quete(self, id, db):
@@ -48,7 +48,7 @@ class Quete:
 
         """
         curseur = db.cursor()
-        sql = """SELECT nom, description, condition, objectif, recompense
+        sql = """SELECT nom, description_, condition_, objectif, recompense
                  FROM quete
                  WHERE id = """ + id
         curseur.execute(sql)
