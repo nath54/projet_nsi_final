@@ -29,9 +29,15 @@ CREATE TABLE monde (ville TEXT,
 		 niveau INT);
 
 
-CREATE TABLE quete (id_quete INT PRIMARY KEY AUTO_INCREMENT,
-	     quetes TEXT,
-		 id_utilisateur INT);
+CREATE TABLE quete
+(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT
+    nom TEXT,
+    description TEXT,
+    condition TEXT,
+    objectif TEXT,
+    recompense TEXT
+)
 
 
 CREATE TABLE pnj (id_pnj INT PRIMARY KEY AUTO_INCREMENT,
