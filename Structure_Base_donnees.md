@@ -75,9 +75,15 @@ CREATE TABLE monde (ville TEXT,
  - `id_utilisateur` _INT_ : id des utilisateur ayant complété la quete (Jointure à réaliser);
 
 ```sql
-CREATE TABLE inventaire (id_quete INT,
-	     quetes TEXT,
-		 id_utilisateur INT);
+CREATE TABLE quete
+(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT
+    nom TEXT,
+    description TEXT,
+    condition TEXT,
+    objectif TEXT,
+    recompense TEXT
+)
 ```
 
 
