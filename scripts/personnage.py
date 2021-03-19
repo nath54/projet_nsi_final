@@ -1,17 +1,70 @@
 
 class personnage:
+    """Classe du personnage
+
+    Attributes:
+        nom(str):
+            Nom du personnage
+        sexe(str):
+            Genre du personnage
+        classe(str):
+            Classe du personnage (TODO: changer stats en fonction des
+                                        classes)
+        position(dict<str: int>):
+            Décrit la position du personnage avec :
+                "x": La position x du personnage sur la map
+                "y": la position y du personnage sur la map
+                "region": ID de la région dans laquelle est le perso
+        sprite_fixe(str):
+            Nom de l'image du personnage fixe
+        sprite_droite(str):
+            Nom de l'image du personnage allant vers la droite
+        sprite_gauche(str):
+            Nom de l'image du personnage allant vers la gauche
+        sprite_haut(str):
+            Nom de l'image du personnage allant vers la haut
+        sprite_bas(str):
+            Nom de l'image du personnage allant vers la bas
+        vie(int):
+            Vie actuelle du personnage
+            TODO: Où on respawn si ça tombe à zéro ?
+        vie_max(int):
+            Vie maximale du personnage
+        niveau(int):
+            Niveau actuelle des compétences
+            TODO: Apprendre compétences en fonction de la classe
+                  Augmentation stats en fonction de la classe
+        xp(int):
+            Nombre de point d'XP actuel
+            TODO: Déterminer combien d'XP avant de level up (coût augmentant)
+        stamina(int):
+            TODO: Utilité ?
+        mana(int):
+            Quantité actuelle de mana
+        mana_max(int):
+            Quantité maximale de mana
+        armor(int):
+            Défense de base du personnage ?
+            TODO: Utilité ?
+
+    TODO: Ajouter attaque
+    TODO: Si le personnage existe, le charger depuis la DB, sinon créer son
+          entrée dans la base de données et le charger
+    TODO: Permettre le stockage de l'animation du personnage dans les variables
+          `sprite_`
+    """
     def __init__(self, nom, classe, sexe):
         self.nom = nom
         self.sexe = sexe
         self.classe = classe
-        self.position = {"x": 0, "y": 0}
+        self.position = {"x": 0, "y": 0, "region": 0}
         self.sprite_fixe = "TODO: sprite perso immobile"
         self.sprite_droite = "TODO: sprite perso à droite"
         self.sprite_gauche = "TODO: sprite perso à gauche"
         self.sprite_haut = "TODO: sprite perso en haut"
         self.sprite_bas = "TODO: sprite perso en bas"
         self.vie = 20
-        self.max_vie = 20
+        self.vie_max = 20
         self.niveau = 0
         self.xp = 0
         self.stamina = 20
@@ -59,10 +112,13 @@ class personnage:
         if self.xp == self.xp + 100:
             self.niveau = self.niveau + 1
 
-    def perdre_vie(self, dgt_monstre):
-        pass
+    def modifier_vie(self, vie):
+        """Modifie la vie du personnage et check s'il est mort
 
-    def gagner_vie(self):
+        Parameters:
+            vie(int):
+                Vie à ajouter/enlever
+        """
         pass
 
 def test():
