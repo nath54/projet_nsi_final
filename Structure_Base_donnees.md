@@ -76,7 +76,7 @@ CREATE TABLE monde (
 
 
 ## TABLE `quete`:
-* `id` *INT PRIMARY KEY NOT NULL AUTO_INCREMENT* : id de la quête
+* `id` *INT PRIMARY KEY AUTO_INCREMENT* : id de la quête
 * `nom` *TEXT* : Nom de la quête
 * `description` *TEXT* : Description de la quête affichée au joueur
 * `condition` *TEXT* : Condition de début de la quête (voir `./scripts/quete.md`)
@@ -86,10 +86,10 @@ CREATE TABLE monde (
 ```sql
 CREATE TABLE quete
 (
-    id_quete INT PRIMARY KEY NOT NULL AUTO_INCREMENT
+    id_quete INT PRIMARY KEY AUTO_INCREMENT,
     nom TEXT,
     description_ TEXT,
-    condition TEXT,
+    condition_ TEXT,
     objectif TEXT,
     recompense TEXT
 );
