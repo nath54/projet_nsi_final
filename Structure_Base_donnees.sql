@@ -18,7 +18,7 @@ CREATE TABLE objet (
 	     	nom_objet TEXT,
 		 	description_ TEXT,
 		 	image_ TEXT,
-	     	quantite INT);
+			effet TEXT);
 
 
 CREATE TABLE inventaire (
