@@ -36,7 +36,7 @@ CREATE TABLE monde (
 
 CREATE TABLE quete
 (
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id_quete INT PRIMARY KEY NOT NULL AUTO_INCREMENT
     nom TEXT,
     description_ TEXT,
     condition TEXT,
