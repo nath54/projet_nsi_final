@@ -70,20 +70,23 @@ CREATE TABLE monde (ville TEXT,
 
 
 ## TABLE `quete`:
- - `id_quete` *INT PRIMARY KEY AUTO_INCREMENT* : id quete
- - `quetes` _TEXT_ : Quêtes dans le monde
- - `id_utilisateur` _INT_ : id des utilisateur ayant complété la quete (Jointure à réaliser);
+* `id` *INT PRIMARY KEY NOT NULL AUTO_INCREMENT* : id de la quête
+* `nom` *TEXT* : Nom de la quête
+* `description` *TEXT* : Description de la quête affichée au joueur
+* `condition` *TEXT* : Condition de début de la quête (voir `./scripts/quete.md`)
+* `objectif` *TEXT* : Objectifs pour terminer la quête (voir `./scripts/quete.md`)
+* `recompense` *TEXT* : Récompenses offertes lorsqu'on finit la quête (voir `./scripts/quete.md`)
 
 ```sql
 CREATE TABLE quete
 (
-    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT
+    id_quete INT PRIMARY KEY NOT NULL AUTO_INCREMENT
     nom TEXT,
     description TEXT,
     condition TEXT,
     objectif TEXT,
     recompense TEXT
-)
+);
 ```
 
 
