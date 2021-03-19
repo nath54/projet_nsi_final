@@ -1,9 +1,9 @@
 
 class personnage : 
     def __init__(self, nom, classe, sexe):
-        self.nom = str(nom)
-        self.sexe = str(sexe)
-        self.classe = str(classe)
+        self.nom = nom
+        self.sexe = sexe
+        self.classe = classe
         self.position = {"x": 0, "y": 0}
         self.sprite_fixe = "penser me transmettre un sprite pour le perso quand il bouge pas"
         self.sprite_droite = "penser me transmettre un sprite pour le perso quand il va a droite"
@@ -20,8 +20,8 @@ class personnage :
         self.armor = 0 
 
     def afficher(self):
-        img_perso = self.sprite_fixe
-        pass
+        self.sprite_fixe
+        
 
     def bouger(self, touche): #déplacement sous la forme de dict (dep x, dep y)
         if touche == "up":
@@ -47,6 +47,9 @@ class personnage :
     def interagir(self, touche):
         if touche == "e" or touche == "E":
             pass
+
+    def gagner_xp(self, xp):
+        pass
 
     def level_up(self):
         if self.xp == self.xp + 100 :
