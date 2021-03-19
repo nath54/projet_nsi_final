@@ -16,7 +16,7 @@ INSERT INTO terrain SET
 
 INSERT INTO terrain SET
     image_="sable.png",
-    nom "sable",
+    nom="sable",
     peut_marcher=1,
 	cultivable=0,
 	objet_dessus=1;
