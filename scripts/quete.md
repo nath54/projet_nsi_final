@@ -2,14 +2,14 @@
 
 ```SQL
 CREATE TABLE quete
-{
+(
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT
     nom TEXT,
     description TEXT,
     condition TEXT,
     objectif TEXT,
     recompense TEXT
-}
+)
 ```
 
 # Formats de `condition`, `objectif`, `recompense`
@@ -21,7 +21,7 @@ Dictionnaire {str: str|list(int)} : format `.json`
 
 {
     "classe": "nom_classe",
-    "niveau": |int niveau|,
+    "niveau": int niveau,
     "quete": [int id_quete_1, int id_quete_2, ...]
 }
 ```
