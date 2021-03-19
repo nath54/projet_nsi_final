@@ -10,11 +10,13 @@ $ty = 0;
 $requete = "SELECT * FROM terrain;";
 $terrains = array();
 $style = "<style>";
-if(!action_prep($db, "INSERT INTO objet SET nom_objet='pomme', description_='une belle pomme bien rouge', image_='pomme.png', quantite=1")){
+if(!action_prep($db, "INSERT INTO objet SET nom_objet=\"pomme\", description_=\"une belle pomme bien rouge\", image_=\"pomme.png\", quantite=1")){
     alert("Il y a eu une erreur !");
 }
 $r = requete_prep($db, $requete);
-
+if(!$r!=NULL){
+    alert("Il y a eu une autre erreur !");
+}
 foreach($r as $i=>$data){
     $nom = $data["nom"];
     $img = $data["img_"];
