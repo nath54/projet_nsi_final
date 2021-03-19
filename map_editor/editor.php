@@ -7,15 +7,19 @@ $db = load_db();
 $tx = 0;
 $ty = 0;
 
-$requete = "SELECT nom, image_ FROM terrain;";
+$requete = "SELECT * FROM terrain;";
 $terrains = array();
-foreach(requete_prep($db, $requete) as $i=>$data){
-    $nom = $data["nom"];
-    $img = $data["img"];
-    $terrains[$i] = $data["nom"];
-    echo "<style>.$nom{ background-img:url(\"../imgs/tuiles/$img.png\"); }</style>";
-}
+$style = "<style>";
+$r = requete_prep($db, $requete);
 
+foreach($r as $i=>$data){
+    $nom = $data["nom"];
+    $img = $data["img_"];
+    alert($nom);
+    $terrains[$i] = $nom;
+    $style.=".$nom{ background-img:url(\"../imgs/tuiles/$img.png\"); }\n";
+}
+$style.="</style>";
 ?>
 <script>
 
@@ -27,6 +31,7 @@ var tuile_selected = "herbe";
         <meta charset="UTF-8" />
         <title>Editeur de map</title>
         <link href="editor.css" rel="stylesheet" />
+        <?php echo $style; ?>
     </head>
     <body>
         <!-- header -->

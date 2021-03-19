@@ -65,7 +65,7 @@ function load_db(){
  * @param string $requested
  *      Requête SQL. Passer les arguments comme `?`
  * @param array $vars
- *      Variables à passer dans la requête. 
+ *      Variables à passer dans la requête.
  *
  * @return Array
  *      Résultats de la requête
@@ -89,7 +89,7 @@ function requete_prep($db, $requested, $vars=array()){
  * @param string $requested
  *      Requête SQL. Passer les arguments comme `?`
  * @param array $vars
- *      Variables à passer dans la requête. 
+ *      Variables à passer dans la requête.
  *
  * @return bool
  *      true si l'action a bien été réussie, false sinon

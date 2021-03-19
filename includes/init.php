@@ -8,4 +8,19 @@ if(true){
     error_reporting(E_ALL);
 }
 
+function alert($texte){
+    $texte = htmlspecialchars($texte);
+    script("alert(\"$texte\");");
+}
+
+function clog($texte){
+    $texte = htmlspecialchars($texte);
+    script("console.log(\"$texte\");");
+}
+
+function script($texte){
+    $texte = htmlspecialchars($texte);
+    echo "<script>$texte</script>";
+}
+
 ?>
