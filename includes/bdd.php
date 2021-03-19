@@ -99,5 +99,7 @@ function requete_prep($db, $requested, $vars=array()){
 function action_prep($db, $requested, $vars=array()){
     $statement = $db->prepare($requested, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
     $succeed = $statement->execute($vars);
+    $statement->debugDumpParams();
     return $succeed;
 }
+

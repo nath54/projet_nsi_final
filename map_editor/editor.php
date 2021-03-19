@@ -10,6 +10,7 @@ $ty = 0;
 $requete = "SELECT * FROM terrain;";
 $terrains = array();
 $style = "<style>";
+action_prep($db, "INSERT INTO objet SET nom_objet='pomme', description_='une belle pomme bien rouge', image_='pomme.png', quantite=1");
 $r = requete_prep($db, $requete);
 
 foreach($r as $i=>$data){
