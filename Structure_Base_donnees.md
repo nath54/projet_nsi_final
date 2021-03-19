@@ -35,7 +35,17 @@ CREATE TABLE utilisateurs (
  - `nom_objet` _TEXT_ : nom des objets
  - `description_` _TEXT_ : description de l'objet
  - `image_` _TEXT_ : image de l'objet
- - `quantite` _INT_ : Quantite d'un objet
+ * `effet` *TEXT* : Effet de l'objet en `.json` sous forme (à compléter) :
+```json
+{
+	"regen_pv": int pv_a_regen,
+	"regen_pv_pourcent": int pourcent_a_regen,
+	"regen_mana": int mana_a_regen,
+	"regen_mana_pourcent": int pourcent_a_regen,
+	"boost_force": int force_a_ajouter,
+	...
+}
+```
 
 ```sql
 CREATE TABLE objet (
@@ -43,7 +53,7 @@ CREATE TABLE objet (
 	     	nom_objet TEXT,
 		 	description_ TEXT,
 		 	image_ TEXT,
-	     	quantite INT);
+			effet TEXT);
 ```
 
 
