@@ -75,9 +75,15 @@ CREATE TABLE monde (ville TEXT,
  - `id_utilisateur` _INT_ : id des utilisateur ayant complété la quete (Jointure à réaliser);
 
 ```sql
-CREATE TABLE quete (id_quete INT PRIMARY KEY AUTO_INCREMENT,
-	     quetes TEXT,
-		 id_utilisateur INT);
+CREATE TABLE quete
+(
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT
+    nom TEXT,
+    description TEXT,
+    condition TEXT,
+    objectif TEXT,
+    recompense TEXT
+)
 ```
 
 

@@ -33,7 +33,7 @@ function open_json($file_path){
  * @author Nathan
 **/
 function load_db(){
-    $FILE_PATH = "config.json";
+    $FILE_PATH = "../includes/config.json";
     $data_account = open_json($FILE_PATH);
     $pseudo = $data_account["user"];
     $password = $data_account["password"];
