@@ -1,5 +1,5 @@
 
-class personnage:
+class Personnage:
     """Classe du personnage
 
     Attributes:
@@ -119,9 +119,16 @@ class personnage:
             vie(int):
                 Vie à ajouter/enlever
         """
-        pass
+        # TODO: Calculer dégâts en fonction de la défense du personnage
+        self.vie += vie
+        if self.vie <= 0:
+            # TODO: Ajouter une fonction gérant la mort du personnage
+            pass
+        elif self.vie > self.vie_max:
+            self.vie = self.vie_max
 
-def test():
+
+if __name__ == "__main__":
     print("début des tests")
     p = personnage("Lance", "mage", "homme")
 
