@@ -11,6 +11,7 @@ $requete = "SELECT * FROM terrain;";
 $terrains = array();
 $style = "<style>";
 
+
 $r = requete_prep($db, $requete);
 if(!$r!=NULL){
     alert("Il y a eu une erreur !");
@@ -23,6 +24,7 @@ foreach($r as $i=>$data){
 }
 $style.="</style>";
 
+
 //
 
 $liste_regions = array();
@@ -32,7 +34,7 @@ foreach(requete_prep($db, "SELECT * FROM regions") as $i=>$data){
 
 $region_selected = "";
 if(isset($_POST["region_selected"])){
-    if(in_array($_POST["region_selected"], $liste_regions)){
+    if(in_array($_POST["region_selected"], array_keys($liste_regions))){
         $region_selected = $_POST["region_selected"];
     }
 }
@@ -86,9 +88,9 @@ var tuile_selected = "herbe";
 
             <div class="row">
 
-                <select>
+                <select id="region_sel" onchange="change_map()">
 
-                    <option onclick="change_map('');" <?php if($region_selected==""){ echo "selected"; } ?>>Aucune</option>
+                    <option value="" <?php if($region_selected==""){ echo "selected"; } ?>>Aucune</option>
                     <?php
 
                         // Il faudra peut-être changer les infos de la BDD
@@ -97,7 +99,7 @@ var tuile_selected = "herbe";
                             if($nom==$region_selected){
                                 $sel="selected";
                             }
-                            echo "<option onclick='change_map($nom)' $sel>$nom</option>";
+                            echo "<option $sel>$nom</option>";
                         }
 
                     ?>
@@ -157,12 +159,13 @@ var tuile_selected = "herbe";
 </html>
 <script>
 
-function change_map(nom){
+function change_map(){
+    var nom=document.getElementById("region_sel").value;
     var f=document.createElement("form");
-    f.method="POST";
-    f.action="editor.php";
+    f.setAttribute("method", "POST");;
+    f.setAttribute("action", "editor.php");;
     var i=document.createElement("input");
-    i.name="region_selected";
+    i.setAttribute("name", "region_selected");
     i.value=nom;
     document.body.appendChild(f);
     f.submit();
@@ -175,10 +178,10 @@ function change_case(x, y){
 function new_region(){
     var nom = document.getElementById("new_region_name").value;
     var f=document.createElement("form");
-    f.method="POST";
-    f.action="editor.php";
+    f.setAttribute("method", "POST");;
+    f.setAttribute("action", "editor.php");;
     var i=document.createElement("input");
-    i.name="new_region";
+    i.setAttribute("name", "new_region");
     i.value=nom;
     document.body.appendChild(f);
     f.submit();
@@ -187,10 +190,10 @@ function new_region(){
 function delete_region(){
     var nom = "<?php echo $region_selected; ?>";
     var f=document.createElement("form");
-    f.method="POST";
-    f.action="editor.php";
+    f.setAttribute("method", "POST");;
+    f.setAttribute("action", "editor.php");;
     var i=document.createElement("input");
-    i.name="delete_region";
+    i.setAttribute("name", "delete_region");
     i.value=nom;
     document.body.appendChild(f);
     f.submit();
