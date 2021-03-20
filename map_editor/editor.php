@@ -22,6 +22,51 @@ foreach($r as $i=>$data){
     $style.=".$nom{ background-img:url(\"../imgs/tuiles/$img.png\"); }\n";
 }
 $style.="</style>";
+
+//
+
+$liste_regions = array();
+foreach(requete_prep($db, "SELECT * FROM regions") as $i=>$data){
+    $liste_regions[$data["nom"]]=$data["id_region"];
+}
+
+$region_selected = "";
+if(isset($_POST["region_selected"])){
+    if(in_array($_POST["region_selected"], $liste_regions)){
+        $region_selected = $_POST["region_selected"];
+    }
+}
+
+if(isset($_POST["delete_region"])){
+    if(in_array($_POST["delete_region"], $liste_regions)){
+        $query = "DELETE FROM regions WHERE nom=:nom";
+        $vars = array(":nom"=>$_POST["delete_region"]);
+        if(!action_prep($db, $query, $vars)){
+            alert("Il y a eu une erreur lors de la suppression de la région !");
+        }
+    }
+    else{
+        alert("La region n'existe pas !");
+    }
+}
+
+
+if(isset($_POST["new_region"])){
+    alert($_POST["new_region"]);
+    if($_POST["new_region"]!="" && !in_array($_POST["new_region"], $liste_regions)){
+        $query = "INSERT INTO regions SET nom=:nom, tx=100, ty=100;";
+        $vars = array(":nom"=>$_POST["new_region"]);
+        if(!action_prep($db, $query, $vars)){
+            alert("Il y a eu une erreur lors de la création de la région !");
+        }
+    }
+    else{
+        alert("Une région porte déjà le même nom !");
+    }
+}
+
+
+
 ?>
 <script>
 
@@ -39,22 +84,41 @@ var tuile_selected = "herbe";
         <!-- header -->
         <div>
 
-            <div>
+            <div class="row">
 
                 <select>
 
+                    <option onclick="change_map('');" <?php if($region_selected==""){ echo "selected"; } ?>>Aucune</option>
                     <?php
 
                         // Il faudra peut-être changer les infos de la BDD
-                        foreach(requete_prep($bdd, "SELECT id_region, nom_region FROM regions_map;") as $i=>$data){
-                            $id = $data["id_region"];
-                            $nom = $data["nom_region"];
-                            echo "<option onclick='change_map($id)>$nom</option>";
+                        foreach($liste_regions as $nom=>$id){
+                            $sel="";
+                            if($nom==$region_selected){
+                                $sel="selected";
+                            }
+                            echo "<option onclick='change_map($nom)' $sel>$nom</option>";
                         }
 
                     ?>
 
                 </select>
+
+                <div>
+                    <?php
+
+                    if($region_selected!=""){
+                        echo "<button onclick=\"delete_region();\">Supprimer la région choisie</button>";
+                    }
+
+                    ?>
+                </div>
+
+                <div class="row">
+                    <label>New region</label>
+                    <input id="new_region_name" type="text" placeholder="nom de la region">
+                    <button onclick="new_region();">Créer</button>
+                </div>
 
             </div>
 
@@ -67,7 +131,7 @@ var tuile_selected = "herbe";
 
             <div>
                 <!-- TODO -->
-                <svg viewBox="0 0 100 100" id="kln" style="display:block;margin:auto;background:red;" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 100 100" id="kln" style="display:block;margin:auto;background:white;border:1px solid black;" xmlns="http://www.w3.org/2000/svg">
                     <?php
                         for($x=0; $x<$tx; $x++){
                             for($y=0; $y<$ty; $y++){
@@ -93,8 +157,43 @@ var tuile_selected = "herbe";
 </html>
 <script>
 
+function change_map(nom){
+    var f=document.createElement("form");
+    f.method="POST";
+    f.action="editor.php";
+    var i=document.createElement("input");
+    i.name="region_selected";
+    i.value=nom;
+    document.body.appendChild(f);
+    f.submit();
+}
+
 function change_case(x, y){
-    document.getElementById("");
+    //
+}
+
+function new_region(){
+    var nom = document.getElementById("new_region_name").value;
+    var f=document.createElement("form");
+    f.method="POST";
+    f.action="editor.php";
+    var i=document.createElement("input");
+    i.name="new_region";
+    i.value=nom;
+    document.body.appendChild(f);
+    f.submit();
+}
+
+function delete_region(){
+    var nom = "<?php echo $region_selected; ?>";
+    var f=document.createElement("form");
+    f.method="POST";
+    f.action="editor.php";
+    var i=document.createElement("input");
+    i.name="delete_region";
+    i.value=nom;
+    document.body.appendChild(f);
+    f.submit();
 }
 
 </script>
