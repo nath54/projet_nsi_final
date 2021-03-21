@@ -233,6 +233,12 @@ var hx=null;
 var hy=null;
 var viewport = document.getElementById("viewport");
 
+function arrayRemove(arr, value) {
+    return arr.filter(function(ele){
+        return ele != value;
+    });
+}
+
 viewport.addEventListener('mousedown', e => {
     dcx,dcy=null,null;
     if(hx!=null && hy!=null){
@@ -292,7 +298,7 @@ function change_case(x, y){
     var i = ""+cx+"-"+cy;
     if(tile_selected==0){
         if(Object.keys(cases_terrains).includes(i)){
-            cases_terrains.remove(i);
+            delete cases_terrains[i];
         }
     }
     else{
@@ -314,7 +320,7 @@ function aff(){
             if(Object.keys(cases_terrains).includes(""+cx+"-"+cy)){
                 img=terrains[cases_terrains[""+cx+"-"+cy]["tile"]]["img"];
             }
-            document.getElementById(""+x+""+y).setAttribute("xlink:href","../imgs/tuiles/"+img);
+            document.getElementById(""+x+"-"+y).setAttribute("xlink:href","../imgs/tuiles/"+img);
         }
     }
 }
@@ -357,5 +363,47 @@ function select_tile(id_tile){
     d.classList.add("liste_element_selectione");
     tile_selected = id_tile;
 }
+
+function save_tiles(){
+    var nom = "<?php echo $region_selected; ?>";
+    var f=document.createElement("form");
+    f.setAttribute("style","display:none;")
+    f.setAttribute("method", "POST");
+    f.setAttribute("action", "editor.php");
+    var i=document.createElement("input");
+    i.setAttribute("name", "save_terrain");
+    i.value=nom;
+    f.appendChild(i);
+    var ii=document.createElement("input");
+    ii.setAttribute("name", "data_terrain");
+    ii.value=json.stringify(cases_terrains);
+    f.appendChild(ii);
+    document.body.appendChild(f);
+    f.submit();
+}
+
+document.addEventListener('keydown', (event) => {
+    const nomTouche = event.key;
+    if (nomTouche === 'ArrowUp') {
+        dec_y-=1;
+        aff();
+    }
+    else if (nomTouche === 'ArrowDown') {
+        dec_y+=1;
+        aff();
+    }
+    else if (nomTouche === 'ArrowLeft') {
+        dec_x-=1;
+        aff();
+    }
+    else if (nomTouche === 'ArrowRight') {
+        dec_x+=1;
+        aff();
+    }
+}, false);
+
+document.addEventListener('keyup', (event) => {
+    const nomTouche = event.key;
+}, false);
 
 </script>
