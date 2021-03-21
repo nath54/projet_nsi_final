@@ -94,6 +94,10 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])){
 $jsone = json_encode($terrains);
 script("var terrains = JSON.parse('$jsone');");
 
+
+$jsone = json_encode($cases_terrains);
+script("var cases_terrains = JSON.parse('$jsone');");
+
 ?>
 <html>
     <head>
@@ -150,9 +154,10 @@ script("var terrains = JSON.parse('$jsone');");
 
             <!-- map -->
 
+            <div style="overflow:auto;width:100%;height:90%;">
+
             <?php
                 if($region_selected!=""){
-                    echo "<div style=\"overflow:auto;width:100%;height:90%;\">";
                     echo "<svg viewBox=\"0 0 100 80\" id=\"viewport\" onmouseleave=\"is_clicking=false;\" style=\"background:white;border:1px solid black;\" xmlns=\"http://www.w3.org/2000/svg\">";
                     $tx = 20;
                     $ty = 16;
@@ -164,19 +169,21 @@ script("var terrains = JSON.parse('$jsone');");
                             $cx = $x * $tc + $dx;
                             $cy = $y * $tc + $dy;
                             $idd = "$x-$y";
-                            $src="";
+                            $src="../imgs/tuiles/vide.png";
                             if(isset($cases_terrains[$idd])){
                                 $img = $terrains[$cases_terrains[$idd]["tile"]]["img"];
                                 $src="../imgs/tuiles/$img";
                             }
-                            echo "<image id=\"$x-$y\" src=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$tc\" height=\"$tc\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
-                            // echo "<rect id=\"$x-$y\" x=\"$cx\" y=\"$cy\" width=\"$tc\" height=\"$tc\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case herbe\"></rect>";
+                            echo "<image id=\"$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$tc\" height=\"$tc\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
                         }
                     }
                     echo "</svg>";
-                    echo "</div>";
+                }
+                else{
+                    echo "<p>Aucune région n'a été choisie</p>";
                 }
             ?>
+            </div>
 
             <!-- tiles menu -->
 
@@ -214,7 +221,12 @@ script("var terrains = JSON.parse('$jsone');");
 </html>
 <script>
 
+var dcx = null;
+var dcy = null;
+
 var tile_selected = 0;
+var dec_x = 0;
+var dec_y = 0;
 
 var is_clicking = false;
 var hx=null;
@@ -222,6 +234,7 @@ var hy=null;
 var viewport = document.getElementById("viewport");
 
 viewport.addEventListener('mousedown', e => {
+    dcx,dcy=null,null;
     if(hx!=null && hy!=null){
         change_case(hx,hy);
     }
@@ -229,7 +242,7 @@ viewport.addEventListener('mousedown', e => {
 });
 
 viewport.addEventListener('mousemove', e => {
-    if (is_clicking === true) {
+    if (is_clicking === true && (dcx!=hx || dcy!=hy)) {
         if(hx!=null && hy!=null){
             change_case(hx,hy);
         }
@@ -271,10 +284,39 @@ function change_map(){
 
 function change_case(x, y){
     //
-    console.log(x,y);
+    // console.log(x,y);
     //
+    var cx = x + dec_x;
+    var cy = y + dec_y;
+    dcx,dcy=cx,cy;
+    var i = ""+cx+"-"+cy;
+    if(tile_selected==0){
+        if(Object.keys(cases_terrains).includes(i)){
+            cases_terrains.remove(i);
+        }
+    }
+    else{
+        cases_terrains[i] = {"x":cx, "y":cy, "tile":tile_selected};
+    }
     var i = document.getElementById(""+x+"-"+y);
-    i.src="../imgs/tuiles/"+terrains[tile_selected]["img"];
+    i.setAttribute("xlink:href","../imgs/tuiles/"+terrains[tile_selected]["img"]);
+}
+
+function aff(){
+    var tx = 20;
+    var ty = 16;
+    var tc = 5;
+    for(x=0; x<tx; x++){
+        for(y=0; y<ty; y++){
+            var cx = x + dec_x;
+            var cy = y + dec_y;
+            img = "vide.png";
+            if(Object.keys(cases_terrains).includes(""+cx+"-"+cy)){
+                img=terrains[cases_terrains[""+cx+"-"+cy]["tile"]]["img"];
+            }
+            document.getElementById(""+x+""+y).setAttribute("xlink:href","../imgs/tuiles/"+img);
+        }
+    }
 }
 
 function new_region(){
