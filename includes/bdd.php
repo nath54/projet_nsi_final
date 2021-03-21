@@ -96,10 +96,12 @@ function requete_prep($db, $requested, $vars=array()){
  *
  * @author Nathan
 **/
-function action_prep($db, $requested, $vars=array()){
+function action_prep($db, $requested, $vars=array(), $debug=false){
     $statement = $db->prepare($requested, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
     $succeed = $statement->execute($vars);
-    $statement->debugDumpParams();
+    if($debug){
+        $statement->debugDumpParams();
+    }
     return $succeed;
 }
 

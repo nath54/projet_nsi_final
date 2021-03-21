@@ -40,11 +40,14 @@ if(isset($_POST["region_selected"])){
 }
 
 if(isset($_POST["delete_region"])){
-    if(in_array($_POST["delete_region"], $liste_regions)){
+    if(in_array($_POST["delete_region"], array_keys($liste_regions))){
         $query = "DELETE FROM regions WHERE nom=:nom";
         $vars = array(":nom"=>$_POST["delete_region"]);
         if(!action_prep($db, $query, $vars)){
             alert("Il y a eu une erreur lors de la suppression de la région !");
+        }
+        else{
+            unset($liste_regions[$_POST["delete_region"]]);
         }
     }
     else{
@@ -54,12 +57,15 @@ if(isset($_POST["delete_region"])){
 
 
 if(isset($_POST["new_region"])){
-    alert($_POST["new_region"]);
     if($_POST["new_region"]!="" && !in_array($_POST["new_region"], $liste_regions)){
         $query = "INSERT INTO regions SET nom=:nom, tx=100, ty=100;";
         $vars = array(":nom"=>$_POST["new_region"]);
         if(!action_prep($db, $query, $vars)){
             alert("Il y a eu une erreur lors de la création de la région !");
+        }
+        else{
+            $region_selected = $_POST["new_region"];
+            $liste_regions[$_POST["new_region"]]=$db->lastInsertId();
         }
     }
     else{
@@ -131,9 +137,9 @@ var tuile_selected = "herbe";
 
             <!-- map -->
 
-            <div>
+            <div style="overflow:auto;width:100%;height:90%;">
                 <!-- TODO -->
-                <svg viewBox="0 0 100 100" id="kln" style="display:block;margin:auto;background:white;border:1px solid black;" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 100 100" id="kln" style="background:white;border:1px solid black;" xmlns="http://www.w3.org/2000/svg">
                     <?php
                         for($x=0; $x<$tx; $x++){
                             for($y=0; $y<$ty; $y++){
@@ -148,9 +154,10 @@ var tuile_selected = "herbe";
 
             <!-- tiles menu -->
 
-            <div>
+            <div style="overflow:auto;width:100%;height:90%;">
 
                 <!-- TODO -->
+
 
             </div>
 
@@ -167,6 +174,7 @@ function change_map(){
     var i=document.createElement("input");
     i.setAttribute("name", "region_selected");
     i.value=nom;
+    f.appendChild(i);
     document.body.appendChild(f);
     f.submit();
 }
@@ -178,11 +186,12 @@ function change_case(x, y){
 function new_region(){
     var nom = document.getElementById("new_region_name").value;
     var f=document.createElement("form");
-    f.setAttribute("method", "POST");;
-    f.setAttribute("action", "editor.php");;
+    f.setAttribute("method", "POST");
+    f.setAttribute("action", "editor.php");
     var i=document.createElement("input");
     i.setAttribute("name", "new_region");
     i.value=nom;
+    f.appendChild(i);
     document.body.appendChild(f);
     f.submit();
 }
@@ -190,11 +199,12 @@ function new_region(){
 function delete_region(){
     var nom = "<?php echo $region_selected; ?>";
     var f=document.createElement("form");
-    f.setAttribute("method", "POST");;
-    f.setAttribute("action", "editor.php");;
+    f.setAttribute("method", "POST");
+    f.setAttribute("action", "editor.php");
     var i=document.createElement("input");
     i.setAttribute("name", "delete_region");
     i.value=nom;
+    f.appendChild(i);
     document.body.appendChild(f);
     f.submit();
 }
