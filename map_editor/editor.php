@@ -67,6 +67,30 @@ if(isset($_POST["new_region"])){
 }
 
 $cases_terrains = array();
+
+if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])){
+    $nom_region = $_POST["save_terrain"];
+    $datas = json_decode($_POST["data_terrain"], true);
+    // echo $_POST["data_terrain"];
+    // On nettoie
+    $query = "DELETE FROM regions_terrains WHERE id_terrain=:idr";
+    $vars = array(":idr"=>$liste_regions[$nom_region]);
+    if(!action_prep($db, $query, $vars)){
+        console.log("probleme suppression");
+    }
+    // On remplace
+    foreach($datas as $i=>$data){
+        $query = "INSERT INTO regions_terrains SET x=:x, y=:y, id_terrain=:tile, id_region=:idr";
+        // echo $data["x"].", ".$data["y"]." : ".$data["tile"]." - ";
+        $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":tile"=>$data["tile"], ":idr"=>$liste_regions[$nom_region]);
+        if(!action_prep($db, $query, $vars)){
+            console.log("probleme insertion");
+        }
+    }
+    $region_selected = $nom_region;
+}
+
+
 if($region_selected!=""){
     $requested = "SELECT * FROM regions_terrains WHERE id_region=:idr";
     $vars = array(":idr"=>$liste_regions[$region_selected]);
@@ -78,25 +102,19 @@ if($region_selected!=""){
     }
 }
 
-if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])){
-    $nom_region = $_POST["save_terrain"];
-    $datas = json_decode($_POST["data_terrain"], true);
-    // On nettoie
-    $query = "DELETE FROM regions_terrains WHERE id_terrain=:idr";
-    $vars = array(":idr"=>$liste_regions[$nom_region]);
-    // On remplace
-    foreach($datas as $i=>$data){
-        $query = "INSERT INTO regions_terrains SET x=:x; y=:y, id_terrain=:tile";
-        $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":tile"=>$data["tile"]);
-    }
-}
 
 $jsone = json_encode($terrains);
 script("var terrains = JSON.parse('$jsone');");
 
 
-$jsone = json_encode($cases_terrains);
-script("var cases_terrains = JSON.parse('$jsone');");
+
+if(count($cases_terrains)>0){
+    $jsone = json_encode($cases_terrains);
+    script("var cases_terrains = JSON.parse('$jsone');");
+}
+else{
+    script("var cases_terrains = {};");
+}
 
 ?>
 <html>
@@ -134,6 +152,7 @@ script("var cases_terrains = JSON.parse('$jsone');");
 
                     if($region_selected!=""){
                         echo "<button onclick=\"delete_region();\">Supprimer la région choisie</button>";
+                        echo "<button onclick=\"save_tiles();\">Sauvegarder la région choisie</button>";
                     }
 
                     ?>
@@ -376,7 +395,7 @@ function save_tiles(){
     f.appendChild(i);
     var ii=document.createElement("input");
     ii.setAttribute("name", "data_terrain");
-    ii.value=json.stringify(cases_terrains);
+    ii.value=JSON.stringify(cases_terrains);
     f.appendChild(ii);
     document.body.appendChild(f);
     f.submit();

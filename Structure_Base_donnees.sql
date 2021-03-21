@@ -86,3 +86,12 @@ CREATE TABLE regions(
 	voisin_bas INT DEFAULT NULL
 );
 
+
+CREATE TABLE regions_terrains(
+	id_regions_terrains INT PRIMARY KEY AUTO_INCREMENT,
+	id_region INT,
+	x INT,
+	y INT,
+	id_terrain INT DEFAULT 0
+);
+
