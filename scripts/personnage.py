@@ -56,7 +56,8 @@ class personnage:
         self.nom = nom
         self.sexe = sexe
         self.classe = classe
-        self.position = {"x": 0, "y": 0, "region": 0}
+        self.region = 0
+        self.position = {"x": 0, "y": 0}
         self.sprite_fixe = "TODO: sprite perso immobile"
         self.sprite_droite = "TODO: sprite perso à droite"
         self.sprite_gauche = "TODO: sprite perso à gauche"
