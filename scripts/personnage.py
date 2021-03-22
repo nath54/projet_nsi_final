@@ -1,3 +1,20 @@
+# region Imports :
+
+import json
+
+# Méthode 1 : mariadb
+try:
+    import mariadb  # ignore unresolved-import error
+except Exception as e:
+    # Méthode 2 : mysql
+    try:
+        import mysql.connector as mariadb  # ignore unresolved-import error
+    except Exception as e:
+        # Rien n'est installé
+        raise UserWarning("Il faut installer la librairie mariadb ou mysql !")
+# endregion
+
+
 class personnage:
     """Classe du personnage
 
@@ -9,11 +26,12 @@ class personnage:
         classe(str):
             Classe du personnage (TODO: changer stats en fonction des
                                         classes)
+        region(int):
+            ID de la région dans laquelle se trouve le joueur
         position(dict<str: int>):
             Décrit la position du personnage avec :
                 "x": La position x du personnage sur la map
                 "y": la position y du personnage sur la map
-                "region": ID de la région dans laquelle est le perso
         sprite_fixe_droite(str):
             Nom de l'image du personnage fixe qui regarde vers la droite
         sprit_fixe_gauche(str):
@@ -36,7 +54,7 @@ class personnage:
         vie_max(int):
             Vie maximale du personnage
         niveau(int):
-            Niveau actuelle des compétences
+            Niveau actuelle du personnage
             TODO: Apprendre compétences en fonction de la classe
                   Augmentation stats en fonction de la classe
         xp(int):
@@ -81,6 +99,39 @@ class personnage:
         self.mana_max = 20
         self.armor = 0
 
+    def load_perso(self, id, db):
+        """Charge les données d'un personnage
+
+        Parameters:
+            id(int):
+                ID du personnage dans la base de données
+            db(DB):
+                Instance de la base de données
+        """
+        sql = """SELECT pseudo, sexe, classe, region, position, vie, vie_max,
+                        niveau, experience, stamina, mana, mana_max,
+                        inventaire, armor
+                 FROM utilisateurs
+                 WHERE id_utilisateur = """ + id
+        curseur = db.cursor()
+        curseur.execute(sql)
+        res = [ligne for ligne in curseur]
+
+        self.nom = res[0]
+        self.sexe = res[1]
+        self.classe = res[2]
+        self.region = res[3]
+        self.position = json.loads(res[4])
+        self.vie = res[5]
+        self.vie_max = res[6]
+        self.niveau = res[7]
+        self.xp = res[8]
+        self.stamina = res[9]
+        self.mana = res[10]
+        self.mana_max = res[11]
+        self.inventaire = res[12]
+        self.armor = res[13]
+
     def afficher(self):
         # self.sprite_fixe
         pass
@@ -101,9 +152,9 @@ class personnage:
         if peut_se_depl:
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
-        
+
         else:
-            pass 
+            pass
 
     def emplacement(self):
         """Renvoie la position du personnage"""

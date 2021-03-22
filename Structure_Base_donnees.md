@@ -19,10 +19,18 @@ CREATE TABLE utilisateurs (
 			id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
 	    	pseudo TEXT,
 		   	mdp TEXT,
+			sexe TEXT,
+			classe TEXT,
+			region INT,
+			position TEXT,
+			vie INT,
 		   	vie_max INT,
-		   	classe TEXT,
 		   	niveau INT,
 		   	experience INT,
+			stamina INT,
+			mana INT,
+			mana_max INT,
+			inventaire TEXT,
 		   	competence TEXT,
 		   	quetes TEXT,
 		   	id_quete INT,
@@ -35,7 +43,7 @@ CREATE TABLE utilisateurs (
  - `nom_objet` _TEXT_ : nom des objets
  - `description_` _TEXT_ : description de l'objet
  - `image_` _TEXT_ : image de l'objet
- * `effet` *TEXT* : Effet de l'objet en `.json` sous forme (à compléter) :
+ * `effet` *TEXT* : Effet de l'objet en `.json` sous forme (TODO: à compléter) :
 ```json
 {
 	"regen_pv": int pv_a_regen,
@@ -43,6 +51,10 @@ CREATE TABLE utilisateurs (
 	"regen_mana": int mana_a_regen,
 	"regen_mana_pourcent": int pourcent_a_regen,
 	"boost_force": int force_a_ajouter,
+	"ajout_xp": int xp_a_ajouter,
+	"ajout_niveau": int niveau_a_ajouter,
+	"ajout_max_pv": int pv_max_a_ajouter,
+	"ajout_mana_max": int mana_max_a_ajouter,
 	...
 }
 ```
