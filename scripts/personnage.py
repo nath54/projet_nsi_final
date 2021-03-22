@@ -1,4 +1,3 @@
-
 class personnage:
     """Classe du personnage
 
@@ -73,9 +72,10 @@ class personnage:
         self.armor = 0
 
     def afficher(self):
-        self.sprite_fixe
+        # self.sprite_fixe
+        pass
 
-    def bouger(self, dep):  # déplacement sous la forme de dict (dep x, dep y)
+    def bouger(self, dep):
         """S'assure que le personnage peut se déplacer et le déplace
 
         Parameters:
@@ -84,17 +84,24 @@ class personnage:
         TODO: Ajouter tests de collision
 
         """
+        assert isinstance(dep, tuple), "Le déplacement n'est pas un tuple."
+        assert isinstance(dep[0], int) and isinstance(dep[1], int),\
+            "Les positions ne sont pas des entiers."
         peut_se_depl = True
         if peut_se_depl:
-            self.position["x"] += dep["x"]
-            self.position["y"] += dep["y"]
+            self.position["x"] += dep[0]
+            self.position["y"] += dep[1]
 
     def emplacement(self):
+        """Renvoie la position du personnage"""
         return self.position
 
     def prendre_objet(self, touche):
-        if touche == "e" or touche == "E":
+        """Ajoute un objet à l'inventaire du personnage
 
+        TODO: Revoir format de la fonction
+        """
+        if touche == "e" or touche == "E":
             pass
 
     def attaquer(self, touche):
@@ -105,9 +112,22 @@ class personnage:
             pass
 
     def gagner_xp(self, xp):
+        """Permet de donner de l'XP au personnage
+
+        Parameters:
+            xp(int): Nombre de point d'XP à donner.
+
+        TODO: Appel à la fonction `self.level_up()` depuis cette fonction après
+              avoir fait vérification. (trouver suite définissant l'XP
+              nécessaire pour le level_up)
+        """
         pass
 
     def level_up(self):
+        """Augmente le niveau du personnage
+
+        TODO: Augmenter stats de base
+        """
         # TODO: Condition jamais remplie
         if self.xp == self.xp + 100:
             self.niveau = self.niveau + 1
@@ -121,12 +141,16 @@ class personnage:
         """
         pass
 
-def test():
+
+if __name__ == "__main__":
     print("début des tests")
     p = personnage("Lance", "mage", "homme")
 
     p.bouger((25, 25))
-    assert p.position == {"x": 25, "y": 25}
+    pos = p.emplacement()
+    assert pos["x"] == 25 and pos["y"] == 25, "Les positions sont fausses"
     p.bouger((25, 25))
-    assert p.position == {"x": 50, "y": 50}
+
+    pos = p.emplacement()
+    assert pos["x"] == 50 and pos["y"] == 50, "Positions fausses"
     print("fin des tests")
