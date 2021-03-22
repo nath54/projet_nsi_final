@@ -1,0 +1,9 @@
+{
+    "ip": "localhost",
+    "port": 3307,
+    "database": "projetclasse",
+    "user": "projetclasse",
+    "password": "proj#17CLASSE",
+    "port_websocket": 6546,
+    "url_websocket": "https://el-professor.hd.free.fr/proj/terminamath/"
+}
