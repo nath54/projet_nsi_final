@@ -37,19 +37,28 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
 ?>
 <html>
 <head>
-<title>Accueil</title>
-</head>
+        <meta charset="utf-8">
+        <title> Accueil </title>
+        <link href="style_co.css" rel = "stylesheet"> 
+    </head>
+    <body>
+        <form method="POST" action = ""> 
 
-<body>
-Connexion à l'espace membre :<br />
-<form action="accueil.php" method="post">
-Login : <input type="text" name="pseudo" value="<?php if (isset($_POST['pseudo'])) echo htmlentities(trim($_POST['pseudo'])); ?>"><br />
-Mot de passe : <input type="password" name="mdp" value="<?php if (isset($_POST['mdp'])) echo htmlentities(trim($_POST['mdp'])); ?>"><br />
-<input type="submit" name="connexion" value="Connexion">
-</form>
-<a href="inscription.php">Vous inscrire</a>
-<?php
-if (isset($erreur)) echo '<br /><br />',$erreur;
-?>
-</body>
+            <section class="login">
+                <div class="titre">Maths Quest</div>
+                <form action="#" method="post">
+                    <div class="bouton">Nom d'utilisateur</div>
+                    <input type="text" required title="Username" placeholder="Username" data-icon="U"> </br>
+                    </br>
+                    <div class="bouton">Mot de passe</div>
+                    <input type="password" required title="Password" placeholder="Password" data-icon="x">
+                    <div class="oubli">
+                        <div class="col"><a href="#" title="Retrouver mot de passe">Forgot Password ?</a></div>
+                    </div>
+                    <a href="#" class="envoyer">Submit</a>
+                </form>
+            </section>
+        </form>
+
+    </body>
 </html>
