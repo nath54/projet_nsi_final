@@ -59,7 +59,8 @@ class personnage:
                   Augmentation stats en fonction de la classe
         xp(int):
             Nombre de point d'XP actuel
-            TODO: Déterminer combien d'XP avant de level up (coût augmentant)
+            TODO: Déterminer combien d'XP avant de level up (trouver suite
+                  définissant le besoin d'XP avant level up)
         stamina(int):
             TODO: Utilité ?
         mana(int):
@@ -69,8 +70,10 @@ class personnage:
         armor(int):
             Défense de base du personnage ?
             TODO: Utilité ?
+        argent(int):
+            Argent transporté par le personnage
 
-    TODO: Ajouter attaque
+    TODO: Ajouter stat d'attaque
     TODO: Si le personnage existe, le charger depuis la DB, sinon créer son
           entrée dans la base de données et le charger
     TODO: Permettre le stockage de l'animation du personnage dans les variables
@@ -98,6 +101,7 @@ class personnage:
         self.mana = 20
         self.mana_max = 20
         self.armor = 0
+        self.argent = 0
 
     def load_perso(self, id, db):
         """Charge les données d'un personnage
@@ -110,7 +114,7 @@ class personnage:
         """
         sql = """SELECT pseudo, sexe, classe, region, position, vie, vie_max,
                         niveau, experience, stamina, mana, mana_max,
-                        inventaire, armor
+                        inventaire, armor, argent
                  FROM utilisateurs
                  WHERE id_utilisateur = """ + id
         curseur = db.cursor()
@@ -131,6 +135,7 @@ class personnage:
         self.mana_max = res[11]
         self.inventaire = res[12]
         self.armor = res[13]
+        self.argent = res[14]
 
     def afficher(self):
         # self.sprite_fixe
@@ -152,7 +157,6 @@ class personnage:
         if peut_se_depl:
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
-
         else:
             pass
 
@@ -203,7 +207,12 @@ class personnage:
             vie(int):
                 Vie à ajouter/enlever
         """
-        pass
+        self.vie += vie
+        if self.vie <= 0:
+            # TODO: Perso doit mourir
+            pass
+        elif self.vie > self.vie_max:
+            self.vie = self.vie_max
 
 
 if __name__ == "__main__":
@@ -217,4 +226,9 @@ if __name__ == "__main__":
 
     pos = p.emplacement()
     assert pos["x"] == 50 and pos["y"] == 50, "Positions fausses"
+
+    p.modifier_vie(-10)
+    assert p.vie == 10, f"Vie fausse : {p.vie} au lieu de 10"
+    p.modifier_vie(20)
+    assert p.vie == 20, f"Vie fausse : {p.vie} au lieu de 20"
     print("fin des tests")

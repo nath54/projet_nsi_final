@@ -31,6 +31,7 @@ CREATE TABLE utilisateurs (
 			mana INT,
 			mana_max INT,
 			inventaire TEXT,
+			argent INT,
 		   	competence TEXT,
 		   	quetes TEXT,
 		   	id_quete INT,

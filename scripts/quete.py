@@ -47,10 +47,10 @@ class Quete:
         TODO: Ajuster les noms avec ceux de la base de données
 
         """
-        curseur = db.cursor()
         sql = """SELECT nom, description_, condition_, objectif, recompense
                  FROM quete
                  WHERE id = """ + id
+        curseur = db.cursor()
         curseur.execute(sql)
         res = [ligne for ligne in curseur]
 
@@ -59,3 +59,7 @@ class Quete:
         self.condition = json.loads(res[2])
         self.objectif = json.loads(res[3])
         self.recompense = json.loads(res[4])
+
+
+if __name__ == "__main__":
+    pass

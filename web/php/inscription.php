@@ -5,7 +5,6 @@ $db = load_db("../../includes/config.json");
 	if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
 		// on cherche à savoir si les variables existent
 		if ((isset($_POST['pseudo']) && !empty($_POST['pseudo'])) && (isset($_POST['pseudo']) && !empty($_POST['pseudo'])) && (isset($_POST['mdp_confirm']) && !empty($_POST['mdp_confirm']))){
-
 		}
 		// on teste les deux mots de passe
 		if ($_POST['mdp'] != $_POST['mdp_confirm']) {
