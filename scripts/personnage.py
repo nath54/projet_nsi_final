@@ -154,6 +154,9 @@ class personnage:
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
             "Les positions ne sont pas des entiers."
         peut_se_depl = True
+
+
+
         if peut_se_depl:
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
@@ -169,8 +172,9 @@ class personnage:
 
         TODO: Revoir format de la fonction
         """
-        if touche == "e" or touche == "E":
-            pass
+        est_ramassable = True 
+        if est_ramassable:
+            self.inventaire.append(elt)
 
     def attaquer(self, touche):
         pass
