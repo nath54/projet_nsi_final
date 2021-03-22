@@ -1,6 +1,6 @@
 <?php
 include_once "../../includes/bdd.php";
-$db = load_db();
+$db = load_db("../../includes/config.json");
 // on teste si le joueur a soumis le formulaire
 	if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
 		// on cherche à savoir si les variables existent
