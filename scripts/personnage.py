@@ -14,12 +14,18 @@ class personnage:
                 "x": La position x du personnage sur la map
                 "y": la position y du personnage sur la map
                 "region": ID de la région dans laquelle est le perso
-        sprite_fixe(str):
-            Nom de l'image du personnage fixe
-        sprite_droite(str):
-            Nom de l'image du personnage allant vers la droite
-        sprite_gauche(str):
-            Nom de l'image du personnage allant vers la gauche
+        sprite_fixe_droite(str):
+            Nom de l'image du personnage fixe qui regarde vers la droite
+        sprit_fixe_gauche(str):
+            Nom de l'image du personnage fixe qui regarde vers la gauche
+        sprite_droite_pied_droit(str):
+            Nom de l'image du personnage allant vers la droite et qui s'appui sur son pied droit
+        sprite_droite_pied_gauche(str):
+            Nom de l'image du personnage allant vers la droite et qui s'appui sur son pied gauche
+        sprite_gauche_pied_droit(str):
+            Nom de l'image du personnage allant vers la gauche et qui s'appui sur son pied droit
+        sprite_gauche_pied_gauche(str):
+            Nom de l'image du personnage allant vers la gauche et qui s'appui sur son pied gauche
         sprite_haut(str):
             Nom de l'image du personnage allant vers la haut
         sprite_bas(str):
