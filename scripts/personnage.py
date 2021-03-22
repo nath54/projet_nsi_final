@@ -59,9 +59,12 @@ class personnage:
         self.classe = classe
         self.region = 0
         self.position = {"x": 0, "y": 0}
-        self.sprite_fixe = "TODO: sprite perso immobile"
-        self.sprite_droite = "TODO: sprite perso à droite"
-        self.sprite_gauche = "TODO: sprite perso à gauche"
+        self.sprite_fixe_droite = "TODO: sprite perso immobile qui regarde à droite"
+        self.sprite_fixe_gauche = "TODO: sprite perso immobile qui regarde à gauche"
+        self.sprite_droite_pied_droit = "TODO: sprite perso à droite appui sur pied droit"
+        self.sprite_droite_pied_gauche = "TODO: sprite perso à droite appui sur pied gauche"
+        self.sprite_gauche_pied_droit = "TODO: sprite perso à gauche appui sur pied droit"
+        self.sprite_gauche_pied_gauche = "TODO: sprite perso à gauche appui sur pied gauche"
         self.sprite_haut = "TODO: sprite perso en haut"
         self.sprite_bas = "TODO: sprite perso en bas"
         self.vie = 20
@@ -85,10 +88,14 @@ class personnage:
         TODO: Ajouter tests de collision
 
         """
+
         peut_se_depl = True
         if peut_se_depl:
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
+        
+        else:
+            pass 
 
     def emplacement(self):
         return self.position
