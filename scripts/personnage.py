@@ -125,13 +125,8 @@ def test():
     print("début des tests")
     p = personnage("Lance", "mage", "homme")
 
-    p.bouger("up")
-    assert p.position == {"x": 0, "y": 1}
-    p.bouger("left")
-    assert p.position == {"x": -1, "y": 1}
-    p.bouger("right")
-    assert p.position == {"x": 0, "y": 1}
-    p.bouger("up")
-    assert p.position == {"x": 0, "y": 2}
-
+    p.bouger((25, 25))
+    assert p.position == {"x": 25, "y": 25}
+    p.bouger((25, 25))
+    assert p.position == {"x": 50, "y": 50}
     print("fin des tests")
