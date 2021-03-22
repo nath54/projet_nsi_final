@@ -201,7 +201,6 @@ CREATE TABLE regions(
 - `id_terrain` _INT DEFAULT 0_ :
 
 ```sql
-
 CREATE TABLE regions_terrains(
 	id_regions_terrains INT PRIMARY KEY AUTO_INCREMENT,
 	id_region INT,
@@ -209,7 +208,10 @@ CREATE TABLE regions_terrains(
 	y INT,
 	id_terrain INT DEFAULT 0
 );
+```
 
+```sql
+-- A laisser, sinon, il manquera la derniere partie sql
 ```
 
 
