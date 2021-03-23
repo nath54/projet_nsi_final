@@ -33,26 +33,33 @@
             <div class="column" id="div_row_2">
                 <div id="div_account">
                     <div class="row">
-                        <div class="column">
-                            <div>
-                                <p>Pseudo</p>
+                        <div class="column" id="progress_div">
+                            <div id="pseudo_div">
+                                <b>Pseudo</b>
                             </div>
-                            <div>
-                                <label>Vie</label>
-                                <progress></progress>
+                            <div class="column">
+                                <label for="progress_exp">Experience : <span id="exp_value">70/100</span></label>
+                                <progress id="progress_exp" max="100" value="20"></progress>
+                                <b>Niveau <span id="niveau_profil">1</span></b>
                             </div>
-                            <div>
-                                <label>Mana</label>
-                                <progress></progress>
+                            <hr />
+                            <div class="column">
+                                <label for="progress_vie">Vie : <span id="vie_value">70/100</span></label>
+                                <progress id="progress_vie" max="100" value="70"></progress>
+                            </div>
+                            <div class="column">
+                                <label for="progress_mana">Mana : <span id="mana_value">70/100</span></label>
+                                <progress id="progress_mana" max="100" value="70"></progress>
                             </div>
                         </div>
-                        <div class="column">
-                            <div>
-                                <p>Image de profil</p>
-                                <img>
+                        <div class="column" id="pp_and_buttons">
+                            <div id="image_profile">
+                                <img class="profile_picture" src="../../imgs/tests/pp_null.png">
                             </div>
-                            <div>
-                                <button>Inventaire</button>
+                            <div id="row_buttons_ui_1" class="row">
+                                <button id="bag_button" class="button_ui_game_1"></button>
+                                <button id="button_2" class="button_ui_game_1">?</button>
+                                <button id="button_3" class="button_ui_game_1">?</button>
                             </div>
                         </div>
                     </div>

@@ -1,4 +1,5 @@
 body {
+    background-color: rgb(182, 181, 192);
     overflow: auto;
 }
 
@@ -31,7 +32,7 @@ body {
 }
 
 #div_chat {
-    width: 100%;
+    width: 95%;
     height: auto;
 }
 
@@ -82,9 +83,109 @@ body {
 
 
 /*
+ *  PLAYER INFO
+ */
+
+progress {
+    border: none;
+    border-radius: 2px;
+}
+
+#progress_vie {
+    background-color: black;
+    color: white;
+}
+
+#progress_vie::-webkit-progress-value,
+#progress_vie::-webkit-progress-value,
+#progress_vie::-webkit-progress-bar,
+#progress_vie::-moz-progress-bar {
+    background: red;
+}
+
+#progress_mana {
+    background-color: black;
+    color: white
+}
+
+#progress_mana::-webkit-progress-value,
+#progress_mana::-webkit-progress-value,
+#progress_maba::-webkit-progress-bar,
+#progress_mana::-moz-progress-bar {
+    background: rgb(31, 158, 184);
+}
+
+#progress_exp {
+    background-color: black;
+    color: white;
+    height: 2px;
+}
+
+#progress_exp::-webkit-progress-value,
+#progress_exp::-webkit-progress-value,
+#progress_exp::-webkit-progress-bar,
+#progress_exp::-moz-progress-bar {
+    background: rgb(238, 255, 0);
+}
+
+#image_profile {
+    width: 90%;
+    height: 90%;
+    margin: 5px;
+    padding: 5px;
+}
+
+.profile_picture {
+    background-color: white;
+    height: 100%;
+    border: 2px solid black;
+    border-radius: 50%;
+}
+
+#pp_and_buttons {
+    margin-left: 10px;
+}
+
+#progress_div {
+    margin-top: 40px;
+}
+
+.button_ui_game_1 {
+    background-color: rgba(0, 0, 0, 0.2);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 50px;
+    border: 1px solid black;
+    border-radius: 3px;
+    margin: 2px;
+}
+
+.button_ui_game_1:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+.button_ui_game_1:active {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 7px;
+}
+
+#bag_button {
+    background-image: url("../imgs/game_ui/bag.png");
+}
+
+#pseudo_div {
+    text-align: center;
+    font-size: 1.1em;
+}
+
+
+/*
  *  VIEWPORT
  */
 
 #viewport {
     border: 1px solid black;
+    background-color: white;
 }
