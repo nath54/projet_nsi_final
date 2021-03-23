@@ -8,10 +8,9 @@
  - `classe` _TEXT_ : classe du joueur
  - `niveau` _INT_ : niveau du joueur
  - `experience` _INT_ : expérience du joueur
- - `competence` __TEXT_ : qualité du personnage
+ - `experience_max` _INT_ : expérience a atteindre du joueur pour qu'il passe au niveau suivant
+ - `competence` _TEXT_ : qualité du personnage
  - `quetes` _TEXT_ : les quetes réalisée par le joueur
- - `id_quete` _INT_ : id des quetes
- - `complete` _BOOLEAN_ : si la quete est complété ou non par le joueur
  - `region_actu` _INT DEFAULT 1_ : id de la région où le joueur est
  - `position_x` _INT_ : case/position x où le joueur est
  - `position_y` _INT_ : case/position y où le joueur est
@@ -19,26 +18,19 @@
 
 ```sql
 CREATE TABLE utilisateurs (
-			id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
-	    	pseudo TEXT,
-		   	mdp TEXT,
-			sexe TEXT,
-			classe TEXT,
-			region INT,
-			position TEXT,
-			vie INT,
-		   	vie_max INT,
-		   	niveau INT,
-		   	experience INT,
-			stamina INT,
-			mana INT,
-			mana_max INT,
-			inventaire TEXT,
-			argent INT,
-		   	competence TEXT,
-		   	quetes TEXT,
-		   	id_quete INT,
-		   	complete BOOLEAN);
+ id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
+ pseudo TEXT,
+ mdp TEXT,
+ vie_max INT,
+ classe TEXT,
+ niveau INT,
+ experience INT,
+ experience_max INT,
+ competence TEXT,
+ quetes TEXT,
+ region_actu INT DEFAULT 1,
+ position_x INT,
+ position_y INT);
 ```
 
 

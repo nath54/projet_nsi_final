@@ -9,7 +9,7 @@ $_SESSION["player_id"] = 1;
 $id_player = $_SESSION["player_id"];
 
 // On récupère les infos du joueur :
-$res = requete_prep($db, "SELECT * FROM utilisateurs WHERE id_utilisateur=:id", array(":id", $id_player));
+$res = requete_prep($db, "SELECT * FROM utilisateurs WHERE id_utilisateur=:id", array(":id"=>$id_player));
 if($res==NULL || count($res)!=1){
     alert("il y a eu une erreur !");
     die();
