@@ -14,9 +14,8 @@ if(!$r!=NULL){
 foreach($r as $i=>$data){
     $nom = $data["nom"];
     $img = $data["image_"];
-    $terrains[$i] = array("nom"=>$nom, "img"=>$img);
+    $terrains[$data["id_terrain"]] = array("nom"=>$nom, "img"=>$img);
 }
-
 
 //
 

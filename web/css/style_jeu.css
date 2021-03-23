@@ -1,0 +1,90 @@
+body {
+    overflow: auto;
+}
+
+
+/*
+ * BASE
+ */
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/*
+ * DISPLAY
+ */
+
+#div_row_1 {
+    width: 70%;
+}
+
+#div_view {
+    height: 85%;
+}
+
+#div_chat {
+    width: 100%;
+    height: auto;
+}
+
+#div_account {
+    height: 50%;
+    display: block;
+    margin: 5px;
+    overflow-y: auto;
+}
+
+#div_row_2 {}
+
+
+/*
+ * CHAT
+ */
+
+#div_chat {
+    display: block;
+    border: 1px solid black;
+    background-color: rgb(200, 200, 200);
+    margin: 5px;
+    padding: 5px;
+}
+
+#chat_mess {
+    margin: 5px;
+    height: 80%;
+    border: 1px solid black;
+    background-color: rgb(230, 230, 230);
+    overflow-y: scroll;
+    word-wrap: normal;
+    display: flex;
+    flex-direction: column;
+}
+
+.cl_chat_system {
+    color: rgb(156, 66, 6);
+}
+
+.cl_chat_base {
+    color: rgb(0, 0, 0);
+}
+
+.cl_chat_you {
+    color: rgb(6, 109, 156);
+}
+
+
+/*
+ *  VIEWPORT
+ */
+
+#viewport {
+    border: 1px solid black;
+}

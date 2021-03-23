@@ -166,7 +166,7 @@ CREATE TABLE classe (
 
 
 ## TABLE `terrain`:
- - `id_terrain` *INT PRIMARY KEY AUTO_INCREMENT* : id du terrain
+ - `id_terrain` *INT PRIMARY KEY* : id du terrain
  - `nom` TEXT : nom du terrain
  - `peut_marcher` BOOLEAN : si on peut marcher sur la case
  - `image_` TEXT : image du terrain
@@ -175,7 +175,7 @@ CREATE TABLE classe (
 
 ```sql
 CREATE TABLE terrain (
-			id_terrain INT PRIMARY KEY AUTO_INCREMENT,
+			id_terrain INT PRIMARY KEY,
 		 	image_ TEXT,
 		 	nom  TEXT,
 	     	peut_marcher BOOLEAN,
