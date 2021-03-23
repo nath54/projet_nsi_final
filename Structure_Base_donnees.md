@@ -12,6 +12,9 @@
  - `quetes` _TEXT_ : les quetes réalisée par le joueur
  - `id_quete` _INT_ : id des quetes
  - `complete` _BOOLEAN_ : si la quete est complété ou non par le joueur
+ - `region_actu` _INT DEFAULT 1_ : id de la région où le joueur est
+ - `position_x` _INT_ : case/position x où le joueur est
+ - `position_y` _INT_ : case/position y où le joueur est
 
 
 ```sql

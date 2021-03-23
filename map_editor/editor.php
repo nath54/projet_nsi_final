@@ -8,7 +8,7 @@ $requete = "SELECT * FROM terrain;";
 $terrains = array();
 
 $r = requete_prep($db, $requete);
-if(!$r!=NULL){
+if($r==NULL){
     alert("Il y a eu une erreur !");
 }
 foreach($r as $i=>$data){
