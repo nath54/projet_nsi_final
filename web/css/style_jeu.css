@@ -31,7 +31,8 @@ body {
     height: 85%;
 }
 
-#div_chat {
+#div_chat,
+#div_bag {
     width: 95%;
     height: auto;
 }
@@ -178,6 +179,38 @@ progress {
 #pseudo_div {
     text-align: center;
     font-size: 1.1em;
+}
+
+
+/*
+ *  BAG
+ */
+
+.case_bag {
+    background-color: rgba(0, 0, 0, 0.2);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 3px;
+    margin: 1px;
+}
+
+.case_bag:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+.case_bag:active {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 7px;
+}
+
+#div_bag {
+    background-color: rgb(43, 25, 10);
+    border: 1px solid rgb(121, 104, 12);
+    padding: 2px;
 }
 
 

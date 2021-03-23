@@ -16,6 +16,7 @@ if($res==NULL || count($res)==0){
 }
 
 $infos_players = $res[0];
+$nom_player = $infos_players["pseudo"];
 
 // On récupère l'id de la région où le joueur est
 $id_region = $infos_players["region_actu"];
@@ -127,7 +128,7 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                     <div class="row">
                         <div class="column" id="progress_div">
                             <div id="pseudo_div">
-                                <b>Pseudo</b>
+                                <b><?php echo $nom_player; ?></b>
                             </div>
                             <div class="column">
                                 <label for="progress_exp">Experience : <span id="exp_value">0/100</span></label>
@@ -156,6 +157,33 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                         </div>
                     </div>
 
+                </div>
+                
+                <div id="div_bag">
+                    <b>Bag :</b>
+                    <table>
+                        <tr>
+                            <td><div id="bag_0_0" onclick="on_case_bag(0,0);" class="case_bag"></div></td>
+                            <td><div id="bag_1_0" onclick="on_case_bag(1,0);" class="case_bag"></div></td>
+                            <td><div id="bag_2_0" onclick="on_case_bag(2,0);" class="case_bag"></div></td>
+                            <td><div id="bag_3_0" onclick="on_case_bag(3,0);" class="case_bag"></div></td>
+                            <td><div id="bag_4_0" onclick="on_case_bag(4,0);" class="case_bag"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div id="bag_0_1" onclick="on_case_bag(0,1);" class="case_bag"></div></td>
+                            <td><div id="bag_1_1" onclick="on_case_bag(1,1);" class="case_bag"></div></td>
+                            <td><div id="bag_2_1" onclick="on_case_bag(2,1);" class="case_bag"></div></td>
+                            <td><div id="bag_3_1" onclick="on_case_bag(3,1);" class="case_bag"></div></td>
+                            <td><div id="bag_4_1" onclick="on_case_bag(4,1);" class="case_bag"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div id="bag_0_2" onclick="on_case_bag(0,2);" class="case_bag"></div></td>
+                            <td><div id="bag_1_2" onclick="on_case_bag(1,2);" class="case_bag"></div></td>
+                            <td><div id="bag_2_2" onclick="on_case_bag(2,2);" class="case_bag"></div></td>
+                            <td><div id="bag_3_2" onclick="on_case_bag(3,2);" class="case_bag"></div></td>
+                            <td><div id="bag_4_2" onclick="on_case_bag(4,2);" class="case_bag"></div></td>
+                        </tr>
+                    </table>
                 </div>
 
                 <div id="div_chat">
