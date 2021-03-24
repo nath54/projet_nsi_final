@@ -1,6 +1,6 @@
 <?php
 /* définition de fonctions en lien avec SQL, appelées depuis les autres parties du programme */
-// /!\ Fonction inutilisée : déjà /includes/bdd.php
+// TODO: /!\ Fonction inutilisée : équivalent à /includes/bdd.php
 function sql_connect() {
     // fonction permettant de se connecter à la BDD
     // Les lignes suivantes sont à modifier selon les besoins !
