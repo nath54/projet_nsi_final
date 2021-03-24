@@ -176,6 +176,10 @@ progress {
     background-image: url("../imgs/game_ui/bag.png");
 }
 
+#chat_button {
+    background-image: url("../imgs/game_ui/bt_chat.png");
+}
+
 #pseudo_div {
     text-align: center;
     font-size: 1.1em;

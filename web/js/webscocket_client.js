@@ -63,13 +63,10 @@ function on_message(event) {
     // On traite les informations
     switch (data.action) {
 
-        case 'exemple':
-            // Exemple d'action que le serveur envoie
-            break;
-
-        case 'autre_exemple':
-            // Autre exemple d'action à gerer
-            break;
+        case 'position_perso':
+            var px = data.x;
+            var py = data.y;
+            aff();
 
         default:
             // Il faut faire attention aux types d'actions que l'on gère
