@@ -1,18 +1,16 @@
 <?php
 // on teste si le visiteur a soumis le formulaire de connexion
+// TODO: $_POST['connexion'] jamais définie (et est-ce utile ?)
 if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
-	if ((isset($_POST['login']) && !empty($_POST['login'])) && (isset($_POST['pass']) && !empty($_POST['pass']))) {
-		$base = mysql_connect ('serveur', 'login', 'password');
-		mysql_select_db ('nom_base', $base);
+	if (!empty($_POST['login']) && !empty($_POST['pass'])) {
+		include_once("../../includes/bdd.php");
+		$db = load_db("../../includes/config.json");
 
 		// on teste si une entrée de la base contient ce couple login / pass
-		$sql = 'SELECT count(*) FROM utilisateurs WHERE login="' . mysql_escape_string($_POST['login']) .
-			   '" AND mdp="' . mysql_escape_string(md5($_POST['pass'])) . '"';
-		$req = mysql_query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.mysql_error());
-		$data = mysql_fetch_array($req);
+		$sql = 'SELECT count(*) FROM utilisateurs WHERE pseudo=? AND mdp=MD5(?)';
+		$data = requete_prep($db, $sql, array($_POST['login'], $_POST['pass']));
 
-		mysql_free_result($req);
-		mysql_close();
+		$db = null;
 
 		// si on obtient une réponse, alors l'utilisateur est un membre
 		if ($data[0] == 1) {
@@ -21,8 +19,7 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
 			header('Location: membre.php');
 			exit();
 		}
-		// TODO: Variable $erreur jamais utilisée.
-		// si on ne trouve aucune réponse, le visiteur s'est trompé soit dans son login, soit dans son mot de passe
+		// Si on ne trouve rien, mauvais login / mot de passe
 		elseif ($data[0] == 0) {
 			$erreur = 'Compte non reconnu.';
 		}
@@ -52,10 +49,10 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
                 <div class="titre">Maths Quest</div>
                 <form action="#" method="post">
                     <div class="bouton">Nom d'utilisateur</div>
-                    <input type="text" required title="Username" placeholder="Username" data-icon="U"> </br>
+                    <input type="text" required title="Username" placeholder="Username" name="login" data-icon="U"></br>
                     </br>
                     <div class="bouton">Mot de passe</div>
-                    <input type="password" required title="Password" placeholder="Password" data-icon="x">
+                    <input type="password" required title="Password" placeholder="Password" data-icon="x" name="pass">
                     <div class="oubli">
                         <div class="col"><a href="#" title="Retrouver mot de passe">Forgot Password ?</a></div>
                     </div>
@@ -63,5 +60,11 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
                 </form>
             </section>
         </form>
+		<?php
+			// TODO: Retirer pour la version finale
+			if (!empty($erreur)){
+				echo($erreur);
+			}
+		?>
     </body>
 </html>

@@ -1,5 +1,6 @@
-<?php 
+<?php
 /* définition de fonctions en lien avec SQL, appelées depuis les autres parties du programme */
+// /!\ Fonction inutilisée : déjà /includes/bdd.php
 function sql_connect() {
     // fonction permettant de se connecter à la BDD
     // Les lignes suivantes sont à modifier selon les besoins !
@@ -8,7 +9,7 @@ function sql_connect() {
     $identifiant = 'projetclasse'; //cet utilisateur n'a qu'un seul droit : lecture sur base BLOC4
     $motdepasse = 'proj#17CLASSE';
     try
-    { 
+    {
         $sch='mysql:host=localhost;dbname='.$dbname.";port=".$port;
         $bdd = new PDO($sch , $identifiant, $motdepasse);
     }
