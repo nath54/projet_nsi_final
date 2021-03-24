@@ -63,10 +63,23 @@ function on_message(event) {
     // On traite les informations
     switch (data.action) {
 
+        case 'infos_perso':
+            for (cle of["x", "y", "vie", "vie_max", "mana", "mana_max", "exp", "exp_max", "region_actu"]) {
+                personnage[cle] = data[cle];
+            }
+
+            if (en_chargement) {
+                en_chargement = false;
+                aff();
+            }
+            break;
+
+
         case 'position_perso':
-            var px = data.x;
-            var py = data.y;
+            personnage.x = data.x;
+            personnage.y = data.y;
             aff();
+            break;
 
         default:
             // Il faut faire attention aux types d'actions que l'on gère
