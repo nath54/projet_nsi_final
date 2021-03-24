@@ -39,32 +39,32 @@ function aff() {
  */
 
 
-function update_life(vie, vie_tot) {
-    document.getElementById("vie_value").innerHTML = "" + vie + "/" + vie_tot;
-    document.getElementById("progress_vie").value = vie / vie_tot * 100.0;
-}
+// function update_life(vie, vie_tot) {
+//     document.getElementById("vie_value").innerHTML = "" + vie + "/" + vie_tot;
+//     document.getElementById("progress_vie").value = vie / vie_tot * 100.0;
+// }
 
-function update_mana(mana, mana_tot) {
-    document.getElementById("mana_value").innerHTML = "" + mana + "/" + mana_tot;
-    document.getElementById("progress_mana").value = mana / mana_tot * 100.0;
-}
+// function update_mana(mana, mana_tot) {
+//     document.getElementById("mana_value").innerHTML = "" + mana + "/" + mana_tot;
+//     document.getElementById("progress_mana").value = mana / mana_tot * 100.0;
+// }
 
-function update_xp(xp, xp_tot) {
-    document.getElementById("exp_value").innerHTML = "" + xp + "/" + xp_tot;
-    document.getElementById("progress_exp").value = xp / xp_tot * 100.0;
-}
+// function update_xp(xp, xp_tot) {
+//     document.getElementById("exp_value").innerHTML = "" + xp + "/" + xp_tot;
+//     document.getElementById("progress_exp").value = xp / xp_tot * 100.0;
+// }
 
-function update_niveau(niv) {
-    document.getElementById("niveau_profil").value = niv;
-}
+// function update_niveau(niv) {
+//     document.getElementById("niveau_profil").value = niv;
+// }
 
-function update_region_name(name) {
-    document.getElementById("region_name").value = name;
-}
+// function update_region_name(name) {
+//     document.getElementById("region_name").value = name;
+// }
 
-function update_region_count(num) {
-    document.getElementById("region_player_number").value = num;
-}
+// function update_region_count(num) {
+//     document.getElementById("region_player_number").value = num;
+// }
 
 
 /**

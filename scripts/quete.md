@@ -5,7 +5,7 @@ CREATE TABLE quete
 (
     id INT PRIMARY KEY NOT NULL AUTO_INCREMENT
     nom TEXT,
-    description TEXT,
+    description_ TEXT,
     condition TEXT,
     objectif TEXT,
     recompense TEXT

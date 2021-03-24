@@ -9,7 +9,7 @@
 // On initiera la variable ws_url avec le php avant d'insérer ce script
 // !!! important !!!
 
-var websocket = null; // On prépare la variable globale
+window.websocket = null; // On prépare la variable globale
 
 function start_websocket(ws_url) {
     /**
@@ -20,19 +20,22 @@ function start_websocket(ws_url) {
 
     // On se connecte au websocket
     // websocket = new WebSocket("ws://" + IP + ":" + PORT + "/");
+    ws_url += "/";
     console.log(ws_url);
-    ws_url = toString(ws_url);
-    websocket = new WebSocket(ws_url);
+    window.websocket = new WebSocket(ws_url);
 
     // Quand il y a des erreurs
-    websocket.onerror = function() {
+    window.websocket.onerror = function() {
         // On affiche un message d'erreur
         alert("There was an error during connection");
         // On peut aussi renvoyer vers la page d'accueil
     };
 
     // On relie le websocket a notre fonction qui gere les messages recus
-    websocket.onmessage = on_message;
+    window.websocket.onmessage = on_message;
+
+    // On attent qu'il soit pret
+    window.websocket.onopen = launch2;
 }
 
 // Fonction pour envoyer des messages
@@ -47,7 +50,7 @@ function ws_send(message) {
     // On convertit en json
     message = JSON.stringify(message);
     // On envoie le message
-    websocket.send(message);
+    window.websocket.send(message);
 }
 
 function on_message(event) {
@@ -60,6 +63,7 @@ function on_message(event) {
      */
     // On recoit les informations
     data = JSON.parse(event.data);
+    console.log("get on websocket : ", data);
     // On traite les informations
     switch (data.action) {
 

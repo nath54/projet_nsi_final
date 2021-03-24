@@ -4,7 +4,7 @@ import json
 # endregion
 
 
-class personnage:
+class Personnage:
     """Classe du personnage
 
     Attributes:
@@ -58,7 +58,7 @@ class personnage:
         self.nom = "" # a mettre en place dans la bdd
         self.sexe = "" # a mettre en place dans la bdd
         self.classe = "" # a mettre en place dans la bdd
-        self.region = 1
+        self.region_actu = 1
         self.position = {"x": 0, "y": 0}
         self.vie = 20
         self.vie_max = 20

@@ -2,6 +2,7 @@
 from websocket_serveur import ServeurWebsocket
 from carte import Carte
 from dbclient import dbClient
+from personnage import Personnage
 
 class Serveur:
     def __init__(self):
@@ -35,6 +36,8 @@ class Serveur:
     def load_perso(self, id_utilisateur):
         res = self.db.requete_db("SELECT * FROM utilisateurs WHERE id=?", (id_utilisateur,))
         print(res)
+        perso = Personnage(self, id_utilisateur)
+        self.personnages[id_utilisateur] = perso
 
     def bouger_perso(self, id_utilisateur, deplacement):
         self.personnages[id_utilisateur].bouger(deplacement)
