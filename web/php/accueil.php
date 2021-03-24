@@ -19,7 +19,7 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
 			header('Location: membre.php');
 			exit();
 		}
-		// si on ne trouve aucune réponse, le visiteur s'est trompé soit dans son login, soit dans son mot de passe
+		// Si on ne trouve rien, mauvais login / mot de passe
 		elseif ($data[0] == 0) {
 			$erreur = 'Compte non reconnu.';
 		}
