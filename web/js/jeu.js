@@ -4,6 +4,8 @@
  *
  */
 
+var tx = 100; // Ca sera changé
+var ty = 100; // Ca sera changé
 var personnage = {
     "x": 0,
     "y": 0,
@@ -14,6 +16,20 @@ var personnage = {
     "xp": 100,
     "xp_tot": 100,
     "region_actu": 1
+}
+
+/**
+ *
+ * FONCTIONS POUR AFFICHER
+ *
+ */
+
+function aff() {
+    var p = document.getElementById("perso");
+    p.setAttribute("x", personnage.x);
+    p.setAttribute("y", personnage.y);
+    var v = document.getElementById("viewport");
+    v.setAttribute("x", )
 }
 
 /**
