@@ -1,9 +1,6 @@
 <?php
-
 session_start();
 
-include_once("../../includes/bdd.php");
-$db = load_db("../../includes/config.json");
 // on teste si le joueur a soumis le formulaire
 // TODO: $_POST['inscription'] jamais définie (et est-ce utile ?)
 if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
@@ -18,18 +15,24 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
 	// Si tout se passe bien...
 	else {
 		// on recherche si ce pseudo est déjà utilisé par un joueur
-		$sql = 'SELECT count(*) FROM utilisateurs WHERE login=?';
+
+		include_once("../../includes/bdd.php");
+		$db = load_db("../../includes/config.json");
+		$sql = 'SELECT count(*) FROM utilisateurs WHERE pseudo=?';
 		$data = requete_prep($db, $sql, array($_POST["pseudo"]));
 
 		if ($data[0] == 0) {
 			$sql = 'INSERT INTO utilisateurs VALUES("", ?, MD5(?))';
 			action_prep($db, $sql, array($_POST["pseudo"], $_POST["mdp"]));
 
+			$db = null;
+
 			$_SESSION['pseudo'] = $_POST['pseudo'];
 			header('Location: membre.php');
 			exit();
 		}
 		else {
+			$db = null;
 			$erreur = 'Un membre possède déjà ce pseudo.';
 		}
 	}
