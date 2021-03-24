@@ -1,4 +1,6 @@
 <?php
+//TODO: Utiliser des PDO au lieu de mysql_connect et tout, ça a été supprimé en PHP 7.0.0 et déprécié depuis PHP 5.5.0
+
 session_start();
 
 include_once "../../includes/bdd.php";
