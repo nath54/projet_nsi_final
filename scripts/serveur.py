@@ -1,23 +1,21 @@
 
 from websocket_serveur import ServeurWebsocket
 from carte import Carte
+from dbclient import dbClient
 
 class Serveur:
     def __init__(self):
         # TODO : init du serveur
         self.serveurWebsocket = ServeurWebsocket(self)
-        self.db = None # On voudrait un accès à la base de donnée
-        self.carte = None
+        self.db = dbClient() # On voudrait un accès à la base de donnée
+        self.carte = Carte(self)
         self.personnages = {} # dictionnaire : key : l'id du compte utilisateur, value : l'instance de la classe perso reliée à l'utilisateur
 
     def start(self):
-        # TODO : lancer le serveur
+        # TODO : lancer les autres elements serveur
 
         # Maintenant, on peut gerer les websockets
         self.serveurWebsocket.start()
-        # TODO : lancer la db
-        self.carte = Carte(self.db)
-
 
     ############### WEBSOCKET ###############
 
@@ -35,7 +33,8 @@ class Serveur:
     ###############  PERSONNAGES ###############
 
     def load_perso(self, id_utilisateur):
-        pass
+        res = self.db.requete_db("SELECT * FROM utilisateurs WHERE id=?", (id_utilisateur,))
+        print(res)
 
     def bouger_perso(self, id_utilisateur, deplacement):
         self.personnages[id_utilisateur].bouger(deplacement)

@@ -209,13 +209,13 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
 <?php
 $data = open_json("../../includes/config.json");
-$url_ws = $data["url_websocket"];
+$url_ws = $data["url_websocket"].":".$data["port_websocket"];
 ?>
 var ws_url = "<?php echo $url_ws; ?>";
 
 var en_chargement = true;
-tx = <?php echo $tx; ?>
-ty = <?php echo $ty; ?>
+tx = <?php echo $tx; ?>;
+ty = <?php echo $ty; ?>;
 
 function launch(){
     start_websocket(ws_url);

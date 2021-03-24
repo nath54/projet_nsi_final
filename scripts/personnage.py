@@ -1,16 +1,6 @@
 # region Imports :
 import json
 
-# Méthode 1 : mariadb
-try:
-    import mariadb  # ignore unresolved-import error
-except Exception as e:
-    # Méthode 2 : mysql
-    try:
-        import mysql.connector as mariadb  # ignore unresolved-import error
-    except Exception as e:
-        # Rien n'est installé
-        raise UserWarning("Il faut installer la librairie mariadb ou mysql !")
 # endregion
 
 
