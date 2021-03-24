@@ -40,6 +40,7 @@ CREATE TABLE utilisateurs (
  - `description_` _TEXT_ : description de l'objet
  - `image_` _TEXT_ : image de l'objet
  * `effet` *TEXT* : Effet de l'objet en `.json` sous forme (TODO: à compléter) :
+
 ```json
 {
 	"regen_pv": int pv_a_regen,

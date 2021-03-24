@@ -1,5 +1,4 @@
 # region Imports :
-
 import json
 
 # Méthode 1 : mariadb
@@ -78,6 +77,7 @@ class personnage:
           entrée dans la base de données et le charger
     TODO: Permettre le stockage de l'animation du personnage dans les variables
           `sprite_`
+
     """
     def __init__(self, nom, classe, sexe):
         self.nom = nom
@@ -111,10 +111,11 @@ class personnage:
                 ID du personnage dans la base de données
             db(DB):
                 Instance de la base de données
+
         """
-        sql = """SELECT pseudo, sexe, classe, region, position, vie, vie_max,
-                        niveau, experience, stamina, mana, mana_max,
-                        inventaire, armor, argent
+        sql = """SELECT pseudo, sexe, classe, region, position_x, position_y,
+                        vie, vie_max, niveau, experience, stamina, mana,
+                        mana_max, inventaire, armor, argent
                  FROM utilisateurs
                  WHERE id_utilisateur = """ + id
         curseur = db.cursor()
@@ -125,17 +126,17 @@ class personnage:
         self.sexe = res[1]
         self.classe = res[2]
         self.region = res[3]
-        self.position = json.loads(res[4])
-        self.vie = res[5]
-        self.vie_max = res[6]
-        self.niveau = res[7]
-        self.xp = res[8]
-        self.stamina = res[9]
-        self.mana = res[10]
-        self.mana_max = res[11]
-        self.inventaire = res[12]
-        self.armor = res[13]
-        self.argent = res[14]
+        self.position = (res[4], res[5])
+        self.vie = res[6]
+        self.vie_max = res[7]
+        self.niveau = res[8]
+        self.xp = res[9]
+        self.stamina = res[10]
+        self.mana = res[11]
+        self.mana_max = res[12]
+        self.inventaire = res[13]
+        self.armor = res[14]
+        self.argent = res[15]
 
     def afficher(self):
         # self.sprite_fixe
@@ -153,10 +154,8 @@ class personnage:
         assert isinstance(dep, tuple), "Le déplacement n'est pas un tuple."
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
             "Les positions ne sont pas des entiers."
+
         peut_se_depl = True
-
-
-
         if peut_se_depl:
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
@@ -171,8 +170,9 @@ class personnage:
         """Ajoute un objet à l'inventaire du personnage
 
         TODO: Revoir format de la fonction
+
         """
-        est_ramassable = True 
+        est_ramassable = True
         if est_ramassable:
             self.inventaire.append(elt)
 
@@ -192,6 +192,7 @@ class personnage:
         TODO: Appel à la fonction `self.level_up()` depuis cette fonction après
               avoir fait vérification. (trouver suite définissant l'XP
               nécessaire pour le level_up)
+
         """
         pass
 
@@ -199,6 +200,7 @@ class personnage:
         """Augmente le niveau du personnage
 
         TODO: Augmenter stats de base
+
         """
         # TODO: Condition jamais remplie
         if self.xp == self.xp + 100:

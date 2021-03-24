@@ -11,7 +11,7 @@
 
 var websocket = null; // On prépare la variable globale
 
-function start_websocket() {
+function start_websocket(ws_url) {
     /**
      * Fonction qui initialise et lance le serveur websocket
      *
@@ -20,6 +20,8 @@ function start_websocket() {
 
     // On se connecte au websocket
     // websocket = new WebSocket("ws://" + IP + ":" + PORT + "/");
+    console.log(ws_url);
+    ws_url = toString(ws_url);
     websocket = new WebSocket(ws_url);
 
     // Quand il y a des erreurs

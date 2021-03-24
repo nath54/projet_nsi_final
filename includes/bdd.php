@@ -72,11 +72,12 @@ function load_db($path="../includes/config.json"){
  *
  * @author Nathan
 **/
-function requete_prep($db, $requested, $vars=array()){
+function requete_prep($db, $requested, $vars=array(), $debug=false){
     $statement = $db->prepare($requested, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
     $reponse = $statement->execute($vars);
-    // $statement->debugDumpParams();
-    // die();
+    if($debug){
+        $statement->debugDumpParams();
+    }
     $arr = $statement->fetchAll();
     return $arr;
 }

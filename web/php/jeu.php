@@ -9,20 +9,30 @@ $_SESSION["player_id"] = 1;
 $id_player = $_SESSION["player_id"];
 
 // On récupère les infos du joueur :
-$res = requete_prep($db, "SELECT * FROM utilisateurs WHERE id_utilisateur=:id", array(":id"=>$id_player));
-if($res==NULL || count($res)!=1){
+$res = requete_prep($db, "SELECT * FROM utilisateurs WHERE id_utilisateur=:id", array(":id"=>$id_player), false);
+if($res==NULL || count($res)==0){
     alert("il y a eu une erreur !");
     die();
 }
 
 $infos_players = $res[0];
+$nom_player = $infos_players["pseudo"];
 
 // On récupère l'id de la région où le joueur est
 $id_region = $infos_players["region_actu"];
 
+// On récupère des infos sur la région
+$res = requete_prep($db, "SELECT * FROM regions WHERE id_region=:idr;", array(":idr"=>$id_region));
+if($res==NULL || count($res)==0){
+    alert("Erreur !");
+    die();
+}
+$infos_region = $res[0];
+$nom_region = $infos_region["nom"];
+
 // On charge les données du terrain :
 $cases_terrains = array();
-$res = requete_prep($db, "SELECT (x,y,id_terrain) FROM regions_terrains");
+$res = requete_prep($db, "SELECT x,y,id_terrain FROM regions_terrains;", array());
 if($res==NULL){
     alert("Il y a eu une erreur!");
     die();
@@ -50,15 +60,20 @@ foreach($r as $i=>$data){
 
 // On définit ici les infos relatives à l'affichage :
 
-$tx = 1280; // La taille horizontale du viewport
-$ty = 640; // La taille verticale du viewport
-$tc = 128; // tc pour taille cases
+// $tx = 1280; // La taille horizontale du viewport
+// $ty = 640; // La taille verticale du viewport
+$tc = 64; // tc pour taille cases
+$tx = 11*$tc;
+$ty = 6*$tc;
 // Il y aura donc une grille de 10x5 affichée à l'écran
-$px = $infos_players["position_x"];
-$py = $infos_players["position_y"];
+$px = $infos_players["position_x"]*$tc;
+$py = $infos_players["position_y"]*$tc;
 // On veut que le joueur soit au centre de l'écran
-$vx = $px - $tx/2; // Où commence le viewport sur l'axe des x
-$vy = $py - $ty/2; // Où commence le viewport sur l'axe des y
+$vx = ($px-$tc/2) - ($tx/2); // Où commence le viewport sur l'axe des x
+$vy = ($py-$tc/2) - ($ty/2); // Où commence le viewport sur l'axe des y
+$vx2 = $vx+$tx;
+$vy2 = $vy+$ty;
+clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
 ?>
 <html>
@@ -69,30 +84,37 @@ $vy = $py - $ty/2; // Où commence le viewport sur l'axe des y
         <link href="../css/style_jeu.css" rel="stylesheet" />
     </head>
 
-    <body>
+    <body onload="launch();">
 
         <div class="row">
 
             <div class="column" id="div_row_1">
 
                 <div class="row">
-                    <p>You are actually in <span id="region_name">(Region Name)</span></p>
+                    <p>You are actually in <span id="region_name"><?php echo $nom_region; ?></span></p>
                     <hr style="color:rgba(0,0,0,0)" />
                     <p>There is <span id="region_player_number">1</span> people in this region</p>
                 </div>
 
                 <div id="div_viewport">
-
-                    <svg viewBox="<?php echo $vx." ".$vy." ".$vx+$tx." ".$vy+$ty; ?>" id="viewport" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="<?php echo "$vx $vy $tx $ty"; ?>" id="viewport" xmlns="http://www.w3.org/2000/svg">
 
                         <!-- On va construire la map -->
                         <?php
                             foreach($cases_terrains as $i=>$data){
                                 $x = $data["x"] * $tc;
                                 $y = $data["y"] * $tc;
-                                $img = $terrains[$data["id_terrain"]]["image"];
+                                $img = $terrains[$data["id_terrain"]]["img"];
                                 echo "<image x=$x y=$y width=$tc height=$tc xlink:href=\"../../imgs/tuiles/$img\" class=\"case\"></image>";
                             }
+                        ?>
+
+                        <?php
+                            $img_p = "../imgs/sprites/test6.gif";
+                            echo "<g  x=$px y=$py width=$tc height=$tc id=\"player\">";
+                            echo "<image width=$tc height=$tc xlink:href=\"$img_p\"></image>";
+                            echo "</g>";
+
                         ?>
 
                     </svg>
@@ -106,21 +128,21 @@ $vy = $py - $ty/2; // Où commence le viewport sur l'axe des y
                     <div class="row">
                         <div class="column" id="progress_div">
                             <div id="pseudo_div">
-                                <b>Pseudo</b>
+                                <b><?php echo $nom_player; ?></b>
                             </div>
                             <div class="column">
-                                <label for="progress_exp">Experience : <span id="exp_value">20/100</span></label>
-                                <progress id="progress_exp" max="100" value="20"></progress>
+                                <label for="progress_exp">Experience : <span id="exp_value">0/100</span></label>
+                                <progress id="progress_exp" max="100" value="0"></progress>
                                 <b>Niveau <span id="niveau_profil">1</span></b>
                             </div>
                             <hr />
                             <div class="column">
-                                <label for="progress_vie">Vie : <span id="vie_value">70/100</span></label>
-                                <progress id="progress_vie" max="100" value="70"></progress>
+                                <label for="progress_vie">Vie : <span id="vie_value">100/100</span></label>
+                                <progress id="progress_vie" max="100" value="100"></progress>
                             </div>
                             <div class="column">
-                                <label for="progress_mana">Mana : <span id="mana_value">70/100</span></label>
-                                <progress id="progress_mana" max="100" value="70"></progress>
+                                <label for="progress_mana">Mana : <span id="mana_value">100/100</span></label>
+                                <progress id="progress_mana" max="100" value="100"></progress>
                             </div>
                         </div>
                         <div class="column" id="pp_and_buttons">
@@ -128,13 +150,40 @@ $vy = $py - $ty/2; // Où commence le viewport sur l'axe des y
                                 <img class="profile_picture" src="../../imgs/tests/pp_null.png">
                             </div>
                             <div id="row_buttons_ui_1" class="row">
-                                <button id="bag_button" class="button_ui_game_1"></button>
-                                <button id="button_2" class="button_ui_game_1">?</button>
+                                <button id="bag_button" onclick="change_div('div_bag');" class="button_ui_game_1"></button>
+                                <button id="button_2" onclick="change_div('div_chat');" class="button_ui_game_1">?</button>
                                 <button id="button_3" class="button_ui_game_1">?</button>
                             </div>
                         </div>
                     </div>
 
+                </div>
+
+                <div id="div_bag" style="display:none;">
+                    <b>Bag :</b>
+                    <table>
+                        <tr>
+                            <td><div id="bag_0_0" onclick="on_case_bag(0,0);" class="case_bag"></div></td>
+                            <td><div id="bag_1_0" onclick="on_case_bag(1,0);" class="case_bag"></div></td>
+                            <td><div id="bag_2_0" onclick="on_case_bag(2,0);" class="case_bag"></div></td>
+                            <td><div id="bag_3_0" onclick="on_case_bag(3,0);" class="case_bag"></div></td>
+                            <td><div id="bag_4_0" onclick="on_case_bag(4,0);" class="case_bag"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div id="bag_0_1" onclick="on_case_bag(0,1);" class="case_bag"></div></td>
+                            <td><div id="bag_1_1" onclick="on_case_bag(1,1);" class="case_bag"></div></td>
+                            <td><div id="bag_2_1" onclick="on_case_bag(2,1);" class="case_bag"></div></td>
+                            <td><div id="bag_3_1" onclick="on_case_bag(3,1);" class="case_bag"></div></td>
+                            <td><div id="bag_4_1" onclick="on_case_bag(4,1);" class="case_bag"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div id="bag_0_2" onclick="on_case_bag(0,2);" class="case_bag"></div></td>
+                            <td><div id="bag_1_2" onclick="on_case_bag(1,2);" class="case_bag"></div></td>
+                            <td><div id="bag_2_2" onclick="on_case_bag(2,2);" class="case_bag"></div></td>
+                            <td><div id="bag_3_2" onclick="on_case_bag(3,2);" class="case_bag"></div></td>
+                            <td><div id="bag_4_2" onclick="on_case_bag(4,2);" class="case_bag"></div></td>
+                        </tr>
+                    </table>
                 </div>
 
                 <div id="div_chat">
@@ -153,5 +202,19 @@ $vy = $py - $ty/2; // Où commence le viewport sur l'axe des y
         </div>
 
     </body>
+    <script src="../js/webscocket_client.js"></script>
+    <script src="../js/jeu.js"></script>
+    <script>
 
+<?php
+$data = open_json("../../includes/config.json");
+$url_ws = $data["url_websocket"];
+?>
+var ws_url = "<?php echo $url_ws; ?>";
+
+function launch(){
+    start_websocket(ws_url);
+}
+
+    </script>
 </html>
