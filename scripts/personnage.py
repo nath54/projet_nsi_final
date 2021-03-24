@@ -104,7 +104,7 @@ class personnage:
         self.nom = res[0]
         self.sexe = res[1]
         self.classe = res[2]
-        self.region = res[3]
+        self.region_actu = res[3]
         self.position = {"x":int(res[4]), "y":int(res[5])}
         # TODO : faire que si un perso est deja sur la case, on le décale
         self.vie = int(res[6])
@@ -132,11 +132,24 @@ class personnage:
         assert isinstance(dep, tuple), "Le déplacement n'est pas un tuple."
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
             "Les positions ne sont pas des entiers."
-
+        
         peut_se_depl = True
+
+        if not self.region_actu in self.server.carte.regions.keys():
+            raise UserWarning("Erreur !")
+        k = str(self.position["x"])+"_"+str(self.position["y"])
+        tp_case = self.server.carte.regions[self.region_actu].get_case()
+
+        if not tp_case in self.server.carte.terrains.keys():
+            raise UserWarning("Erreur !")
+
+        if not self.server.carte.terrains[tp_case]["peut_marcher"]:
+            peut_se_depl = False
+
         if peut_se_depl:
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
+            self.server.send_to_user(self.id_utilisateur, {"action": "position_perso", "x":self.position["x"], "y":self.position["y"]})
         else:
             pass
 
@@ -198,20 +211,20 @@ class personnage:
             self.vie = self.vie_max
 
 
-if __name__ == "__main__":
-    print("début des tests")
-    p = personnage("Lance", "mage", "homme")
+# if __name__ == "__main__":
+#     print("début des tests")
+#     p = personnage("Lance", "mage", "homme")
 
-    p.bouger((25, 25))
-    pos = p.emplacement()
-    assert pos["x"] == 25 and pos["y"] == 25, "Les positions sont fausses"
-    p.bouger((25, 25))
+#     p.bouger((25, 25))
+#     pos = p.emplacement()
+#     assert pos["x"] == 25 and pos["y"] == 25, "Les positions sont fausses"
+#     p.bouger((25, 25))
 
-    pos = p.emplacement()
-    assert pos["x"] == 50 and pos["y"] == 50, "Positions fausses"
+#     pos = p.emplacement()
+#     assert pos["x"] == 50 and pos["y"] == 50, "Positions fausses"
 
-    p.modifier_vie(-10)
-    assert p.vie == 10, f"Vie fausse : {p.vie} au lieu de 10"
-    p.modifier_vie(20)
-    assert p.vie == 20, f"Vie fausse : {p.vie} au lieu de 20"
-    print("fin des tests")
+#     p.modifier_vie(-10)
+#     assert p.vie == 10, f"Vie fausse : {p.vie} au lieu de 10"
+#     p.modifier_vie(20)
+#     assert p.vie == 20, f"Vie fausse : {p.vie} au lieu de 20"
+#     print("fin des tests")
