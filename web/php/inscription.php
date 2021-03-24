@@ -1,29 +1,33 @@
 <?php
+session_start();
+
 include_once "../../includes/bdd.php";
 $db = load_db("../../includes/config.json");
 // on teste si le joueur a soumis le formulaire
 	if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
-		// on cherche à savoir si les variables existent
-		if ((isset($_POST['pseudo']) && !empty($_POST['pseudo'])) && (isset($_POST['pseudo']) && !empty($_POST['pseudo'])) && (isset($_POST['mdp_confirm']) && !empty($_POST['mdp_confirm']))){
+		// Si les variables n'existent pas, on le signale
+		if (empty($_POST['pseudo']) OR empty($_POST['pseudo']) OR empty($_POST['mdp_confirm']))){
+			$erreur = 'Une des variables est vide.';
 		}
-		// on teste les deux mots de passe
-		if ($_POST['mdp'] != $_POST['mdp_confirm']) {
+		// Sinon, on teste le mot de passe et la confirmation du mot de passe
+		elseif ($_POST['mdp'] != $_POST['mdp_confirm']) {
 			$erreur = 'Les 2 mots de passe sont différents.';
 		}
+		// Si tout se passe bien...
 		else {  // on se connecte à un serveur SQL
 			$base = mysql_connect ($port, 'pseudo', 'mdp');
 			mysql_select_db ('projetclasse', $base);
 
 			// on recherche si ce pseudo est déjà utilisé par un joueur
-			$sql = 'SELECT count(*) FROM utilisateurs WHERE login="'.mysql_escape_string($_POST['pseudo']).'"'; // on cherche dans la table utilisateur si le pseudo entré existe
-			$req = mysql_query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.mysql_error()); // on effectue la requête sur la bdd
+			$sql = 'SELECT count(*) FROM utilisateurs WHERE login="' . mysql_escape_string($_POST['pseudo']) . '"';
+			$req = mysql_query($sql) or die('Erreur SQL !<br />'.$sql.'<br />'.mysql_error());
 			$data = mysql_fetch_array($req);
 
 			if ($data[0] == 0) {
-				$sql = 'INSERT INTO utilisateurs VALUES("", "'.mysql_escape_string($_POST['pseudo']).'", "'.mysql_escape_string(md5($_POST['mdp'])).'")'; // on insère un pseudo et un mot de passe dans la base ; on utilise md5 qui va hacher le mot de passe
-				$req = mysql_query($sql) or die('Erreur SQL !'.$sql.'<br />'.mysql_error()); // 
+				$sql = 'INSERT INTO utilisateurs VALUES("", "' . mysql_escape_string($_POST['pseudo']) . '", "' .
+						mysql_escape_string(md5($_POST['mdp'])) . '")';
+				$req = mysql_query($sql) or die('Erreur SQL !'.$sql.'<br />'.mysql_error());
 
-				session_start();
 				$_SESSION['pseudo'] = $_POST['pseudo'];
 				header('Location: membre.php');
 				exit();
@@ -60,7 +64,7 @@ $db = load_db("../../includes/config.json");
 
 		<?php
 			if (isset($erreur)) {
-			echo '<br />',$erreur;
+				echo '<br />' . $erreur;
 			}
 		?>
     </body>
