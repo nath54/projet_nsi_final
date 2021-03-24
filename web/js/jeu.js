@@ -1,5 +1,23 @@
 /**
  *
+ * PERSOS, MAPS, AUTRES INFOS
+ *
+ */
+
+var personnage = {
+    "x": 0,
+    "y": 0,
+    "vie": 100,
+    "vie_max": 100,
+    "mana": 100,
+    "mana_max": 100,
+    "xp": 100,
+    "xp_tot": 100,
+    "region_actu": 1
+}
+
+/**
+ *
  * FONCTIONS POUR AFFICHER/METTRE A JOUR LES INFOS SUR LA PAGE
  *
  */
@@ -57,15 +75,17 @@ function change_div(id_div) {
 
 
 document.addEventListener('keydown', (event) => {
-    const nomTouche = event.key;
-    if (nomTouche === 'ArrowUp') {
-        ws_send({ "action": "deplacement", "deplacement": [0, -1] });
-    } else if (nomTouche === 'ArrowDown') {
-        ws_send({ "action": "deplacement", "deplacement": [0, 1] });
-    } else if (nomTouche === 'ArrowLeft') {
-        ws_send({ "action": "deplacement", "deplacement": [-1, 0] });
-    } else if (nomTouche === 'ArrowRight') {
-        ws_send({ "action": "deplacement", "deplacement": [1, 0] });
+    if (!en_chargement) {
+        const nomTouche = event.key;
+        if (nomTouche === 'ArrowUp') {
+            ws_send({ "action": "deplacement", "deplacement": [0, -1] });
+        } else if (nomTouche === 'ArrowDown') {
+            ws_send({ "action": "deplacement", "deplacement": [0, 1] });
+        } else if (nomTouche === 'ArrowLeft') {
+            ws_send({ "action": "deplacement", "deplacement": [-1, 0] });
+        } else if (nomTouche === 'ArrowRight') {
+            ws_send({ "action": "deplacement", "deplacement": [1, 0] });
+        }
     }
 }, false);
 

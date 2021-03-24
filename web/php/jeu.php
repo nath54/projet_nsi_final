@@ -213,8 +213,11 @@ $url_ws = $data["url_websocket"];
 ?>
 var ws_url = "<?php echo $url_ws; ?>";
 
+var en_chargement = true;
+
 function launch(){
     start_websocket(ws_url);
+    ws_send("stats_persos");
 }
 
     </script>
