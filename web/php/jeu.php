@@ -152,7 +152,7 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                             </div>
                             <div id="row_buttons_ui_1" class="row">
                                 <button id="bag_button" onclick="change_div('div_bag');" class="button_ui_game_1"></button>
-                                <button id="button_2" onclick="change_div('div_chat');" class="button_ui_game_1">?</button>
+                                <button id="chat_button" onclick="change_div('div_chat');" class="button_ui_game_1"></button>
                                 <button id="button_3" class="button_ui_game_1">?</button>
                             </div>
                         </div>

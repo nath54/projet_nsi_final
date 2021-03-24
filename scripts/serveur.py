@@ -19,6 +19,21 @@ class Serveur:
         self.carte = Carte(self.db)
 
 
+    ############### WEBSOCKET ###############
+
+    def send_to_user(self, id_utilisateur, message):
+        ws_u = None
+        for ws, id_u in self.serveurWebsocket.USERS.items():
+            if id_u == id_utilisateur:
+                ws_u = ws
+                break
+        if ws_u is None:
+            raise UserWarning("ERREUR !")
+        self.serveurWebsocket.send(ws_u, message)
+
+
+    ###############  PERSONNAGES ###############
+
     def load_perso(self, id_utilisateur):
         pass
 
