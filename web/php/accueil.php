@@ -35,11 +35,12 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
 	}
 }
 ?>
+
 <html>
-<head>
+	<head>
         <meta charset="utf-8">
         <title> Accueil </title>
-        <link href="style_co.css" rel = "stylesheet"> 
+        <link href="../css/style_co.css" rel = "stylesheet"> 
     </head>
     <body>
         <form method="POST" action = ""> 
@@ -59,6 +60,5 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
                 </form>
             </section>
         </form>
-
     </body>
 </html>
