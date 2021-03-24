@@ -23,13 +23,17 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
 
 		if ($data[0] == 0) {
 			$sql = 'INSERT INTO utilisateurs VALUES("", ?, MD5(?))';
-			action_prep($db, $sql, array($_POST["pseudo"], $_POST["mdp"]));
+			$status = action_prep($db, $sql, array($_POST["pseudo"], $_POST["mdp"]));
 
 			$db = null;
 
-			$_SESSION['pseudo'] = $_POST['pseudo'];
-			header('Location: membre.php');
-			exit();
+			if ($status){
+				$_SESSION['pseudo'] = $_POST['pseudo'];
+				header('Location: membre.php');
+				exit();
+			} else {
+				$erreur = 'Problème lors de l\'insertion dans la base de données';
+			}
 		}
 		else {
 			$db = null;
