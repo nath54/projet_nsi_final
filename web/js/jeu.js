@@ -32,6 +32,23 @@ function update_region_count(num) {
     document.getElementById("region_player_number").value = num;
 }
 
+
+/**
+ *
+ * BOUTONS POUR CHANGER LA DIV CHAT/BAG/...
+ *
+ */
+
+function change_div(id_div) {
+    for (i of["div_chat", "div_bag"]) {
+        aff = "none";
+        if (id_div == i) {
+            aff = "initial";
+        }
+        document.getElementById(i).style.display = aff;
+    }
+}
+
 /**
  *
  * KEY INPUTS
