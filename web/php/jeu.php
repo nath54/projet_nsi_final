@@ -9,9 +9,9 @@ $_SESSION["player_id"] = 1;
 $id_player = $_SESSION["player_id"];
 
 // On récupère les infos du joueur :
-$res = requete_prep($db, "SELECT * FROM utilisateurs WHERE id_utilisateur=:id", array(":id"=>$id_player), false);
-if($res==NULL || count($res)==0){
-    alert("il y a eu une erreur !");
+$res = requete_prep($db, "SELECT * FROM utilisateurs WHERE id_utilisateur=?", array($id_player));
+if($res == NULL || count($res) == 0){
+    echo ("Les infos du joueur n'ont pas pu être chargée.");
     die();
 }
 
@@ -22,9 +22,9 @@ $nom_player = $infos_players["pseudo"];
 $id_region = $infos_players["region_actu"];
 
 // On récupère des infos sur la région
-$res = requete_prep($db, "SELECT * FROM regions WHERE id_region=:idr;", array(":idr"=>$id_region));
-if($res==NULL || count($res)==0){
-    alert("Erreur !");
+$res = requete_prep($db, "SELECT * FROM regions WHERE id_region=?;", array($id_region));
+if($res == NULL || count($res) == 0){
+    alert("La région n'a pas pu être chargée.");
     die();
 }
 $infos_region = $res[0];
@@ -32,14 +32,14 @@ $nom_region = $infos_region["nom"];
 
 // On charge les données du terrain :
 $cases_terrains = array();
-$res = requete_prep($db, "SELECT x,y,id_terrain FROM regions_terrains;", array());
+$res = requete_prep($db, "SELECT x, y, id_terrain FROM regions_terrains;");
 if($res==NULL){
-    alert("Il y a eu une erreur!");
+    echo("Le terrain n'a pas pu charger");
     die();
 }
 
 foreach($res as $i=>$data){
-    $cases_terrains[$i]=$data;
+    $cases_terrains[$i] = $data;
 }
 
 // On va récuperer les infos sur les tiles
@@ -49,8 +49,9 @@ $terrains = array();
 
 $r = requete_prep($db, $requete);
 if($r==NULL){
-    alert("Il y a eu une erreur !");
+    alert("Terrain n'a pas chargé.");
 }
+// Pour chaque ligne, on stocke nom le nom et l'image dans l'Array $terrains
 foreach($r as $i=>$data){
     $nom = $data["nom"];
     $img = $data["image_"];
@@ -63,11 +64,11 @@ foreach($r as $i=>$data){
 // $tx = 1280; // La taille horizontale du viewport
 // $ty = 640; // La taille verticale du viewport
 $tc = 64; // tc pour taille cases
-$tx = 11*$tc;
-$ty = 6*$tc;
+$tx = 11 * $tc;
+$ty = 6 * $tc;
 // Il y aura donc une grille de 10x5 affichée à l'écran
-$px = $infos_players["position_x"]*$tc;
-$py = $infos_players["position_y"]*$tc;
+$px = $infos_players["position_x"] * $tc;
+$py = $infos_players["position_y"] * $tc;
 // On veut que le joueur soit au centre de l'écran
 $vx = ($px-$tc/2) - ($tx/2); // Où commence le viewport sur l'axe des x
 $vy = ($py-$tc/2) - ($ty/2); // Où commence le viewport sur l'axe des y
@@ -111,7 +112,7 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
                         <?php
                             $img_p = "../imgs/sprites/test6.gif";
-                            echo "<g  x=$px y=$py width=$tc height=$tc id=\"player\">";
+                            echo "<g x=$px y=$py width=$tc height=$tc id=\"player\">";
                             echo "<image width=$tc height=$tc xlink:href=\"$img_p\"></image>";
                             echo "</g>";
 

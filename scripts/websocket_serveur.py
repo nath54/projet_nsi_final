@@ -13,7 +13,7 @@ class ServeurWebsocket:
 
     ###################################### INITIALISATION ######################################
 
-    def __init__(self):
+    def __init__(self, server):
         """Constructeur de la classe ServeurWebsocket
 
         Author : Nathan
@@ -22,7 +22,8 @@ class ServeurWebsocket:
         self.IP = config["host_websocket"] # Ip/Information Réseau pour la connection websocket
         self.PORT = config["port_websocket"] # Port utilisée pour la connection websocket
         self.USERS = dict() # Dictionnaire des utilisateurs actuellement connectés au serveur websocket
-
+                            # websocket : id_utilisateur
+        self.server = server
         self.DEBUG = True # Permettra d'afficher des messages d'erreurs/de debuggage lors des tests
 
     def load_config(self, path):
@@ -126,8 +127,12 @@ class ServeurWebsocket:
         if "action" in data.keys():
             if data["action"] == "connection": # un exemple d'action possible
                 pass
+                id_utilisateur = 1
+                # TODO : renvoyer que la connection s'est bien effectuée ou pas
+                self.server.load_perso(id_utilisateur)
             elif data["action"] == "deplacement": # un autre exemple d'action à gerer
-                pass
+                # TODO : mettre des verifs ici, ou dans la fonction qu'on appelle
+                self.serveur.bouger_perso(self.USERS[websocket]["id_utilisateur"], data["deplacement"])
         else:
             print("Unsupported event : ", data) # Il faudra faire attention aux types d'event
 
