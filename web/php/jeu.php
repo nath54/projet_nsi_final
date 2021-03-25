@@ -89,7 +89,79 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
         <div>
 
-            <div id="div_viewport">
+            <div id="ui">
+                <div class="box full">
+                    <div class="row_center">
+
+                        <!-- VIES  -->
+                        <div class="column progress_bars">
+                            <div>
+                                <progress id="progress_exp" max="100" value="0"></progress>
+                            </div>
+                            <div>
+                                <progress id="progress_vie" max="100" value="300"></progress>
+                                <span class="above_text" id="text_vie">100/100</span>
+                            </div>
+                            <div>
+                                <progress id="progress_mana" max="100" value="300"></progress>
+                                <span class="above_text" id="text_mana">100/100</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="column_end full">
+
+                        <div class="row_center">
+                            <hr style="visibility:hidden;" />
+
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td class="bt_1"></td>
+                                        <td class="bt_1"></td>
+                                        <td class="bt_1"></td>
+                                        <td class="bt_1"></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <hr style="visibility:hidden;" />
+                            <hr style="visibility:hidden;" />
+
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td class="bt_1"></td>
+                                        <td class="bt_1"></td>
+                                        <td class="bt_1"></td>
+                                        <td class="bt_1"></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div style="width:10px;"></div>
+
+                            <div>
+                                <table>
+                                    <tr>
+                                        <td class="bt_1"></td>
+                                        <td class="bt_1"></td>
+                                        <td class="bt_1"></td>
+                                        <td class="bt_1"></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <hr style="visibility:hidden;" />
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
                 <svg viewBox="<?php echo "$vx $vy $tx $ty"; ?>" id="viewport" xmlns="http://www.w3.org/2000/svg">
 
                     <!-- On va construire la map -->
@@ -111,9 +183,6 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                     ?>
 
                 </svg>
-
-
-            </div>
 
 
         </div>

@@ -1,12 +1,17 @@
 body {
     background-color: rgb(182, 181, 192);
-    overflow: auto;
+    overflow: hidden;
 }
 
 
 /*
  * BASE
  */
+
+.full {
+    width: 100%;
+    height: 100%;
+}
 
 .row {
     display: flex;
@@ -16,6 +21,50 @@ body {
 .column {
     display: flex;
     flex-direction: column;
+}
+
+.column_end {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.row_center {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.row_around {
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+}
+
+.space_between {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+}
+
+.justify_spaces {
+    justify-content: space-between
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.center_h {
+    margin-left: 25%;
+    margin-right: 25;
+}
+
+.above_text {
+    position: relative;
+    left: -50%;
 }
 
 
@@ -30,3 +79,92 @@ body {
 }
 
 #div_row_2 {}
+
+#ui,
+#viewport {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+#ui {
+    z-index: 2;
+}
+
+
+/*
+ *
+ * PROGRESS BARS
+ *
+ */
+
+progress {
+    border: none;
+    border-radius: 2px;
+    width: 300px;
+}
+
+#progress_vie,
+#progress_mana {
+    height: 20px;
+}
+
+#progress_exp {
+    height: 5px;
+}
+
+#progress_vie {
+    background-color: black;
+    color: white;
+}
+
+#progress_vie::-webkit-progress-value,
+#progress_vie::-webkit-progress-value,
+#progress_vie::-webkit-progress-bar,
+#progress_vie::-moz-progress-bar {
+    background: red;
+}
+
+#progress_mana {
+    background-color: black;
+    color: white
+}
+
+#progress_mana::-webkit-progress-value,
+#progress_mana::-webkit-progress-value,
+#progress_maba::-webkit-progress-bar,
+#progress_mana::-moz-progress-bar {
+    background: rgb(31, 158, 184);
+}
+
+#progress_exp {
+    background-color: black;
+    color: white;
+}
+
+#progress_exp::-webkit-progress-value,
+#progress_exp::-webkit-progress-value,
+#progress_exp::-webkit-progress-bar,
+#progress_exp::-moz-progress-bar {
+    background: rgb(238, 255, 0);
+}
+
+
+/*
+ *
+ * BUTTONS COMP WEAPONS AMMO
+ *
+ */
+
+.bt_1 {
+    background-color: rgba(0, 0, 0, 0.2);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    width: 50px;
+    height: 50px;
+    border: 1px solid black;
+    border-radius: 3px;
+    margin: 2px;
+}
