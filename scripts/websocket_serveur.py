@@ -98,6 +98,8 @@ class ServeurWebsocket:
         Author : Nathan
         """
         message = json.dumps(message)  # On convertit en json
+        if self.DEBUG:
+            self.debug("send to ", websocket, " message : ", message)
         await websocket.send(message)  # On envoie le message
 
     async def handle_server(self, websocket, _):
@@ -118,7 +120,7 @@ class ServeurWebsocket:
 
     async def send_infos_persos(self, websocket):
         p = self.server.personnages[self.USERS[websocket]["id_utilisateur"]]
-        infos = {"action":"infos_persos",
+        infos = {"action":"infos_perso",
                     "x": p.position["x"],
                     "y": p.position["y"],
                     "vie": p.vie,

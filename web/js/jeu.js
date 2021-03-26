@@ -25,11 +25,14 @@ var personnage = {
  */
 
 function aff() {
-    var p = document.getElementById("perso");
+    var p = document.getElementById("player");
     p.setAttribute("x", personnage.x);
     p.setAttribute("y", personnage.y);
     var v = document.getElementById("viewport");
-    v.setAttribute("x", )
+    v.setAttribute("x", personnage.x - tx / 2);
+    v.setAttribute("y", personnage.y - ty / 2);
+    v.setAttribute("width", tx);
+    v.setAttribute("height", ty);
 }
 
 /**

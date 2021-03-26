@@ -119,7 +119,7 @@ class Personnage:
         TODO: Ajouter tests de collision
 
         """
-        assert isinstance(dep, tuple), "Le déplacement n'est pas un tuple."
+        assert (isinstance(dep, tuple) or isinstance(dep, list)) and len(dep)==2, "Le déplacement n'est pas un tuple."
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
             "Les positions ne sont pas des entiers."
 
@@ -128,7 +128,7 @@ class Personnage:
         if self.region_actu not in self.server.carte.regions.keys():
             raise UserWarning("Erreur ! Région inconnue")
         k = str(self.position["x"])+"_"+str(self.position["y"])
-        tp_case = self.server.carte.regions[self.region_actu].get_case()
+        tp_case = self.server.carte.regions[self.region_actu].get_case(self.position["x"],self.position["y"])
 
         if tp_case not in self.server.carte.terrains.keys():
             raise UserWarning("Erreur !")
