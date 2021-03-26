@@ -183,8 +183,11 @@ class Personnage:
 
         """
         # TODO: Condition jamais remplie
-        if self.xp == self.xp + 100:
+        L = 100
+        while self.xp < L:
             self.niveau = self.niveau + 1
+            self.xp = 0
+            L = L + 100
 
     def modifier_vie(self, vie):
         """Modifie la vie du personnage et check s'il est mort
