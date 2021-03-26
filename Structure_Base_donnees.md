@@ -26,7 +26,7 @@ CREATE TABLE utilisateurs (
  id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
  pseudo TEXT,
  mdp TEXT,
- sexe TEXT, 
+ sexe TEXT,
  vie INT,
  stamina INT,
  mana INT,
