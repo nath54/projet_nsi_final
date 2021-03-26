@@ -27,14 +27,14 @@ class Carte:
         self.db = server.db
         self.regions = {}
         self.terrains = {}
+        self.load()
 
     def load(self):
-        sql = "SELECT id,nom FROM regions";
+        sql = "SELECT id_region,nom FROM regions";
         regs = self.server.db.requete_db(sql)
         for r in regs:
-            print(r[1])
             self.regions[r[0]]=Region(self, self.server, r[0], r[1])
-        sql = "SELECT id_terrain, nom, peut_marcher, cultivable, objet_dessus FROM terrains"
+        sql = "SELECT id_terrain, nom, peut_marcher, cultivable, objet_dessus FROM terrain"
         ters = self.server.db.requete_db(sql)
         for t in ters:
             self.terrains[t[0]] = {
