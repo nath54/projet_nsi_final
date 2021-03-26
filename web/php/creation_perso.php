@@ -44,7 +44,7 @@
 
                     <!-- Bouton valier, qui enregistre toutes les modifs dans la BDD -->
                     <div class="valider_creation">
-                        <button class="validation_perso_creation">VALIDER</button>
+                        <button class="validation_perso_creation" href="">VALIDER</button>
                     </div>
 
 
