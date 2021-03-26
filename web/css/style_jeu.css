@@ -113,6 +113,7 @@ progress {
 
 #progress_exp {
     height: 5px;
+    width: 100%;
 }
 
 #progress_vie {

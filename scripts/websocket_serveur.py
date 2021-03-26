@@ -145,6 +145,7 @@ class ServeurWebsocket:
         if "action" in data.keys():
             if data["action"] == "connection":  # un exemple d'action possible
                 id_utilisateur = data["id_utilisateur"]
+                self.USERS[websocket]["id_utilisateur"] = id_utilisateur
                 # TODO: renvoyer que la connection s'est bien effectuée ou pas
                 self.server.load_perso(id_utilisateur)
                 self.send_infos_persos(websocket)

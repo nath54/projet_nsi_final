@@ -96,9 +96,6 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                         <!-- VIES  -->
                         <div class="column progress_bars">
                             <div>
-                                <progress id="progress_exp" max="100" value="0"></progress>
-                            </div>
-                            <div>
                                 <progress id="progress_vie" max="100" value="300"></progress>
                                 <span class="above_text" id="text_vie">100/100</span>
                             </div>
@@ -157,6 +154,10 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
                         </div>
 
+                        <div>
+                            <progress id="progress_exp" max="100" value="0"></progress>
+                        </div>
+
                     </div>
                 </div>
 
@@ -207,7 +208,7 @@ function launch(){
 }
 function launch2(){
     // Websocket is ready
-    ws_send({"action":"stats_persos"});
+    ws_send({"action":"connection"});
 }
 
     </script>
