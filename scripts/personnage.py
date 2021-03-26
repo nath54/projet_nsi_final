@@ -125,7 +125,7 @@ class Personnage:
 
         peut_se_depl = True
 
-        if self.region_actu not in self.server.carte.regions.keys():
+        if self.region_actu not in self.server.carte.regions.keys():  
             raise UserWarning("Erreur ! Région inconnue")
         k = str(self.position["x"])+"_"+str(self.position["y"])
         tp_case = self.server.carte.regions[self.region_actu].get_case()
@@ -133,8 +133,8 @@ class Personnage:
         if tp_case not in self.server.carte.terrains.keys():
             raise UserWarning("Erreur !")
 
-        if not self.server.carte.terrains[tp_case]["peut_marcher"]:
-            peut_se_depl = False
+        if not self.server.carte.terrains[tp_case]["peut_marcher"]: ## Si une case est occupée par un arbre ou autre,
+            peut_se_depl = False                                    ## alors le déplacement est impossible
 
         if peut_se_depl:
             self.position["x"] += dep[0]
@@ -147,7 +147,7 @@ class Personnage:
         """Renvoie la position du personnage"""
         return self.position
 
-    def prendre_objet(self, touche):
+    def prendre_objet(self, id_objet):
         """Ajoute un objet à l'inventaire du personnage
 
         TODO: Revoir format de la fonction
@@ -157,7 +157,7 @@ class Personnage:
         if est_ramassable:
             self.inventaire.append(self.inventaire)
 
-    def attaquer(self, touche):
+    def attaquer(self):
         pass
 
     def interagir(self, touche):
