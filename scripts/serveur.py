@@ -34,9 +34,7 @@ class Serveur:
     ###############  PERSONNAGES ###############
 
     def load_perso(self, id_utilisateur):
-        print("LOAD PERSO ", id_utilisateur)
-        res = self.db.requete_db("SELECT * FROM utilisateurs WHERE id_utilisateur=?", (id_utilisateur,))
-        print(res)
+        # res = self.db.requete_db("SELECT * FROM utilisateurs WHERE id_utilisateur=?", (id_utilisateur,))
         perso = Personnage(self, id_utilisateur)
         self.personnages[id_utilisateur] = perso
 

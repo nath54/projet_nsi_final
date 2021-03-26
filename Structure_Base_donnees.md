@@ -33,7 +33,7 @@ CREATE TABLE utilisateurs (
  armor INT,
  classe TEXT,
  niveau INT,
- argent INT
+ argent INT,
  experience INT,
  experience_tot INT,
  competence TEXT,

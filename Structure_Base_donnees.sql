@@ -1,14 +1,23 @@
 
 CREATE TABLE utilisateurs (
-			id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
-	    	pseudo TEXT,
-		   	mdp TEXT,
-		   	vie_max INT,
-		   	classe TEXT,
-		   	niveau INT,
-		   	experience INT,
-		   	competence TEXT,
-		   	quetes TEXT);
+ id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
+ pseudo TEXT,
+ mdp TEXT,
+ sexe TEXT,
+ vie INT,
+ stamina INT,
+ mana INT,
+ armor INT,
+ classe TEXT,
+ niveau INT,
+ argent INT
+ experience INT,
+ experience_tot INT,
+ competence TEXT,
+ quetes TEXT,
+ region_actu INT DEFAULT 1,
+ position_x INT,
+ position_y INT);
 
 
 CREATE TABLE objet (
@@ -65,7 +74,7 @@ CREATE TABLE classe (
 
 
 CREATE TABLE terrain (
-			id_terrain INT PRIMARY KEY AUTO_INCREMENT,
+			id_terrain INT PRIMARY KEY,
 		 	image_ TEXT,
 		 	nom  TEXT,
 	     	peut_marcher BOOLEAN,

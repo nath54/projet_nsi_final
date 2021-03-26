@@ -69,6 +69,9 @@ class Personnage:
         self.mana_max = 20
         self.armor = 0
         self.argent = 0
+        self.inventaire = []
+        self.quetes = {}
+        self.equipements = {}
         self.server = server
         self.load_perso()
 
@@ -85,10 +88,7 @@ class Personnage:
         sql = """SELECT pseudo, sexe, classe, vie, stamina, mana, armor, niveau, argent, experience, experience_tot, competence, quetes, region_actu, position_x, position_y
                  FROM utilisateurs
                  WHERE id_utilisateur = ?"""
-        res = self.server.db.requete_db(sql, (self.id_utilisateur,))
-        curseur = self.server.db.cursor()
-        curseur.execute(sql)
-        res = [ligne for ligne in curseur]
+        res = self.server.db.requete_db(sql, (self.id_utilisateur,))[0]
 
         self.nom = res[0]
         self.sexe = res[1]
