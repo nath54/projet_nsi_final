@@ -112,6 +112,20 @@ class ServeurWebsocket:
         finally:
             await self.unregister(websocket) # On supprime l'utilisateur
 
+    def send_infos_persos(self, websocket):
+        p = self.server.personnages[self.USERS[websocket]["id_utilisateur"]]
+        infos = {"action":"infos_persos",
+                    "x": p.x,
+                    "y": p.y,
+                    "vie": p.vie,
+                    "vie_max": p.vie_tot,
+                    "mana": p.mana,
+                    "mana_max": p.mana_tot,
+                    "xp": p.xp,
+                    "xp_tot": p.xp_tot,
+                    "region_actu": p.region_actu}
+        self.send(websocket, infos)
+
     async def gere_messages(self, websocket, message):
         """analyse tous les messages qu'elle recoit,
            et réagit en conséquence
@@ -130,22 +144,12 @@ class ServeurWebsocket:
                 self.USERS[websocket]["id_utilisateur"] = id_utilisateur
                 # TODO : renvoyer que la connection s'est bien effectuée ou pas
                 self.server.load_perso(id_utilisateur)
+                self.send_infos_persos(websocket)
             elif data["action"] == "deplacement": # un autre exemple d'action à gerer
                 # TODO : mettre des verifs ici, ou dans la fonction qu'on appelle
                 self.server.bouger_perso(self.USERS[websocket]["id_utilisateur"], data["deplacement"])
             elif data["action"] == "stats_persos": # un autre exemple d'action à gerer
-                p = self.server.personnages[self.USERS[websocket]["id_utilisateur"]]
-                infos = {"action":"infos_persos",
-                         "x": p.x,
-                         "y": p.y,
-                         "vie": p.vie,
-                         "vie_max": p.vie_tot,
-                         "mana": p.mana,
-                         "mana_max": p.mana_tot,
-                         "xp": p.xp,
-                         "xp_tot": p.xp_tot,
-                         "region_actu": p.region_actu}
-                self.send(websocket, infos)
+                self.send_infos_persos(websocket)
         else:
             print("Unsupported event : ", data) # Il faudra faire attention aux types d'event
 

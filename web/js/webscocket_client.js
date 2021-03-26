@@ -78,7 +78,6 @@ function on_message(event) {
             }
             break;
 
-
         case 'position_perso':
             personnage.x = data.x;
             personnage.y = data.y;
