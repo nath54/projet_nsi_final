@@ -57,10 +57,10 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
 					</br>
                     <a href="#" class="envoyer">Submit</a>
 					</br>
-					</br>
 					<div class="oubli">
                         <div class="col"><a href="#" title="Retrouver mot de passe">Forgot Password ?</a></div>
                     </div>
+					<a href="inscription.php" class="inscr">Si vous n'avez pas de compte, inscrivez vous !</a>
                     
                 </form>
             </section>
