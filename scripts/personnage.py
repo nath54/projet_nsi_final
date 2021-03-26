@@ -185,11 +185,19 @@ class Personnage:
         # TODO: Condition jamais remplie
         L = 100
         if self.xp == L :
-            self.niveau = self.niveau + 1
             self.xp = 0
-            L = L + 100
+            self.niveau = self.niveau + 1 
+            L = L + 100  ## Valeur de la limite pour augmenter de niveau à changer si besoin
             self.vie_max = self.vie_max + 50     ## Valeur de l'augmentation des stats à voir
             self.mana_max = self.mana_max + 50
+
+        if self.xp > L :
+            self.xp = self.xp - L
+            self.niveau = self.niveau + 1 
+            L = L + 100  ## Valeur de la limite pour augmenter de niveau à changer si besoin
+            self.vie_max = self.vie_max + 50     ## Valeur de l'augmentation des stats à voir
+            self.mana_max = self.mana_max + 50
+
 
 
     def modifier_vie(self, vie):
