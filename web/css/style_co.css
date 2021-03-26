@@ -72,6 +72,7 @@ body{
     justify-content: center;
     align-items: center;
     height: 200px;
+    text-decoration: underline;
 }
 
 .login form input[type=text] {
@@ -93,15 +94,6 @@ body{
     width: 640px;
     height: 12px;
     display: block;
-    padding-top: 14px;
-    padding-bottom: 14px;
-    border-radius: 6px;
-    border: none;
-    border-top: #f0f1f1 1px solid;
-    border-bottom: #161616 1px solid;
-    background: #349e92;
-    text-align: center;
-    align-items: center;
     text-decoration: none;
     font-size: 12px;
     font-weight: bold;
@@ -132,3 +124,22 @@ body{
     font: 12px 'seagram_tfb', 'Times New Roman', Times, serif;
 }
 
+.login .inscr{
+    width: 640px;
+    height: 12px;
+    display: block;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    border-radius: 6px;
+    border: none;
+    border-top: #f0f1f1 1px solid;
+    border-bottom: #161616 1px solid;
+    background: #349e92;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    color: #FFF;
+    text-shadow: 0 -1px #ffffff, 0 1px #7bb8b3;
+    font-family: 'seagram_tfb', 'Times New Roman', Times, serif;
+
+}
