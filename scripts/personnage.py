@@ -155,7 +155,7 @@ class Personnage:
         """
         est_ramassable = True
         if est_ramassable:
-            self.inventaire.append()
+            self.inventaire.append(self.inventaire)
 
     def attaquer(self, touche):
         pass
