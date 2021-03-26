@@ -10,16 +10,6 @@
     <!-- Titre création du personnage -->
         <h1>Creation personnage</h1>
 
-
-        <!-- Menu choix sexe et classe -->
-
-        <!-- Bouton continuer, qui enregistre nos choix et nous redirige vers le menu de création -->
-        <!-- En sauvegardant nos choix de classe et de sexe, et nous propose des tenues adapté -->
-            <div class="continuer_creation">
-            <button class="bouton_continuer_creation">CONTINUER</button>
-            </div>
-
-
             
                 <!-- Menu de création -->
                 <!-- Après le choix du sexe et de la classe -->
@@ -54,12 +44,11 @@
 
                     <!-- Bouton valier, qui enregistre toutes les modifs dans la BDD -->
                     <div class="valider_creation">
+                        <button class="validation_perso_creation">VALIDER</button>
                     </div>
 
-            <div class="">
 
-            </div>
-
+                    
         </div>
 
     </body>
