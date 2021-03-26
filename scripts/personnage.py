@@ -82,11 +82,10 @@ class Personnage:
                 Instance de la base de données
 
         """
-        sql = """SELECT pseudo, sexe, classe, region, position_x, position_y,
-                        vie, niveau, experience, experience_tot, stamina, mana,
-                        inventaire, armor, argent
+        sql = """SELECT pseudo, sexe, classe, vie, stamina, mana, armor, niveau, argent, experience, experience_tot, competence, quetes, region_actu, position_x, position_y
                  FROM utilisateurs
-                 WHERE id_utilisateur = """ + id
+                 WHERE id_utilisateur = ?"""
+        res = self.server.db.requete_db(sql, (self.id_utilisateur,))
         curseur = self.server.db.cursor()
         curseur.execute(sql)
         res = [ligne for ligne in curseur]
@@ -94,21 +93,22 @@ class Personnage:
         self.nom = res[0]
         self.sexe = res[1]
         self.classe = res[2]
-        self.region_actu = res[3]
-        self.position = {"x": int(res[4]), "y": int(res[5])}
-        # TODO: faire que si un perso est deja sur la case, on le décale
-        self.vie = int(res[6])
-        self.vie_max = int(res[6])  # TODO:
+        self.vie = int(res[3])
+        self.vie_max = int(res[3])
+        self.stamina = int(res[4])
+        self.stamina_max = int(res[4])
+        self.mana = int(res[5])
+        self.mana_max = int(res[5])
+        self.armor = res[6]
         self.niveau = int(res[7])
-        self.xp = int(res[8])
-        self.xp_tot = int(res[9])
-        self.stamina = int(res[10])
-        self.stamina_max = int(res[10])
-        self.mana =int(res[11])
-        self.mana_max = int(res[11])
-        self.inventaire = json.loads(res[12])
-        self.armor = res[13]
-        self.argent = res[14]
+        self.argent = int(res[8])
+        self.xp = int(res[9])
+        self.xp_tot = int(res[10])
+        self.competence = res[11]
+        self.quetes = res[12]
+        self.region_actu = int(res[13])
+        self.position = {"x": int(res[14]), "y": int(res[15])}
+        # TODO: faire que si un perso est deja sur la case, on le décale
 
     def bouger(self, dep):
         """S'assure que le personnage peut se déplacer et le déplace
@@ -125,7 +125,7 @@ class Personnage:
 
         peut_se_depl = True
 
-        if self.region_actu not in self.server.carte.regions.keys():  
+        if self.region_actu not in self.server.carte.regions.keys():
             raise UserWarning("Erreur ! Région inconnue")
         k = str(self.position["x"])+"_"+str(self.position["y"])
         tp_case = self.server.carte.regions[self.region_actu].get_case()
@@ -188,14 +188,14 @@ class Personnage:
         L = 100
         if self.xp == L :
             self.xp = 0
-            self.niveau = self.niveau + 1 
+            self.niveau = self.niveau + 1
             L = L + 100  ## Valeur de la limite pour augmenter de niveau à changer si besoin
             self.vie_max = self.vie_max + 50     ## Valeur de l'augmentation des stats à voir
             self.mana_max = self.mana_max + 50
 
         if self.xp > L :
             self.xp = self.xp - L
-            self.niveau = self.niveau + 1 
+            self.niveau = self.niveau + 1
             L = L + 100  ## Valeur de la limite pour augmenter de niveau à changer si besoin
             self.vie_max = self.vie_max + 50     ## Valeur de l'augmentation des stats à voir
             self.mana_max = self.mana_max + 50

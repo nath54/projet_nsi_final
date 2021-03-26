@@ -208,7 +208,7 @@ function launch(){
 }
 function launch2(){
     // Websocket is ready
-    ws_send({"action":"connection"});
+    ws_send({"action":"connection", "id_utilisateur":<?php echo $id_player;?>});
 }
 
     </script>

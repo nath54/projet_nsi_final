@@ -8,9 +8,7 @@ CREATE TABLE utilisateurs (
 		   	niveau INT,
 		   	experience INT,
 		   	competence TEXT,
-		   	quetes TEXT,
-		   	id_quete INT,
-		   	complete BOOLEAN);
+		   	quetes TEXT);
 
 
 CREATE TABLE objet (
