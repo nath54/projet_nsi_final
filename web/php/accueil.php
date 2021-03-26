@@ -36,10 +36,9 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
 
 <html>
 	<head>
-        <meta charset="utf-8">
-        <title> Accueil </title>
-
-        <link href="style_co.css" rel="stylesheet">
+		<meta charset="utf-8" />
+        <title>Accueil</title>
+        <link href="../css/style_co.css" rel="stylesheet" />
 
     </head>
     <body>
@@ -47,16 +46,22 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
 
             <section class="login">
                 <div class="titre">Maths Quest</div>
-                <form action="#" method="post">
-                    <div class="bouton">Nom d'utilisateur</div>
-                    <input type="text" required title="Username" placeholder="Username" name="login" data-icon="U"></br>
+                <form action="accueil.php" method="post">
+                    <div class="bouton">Nom d'utilisateur: 
+                    <input type="text" required title="Username" placeholder="Username" name="login" data-icon="U"></div>
+					</br>
                     </br>
-                    <div class="bouton">Mot de passe</div>
-                    <input type="password" required title="Password" placeholder="Password" data-icon="x" name="pass">
-                    <div class="oubli">
+                    <div class="bouton">Mot de passe: 
+                    <input type="password" required title="Password" placeholder="Password" data-icon="x" name="pass"></div>
+                    
+					</br>
+                    <a href="#" class="envoyer">Submit</a>
+					</br>
+					</br>
+					<div class="oubli">
                         <div class="col"><a href="#" title="Retrouver mot de passe">Forgot Password ?</a></div>
                     </div>
-                    <a href="#" class="envoyer">Submit</a>
+                    
                 </form>
             </section>
         </form>

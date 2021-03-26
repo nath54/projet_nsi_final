@@ -155,7 +155,7 @@ class Personnage:
         """
         est_ramassable = True
         if est_ramassable:
-            self.inventaire.append()
+            self.inventaire.append(self.inventaire)
 
     def attaquer(self, touche):
         pass
@@ -183,8 +183,14 @@ class Personnage:
 
         """
         # TODO: Condition jamais remplie
-        if self.xp == self.xp + 100:
+        L = 100
+        if self.xp == L :
             self.niveau = self.niveau + 1
+            self.xp = 0
+            L = L + 100
+            self.vie_max = self.vie_max + 50     ## Valeur de l'augmentation des stats à voir
+            self.mana_max = self.mana_max + 50
+
 
     def modifier_vie(self, vie):
         """Modifie la vie du personnage et check s'il est mort
