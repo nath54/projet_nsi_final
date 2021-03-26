@@ -184,7 +184,7 @@ class Personnage:
         """
         # TODO: Condition jamais remplie
         L = 100
-        while self.xp < L:
+        if self.xp == L :
             self.niveau = self.niveau + 1
             self.xp = 0
             L = L + 100
