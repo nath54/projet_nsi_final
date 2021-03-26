@@ -55,9 +55,9 @@ class Personnage:
     """
     def __init__(self, server, id_utilisateur):
         self.id_utilisateur = id_utilisateur
-        self.nom = "" # a mettre en place dans la bdd
-        self.sexe = "" # a mettre en place dans la bdd
-        self.classe = "" # a mettre en place dans la bdd
+        self.nom = ""  # a mettre en place dans la bdd
+        self.sexe = ""  # a mettre en place dans la bdd
+        self.classe = ""  # a mettre en place dans la bdd
         self.region_actu = 1
         self.position = {"x": 0, "y": 0}
         self.vie = 20
@@ -82,8 +82,8 @@ class Personnage:
                 Instance de la base de données
 
         """
-        sql = """SELECT pseudo, sexe, classe, region, position_x, position_y, vie,
-                        niveau, experience, experience_tot, stamina, mana
+        sql = """SELECT pseudo, sexe, classe, region, position_x, position_y,
+                        vie, niveau, experience, experience_tot, stamina, mana,
                         inventaire, armor, argent
                  FROM utilisateurs
                  WHERE id_utilisateur = """ + id
@@ -95,10 +95,10 @@ class Personnage:
         self.sexe = res[1]
         self.classe = res[2]
         self.region_actu = res[3]
-        self.position = {"x":int(res[4]), "y":int(res[5])}
-        # TODO : faire que si un perso est deja sur la case, on le décale
+        self.position = {"x": int(res[4]), "y": int(res[5])}
+        # TODO: faire que si un perso est deja sur la case, on le décale
         self.vie = int(res[6])
-        self.vie_max = int(res[6])
+        self.vie_max = int(res[6])  # TODO:
         self.niveau = int(res[7])
         self.xp = int(res[8])
         self.xp_tot = int(res[9])
@@ -122,15 +122,15 @@ class Personnage:
         assert isinstance(dep, tuple), "Le déplacement n'est pas un tuple."
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
             "Les positions ne sont pas des entiers."
-        
+
         peut_se_depl = True
 
-        if not self.region_actu in self.server.carte.regions.keys():
-            raise UserWarning("Erreur !")
+        if self.region_actu not in self.server.carte.regions.keys():
+            raise UserWarning("Erreur ! Région inconnue")
         k = str(self.position["x"])+"_"+str(self.position["y"])
         tp_case = self.server.carte.regions[self.region_actu].get_case()
 
-        if not tp_case in self.server.carte.terrains.keys():
+        if tp_case not in self.server.carte.terrains.keys():
             raise UserWarning("Erreur !")
 
         if not self.server.carte.terrains[tp_case]["peut_marcher"]:
@@ -163,7 +163,7 @@ class Personnage:
     def interagir(self, touche):
         pass
 
-    def gagner_xp(self, xp):
+    def gagner_xp(self, xp, niv_monstre):
         """Permet de donner de l'XP au personnage
 
         Parameters:
@@ -174,6 +174,8 @@ class Personnage:
               nécessaire pour le level_up)
 
         """
+        if niv_monstre < self.niveau :
+            self.xp = self.xp
         pass
 
     def level_up(self):
@@ -185,12 +187,18 @@ class Personnage:
         # TODO: Condition jamais remplie
         L = 100
         if self.xp == L :
-            self.niveau = self.niveau + 1
             self.xp = 0
-            L = L + 100
+            self.niveau = self.niveau + 1 
+            L = L + 100  ## Valeur de la limite pour augmenter de niveau à changer si besoin
             self.vie_max = self.vie_max + 50     ## Valeur de l'augmentation des stats à voir
             self.mana_max = self.mana_max + 50
 
+        if self.xp > L :
+            self.xp = self.xp - L
+            self.niveau = self.niveau + 1 
+            L = L + 100  ## Valeur de la limite pour augmenter de niveau à changer si besoin
+            self.vie_max = self.vie_max + 50     ## Valeur de l'augmentation des stats à voir
+            self.mana_max = self.mana_max + 50
 
     def modifier_vie(self, vie):
         """Modifie la vie du personnage et check s'il est mort
