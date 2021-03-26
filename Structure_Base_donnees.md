@@ -4,11 +4,16 @@
  - `id_utilisateur` *INT PRIMARY KEY AUTO_INCREMENT* : id user
  - `pseudo` _TEXT_ : pseudo
  - `mdp` _TEXT_ : mdp du user
- - `vie_max` _INT_ : Vie max du joueur
+ - `sexe` _TEXT_ : Détermine le sexe du personnage
+ - `vie` _INT_ : vie actuelle du joueur
+ - `stamina` _INT_ : Stamina actuelle du joueur
+ - `mana` _INT_ : Mana actuelle du joueur
+ - `armor` _INT_ : Armure du joueur 
  - `classe` _TEXT_ : classe du joueur
  - `niveau` _INT_ : niveau du joueur
- - `experience` _INT_ : expérience du joueur
- - `experience_max` _INT_ : expérience a atteindre du joueur pour qu'il passe au niveau suivant
+ - `argent` _INT_ : argent du joueur
+ - `experience` _INT_ : expérience du joueur 
+ - `experience_tot` _INT_ : expérience a atteindre du joueur pour qu'il passe au niveau suivant
  - `competence` _TEXT_ : qualité du personnage
  - `quetes` _TEXT_ : les quetes réalisée par le joueur
  - `region_actu` _INT DEFAULT 1_ : id de la région où le joueur est
@@ -21,11 +26,16 @@ CREATE TABLE utilisateurs (
  id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
  pseudo TEXT,
  mdp TEXT,
- vie_max INT,
+ sexe TEXT, 
+ vie INT,
+ stamina INT,
+ mana INT,
+ armor INT,
  classe TEXT,
  niveau INT,
+ argent INT
  experience INT,
- experience_max INT,
+ experience_tot INT,
  competence TEXT,
  quetes TEXT,
  region_actu INT DEFAULT 1,

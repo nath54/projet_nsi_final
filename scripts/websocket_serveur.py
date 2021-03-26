@@ -13,7 +13,7 @@ class ServeurWebsocket:
 
     ###################################### INITIALISATION ######################################
 
-    def __init__(self):
+    def __init__(self, server):
         """Constructeur de la classe ServeurWebsocket
 
         Author : Nathan
@@ -22,11 +22,12 @@ class ServeurWebsocket:
         self.IP = config["host_websocket"] # Ip/Information Réseau pour la connection websocket
         self.PORT = config["port_websocket"] # Port utilisée pour la connection websocket
         self.USERS = dict() # Dictionnaire des utilisateurs actuellement connectés au serveur websocket
-
+                            # websocket : id_utilisateur
+        self.server = server
         self.DEBUG = True # Permettra d'afficher des messages d'erreurs/de debuggage lors des tests
 
     def load_config(self, path):
-        """Fonction pour récupérer la configuration du serveur enregistrée dans un fichier json 
+        """Fonction pour récupérer la configuration du serveur enregistrée dans un fichier json
 
         Args:
             path (str): chemin utilisé pour lire le fichier de configuration
@@ -95,7 +96,7 @@ class ServeurWebsocket:
         message = json.dumps(message) # On convertit en json
         await websocket.send(message) # On envoie le message
 
-    async def handle(self, websocket):
+    async def handle_server(self, websocket, _):
         """Fonction qui va gerer et recevoir tous les messaged d'un client websocket
            de sa connection à sa déconnection
 
@@ -125,9 +126,25 @@ class ServeurWebsocket:
         self.debug("get from ", websocket, " : ", data)
         if "action" in data.keys():
             if data["action"] == "connection": # un exemple d'action possible
-                pass
+                id_utilisateur = data["id_utilisateur"]
+                # TODO : renvoyer que la connection s'est bien effectuée ou pas
+                self.server.load_perso(id_utilisateur)
             elif data["action"] == "deplacement": # un autre exemple d'action à gerer
-                pass
+                # TODO : mettre des verifs ici, ou dans la fonction qu'on appelle
+                self.server.bouger_perso(self.USERS[websocket]["id_utilisateur"], data["deplacement"])
+            elif data["action"] == "stats_persos": # un autre exemple d'action à gerer
+                p = self.server.personnages[self.USERS[websocket]["id_utilisateur"]]
+                infos = {"action":"infos_persos",
+                         "x": p.x,
+                         "y": p.y,
+                         "vie": p.vie,
+                         "vie_max": p.vie_tot,
+                         "mana": p.mana,
+                         "mana_max": p.mana_tot,
+                         "xp": p.xp,
+                         "xp_tot": p.xp_tot,
+                         "region_actu": p.region_actu}
+                self.send(websocket, infos)
         else:
             print("Unsupported event : ", data) # Il faudra faire attention aux types d'event
 
@@ -140,9 +157,9 @@ class ServeurWebsocket:
         Author : Nathan
         """
         print("Server starting...")
-        self.serveur = ws.serve(self.handle, self.IP, self.PORT) # On initialise le serveur
+        self.serveur = ws.serve(self.handle_server, self.IP, self.PORT) # On initialise le serveur
         print(f"Server listening on {self.IP}:{self.PORT}")
-        asyncio.get_event_loop().run_until_complete(self.serveur) 
+        asyncio.get_event_loop().run_until_complete(self.serveur)
         asyncio.get_event_loop().run_forever() # Le serveur tourne tant qu'on ne l'arrete pas
                                                # Un petit Ctrl+C fait très bien l'affaire ;)
 

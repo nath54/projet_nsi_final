@@ -1,20 +1,10 @@
 # region Imports :
 import json
 
-# Méthode 1 : mariadb
-try:
-    import mariadb  # ignore unresolved-import error
-except Exception as e:
-    # Méthode 2 : mysql
-    try:
-        import mysql.connector as mariadb  # ignore unresolved-import error
-    except Exception as e:
-        # Rien n'est installé
-        raise UserWarning("Il faut installer la librairie mariadb ou mysql !")
 # endregion
 
 
-class personnage:
+class Personnage:
     """Classe du personnage
 
     Attributes:
@@ -31,22 +21,6 @@ class personnage:
             Décrit la position du personnage avec :
                 "x": La position x du personnage sur la map
                 "y": la position y du personnage sur la map
-        sprite_fixe_droite(str):
-            Nom de l'image du personnage fixe qui regarde vers la droite
-        sprit_fixe_gauche(str):
-            Nom de l'image du personnage fixe qui regarde vers la gauche
-        sprite_droite_pied_droit(str):
-            Nom de l'image du personnage allant vers la droite et qui s'appui sur son pied droit
-        sprite_droite_pied_gauche(str):
-            Nom de l'image du personnage allant vers la droite et qui s'appui sur son pied gauche
-        sprite_gauche_pied_droit(str):
-            Nom de l'image du personnage allant vers la gauche et qui s'appui sur son pied droit
-        sprite_gauche_pied_gauche(str):
-            Nom de l'image du personnage allant vers la gauche et qui s'appui sur son pied gauche
-        sprite_haut(str):
-            Nom de l'image du personnage allant vers la haut
-        sprite_bas(str):
-            Nom de l'image du personnage allant vers la bas
         vie(int):
             Vie actuelle du personnage
             TODO: Où on respawn si ça tombe à zéro ?
@@ -79,20 +53,13 @@ class personnage:
           `sprite_`
 
     """
-    def __init__(self, nom, classe, sexe):
-        self.nom = nom
-        self.sexe = sexe
-        self.classe = classe
-        self.region = 0
+    def __init__(self, server, id_utilisateur):
+        self.id_utilisateur = id_utilisateur
+        self.nom = "" # a mettre en place dans la bdd
+        self.sexe = "" # a mettre en place dans la bdd
+        self.classe = "" # a mettre en place dans la bdd
+        self.region_actu = 1
         self.position = {"x": 0, "y": 0}
-        self.sprite_fixe_droite = "TODO: sprite perso immobile qui regarde à droite"
-        self.sprite_fixe_gauche = "TODO: sprite perso immobile qui regarde à gauche"
-        self.sprite_droite_pied_droit = "TODO: sprite perso à droite appui sur pied droit"
-        self.sprite_droite_pied_gauche = "TODO: sprite perso à droite appui sur pied gauche"
-        self.sprite_gauche_pied_droit = "TODO: sprite perso à gauche appui sur pied droit"
-        self.sprite_gauche_pied_gauche = "TODO: sprite perso à gauche appui sur pied gauche"
-        self.sprite_haut = "TODO: sprite perso en haut"
-        self.sprite_bas = "TODO: sprite perso en bas"
         self.vie = 20
         self.vie_max = 20
         self.niveau = 0
@@ -102,8 +69,10 @@ class personnage:
         self.mana_max = 20
         self.armor = 0
         self.argent = 0
+        self.server = server
+        self.load_perso()
 
-    def load_perso(self, id, db):
+    def load_perso(self):
         """Charge les données d'un personnage
 
         Parameters:
@@ -113,34 +82,33 @@ class personnage:
                 Instance de la base de données
 
         """
-        sql = """SELECT pseudo, sexe, classe, region, position_x, position_y,
-                        vie, vie_max, niveau, experience, stamina, mana,
-                        mana_max, inventaire, armor, argent
+        sql = """SELECT pseudo, sexe, classe, region, position_x, position_y, vie,
+                        niveau, experience, experience_tot, stamina, mana
+                        inventaire, armor, argent
                  FROM utilisateurs
                  WHERE id_utilisateur = """ + id
-        curseur = db.cursor()
+        curseur = self.server.db.cursor()
         curseur.execute(sql)
         res = [ligne for ligne in curseur]
 
         self.nom = res[0]
         self.sexe = res[1]
         self.classe = res[2]
-        self.region = res[3]
-        self.position = (res[4], res[5])
-        self.vie = res[6]
-        self.vie_max = res[7]
-        self.niveau = res[8]
-        self.xp = res[9]
-        self.stamina = res[10]
-        self.mana = res[11]
-        self.mana_max = res[12]
-        self.inventaire = res[13]
-        self.armor = res[14]
-        self.argent = res[15]
-
-    def afficher(self):
-        # self.sprite_fixe
-        pass
+        self.region_actu = res[3]
+        self.position = {"x":int(res[4]), "y":int(res[5])}
+        # TODO : faire que si un perso est deja sur la case, on le décale
+        self.vie = int(res[6])
+        self.vie_max = int(res[6])
+        self.niveau = int(res[7])
+        self.xp = int(res[8])
+        self.xp_tot = int(res[9])
+        self.stamina = int(res[10])
+        self.stamina_max = int(res[10])
+        self.mana =int(res[11])
+        self.mana_max = int(res[11])
+        self.inventaire = json.loads(res[12])
+        self.armor = res[13]
+        self.argent = res[14]
 
     def bouger(self, dep):
         """S'assure que le personnage peut se déplacer et le déplace
@@ -154,11 +122,24 @@ class personnage:
         assert isinstance(dep, tuple), "Le déplacement n'est pas un tuple."
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
             "Les positions ne sont pas des entiers."
-
+        
         peut_se_depl = True
+
+        if not self.region_actu in self.server.carte.regions.keys():
+            raise UserWarning("Erreur !")
+        k = str(self.position["x"])+"_"+str(self.position["y"])
+        tp_case = self.server.carte.regions[self.region_actu].get_case()
+
+        if not tp_case in self.server.carte.terrains.keys():
+            raise UserWarning("Erreur !")
+
+        if not self.server.carte.terrains[tp_case]["peut_marcher"]:
+            peut_se_depl = False
+
         if peut_se_depl:
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
+            self.server.send_to_user(self.id_utilisateur, {"action": "position_perso", "x":self.position["x"], "y":self.position["y"]})
         else:
             pass
 
@@ -174,14 +155,13 @@ class personnage:
         """
         est_ramassable = True
         if est_ramassable:
-            self.inventaire.append(elt)
+            self.inventaire.append()
 
     def attaquer(self, touche):
         pass
 
     def interagir(self, touche):
-        if touche == "e" or touche == "E":
-            pass
+        pass
 
     def gagner_xp(self, xp):
         """Permet de donner de l'XP au personnage
@@ -221,20 +201,20 @@ class personnage:
             self.vie = self.vie_max
 
 
-if __name__ == "__main__":
-    print("début des tests")
-    p = personnage("Lance", "mage", "homme")
+# if __name__ == "__main__":
+#     print("début des tests")
+#     p = personnage("Lance", "mage", "homme")
 
-    p.bouger((25, 25))
-    pos = p.emplacement()
-    assert pos["x"] == 25 and pos["y"] == 25, "Les positions sont fausses"
-    p.bouger((25, 25))
+#     p.bouger((25, 25))
+#     pos = p.emplacement()
+#     assert pos["x"] == 25 and pos["y"] == 25, "Les positions sont fausses"
+#     p.bouger((25, 25))
 
-    pos = p.emplacement()
-    assert pos["x"] == 50 and pos["y"] == 50, "Positions fausses"
+#     pos = p.emplacement()
+#     assert pos["x"] == 50 and pos["y"] == 50, "Positions fausses"
 
-    p.modifier_vie(-10)
-    assert p.vie == 10, f"Vie fausse : {p.vie} au lieu de 10"
-    p.modifier_vie(20)
-    assert p.vie == 20, f"Vie fausse : {p.vie} au lieu de 20"
-    print("fin des tests")
+#     p.modifier_vie(-10)
+#     assert p.vie == 10, f"Vie fausse : {p.vie} au lieu de 10"
+#     p.modifier_vie(20)
+#     assert p.vie == 20, f"Vie fausse : {p.vie} au lieu de 20"
+#     print("fin des tests")

@@ -1,12 +1,17 @@
 body {
     background-color: rgb(182, 181, 192);
-    overflow: auto;
+    overflow: hidden;
 }
 
 
 /*
  * BASE
  */
+
+.full {
+    width: 100%;
+    height: 100%;
+}
 
 .row {
     display: flex;
@@ -18,78 +23,96 @@ body {
     flex-direction: column;
 }
 
+.column_end {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.row_center {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.row_around {
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+}
+
+.space_between {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-between;
+}
+
+.justify_spaces {
+    justify-content: space-between
+}
+
+.box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.center_h {
+    margin-left: 25%;
+    margin-right: 25;
+}
+
+.above_text {
+    position: relative;
+    left: -50%;
+}
+
 
 /*
  * DISPLAY
  */
 
-#div_row_1 {
-    width: 70%;
-}
-
-#div_view {
-    height: 85%;
-}
-
-#div_chat,
-#div_bag {
-    width: 95%;
-    height: auto;
-}
-
-#div_account {
-    height: 50%;
-    display: block;
-    margin: 5px;
-    overflow-y: auto;
+#viewport {
+    height: 100%;
+    width: 100%;
+    margin: 0;
 }
 
 #div_row_2 {}
 
-
-/*
- * CHAT
- */
-
-#div_chat {
-    display: block;
-    border: 1px solid black;
-    background-color: rgb(200, 200, 200);
-    margin: 5px;
-    padding: 5px;
+#ui,
+#viewport {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
-#chat_mess {
-    margin: 5px;
-    height: 80%;
-    border: 1px solid black;
-    background-color: rgb(230, 230, 230);
-    overflow-y: scroll;
-    word-wrap: normal;
-    display: flex;
-    flex-direction: column;
-}
-
-.cl_chat_system {
-    color: rgb(156, 66, 6);
-}
-
-.cl_chat_base {
-    color: rgb(0, 0, 0);
-}
-
-.cl_chat_you {
-    color: rgb(6, 109, 156);
+#ui {
+    z-index: 2;
 }
 
 
 /*
- *  PLAYER INFO
+ *
+ * PROGRESS BARS
+ *
  */
 
 progress {
     border: none;
     border-radius: 2px;
+    width: 300px;
+}
+
+#progress_vie,
+#progress_mana {
+    height: 20px;
+}
+
+#progress_exp {
+    height: 5px;
 }
 
 #progress_vie {
@@ -119,7 +142,6 @@ progress {
 #progress_exp {
     background-color: black;
     color: white;
-    height: 2px;
 }
 
 #progress_exp::-webkit-progress-value,
@@ -129,29 +151,14 @@ progress {
     background: rgb(238, 255, 0);
 }
 
-#image_profile {
-    width: 90%;
-    height: 90%;
-    margin: 5px;
-    padding: 5px;
-}
 
-.profile_picture {
-    background-color: white;
-    height: 100%;
-    border: 2px solid black;
-    border-radius: 50%;
-}
+/*
+ *
+ * BUTTONS COMP WEAPONS AMMO
+ *
+ */
 
-#pp_and_buttons {
-    margin-left: 10px;
-}
-
-#progress_div {
-    margin-top: 40px;
-}
-
-.button_ui_game_1 {
+.bt_1 {
     background-color: rgba(0, 0, 0, 0.2);
     background-size: 100% 100%;
     background-repeat: no-repeat;
@@ -160,65 +167,4 @@ progress {
     border: 1px solid black;
     border-radius: 3px;
     margin: 2px;
-}
-
-.button_ui_game_1:hover {
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 5px;
-}
-
-.button_ui_game_1:active {
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 7px;
-}
-
-#bag_button {
-    background-image: url("../imgs/game_ui/bag.png");
-}
-
-#pseudo_div {
-    text-align: center;
-    font-size: 1.1em;
-}
-
-
-/*
- *  BAG
- */
-
-.case_bag {
-    background-color: rgba(0, 0, 0, 0.2);
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    width: 40px;
-    height: 40px;
-    border: 1px solid black;
-    border-radius: 3px;
-    margin: 1px;
-}
-
-.case_bag:hover {
-    background-color: rgba(0, 0, 0, 0.3);
-    border-radius: 5px;
-}
-
-.case_bag:active {
-    background-color: rgba(0, 0, 0, 0.4);
-    border-radius: 7px;
-}
-
-#div_bag {
-    background-color: rgb(43, 25, 10);
-    border: 1px solid rgb(121, 104, 12);
-    padding: 2px;
-}
-
-
-/*
- *  VIEWPORT
- */
-
-#viewport {
-    border: 1px solid black;
-    background-color: white;
 }
