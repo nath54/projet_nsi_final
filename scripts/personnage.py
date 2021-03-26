@@ -163,7 +163,7 @@ class Personnage:
     def interagir(self, touche):
         pass
 
-    def gagner_xp(self, xp):
+    def gagner_xp(self, xp, niv_monstre):
         """Permet de donner de l'XP au personnage
 
         Parameters:
@@ -174,6 +174,8 @@ class Personnage:
               nécessaire pour le level_up)
 
         """
+        if niv_monstre < self.niveau :
+            self.xp = self.xp
         pass
 
     def level_up(self):
@@ -197,8 +199,6 @@ class Personnage:
             L = L + 100  ## Valeur de la limite pour augmenter de niveau à changer si besoin
             self.vie_max = self.vie_max + 50     ## Valeur de l'augmentation des stats à voir
             self.mana_max = self.mana_max + 50
-
-
 
     def modifier_vie(self, vie):
         """Modifie la vie du personnage et check s'il est mort
