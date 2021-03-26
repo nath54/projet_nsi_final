@@ -63,7 +63,7 @@ class ServeurWebsocket:
         Author : Nathan
         """
         self.debug("Client connected !", websocket)
-        self.USERS[websocket] = dict() # On va pouvoir stocker des informations
+        self.USERS[websocket] = {"id_utilisateur": None} # On va pouvoir stocker des informations
                                        # relatives au client websocket ici
 
     async def unregister(self,websocket):
@@ -127,6 +127,7 @@ class ServeurWebsocket:
         if "action" in data.keys():
             if data["action"] == "connection": # un exemple d'action possible
                 id_utilisateur = data["id_utilisateur"]
+                self.USERS[websocket]["id_utilisateur"] = id_utilisateur
                 # TODO : renvoyer que la connection s'est bien effectuée ou pas
                 self.server.load_perso(id_utilisateur)
             elif data["action"] == "deplacement": # un autre exemple d'action à gerer
