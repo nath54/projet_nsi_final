@@ -153,7 +153,7 @@ class ServeurWebsocket:
                 await self.send_infos_persos(websocket)
             elif data["action"] == "deplacement": # un autre exemple d'action à gerer
                 # TODO : mettre des verifs ici, ou dans la fonction qu'on appelle
-                self.server.bouger_perso(self.USERS[websocket]["id_utilisateur"], data["deplacement"])
+                await self.server.bouger_perso(self.USERS[websocket]["id_utilisateur"], data["deplacement"])
             elif data["action"] == "stats_persos": # un autre exemple d'action à gerer
                 await self.send_infos_persos(websocket)
         else:

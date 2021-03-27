@@ -110,7 +110,7 @@ class Personnage:
         self.position = {"x": int(res[14]), "y": int(res[15])}
         # TODO: faire que si un perso est deja sur la case, on le décale
 
-    def bouger(self, dep):
+    async def bouger(self, dep):
         """S'assure que le personnage peut se déplacer et le déplace
 
         Parameters:
@@ -139,7 +139,7 @@ class Personnage:
         if peut_se_depl:
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
-            self.server.send_to_user(self.id_utilisateur, {"action": "position_perso", "x":self.position["x"], "y":self.position["y"]})
+            await self.server.send_to_user(self.id_utilisateur, {"action": "position_perso", "x":self.position["x"], "y":self.position["y"]})
         else:
             pass
 

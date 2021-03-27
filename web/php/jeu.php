@@ -177,9 +177,9 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
                     <?php
                         $img_p = "../imgs/sprites/sprite_fixe_droit.png";
-                        echo "<g x=$px y=$py width=$tc height=$tc id=\"player\">";
+                        echo "<svg x=$px y=$py width=$tc height=$tc id=\"player\">";
                         echo "<image width=$tc height=$tc xlink:href=\"$img_p\"></image>";
-                        echo "</g>";
+                        echo "</svg>";
 
                     ?>
 

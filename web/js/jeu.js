@@ -25,9 +25,10 @@ var personnage = {
  */
 
 function aff() {
+    console.log(personnage);
     var p = document.getElementById("player");
-    p.setAttribute("x", personnage.x);
-    p.setAttribute("y", personnage.y);
+    p.setAttribute("x", personnage.x * p.getAttribute("width"));
+    p.setAttribute("y", personnage.y * p.getAttribute("height"));
     var v = document.getElementById("viewport");
     v.setAttribute("x", personnage.x - tx / 2);
     v.setAttribute("y", personnage.y - ty / 2);
