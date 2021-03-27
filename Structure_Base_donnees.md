@@ -8,11 +8,11 @@
  - `vie` _INT_ : vie actuelle du joueur
  - `stamina` _INT_ : Stamina actuelle du joueur
  - `mana` _INT_ : Mana actuelle du joueur
- - `armor` _INT_ : Armure du joueur 
+ - `armor` _INT_ : Armure du joueur
  - `classe` _TEXT_ : classe du joueur
  - `niveau` _INT_ : niveau du joueur
  - `argent` _INT_ : argent du joueur
- - `experience` _INT_ : expérience du joueur 
+ - `experience` _INT_ : expérience du joueur
  - `experience_tot` _INT_ : expérience a atteindre du joueur pour qu'il passe au niveau suivant
  - `competence` _TEXT_ : qualité du personnage
  - `quetes` _TEXT_ : les quetes réalisée par le joueur
@@ -173,11 +173,11 @@ CREATE TABLE classe (
 
 ## TABLE `terrain`:
  - `id_terrain` *INT PRIMARY KEY* : id du terrain
- - `nom` TEXT : nom du terrain
- - `peut_marcher` BOOLEAN : si on peut marcher sur la case
- - `image_` TEXT : image du terrain
- - `cultivable` BOOLEAN : si l'on peut cultiver dessus
- - `objet_dessus` BOOLEAN : si il y a un objet dessus
+ - `nom` _TEXT_ : nom du terrain
+ - `peut_marcher` _BOOLEAN_ : si on peut marcher sur la case
+ - `image_` _TEXT_ : image du terrain
+ - `cultivable` _BOOLEAN_ : si l'on peut cultiver dessus
+ - `objet_dessus` _BOOLEAN_ : si il y a un objet dessus
 
 ```sql
 CREATE TABLE terrain (
@@ -187,6 +187,21 @@ CREATE TABLE terrain (
 	     	peut_marcher BOOLEAN,
 		 	cultivable BOOLEAN,
 		 	objet_dessus BOOLEAN);
+```
+
+
+## TABLE `objets`:
+ - `id_objet` *INT PRIMARY KEY* : id du terrain
+ - `nom` _TEXT_ : nom du terrain
+ - `image_` _TEXT_ : image du terrain
+ - `collision` _BOOLEAN_ : S'il y a des collisions avec
+
+```sql
+CREATE TABLE objets (
+			id_objet INT PRIMARY KEY,
+		 	nom  TEXT,
+		 	image_ TEXT,
+		 	collision BOOLEAN);
 ```
 
 ## TABLE `regions`
@@ -213,24 +228,46 @@ CREATE TABLE regions(
 ```
 
 ## TABLE `regions_terrains`
-- `id_regions_terrains` *INT PRIMARY KEY AUTO_INCREMENT* : id de la case de la region
 - `id_region` _INT_ : id de la region
-- `x` _INT_
-- `y` _INT_
+- `x` _INT NOT NULL_ : clé composée x_y
+- `y` _INT NOT NULL_ : clé composée x_y
 - `id_terrain` _INT DEFAULT 0_ :
 
 ```sql
 CREATE TABLE regions_terrains(
-	id_regions_terrains INT PRIMARY KEY AUTO_INCREMENT,
+	x INT NOT NULL,
+	y INT NOT NULL,
 	id_region INT,
-	x INT,
-	y INT,
-	id_terrain INT DEFAULT 0
+	id_terrain INT DEFAULT 0,
+	CONSTRAINT comp_key_x_y PRIMARY KEY (x,y)
+);
+```
+
+
+## TABLE `regions_objets`
+- `id_region` _INT_ : id de la region
+- `x` _INT NOT NULL_ : clé composée x_y
+- `y` _INT NOT NULL_ : clé composée x_y
+- `id_objet` _INT DEFAULT 0_ :
+- `z_index` _INT DEFAULT 1_ :
+
+`Le terrain sera en z_index 0`
+`Les objets de base seront en z_index 1`
+`Les persos et les ennemis seront en z_index 2`
+`Les objets au dessus du perso seront en z_index 3 (exemple : buisson)`
+
+```sql
+CREATE TABLE regions_objets(
+	x INT NOT NULL,
+	y INT NOT NULL,
+	id_region INT,
+	id_objet INT DEFAULT 0,
+	CONSTRAINT comp_key_x_y PRIMARY KEY (x,y)
 );
 ```
 
 ```sql
--- A laisser, sinon, il manquera la derniere partie sql
+-- A laisser, sinon, il manquera la derniere partie sql pour le programme python
 ```
 
 

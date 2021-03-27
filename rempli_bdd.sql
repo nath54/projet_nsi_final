@@ -67,7 +67,7 @@ INSERT INTO terrain SET
     id_terrain = 8,
     image_="eau.png",
     nom="eau",
-    peut_marcher=1,
+    peut_marcher=0,
 	cultivable=0,
 	objet_dessus=1;
 
@@ -78,3 +78,44 @@ INSERT INTO terrain SET
     peut_marcher=1,
 	cultivable=0,
 	objet_dessus=1;
+
+INSERT INTO terrain SET
+    id_terrain = 10,
+    image_="sol_pierre_O.png",
+    nom="sol pierre 0",
+    peut_marcher=1,
+	cultivable=0,
+	objet_dessus=1;
+
+INSERT INTO terrain SET
+    id_terrain = 11,
+    image_="sol_pierre_1.png",
+    nom="sol pierre 1",
+    peut_marcher=1,
+	cultivable=0,
+	objet_dessus=1;
+
+INSERT INTO terrain SET
+    id_terrain = 12,
+    image_="sol_pierre_2.png",
+    nom="sol pierre 2",
+    peut_marcher=1,
+	cultivable=0,
+	objet_dessus=1;
+
+
+-- OBJETS :
+
+INSERT INTO objets SET
+    id_objet = 1,
+    nom = "arbre_1",
+    image_ = "arbre_1.png",
+    collision = 1;
+
+
+INSERT INTO objets SET
+    id_objet = 2,
+    nom = "buisson_1",
+    image_ = "buisson_1.png",
+    collision = 1;
+

@@ -25,11 +25,14 @@ foreach(requete_prep($db, "SELECT * FROM regions") as $i=>$data){
 }
 
 $region_selected = "";
+$id_region = 0;
 if(isset($_POST["region_selected"])){
     if(in_array($_POST["region_selected"], array_keys($liste_regions))){
         $region_selected = $_POST["region_selected"];
+        $id_region = $liste_regions[$region_selected];
     }
 }
+
 
 if(isset($_POST["delete_region"])){
     if(in_array($_POST["delete_region"], array_keys($liste_regions))){
@@ -69,11 +72,14 @@ $cases_terrains = array();
 
 if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])){
     $nom_region = $_POST["save_terrain"];
+    $region_selected = $nom_region;
+    $id_region = $liste_regions[$region_selected];
     $datas = json_decode($_POST["data_terrain"], true);
+    alert($id_region);
     // echo $_POST["data_terrain"];
     // On nettoie
-    $query = "DELETE FROM regions_terrains WHERE id_terrain=:idr";
-    $vars = array(":idr"=>$liste_regions[$nom_region]);
+    $query = "DELETE FROM regions_terrains WHERE id_region=:idr";
+    $vars = array(":idr"=>$id_region);
     if(!action_prep($db, $query, $vars)){
         console.log("probleme suppression");
     }
@@ -83,10 +89,9 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])){
         // echo $data["x"].", ".$data["y"]." : ".$data["tile"]." - ";
         $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":tile"=>$data["tile"], ":idr"=>$liste_regions[$nom_region]);
         if(!action_prep($db, $query, $vars)){
-            console.log("probleme insertion");
+            clog("probleme insertion");
         }
     }
-    $region_selected = $nom_region;
 }
 
 

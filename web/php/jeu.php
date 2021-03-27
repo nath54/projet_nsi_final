@@ -32,7 +32,7 @@ $nom_region = $infos_region["nom"];
 
 // On charge les données du terrain :
 $cases_terrains = array();
-$res = requete_prep($db, "SELECT x, y, id_terrain FROM regions_terrains;");
+$res = requete_prep($db, "SELECT x, y, id_terrain FROM regions_terrains WHERE id_region=:idr;", array(":idr"=>$id_region));
 if($res==NULL){
     echo("Le terrain n'a pas pu charger");
     die();
@@ -171,7 +171,8 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                             $x = $data["x"] * $tc;
                             $y = $data["y"] * $tc;
                             $img = $terrains[$data["id_terrain"]]["img"];
-                            echo "<image x=$x y=$y width=$tc height=$tc xlink:href=\"../../imgs/tuiles/$img\" class=\"case\"></image>";
+                            $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
+                            echo "<image x=$x y=$y width=$ct height=$ct xlink:href=\"../../imgs/tuiles/$img\" class=\"case\"></image>";
                         }
                     ?>
 

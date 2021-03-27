@@ -10,7 +10,7 @@ CREATE TABLE utilisateurs (
  armor INT,
  classe TEXT,
  niveau INT,
- argent INT
+ argent INT,
  experience INT,
  experience_tot INT,
  competence TEXT,
@@ -82,6 +82,13 @@ CREATE TABLE terrain (
 		 	objet_dessus BOOLEAN);
 
 
+CREATE TABLE objets (
+			id_objet INT PRIMARY KEY,
+		 	nom  TEXT,
+		 	image_ TEXT,
+		 	collision BOOLEAN);
+
+
 CREATE TABLE regions(
 	id_region INT PRIMARY KEY AUTO_INCREMENT,
 	nom TEXT,
@@ -95,10 +102,19 @@ CREATE TABLE regions(
 
 
 CREATE TABLE regions_terrains(
-	id_regions_terrains INT PRIMARY KEY AUTO_INCREMENT,
+	x INT NOT NULL,
+	y INT NOT NULL,
 	id_region INT,
-	x INT,
-	y INT,
-	id_terrain INT DEFAULT 0
+	id_terrain INT DEFAULT 0,
+	CONSTRAINT comp_key_x_y PRIMARY KEY (x,y)
+);
+
+
+CREATE TABLE regions_objets(
+	x INT NOT NULL,
+	y INT NOT NULL,
+	id_region INT,
+	id_objet INT DEFAULT 0,
+	CONSTRAINT comp_key_x_y PRIMARY KEY (x,y)
 );
 
