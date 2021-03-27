@@ -141,3 +141,23 @@ INSERT INTO objets SET
     collision = 0;
 
 
+-- Perso de test :
+
+INSERT INTO utilisateurs SET 
+ pseudo = "toto",
+ mdp = MD5("toto"),
+ sexe = 1,
+ vie = 240,
+ stamina 120,
+ mana 234,
+ armor 0,
+ classe "chevalier",
+ niveau 1,
+ argent 54,
+ experience 23,
+ experience_tot 123,
+ competence "",
+ quetes "",
+ region_actu 1,
+ position_x 3,
+ position_y 3;
