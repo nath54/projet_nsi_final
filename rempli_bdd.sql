@@ -119,3 +119,25 @@ INSERT INTO objets SET
     image_ = "buisson_1.png",
     collision = 1;
 
+
+INSERT INTO objets SET
+    id_objet = 3,
+    nom = "mur_1",
+    image_ = "mur_1.png",
+    collision = 1;
+
+
+INSERT INTO objets SET
+    id_objet = 4,
+    nom = "porte_prison_fermee",
+    image_ = "porte_prison_fermee.png",
+    collision = 1;
+
+
+INSERT INTO objets SET
+    id_objet = 5,
+    nom = "porte_prison_ouverte",
+    image_ = "porte_prison_ouverte.png",
+    collision = 0;
+
+
