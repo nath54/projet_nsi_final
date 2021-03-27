@@ -64,8 +64,8 @@ foreach($r as $i=>$data){
 // $tx = 1280; // La taille horizontale du viewport
 // $ty = 640; // La taille verticale du viewport
 $tc = 64; // tc pour taille cases
-$tx = 23 * $tc;
-$ty = 11 * $tc;
+$tx = 18 * $tc;
+$ty = 10 * $tc;
 // Il y aura donc une grille de 10x5 affichée à l'écran
 $px = $infos_players["position_x"] * $tc;
 $py = $infos_players["position_y"] * $tc;

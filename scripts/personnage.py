@@ -123,12 +123,13 @@ class Personnage:
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
             "Les positions ne sont pas des entiers."
 
+        npx, npy = self.position["x"]+dep[0], self.position["y"]+dep[1]
         peut_se_depl = True
 
         if self.region_actu not in self.server.carte.regions.keys():
             raise UserWarning("Erreur ! Région inconnue")
-        k = str(self.position["x"])+"_"+str(self.position["y"])
-        tp_case = self.server.carte.regions[self.region_actu].get_case(self.position["x"],self.position["y"])
+        k = str(npx)+"_"+str(npy)
+        tp_case = self.server.carte.regions[self.region_actu].get_case(npx,npy)
 
         if tp_case not in self.server.carte.terrains.keys():
             raise UserWarning("Erreur !")

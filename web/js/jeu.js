@@ -27,13 +27,16 @@ var personnage = {
 function aff() {
     console.log(personnage);
     var p = document.getElementById("player");
-    p.setAttribute("x", personnage.x * p.getAttribute("width"));
-    p.setAttribute("y", personnage.y * p.getAttribute("height"));
+    var px = personnage.x * p.getAttribute("width");
+    var py = personnage.y * p.getAttribute("height");
+    p.setAttribute("x", px);
+    p.setAttribute("y", py);
     var v = document.getElementById("viewport");
-    v.setAttribute("x", personnage.x - tx / 2);
-    v.setAttribute("y", personnage.y - ty / 2);
-    v.setAttribute("width", tx);
-    v.setAttribute("height", ty);
+    // avb = v.getAttribute("viewBox");
+    // var b = avb.split(" ");
+    // avtx = int(b[2]);
+    // avty = int(b[3]);
+    v.setAttribute("viewBox", "" + (px - tx / 2) + " " + (py - ty / 2) + " " + tx + " " + ty);
 }
 
 /**
