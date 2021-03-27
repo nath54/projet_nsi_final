@@ -1,9 +1,9 @@
 
 
-from exp import Exp
+from exp import *
 
-from sum_ import Sum
-from mul import Mul
-from div import Div
+from sum_ import *
+from mul import *
+from div import *
 
 

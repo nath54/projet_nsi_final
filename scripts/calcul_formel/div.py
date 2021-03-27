@@ -1,15 +1,17 @@
-from mul import Mul
-from sum_ import Sum
-from exp import Exp
+
 
 class Div:
-    def __init__(self, a, b):
-        self.a = a
-        self.b = b
+    def __init__(self, *args):
+        self.components = args
+        assert len(self.components)>=2, "Il n'y a pas assez de nombres à diviser !"
     
     def value(self):
-        if type(self.a.value()) in [int, float] and type(self.b.value()) in [int, float]:
-            return Exp(self.a.value()/self.b.value())
+        if all([type(c) in [int, float] for c in self.components]):
+            r = self.components[0]
+            # TODO: Il faudra s'arreter de diviser comme ca si on a un nombre irrationnel
+            for c in self.components[1:]:
+                r/=c
+            return Exp(r)
         else:
             return Exp(Div(self.a, self.b))
 

@@ -1,6 +1,3 @@
-from mul import Mul
-from div import Div
-from sum_ import Sum
 
 class Exp:
     def __init__(self, *components):
