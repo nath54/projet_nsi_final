@@ -10,10 +10,21 @@ class Sum:
             r = sum(self.components)
             return Exp(r)
         else:
-            return Exp(*[Sum(c) for c in self.components])
+            a = self.components[0]
+            for b in self.components[1:]:
+                a = Sum(a, b)
+            return Exp(a)
 
     def __str__(self):
-        return self.a.__str__() + " + " + self.b.__str__()
+        a = self.components[0]
+        if not type(a.value()) in [int, float, str]:
+            aa = "(" + str(a) + ")"
+        for b in self.components[:1]:
+            if not type(b.value()) in [int, float, str]:
+                aa += " + (" + str(b) + ")"
+            else:
+                aa += " + " + str(b)
+        return aa
 
 #endregion
 
@@ -21,25 +32,32 @@ class Sum:
 #region multiplication
 
 class Mul:
-    def __init__(self, a, b):
-        self.a = a
-        self.b = b
+    def __init__(self, *args):
+        self.components = args
 
     def value(self):
-        if type(self.a.value()) in [int, float] and type(self.b.value()) in [int, float]:
-            return Exp(self.a.value()*self.b.value())
+        if all([type(c) in [int, float] for c in self.components]):
+            r = self.components[0]
+            # TODO: Il faudra s'arreter de diviser comme ca si on a un nombre irrationnel
+            for c in self.components[1:]:
+                r*=c
+            return Exp(r)
         else:
-            return Exp(Mul(self.a, self.b))
+            a = self.components[0]
+            for b in self.components[1:]:
+                a = Mul(a, b)
+            return Exp(a)
 
     def __str__(self):
-        aa = self.a.__str__()
-        bb = self.b.__str__()
-        if not type(self.a.value()) in [int, float, str]:
-            aa = "(" + aa + ")"
-
-        if not type(self.b.value()) in [int, float, str]:
-            bb = "(" + bb + ")"
-        return aa + " * " + bb
+        a = self.components[0]
+        if not type(a.value()) in [int, float, str]:
+            aa = "(" + str(a) + ")"
+        for b in self.components[:1]:
+            if not type(b.value()) in [int, float, str]:
+                aa += " * (" + str(b) + ")"
+            else:
+                aa += " * " + str(b)
+        return aa
 
 #endregion
 
@@ -59,17 +77,21 @@ class Div:
                 r/=c
             return Exp(r)
         else:
-            return Exp(Div(self.a, self.b))
+            a = self.components[0]
+            for b in self.components[1:]:
+                a = Div(a, b)
+            return Exp(a)
 
     def __str__(self):
-        aa = self.a.__str__()
-        bb = self.b.__str__()
-        if not type(self.a.value()) in [int, float, str]:
-            aa = "(" + aa + ")"
-
-        if not type(self.b.value()) in [int, float, str]:
-            bb = "(" + bb + ")"
-        return aa + " / " + bb
+        a = self.components[0]
+        if not type(a.value()) in [int, float, str]:
+            aa = "(" + str(a) + ")"
+        for b in self.components[:1]:
+            if not type(b.value()) in [int, float, str]:
+                aa += " / (" + str(b) + ")"
+            else:
+                aa += " / " + str(b)
+        return aa
 
 #endregion
 
@@ -118,5 +140,19 @@ class Exp:
 
     def __eq__(self, other):
         return str(self)==str(other)
+
+#endregion
+
+#region tests :
+
+def tests():
+    a = Exp(5)
+    b = Exp("a")
+    d = Exp(1)
+    c = a + b +d
+    print(c)
+
+if __name__ == "__main__":
+    tests()
 
 #endregion
