@@ -189,34 +189,40 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                     <!-- On va construire la map -->
 
                     <!-- Les terrains(sols) -->
-                    <?php
-                        foreach($cases_terrains as $i=>$data){
-                            $x = $data["x"] * $tc;
-                            $y = $data["y"] * $tc;
-                            $img = $terrains[$data["id_terrain"]]["img"];
-                            $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
-                            echo "<image z-index=1 x=$x y=$y width=$ct height=$ct xlink:href=\"../../imgs/tuiles/$img\" class=\"case\"></image>";
-                        }
-                    ?>
+                    <g>
+                        <?php
+                            foreach($cases_terrains as $i=>$data){
+                                $x = $data["x"] * $tc;
+                                $y = $data["y"] * $tc;
+                                $img = $terrains[$data["id_terrain"]]["img"];
+                                $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
+                                echo "<image z-index=\"1\" x=$x y=$y width=$ct height=$ct xlink:href=\"../../imgs/tuiles/$img\" class=\"case\"></image>";
+                            }
+                        ?>
+                    </g>
 
-                    <!-- Les objets -->
+                    <!-- Les objets de z-index 2 -->
 
-                    <?php
-                        foreach($cases_objets as $i=>$data){
-                            $x = $data["x"] * $tc;
-                            $y = $data["y"] * $tc;
-                            $img = $objets[$data["id_objet"]]["img"];
-                            $zindex = $objets[$data["id_objet"]]["z_index"];
-                            $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
-                            echo "<image z-index=$zindex x=$x y=$y width=$ct height=$ct xlink:href=\"../../imgs/objets/$img\" class=\"case\"></image>";
-                        }
-                    ?>
+                    <g>
+                        <?php
+                            foreach($cases_objets as $i=>$data){
+                                $x = $data["x"] * $tc;
+                                $y = $data["y"] * $tc;
+                                $img = $objets[$data["id_objet"]]["img"];
+                                $zindex = $objets[$data["id_objet"]]["z_index"];
+                                $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
+                                if($zindex==1){
+                                    echo "<image x=$x y=$y width=$ct height=$ct xlink:href=\"../../imgs/objets/$img\" class=\"case\"></image>";
+                                }
+                            }
+                        ?>
+                    </g>
 
                     <!-- Le perso -->
 
                     <?php
                         $img_p = "../imgs/sprites/sprite_fixe_droit.png";
-                        echo "<svg z-index=2 x=$px y=$py width=$tc height=$tc id=\"player\">";
+                        echo "<svg z-index=\"2\" x=$px y=$py width=$tc height=$tc id=\"player\">";
                         echo "<image width=$tc height=$tc xlink:href=\"$img_p\"></image>";
                         echo "</svg>";
 
@@ -227,6 +233,23 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                     <?php
 
                     ?>
+
+                    <!-- Les objets de z-index 4 -->
+
+                    <g>
+                        <?php
+                            foreach($cases_objets as $i=>$data){
+                                $x = $data["x"] * $tc;
+                                $y = $data["y"] * $tc;
+                                $img = $objets[$data["id_objet"]]["img"];
+                                $zindex = $objets[$data["id_objet"]]["z_index"];
+                                $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
+                                if($zindex==3){
+                                    echo "<image x=$x y=$y width=$ct height=$ct xlink:href=\"../../imgs/objets/$img\" class=\"case\"></image>";
+                                }
+                            }
+                        ?>
+                    </g>
 
                 </svg>
 
