@@ -115,6 +115,9 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST
     }
     // On remplace
     foreach($datas as $i=>$data){
+        if($data["tile"]==NULL || $data["tile"]==0){
+            continue;
+        }
         $query = "INSERT INTO regions_terrains SET x=:x, y=:y, id_terrain=:tile, id_region=:idr";
         // echo $data["x"].", ".$data["y"]." : ".$data["tile"]." - ";
         $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":tile"=>$data["tile"], ":idr"=>$liste_regions[$nom_region]);
@@ -123,6 +126,9 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST
         }
     }
     foreach($datas_o as $i=>$data){
+        if($data["id_objet"]==NULL || $data["id_objet"]==0){
+            continue;
+        }
         $query = "INSERT INTO regions_objets SET x=:x, y=:y, id_objet=:id_objet, id_region=:idr";
         // echo $data["x"].", ".$data["y"]." : ".$data["tile"]." - ";
         $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":id_objet"=>$data["id_objet"], ":idr"=>$liste_regions[$nom_region]);
@@ -266,7 +272,7 @@ else{
                             $idd = "$x-$y";
                             $src="";
                             if(isset($cases_objets[$idd])){
-                                $img = $terrains[$cases_objets[$idd]["tile"]]["img"];
+                                $img = $objets[$cases_objets[$idd]["id_objet"]]["img"];
                                 $src="../imgs/objets/$img";
                             }
                             echo "<image z_index=0 id=\"o_$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$tc\" height=\"$tc\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
@@ -324,6 +330,7 @@ else{
                                 $img = $data["img"];
                                 $nom = $data["nom"];
                                 $sel = "";
+                                $ido = $data["id_objet"];
                                 echo "<div id=\"liste_obj_$i\" class=\"liste_element $sel\" onclick=\"select_objets($i);\"><img class=\"img_liste_element\" src=\"../imgs/objets/$img\" /><label>$nom</label></div>";
                             }
 
@@ -434,7 +441,7 @@ function change_case(x, y){
             var i = document.getElementById(""+x+"-"+y);
             i.setAttribute("xlink:href","../imgs/tuiles/"+terrains[tile_selected]["img"]);
         }else if(tp_selected=="objets"){
-            cases_objets[i] = {"x":cx, "y":cy, "tile":tile_selected};
+            cases_objets[i] = {"x":cx, "y":cy, "id_objet":tile_selected};
             var i = document.getElementById("o_"+x+"-"+y);
             i.setAttribute("xlink:href","../imgs/objets/"+objets[tile_selected]["img"]);
         }

@@ -42,7 +42,7 @@ foreach($res as $i=>$data){
 }
 // On charge les données du terrain :
 $cases_objets = array();
-$res = requete_prep($db, "SELECT x, y, id_terrain FROM regions_objets WHERE id_region=:idr;", array(":idr"=>$id_region));
+$res = requete_prep($db, "SELECT x, y, id_objet FROM regions_objets WHERE id_region=:idr;", array(":idr"=>$id_region));
 if($res==NULL){
     echo("L'obket n'a pas pu charger");
     die();
@@ -195,7 +195,7 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                             $y = $data["y"] * $tc;
                             $img = $terrains[$data["id_terrain"]]["img"];
                             $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
-                            echo "<image z_index=1 x=$x y=$y width=$ct height=$ct xlink:href=\"../../imgs/tuiles/$img\" class=\"case\"></image>";
+                            echo "<image z-index=1 x=$x y=$y width=$ct height=$ct xlink:href=\"../../imgs/tuiles/$img\" class=\"case\"></image>";
                         }
                     ?>
 
@@ -208,7 +208,7 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                             $img = $objets[$data["id_objet"]]["img"];
                             $zindex = $objets[$data["id_objet"]]["z_index"];
                             $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
-                            echo "<image z_index=1 x=$x y=$y width=$ct height=$ct xlink:href=\"../../imgs/objets/$img\" class=\"case\"></image>";
+                            echo "<image z-index=$zindex x=$x y=$y width=$ct height=$ct xlink:href=\"../../imgs/objets/$img\" class=\"case\"></image>";
                         }
                     ?>
 
@@ -216,7 +216,7 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
                     <?php
                         $img_p = "../imgs/sprites/sprite_fixe_droit.png";
-                        echo "<svg z_index=2 x=$px y=$py width=$tc height=$tc id=\"player\">";
+                        echo "<svg z-index=2 x=$px y=$py width=$tc height=$tc id=\"player\">";
                         echo "<image width=$tc height=$tc xlink:href=\"$img_p\"></image>";
                         echo "</svg>";
 
