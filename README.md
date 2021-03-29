@@ -5,10 +5,10 @@
 1. Cloner le [repository GitHub](git@github.com:nath54/projet_nsi_final)
 2. Exécuter le code suivant dans un terminal SQL :
 ```SQL
-CREATE DATABASE 'projetclasse';
-CREATE USER 'projetclasse'@'%' IDENTIFIED BY 'proj#17CLASSE';
-GRANT ALL PRIVILEGES ON 'projetclasse'.* TO 'projetclasse'@'%';
-USE DATABASE 'projetclasse';
+CREATE DATABASE `projetclasse`;
+CREATE USER `projetclasse`@`%` IDENTIFIED BY 'proj#17CLASSE';
+GRANT ALL PRIVILEGES ON `projetclasse`.* TO `projetclasse`@`%`;
+USE `projetclasse`;
 ```
 3. Ensuite, exécutez `/Structure_Base_donnees.sql`, dans votre terminal SQL dans la base de données `projetclasse`.
 4. Exécutez `/rempli_bdd.sql`, dans votre terminal SQL dans la base de données `projetclasse`.
