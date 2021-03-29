@@ -21,8 +21,8 @@ class Sum:
     def value(self):
         """Simplifie la valeur de la somme."""
         # Si tous les nombres sont des int ou float, on les simplifie.
-        if all([type(c) in [int, float] for c in self.components]):
-            r = sum(self.components)
+        if all([type(c.value()) in [int, float] for c in self.components]):
+            r = sum(terme.value() for terme in self.components)
             return Expr(r)
         else:
             # Permet de simplifier au maximum une somme
@@ -45,8 +45,10 @@ def test_somme():
     a = Expr(5)
     b = Expr("a")
     d = Expr(1)
+    e = a + d
     c = a + b + d
     print(c)
+    print(e)
 #endregion
 
 
@@ -161,14 +163,10 @@ class Expr:
 
 #region tests :
 
-def tests():
-    a = Expr(5)
-    b = Expr("a")
-    d = Expr(1)
-    c = a + b + d
-    print(c)
 
 if __name__ == "__main__":
-    tests()
+    print("Début des tests : Somme")
+    test_somme()
+    print("Fin des tests : Somme")
 
 #endregion

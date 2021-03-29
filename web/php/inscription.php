@@ -11,7 +11,10 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
 	{
 		$erreur = 'Une des variables est vide.';
 	}
-	elseif( ! $_POST['sexe'] in_array(['Homme','Femme','Autre'])){
+	elseif( ! in_array($_POST['sexe'], ['Homme','Femme','Autre'])){
+		$erreur = 'Ce sexe n\'est pas valide.';
+	}
+	elseif( ! in_array($_POST['classe'], ['Chevalier','Chasseur','Sorcier'])){
 		$erreur = 'Ce sexe n\'est pas valide.';
 	}
 	// Sinon, on teste le mot de passe et la confirmation du mot de passe
