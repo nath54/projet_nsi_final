@@ -260,7 +260,8 @@ else{
                                 $img = $terrains[$cases_terrains[$idd]["tile"]]["img"];
                                 $src="../imgs/tuiles/$img";
                             }
-                            echo "<image z_index=0 id=\"$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$tc\" height=\"$tc\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
+                            $ct = $tc+0.15;
+                            echo "<image z_index=0 id=\"$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$ct\" height=\"$ct\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
                         }
                     }
                     // objets
@@ -274,7 +275,7 @@ else{
                                 $img = $objets[$cases_objets[$idd]["id_objet"]]["img"];
                                 $src="../imgs/objets/$img";
                             }
-                            $ct = $tc+1;
+                            $ct = $tc+0.15;
                             echo "<image z_index=0 id=\"o_$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$ct\" height=\"$ct\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
                         }
                     }

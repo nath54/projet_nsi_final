@@ -104,6 +104,25 @@ INSERT INTO terrain SET
 	objet_dessus=1;
 
 
+
+INSERT INTO terrain SET
+    id_terrain = 13,
+    image_="lava_1.png",
+    nom="sol pierre 2",
+    peut_marcher=0,
+	cultivable=0,
+	objet_dessus=1;
+
+
+INSERT INTO terrain SET
+    id_terrain = 14,
+    image_="obsidienne.jpg",
+    nom="obsidienne",
+    peut_marcher=1,
+	cultivable=0,
+	objet_dessus=1;
+
+
 -- OBJETS :
 
 INSERT INTO objets SET
