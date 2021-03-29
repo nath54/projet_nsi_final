@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(182, 181, 192);
+    background-color: rgb(0, 0, 2);
     overflow: hidden;
 }
 
@@ -102,7 +102,7 @@ body {
 
 progress {
     border: none;
-    border-radius: 2px;
+    border-top: 1px solid white;
     width: 300px;
 }
 
@@ -113,6 +113,7 @@ progress {
 
 #progress_exp {
     height: 5px;
+    width: 100%;
 }
 
 #progress_vie {

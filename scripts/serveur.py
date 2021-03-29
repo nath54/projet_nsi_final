@@ -20,28 +20,27 @@ class Serveur:
 
     ############### WEBSOCKET ###############
 
-    def send_to_user(self, id_utilisateur, message):
+    async def send_to_user(self, id_utilisateur, message):
         ws_u = None
-        for ws, id_u in self.serveurWebsocket.USERS.items():
-            if id_u == id_utilisateur:
+        print(id_utilisateur, self.serveurWebsocket.USERS.items())
+        for ws, data in self.serveurWebsocket.USERS.items():
+            if data["id_utilisateur"] == id_utilisateur:
                 ws_u = ws
                 break
         if ws_u is None:
             raise UserWarning("ERREUR !")
-        self.serveurWebsocket.send(ws_u, message)
+        await self.serveurWebsocket.send(ws_u, message)
 
 
     ###############  PERSONNAGES ###############
 
     def load_perso(self, id_utilisateur):
-        print("LOAD PERSO ", id_utilisateur)
-        res = self.db.requete_db("SELECT * FROM utilisateurs WHERE id=?", (id_utilisateur,))
-        print(res)
+        # res = self.db.requete_db("SELECT * FROM utilisateurs WHERE id_utilisateur=?", (id_utilisateur,))
         perso = Personnage(self, id_utilisateur)
         self.personnages[id_utilisateur] = perso
 
-    def bouger_perso(self, id_utilisateur, deplacement):
-        self.personnages[id_utilisateur].bouger(deplacement)
+    async def bouger_perso(self, id_utilisateur, deplacement):
+        await self.personnages[id_utilisateur].bouger(deplacement)
 
 
 

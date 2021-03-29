@@ -1,16 +1,23 @@
 
 CREATE TABLE utilisateurs (
-			id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
-	    	pseudo TEXT,
-		   	mdp TEXT,
-		   	vie_max INT,
-		   	classe TEXT,
-		   	niveau INT,
-		   	experience INT,
-		   	competence TEXT,
-		   	quetes TEXT,
-		   	id_quete INT,
-		   	complete BOOLEAN);
+ id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
+ pseudo TEXT,
+ mdp TEXT,
+ sexe TEXT,
+ vie INT,
+ stamina INT,
+ mana INT,
+ armor INT,
+ classe TEXT,
+ niveau INT,
+ argent INT,
+ experience INT,
+ experience_tot INT,
+ competence TEXT,
+ quetes TEXT,
+ region_actu INT DEFAULT 1,
+ position_x INT,
+ position_y INT);
 
 
 CREATE TABLE objet (
@@ -67,12 +74,20 @@ CREATE TABLE classe (
 
 
 CREATE TABLE terrain (
-			id_terrain INT PRIMARY KEY AUTO_INCREMENT,
+			id_terrain INT PRIMARY KEY,
 		 	image_ TEXT,
 		 	nom  TEXT,
 	     	peut_marcher BOOLEAN,
 		 	cultivable BOOLEAN,
 		 	objet_dessus BOOLEAN);
+
+
+CREATE TABLE objets (
+			id_objet INT PRIMARY KEY,
+		 	nom  TEXT,
+		 	image_ TEXT,
+			z_index INT,
+		 	collision BOOLEAN);
 
 
 CREATE TABLE regions(
@@ -88,10 +103,19 @@ CREATE TABLE regions(
 
 
 CREATE TABLE regions_terrains(
-	id_regions_terrains INT PRIMARY KEY AUTO_INCREMENT,
+	x INT NOT NULL,
+	y INT NOT NULL,
 	id_region INT,
-	x INT,
-	y INT,
-	id_terrain INT DEFAULT 0
+	id_terrain INT DEFAULT 0,
+	CONSTRAINT comp_key_x_y PRIMARY KEY (x,y)
+);
+
+
+CREATE TABLE regions_objets(
+	x INT NOT NULL,
+	y INT NOT NULL,
+	id_region INT,
+	id_objet INT DEFAULT 0,
+	CONSTRAINT comp_key_x_y PRIMARY KEY (x,y)
 );
 

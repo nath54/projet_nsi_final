@@ -25,11 +25,18 @@ var personnage = {
  */
 
 function aff() {
-    var p = document.getElementById("perso");
-    p.setAttribute("x", personnage.x);
-    p.setAttribute("y", personnage.y);
+    console.log(personnage);
+    var p = document.getElementById("player");
+    var px = personnage.x * p.getAttribute("width");
+    var py = personnage.y * p.getAttribute("height");
+    p.setAttribute("x", px);
+    p.setAttribute("y", py);
     var v = document.getElementById("viewport");
-    v.setAttribute("x", )
+    // avb = v.getAttribute("viewBox");
+    // var b = avb.split(" ");
+    // avtx = int(b[2]);
+    // avty = int(b[3]);
+    v.setAttribute("viewBox", "" + (px - tx / 2) + " " + (py - ty / 2) + " " + tx + " " + ty);
 }
 
 /**
