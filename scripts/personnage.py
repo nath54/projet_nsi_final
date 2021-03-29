@@ -140,7 +140,7 @@ class Personnage:
 
         if self.server.carte.objets[tp_objet]["collision"]: ## Si une case est occupée par un arbre ou autre,
             peut_se_depl = False                                  ## alors le déplacement est impossible
-        
+
         if not self.server.carte.terrains[tp_case]["peut_marcher"]: ## Si une case est occupée par un arbre ou autre,
             peut_se_depl = False
 

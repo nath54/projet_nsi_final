@@ -30,9 +30,8 @@ if($r==NULL){
 foreach($r as $i=>$data){
     $nom = $data["nom"];
     $img = $data["image_"];
-    $objets[$data["id_objet"]] = array("nom"=>$nom, "img"=>$img, "z_index"=>$data["z_index"]);
+    $objets[$data["id_objet"]] = array("id_objet"=>$data["id_objet"], "nom"=>$nom, "img"=>$img, "z_index"=>$data["z_index"]);
 }
-
 
 //
 
@@ -330,7 +329,7 @@ else{
                                 $img = $data["img"];
                                 $nom = $data["nom"];
                                 $sel = "";
-                                $ido = $data["id_objet"];
+                                // $ido = $data["id_objet"];
                                 echo "<div id=\"liste_obj_$i\" class=\"liste_element $sel\" onclick=\"select_objets($i);\"><img class=\"img_liste_element\" src=\"../imgs/objets/$img\" /><label>$nom</label></div>";
                             }
 
@@ -427,11 +426,15 @@ function change_case(x, y){
         if(tp_selected=="terrains"){
             if(Object.keys(cases_terrains).includes(i)){
                 delete cases_terrains[i];
+                var e = document.getElementById(""+x+"-"+y);
+                e.setAttribute("xlink:href","../imgs/tuiles/vide.png");
             }
         }
         else if(tp_selected=="objets"){
             if(Object.keys(cases_objets).includes(i)){
                 delete cases_objets[i];
+                var e = document.getElementById("o_"+x+"-"+y);
+                e.setAttribute("xlink:href","../imgs/objets/rien.png");
             }
         }
     }
@@ -439,11 +442,11 @@ function change_case(x, y){
         if(tp_selected=="terrains"){
             cases_terrains[i] = {"x":cx, "y":cy, "tile":tile_selected};
             var i = document.getElementById(""+x+"-"+y);
-            i.setAttribute("xlink:href","../imgs/tuiles/"+terrains[tile_selected]["img"]);
+            e.setAttribute("xlink:href","../imgs/tuiles/"+terrains[tile_selected]["img"]);
         }else if(tp_selected=="objets"){
             cases_objets[i] = {"x":cx, "y":cy, "id_objet":tile_selected};
-            var i = document.getElementById("o_"+x+"-"+y);
-            i.setAttribute("xlink:href","../imgs/objets/"+objets[tile_selected]["img"]);
+            var e = document.getElementById("o_"+x+"-"+y);
+            e.setAttribute("xlink:href","../imgs/objets/"+objets[tile_selected]["img"]);
         }
     }
 }
