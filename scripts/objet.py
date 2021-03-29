@@ -31,12 +31,12 @@ class Objet:
             Effet de l'objet. Se référer à `/Structure_Base_donnees.md` pour la
             syntaxe.
     """
-    def __init__(self, id, db):
-        self.id = id
-        self.load_objet(id)
+    def __init__(self, id_, db):
+        self.id_ = id_
+        self.load_objet(id_, db)
         pass
 
-    def load_objet(self, id, db):
+    def load_objet(self, id_, db):
         """Charge l'objet depuis la base de données
 
         Parameters:
@@ -49,7 +49,7 @@ class Objet:
         curseur = db.cursor()
         sql = """SELECT nom_objet, description_, image_, effet
                  FROM objet
-                 WHERE id_objet = """ + id
+                 WHERE id_objet = """ + id_
         curseur.execute(sql)
         res = [ligne for ligne in curseur]
 
