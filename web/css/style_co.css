@@ -1,6 +1,6 @@
 @font-face {
-    font-family:'seagram_tfb';
-    src: url(seagram_tfb.ttf);
+    font-family:'PressStart2P-Regular';
+    src: url(PressStart2P-Regular.ttf);
 }
 
 body{
@@ -9,12 +9,12 @@ body{
 
 .login {
     width: 500px;
-    height: 385px;
+    height: 400px;
     overflow: hidden;
     background: #494848;
     border-radius: 12px;
     margin: 70px auto;
-    box-shadow: 0px 0px 600px rgba(117, 0, 0, 0.8);
+    box-shadow: 0px 0px 10000px rgba(117, 0, 0, 0.8);
     }
 
 .login .titre {
@@ -25,6 +25,7 @@ body{
     font-size: 25px;
     text-align: center;
     color: #bfbfbf;
+    text-shadow: 0 -2px #ff0707, 0 1px #161616;
     font-weight: bold;
     background: #121212;
     border: #2d2d2d solid 1px;
@@ -32,10 +33,10 @@ body{
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;
     align-items: center;
-    font-family: 'seagram_tfb', 'Times New Roman', Times, serif;
+    font-family: 'PressStart2P-Regular', 'Times New Roman', Times, serif;
 }
 
-.login .bouton {
+.login .soustitre{
     width: 498px;
     height: 35px;
     padding-top: 13px;
@@ -43,8 +44,17 @@ body{
     font-size: 25px;
     text-align: center;
     color: #000000;
+    text-shadow: 0 -1px #ffffff, 0 1px #161616;
     font-weight: bold;
-    font-family: 'seagram_tfb', 'Times New Roman', Times, serif;
+    font-family: 'PressStart2P-Regular', 'Times New Roman', Times, serif;
+    text-decoration: underline;
+
+}
+
+.login .bouton {
+    width: 498px;
+    height: 30px;
+    align-items: center;
 }
 
 .login form {
@@ -107,7 +117,9 @@ body{
     font-weight: bold;
     color: #FFF;
     text-shadow: 0 -1px #ffffff, 0 1px #7bb8b3;
-    font-family: 'seagram_tfb', 'Times New Roman', Times, serif;
+    align-items: center;
+    text-align:center
+    font-family: 'PressStart2P-Regular', 'Times New Roman', Times, serif;
 }
 
 .login .oubli {
@@ -129,18 +141,18 @@ body{
 .login .oubli .col a {
     color: #fff;
     text-decoration: none;
-    font: 12px 'seagram_tfb', 'Times New Roman', Times, serif;
+    font: 12px 'PressStart2P-Regular', 'Times New Roman', Times, serif;
 }
 
 .login .inscr{
-    width: 640px;
-    height: 12px;
+    width: 498px;
+    height: 6px;
     display: block;
     text-decoration: none;
     font-size: 12px;
     font-weight: bold;
-    color: #FFF;
+    color: rgb(26, 25, 25);
     text-shadow: 0 -1px #ffffff, 0 1px #161616;
-    font-family: 'seagram_tfb', 'Times New Roman', Times, serif;
-
+    font-family: 'PressStart2P-Regular', 'Times New Roman', Times, serif;
+    text-align: center;
 }

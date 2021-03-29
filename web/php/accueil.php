@@ -47,16 +47,14 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
             <section class="login">
                 <div class="titre">Maths Quest</div>
                 <form action="accueil.php" method="post">
-                    <div class="bouton">Nom d'utilisateur: 
-                    <input type="text" required title="Username" placeholder="Username" name="login" data-icon="U"></div>
+                    <div class="soustitre">Nom d'utilisateur: </div>
+                    <input type="text" required title="Username" placeholder="Nom d'utilisateur" name="login" data-icon="U" class="bouton">
 					</br>
-                    </br>
-                    <div class="bouton">Mot de passe: 
-                    <input type="password" required title="Password" placeholder="Password" data-icon="x" name="pass"></div>
+                    <div class="soustitre">Mot de passe: </div>
+                    <input type="password" required title="Password" placeholder="Mot de passe" data-icon="x" name="pass" class="bouton">
                     
 					</br>
-                    <a href="#" class="envoyer">Submit</a>
-					</br>
+                    <div class="envoyer"><a href="#" title="valider">Valider</a></div>
 					<div class="oubli">
                         <div class="col"><a href="#" title="Retrouver mot de passe">Forgot Password ?</a></div>
                     </div>
