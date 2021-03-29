@@ -1,4 +1,4 @@
-
+$
 INSERT INTO terrain SET
     id_terrain = 0,
     image_="vide.png",
@@ -103,8 +103,6 @@ INSERT INTO terrain SET
 	cultivable=0,
 	objet_dessus=1;
 
-
-
 INSERT INTO terrain SET
     id_terrain = 13,
     image_="lava_1.gif",
@@ -112,7 +110,6 @@ INSERT INTO terrain SET
     peut_marcher=0,
 	cultivable=0,
 	objet_dessus=1;
-
 
 INSERT INTO terrain SET
     id_terrain = 14,
