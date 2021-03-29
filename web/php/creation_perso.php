@@ -35,22 +35,22 @@
                 <!-- &nbsp = espace -->
                 <div class="menu_creation_perso column">
                     <div class="row">
-                        <button onclick="clic(1,-1);">&#60</button><a>&nbsp Tete<span id="choix1">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(1,+1);">&#62</button>
+                        <button onclick="clic(1,-1);">&#60</button><a>&nbsp Tete <span id="choix1">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(1,+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic(2,-1);">&#60</button><a>&nbsp Cheveux<span id="choix2">1</span>/6 &nbsp</a><button onclick="clic(2,+1);">&#62</button>
+                        <button onclick="clic(2,-1);">&#60</button><a>&nbsp Cheveux <span id="choix2">1</span>/6 &nbsp</a><button onclick="clic(2,+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic(3,-1);">&#60</button><a>&nbsp Barbe<span id="choix3">1</span>/6 &nbsp&nbsp&nbsp</a><button onclick="clic(3,+1);">&#62</button>
+                        <button onclick="clic(3,-1);">&#60</button><a>&nbsp Barbe <span id="choix3">1</span>/6 &nbsp&nbsp&nbsp</a><button onclick="clic(3,+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic(4,-1);">&#60</button><a>&nbsp Haut<span id="choix4">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(4,+1);">&#62</button>
+                        <button onclick="clic(4,-1);">&#60</button><a>&nbsp Haut <span id="choix4">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(4,+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic(5,-1);">&#60</button><a>&nbsp Bas<span id="choix5">1</span>/6 &nbsp&nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(5,+1);">&#62</button>
+                        <button onclick="clic(5,-1);">&#60</button><a>&nbsp Bas <span id="choix5">1</span>/6 &nbsp&nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(5,+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic(6,-1);">&#60</button><a>&nbsp Pied<span id="choix6">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(6,+1);">&#62</button>
+                        <button onclick="clic(6,-1);">&#60</button><a>&nbsp Pied <span id="choix6">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(6,+1);">&#62</button>
                     </div>
                 </div>
 
