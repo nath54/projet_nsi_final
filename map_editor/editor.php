@@ -274,7 +274,8 @@ else{
                                 $img = $objets[$cases_objets[$idd]["id_objet"]]["img"];
                                 $src="../imgs/objets/$img";
                             }
-                            echo "<image z_index=0 id=\"o_$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$tc\" height=\"$tc\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
+                            $ct = $tc+1;
+                            echo "<image z_index=0 id=\"o_$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$ct\" height=\"$ct\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
                         }
                     }
                     echo "</svg>";
@@ -287,7 +288,7 @@ else{
 
             <!-- tiles menu -->
 
-            <div style="overflow:auto;width:100%;height:90%;">
+            <div style="overflow:scroll;width:100%;height:500px;">
 
                 <!-- tile selected to paint -->
                 <div>
