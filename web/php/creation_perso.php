@@ -2,10 +2,17 @@
 <!-- Entête page internet -->
 <html>
     <head>
+        <!-- Nom du jeu + reliement au css -->
         <meta charset="utf-8">
         <title>Nom jeu - Création personnage</title>
-
         <link rel="stylesheet" href="../css/style_crea_perso.css">
+
+        <!-- Importation des fonts -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> 
+
+
+
     </head>
     <div class="creation_perso">
     <!-- Titre création du personnage -->
