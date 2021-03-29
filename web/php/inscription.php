@@ -5,10 +5,14 @@ $debug=true; // changer quand on mettra en ligne
 // on teste si le joueur a soumis le formulaire
 // TODO: $_POST['inscription'] jamais définie (et est-ce utile ?)
 if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
+	
 	// Si les variables n'existent pas, on le signale
 	if (empty($_POST['pseudo']) OR empty($_POST['mdp']) OR empty($_POST['mdp_confirm']) OR empty($_POST['sexe']) OR empty($_POST['classe']))
 	{
 		$erreur = 'Une des variables est vide.';
+	}
+	elseif( ! $_POST['sexe'] in_array(['Homme','Femme','Autre'])){
+		$erreur = 'Ce sexe n\'est pas valide.';
 	}
 	// Sinon, on teste le mot de passe et la confirmation du mot de passe
 	elseif ($_POST['mdp'] != $_POST['mdp_confirm']) {
@@ -63,24 +67,21 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
             <label for="mdp_confirm"> Confirmation du mot de passe : </label> <input type="password" name="mdp_confirm" value=" <?php if (isset($_POST['mdp_confirm'])) echo htmlentities(trim($_POST['mdp_confirm'])); ?> "> <br />
 			
 			<!-- html entities convertit tous les caractères en entités HTML -->
-			
-			<form>
+
 			Sexe :
-				<select name="nom" size="1">
-					<OPTION>Homme
+				<select name="sexe" size="1">
+					<OPTION>Homme</option>
 					<OPTION>Femme
 					<OPTION>Autre
 				</select>
-			</form>
 
-			<form>
 			Classe :
-				<select name="nom" size="1">
+				<select name="classe" size="1">
 					<OPTION>Chevalier
 					<OPTION>Chasseur
 					<OPTION>Sorcier
 				</select>
-			</form>
+
 
             <input type="submit" name="inscription" value="Inscription">
 
