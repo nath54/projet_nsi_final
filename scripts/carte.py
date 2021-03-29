@@ -15,9 +15,22 @@ class Region:
         for t in ters:
             self.cases_terrains[str(t[0])+"_"+str(t[1])] = int(t[2])
 
+        sql = "SELECT x , y, id_objet FROM regions_objets WHERE id_region=?"
+        objs = self.server.db.requete_db(sql, (self.id_region, ))
+        for t in objs:
+            self.cases_objets[str(t[0])+"_"+str(t[1])] = int(t[2])
+
     def get_case(self, x, y):
-        if f"{x}_{y}" in self.cases_terrains.keys():
-            return self.cases_terrains[f"{x}_{y}"]
+        i = f"{x}_{y}"
+        if i in self.cases_terrains.keys():
+            return self.cases_terrains[i]
+        else:
+            return 0
+
+    def get_case_obj(self, x, y):
+        i = f"{x}_{y}"
+        if i in self.cases_objets.keys():
+            return self.cases_objets[i]
         else:
             return 0
 
@@ -27,6 +40,7 @@ class Carte:
         self.db = server.db
         self.regions = {}
         self.terrains = {}
+        self.objets = {}
         self.load()
 
     def load(self):
@@ -42,4 +56,12 @@ class Carte:
                 "peut_marcher": bool(t[2]),
                 "cultivable": bool(t[3]),
                 "objet_dessus": bool(t[4])
+            }
+
+        sql = "SELECT id_objet, nom, collision FROM objets"
+        objs = self.server.db.requete_db(sql)
+        for o in objs:
+            self.objets[o[0]] = {
+                "nom": o[1],
+                "collision": bool(o[2])
             }
