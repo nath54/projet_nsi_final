@@ -441,7 +441,7 @@ function change_case(x, y){
     else{
         if(tp_selected=="terrains"){
             cases_terrains[i] = {"x":cx, "y":cy, "tile":tile_selected};
-            var i = document.getElementById(""+x+"-"+y);
+            var e = document.getElementById(""+x+"-"+y);
             e.setAttribute("xlink:href","../imgs/tuiles/"+terrains[tile_selected]["img"]);
         }else if(tp_selected=="objets"){
             cases_objets[i] = {"x":cx, "y":cy, "id_objet":tile_selected};
