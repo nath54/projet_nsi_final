@@ -109,13 +109,15 @@ INSERT INTO terrain SET
 INSERT INTO objets SET
     id_objet = 0,
     nom = "rien",
-    image_ = "",
-    collision = 1;
+    image_ = "rien.png",
+    z_index = 1,
+    collision = 0;
 
 INSERT INTO objets SET
     id_objet = 1,
     nom = "arbre_1",
     image_ = "arbre_1.png",
+    z_index = 1,
     collision = 1;
 
 
@@ -123,6 +125,7 @@ INSERT INTO objets SET
     id_objet = 2,
     nom = "buisson_1",
     image_ = "buisson_1.png",
+    z_index = 3,
     collision = 1;
 
 

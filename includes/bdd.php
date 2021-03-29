@@ -102,6 +102,9 @@ function action_prep($db, $requested, $vars=array(), $debug=false){
     $succeed = $statement->execute($vars);
     if($debug){
         $statement->debugDumpParams();
+        echo $statement->errorCode();
+        print_r($statement->errorInfo());
+
     }
     return $succeed;
 }
