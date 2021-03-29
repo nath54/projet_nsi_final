@@ -194,13 +194,20 @@ CREATE TABLE terrain (
  - `id_objet` *INT PRIMARY KEY* : id du terrain
  - `nom` _TEXT_ : nom du terrain
  - `image_` _TEXT_ : image du terrain
- - `collision` _BOOLEAN_ : S'il y a des collisions avec
+ - `z_index` _INT DEFAULT 1_ : pour qu'on puisse avoir des objets au dessus et en dessous du joueur
+ - `collision` _BOOLEAN_ : S'il y a des collisions avec, si 1, le joueur ne peut pas aller sur la case
+
+`Le terrain sera en z_index 0`
+`Les objets de base seront en z_index 1`
+`Les persos et les ennemis seront en z_index 2`
+`Les objets au dessus du perso seront en z_index 3 (exemple : buisson)`
 
 ```sql
 CREATE TABLE objets (
 			id_objet INT PRIMARY KEY,
 		 	nom  TEXT,
 		 	image_ TEXT,
+			z_index INT,
 		 	collision BOOLEAN);
 ```
 
@@ -249,12 +256,7 @@ CREATE TABLE regions_terrains(
 - `x` _INT NOT NULL_ : clé composée x_y
 - `y` _INT NOT NULL_ : clé composée x_y
 - `id_objet` _INT DEFAULT 0_ :
-- `z_index` _INT DEFAULT 1_ :
 
-`Le terrain sera en z_index 0`
-`Les objets de base seront en z_index 1`
-`Les persos et les ennemis seront en z_index 2`
-`Les objets au dessus du perso seront en z_index 3 (exemple : buisson)`
 
 ```sql
 CREATE TABLE regions_objets(

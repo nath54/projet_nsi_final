@@ -4,9 +4,10 @@ include_once "../includes/bdd.php";
 
 $db = load_db();
 
+
+
 $requete = "SELECT * FROM terrain;";
 $terrains = array();
-
 $r = requete_prep($db, $requete);
 if($r==NULL){
     alert("Il y a eu une erreur !");
@@ -16,6 +17,22 @@ foreach($r as $i=>$data){
     $img = $data["image_"];
     $terrains[$data["id_terrain"]] = array("nom"=>$nom, "img"=>$img);
 }
+
+//
+
+
+$requete = "SELECT * FROM objets;";
+$objets = array();
+$r = requete_prep($db, $requete);
+if($r==NULL){
+    alert("Il y a eu une erreur !");
+}
+foreach($r as $i=>$data){
+    $nom = $data["nom"];
+    $img = $data["image_"];
+    $objets[$data["id_objet"]] = array("nom"=>$nom, "img"=>$img, "z_index"=>$data["z_index"]);
+}
+
 
 //
 
@@ -36,9 +53,15 @@ if(isset($_POST["region_selected"])){
 
 if(isset($_POST["delete_region"])){
     if(in_array($_POST["delete_region"], array_keys($liste_regions))){
+        $idr = $liste_regions[$_POST["delete_region"]];
+        //
         $query = "DELETE FROM regions WHERE nom=:nom";
         $vars = array(":nom"=>$_POST["delete_region"]);
-        if(!action_prep($db, $query, $vars)){
+        $query2 = "DELETE FROM regions_terrains WHERE id_region=:idr";
+        $vars2 = array(":idr"=>$idr);
+        $query3 = "DELETE FROM regions_objets WHERE id_region=:idr";
+        $vars3 = array(":idr"=>$idr);
+        if(!action_prep($db, $query3, $vars3) || !action_prep($db, $query2, $vars2) || !action_prep($db, $query, $vars)){
             alert("Il y a eu une erreur lors de la suppression de la région !");
         }
         else{
@@ -69,19 +92,26 @@ if(isset($_POST["new_region"])){
 }
 
 $cases_terrains = array();
+$cases_objets = array();
 
-if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])){
+if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST["data_objets"])){
     $nom_region = $_POST["save_terrain"];
     $region_selected = $nom_region;
     $id_region = $liste_regions[$region_selected];
     $datas = json_decode($_POST["data_terrain"], true);
-    alert($id_region);
+    $datas_o = json_decode($_POST["data_objets"], true);
+    // alert($id_region);
     // echo $_POST["data_terrain"];
     // On nettoie
     $query = "DELETE FROM regions_terrains WHERE id_region=:idr";
     $vars = array(":idr"=>$id_region);
     if(!action_prep($db, $query, $vars)){
         console.log("probleme suppression");
+    }
+    $query = "DELETE FROM regions_objets WHERE id_region=:idr";
+    $vars = array(":idr"=>$id_region);
+    if(!action_prep($db, $query, $vars)){
+        clog("probleme suppression2");
     }
     // On remplace
     foreach($datas as $i=>$data){
@@ -90,6 +120,14 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])){
         $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":tile"=>$data["tile"], ":idr"=>$liste_regions[$nom_region]);
         if(!action_prep($db, $query, $vars)){
             clog("probleme insertion");
+        }
+    }
+    foreach($datas_o as $i=>$data){
+        $query = "INSERT INTO regions_objets SET x=:x, y=:y, id_objet=:id_objet, id_region=:idr";
+        // echo $data["x"].", ".$data["y"]." : ".$data["tile"]." - ";
+        $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":id_objet"=>$data["id_objet"], ":idr"=>$liste_regions[$nom_region]);
+        if(!action_prep($db, $query, $vars)){
+            clog("probleme insertion2");
         }
     }
 }
@@ -103,6 +141,14 @@ if($region_selected!=""){
         $y=$data["y"];
         $tile=$data["id_terrain"];
         $cases_terrains["$x-$y"]=array("x"=>$x, "y"=>$y, "tile"=>$tile);
+    }
+    $requested = "SELECT * FROM regions_objets WHERE id_region=:idr";
+    $vars = array(":idr"=>$liste_regions[$region_selected]);
+    foreach(requete_prep($db, $requested, $vars) as $i=>$data){
+        $x=$data["x"];
+        $y=$data["y"];
+        $ido=$data["id_objet"];
+        $cases_objets["$x-$y"]=array("x"=>$x, "y"=>$y, "id_objet"=>$ido);
     }
 }
 
@@ -118,6 +164,15 @@ if(count($cases_terrains)>0){
 }
 else{
     script("var cases_terrains = {};");
+}
+
+
+if(count($cases_objets)>0){
+    $jsone = json_encode($cases_objets);
+    script("var cases_objets = JSON.parse('$jsone');");
+}
+else{
+    script("var cases_objets = {};");
 }
 
 ?>
@@ -187,6 +242,7 @@ else{
                     $tc = 5;
                     $dx = 0;
                     $dy = 0;
+                    // terrains
                     for($x=0; $x<$tx; $x++){
                         for($y=0; $y<$ty; $y++){
                             $cx = $x * $tc + $dx;
@@ -197,7 +253,21 @@ else{
                                 $img = $terrains[$cases_terrains[$idd]["tile"]]["img"];
                                 $src="../imgs/tuiles/$img";
                             }
-                            echo "<image id=\"$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$tc\" height=\"$tc\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
+                            echo "<image z_index=0 id=\"$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$tc\" height=\"$tc\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
+                        }
+                    }
+                    // objets
+                    for($x=0; $x<$tx; $x++){
+                        for($y=0; $y<$ty; $y++){
+                            $cx = $x * $tc + $dx;
+                            $cy = $y * $tc + $dy;
+                            $idd = "$x-$y";
+                            $src="";
+                            if(isset($cases_objets[$idd])){
+                                $img = $terrains[$cases_objets[$idd]["tile"]]["img"];
+                                $src="../imgs/objets/$img";
+                            }
+                            echo "<image z_index=0 id=\"o_$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$tc\" height=\"$tc\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
                         }
                     }
                     echo "</svg>";
@@ -221,19 +291,43 @@ else{
 
                 <div class="liste_tiles">
 
-                    <?php
+                    <div class="row">
+                        <button onclick="set_selection('terrains');">Terrains</button>
+                        <button onclick="set_selection('objets');">Objets</button>
+                    </div>
 
-                        foreach($terrains as $i=>$data){
-                            $img = $data["img"];
-                            $nom = $data["nom"];
-                            $sel = "";
-                            if($i==0){ // au début, l'herbe sera selectionne par defaut
-                                $sel = "liste_element_selectione";
+                    <div id="terrains">
+
+                        <?php
+
+                            foreach($terrains as $i=>$data){
+                                $img = $data["img"];
+                                $nom = $data["nom"];
+                                $sel = "";
+                                if($i==0){ // au début, l'herbe sera selectionne par defaut
+                                    $sel = "liste_element_selectione";
+                                }
+                                echo "<div id=\"liste_elt_$i\" class=\"liste_element $sel\" onclick=\"select_tile($i);\"><img class=\"img_liste_element\" src=\"../imgs/tuiles/$img\" /><label>$nom</label></div>";
                             }
-                            echo "<div id=\"liste_elt_$i\" class=\"liste_element $sel\" onclick=\"select_tile($i);\"><img class=\"img_liste_element\" src=\"../imgs/tuiles/$img\" /><label>$nom</label></div>";
-                        }
 
-                    ?>
+                        ?>
+
+                    </div>
+
+                    <div id="objets" style="display:none;">
+
+                        <?php
+
+                            foreach($objets as $i=>$data){
+                                $img = $data["img"];
+                                $nom = $data["nom"];
+                                $sel = "";
+                                echo "<div id=\"liste_obj_$i\" class=\"liste_element $sel\" onclick=\"select_objets($i);\"><img class=\"img_liste_element\" src=\"../imgs/objets/$img\" /><label>$nom</label></div>";
+                            }
+
+                        ?>
+
+                    </div>
 
                 </div>
 
@@ -248,6 +342,7 @@ var dcx = null;
 var dcy = null;
 
 var tile_selected = 0;
+var tp_selected = "terrains";
 var dec_x = 0;
 var dec_y = 0;
 
@@ -320,15 +415,28 @@ function change_case(x, y){
     dcx,dcy=cx,cy;
     var i = ""+cx+"-"+cy;
     if(tile_selected==0){
-        if(Object.keys(cases_terrains).includes(i)){
-            delete cases_terrains[i];
+        if(tp_selected=="terrains"){
+            if(Object.keys(cases_terrains).includes(i)){
+                delete cases_terrains[i];
+            }
+        }
+        else if(tp_selected=="objets"){
+            if(Object.keys(cases_objets).includes(i)){
+                delete cases_objets[i];
+            }
         }
     }
     else{
-        cases_terrains[i] = {"x":cx, "y":cy, "tile":tile_selected};
+        if(tp_selected=="terrains"){
+            cases_terrains[i] = {"x":cx, "y":cy, "tile":tile_selected};
+            var i = document.getElementById(""+x+"-"+y);
+            i.setAttribute("xlink:href","../imgs/tuiles/"+terrains[tile_selected]["img"]);
+        }else if(tp_selected=="objets"){
+            cases_objets[i] = {"x":cx, "y":cy, "tile":tile_selected};
+            var i = document.getElementById("o_"+x+"-"+y);
+            i.setAttribute("xlink:href","../imgs/objets/"+objets[tile_selected]["img"]);
+        }
     }
-    var i = document.getElementById(""+x+"-"+y);
-    i.setAttribute("xlink:href","../imgs/tuiles/"+terrains[tile_selected]["img"]);
 }
 
 function aff(){
@@ -344,6 +452,11 @@ function aff(){
                 img=terrains[cases_terrains[""+cx+"-"+cy]["tile"]]["img"];
             }
             document.getElementById(""+x+"-"+y).setAttribute("xlink:href","../imgs/tuiles/"+img);
+            //
+            if(Object.keys(cases_objets).includes(""+cx+"-"+cy)){
+                img=objets[cases_objets[""+cx+"-"+cy]["id_objet"]]["img"];
+            }
+            document.getElementById("o_"+x+"-"+y).setAttribute("xlink:href","../imgs/objets/"+img);
         }
     }
 }
@@ -380,11 +493,35 @@ function select_tile(id_tile){
     if(id_tile==tile_selected){
         return;
     }
-    var ad = document.getElementById("liste_elt_"+tile_selected);
+    if(tp_selected=="terrains"){
+        var ad = document.getElementById("liste_elt_"+tile_selected);
+    }
+    else{
+        var ad = document.getElementById("liste_obj_"+tile_selected);
+    }
     ad.classList.remove("liste_element_selectione");
     var d = document.getElementById("liste_elt_"+id_tile);
     d.classList.add("liste_element_selectione");
     tile_selected = id_tile;
+    tp_selected = "terrains";
+}
+
+
+function select_objets(id_tile){
+    if(id_tile==tile_selected){
+        return;
+    }
+    if(tp_selected=="terrains"){
+        var ad = document.getElementById("liste_elt_"+tile_selected);
+    }
+    else{
+        var ad = document.getElementById("liste_obj_"+tile_selected);
+    }
+    ad.classList.remove("liste_element_selectione");
+    var d = document.getElementById("liste_obj_"+id_tile);
+    d.classList.add("liste_element_selectione");
+    tile_selected = id_tile;
+    tp_selected = "objets";
 }
 
 function save_tiles(){
@@ -401,8 +538,23 @@ function save_tiles(){
     ii.setAttribute("name", "data_terrain");
     ii.value=JSON.stringify(cases_terrains);
     f.appendChild(ii);
+    var iii=document.createElement("input");
+    iii.setAttribute("name", "data_objets");
+    iii.value=JSON.stringify(cases_objets);
+    f.appendChild(iii);
     document.body.appendChild(f);
     f.submit();
+}
+
+function set_selection(ii){
+    for(i of ["terrains", "objets"]){
+        if(i==ii){
+            document.getElementById(i).style.display="initial";
+        }
+        else{
+            document.getElementById(i).style.display="none";
+        }
+    }
 }
 
 document.addEventListener('keydown', (event) => {

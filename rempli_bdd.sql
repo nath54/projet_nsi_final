@@ -107,6 +107,12 @@ INSERT INTO terrain SET
 -- OBJETS :
 
 INSERT INTO objets SET
+    id_objet = 0,
+    nom = "rien",
+    image_ = "",
+    collision = 1;
+
+INSERT INTO objets SET
     id_objet = 1,
     nom = "arbre_1",
     image_ = "arbre_1.png",
@@ -124,6 +130,7 @@ INSERT INTO objets SET
     id_objet = 3,
     nom = "mur_1",
     image_ = "mur_1.png",
+    z_index = 1,
     collision = 1;
 
 
@@ -131,6 +138,7 @@ INSERT INTO objets SET
     id_objet = 4,
     nom = "porte_prison_fermee",
     image_ = "porte_prison_fermee.png",
+    z_index = 1,
     collision = 1;
 
 
@@ -138,6 +146,7 @@ INSERT INTO objets SET
     id_objet = 5,
     nom = "porte_prison_ouverte",
     image_ = "porte_prison_ouverte.png",
+    z_index = 3,
     collision = 0;
 
 

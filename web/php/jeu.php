@@ -37,16 +37,24 @@ if($res==NULL){
     echo("Le terrain n'a pas pu charger");
     die();
 }
-
 foreach($res as $i=>$data){
     $cases_terrains[$i] = $data;
+}
+// On charge les données du terrain :
+$cases_objets = array();
+$res = requete_prep($db, "SELECT x, y, id_terrain FROM regions_objets WHERE id_region=:idr;", array(":idr"=>$id_region));
+if($res==NULL){
+    echo("L'obket n'a pas pu charger");
+    die();
+}
+foreach($res as $i=>$data){
+    $cases_objets[$i] = $data;
 }
 
 // On va récuperer les infos sur les tiles
 
 $requete = "SELECT * FROM terrain;";
 $terrains = array();
-
 $r = requete_prep($db, $requete);
 if($r==NULL){
     alert("Terrain n'a pas chargé.");
@@ -56,6 +64,19 @@ foreach($r as $i=>$data){
     $nom = $data["nom"];
     $img = $data["image_"];
     $terrains[$data["id_terrain"]] = array("nom"=>$nom, "img"=>$img);
+}
+
+$requete = "SELECT * FROM objets;";
+$objets = array();
+$r = requete_prep($db, $requete);
+if($r==NULL){
+    alert("Objet n'a pas chargé.");
+}
+// Pour chaque ligne, on stocke nom le nom et l'image dans l'Array $terrains
+foreach($r as $i=>$data){
+    $nom = $data["nom"];
+    $img = $data["image_"];
+    $objets[$data["id_objet"]] = array("nom"=>$nom, "img"=>$img, "z_index"=>$data["z_index"]);
 }
 
 
@@ -166,21 +187,44 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                 <svg viewBox="<?php echo "$vx $vy $tx $ty"; ?>" id="viewport" xmlns="http://www.w3.org/2000/svg">
 
                     <!-- On va construire la map -->
+
+                    <!-- Les terrains(sols) -->
                     <?php
                         foreach($cases_terrains as $i=>$data){
                             $x = $data["x"] * $tc;
                             $y = $data["y"] * $tc;
                             $img = $terrains[$data["id_terrain"]]["img"];
                             $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
-                            echo "<image x=$x y=$y width=$ct height=$ct xlink:href=\"../../imgs/tuiles/$img\" class=\"case\"></image>";
+                            echo "<image z_index=1 x=$x y=$y width=$ct height=$ct xlink:href=\"../../imgs/tuiles/$img\" class=\"case\"></image>";
                         }
                     ?>
 
+                    <!-- Les objets -->
+
+                    <?php
+                        foreach($cases_objets as $i=>$data){
+                            $x = $data["x"] * $tc;
+                            $y = $data["y"] * $tc;
+                            $img = $objets[$data["id_objet"]]["img"];
+                            $zindex = $objets[$data["id_objet"]]["z_index"];
+                            $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
+                            echo "<image z_index=1 x=$x y=$y width=$ct height=$ct xlink:href=\"../../imgs/objets/$img\" class=\"case\"></image>";
+                        }
+                    ?>
+
+                    <!-- Le perso -->
+
                     <?php
                         $img_p = "../imgs/sprites/sprite_fixe_droit.png";
-                        echo "<svg x=$px y=$py width=$tc height=$tc id=\"player\">";
+                        echo "<svg z_index=2 x=$px y=$py width=$tc height=$tc id=\"player\">";
                         echo "<image width=$tc height=$tc xlink:href=\"$img_p\"></image>";
                         echo "</svg>";
+
+                    ?>
+
+                    <!-- Les autres joueurs -->
+
+                    <?php
 
                     ?>
 

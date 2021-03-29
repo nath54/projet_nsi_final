@@ -86,6 +86,7 @@ CREATE TABLE objets (
 			id_objet INT PRIMARY KEY,
 		 	nom  TEXT,
 		 	image_ TEXT,
+			z_index INT,
 		 	collision BOOLEAN);
 
 

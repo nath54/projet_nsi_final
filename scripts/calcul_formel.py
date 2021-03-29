@@ -19,6 +19,8 @@ class Sum:
         a = self.components[0]
         if not type(a.value()) in [int, float, str]:
             aa = "(" + str(a) + ")"
+        else:
+            aa = str(a)
         for b in self.components[:1]:
             if not type(b.value()) in [int, float, str]:
                 aa += " + (" + str(b) + ")"
@@ -52,6 +54,8 @@ class Mul:
         a = self.components[0]
         if not type(a.value()) in [int, float, str]:
             aa = "(" + str(a) + ")"
+        else:
+            aa = str(a)
         for b in self.components[:1]:
             if not type(b.value()) in [int, float, str]:
                 aa += " * (" + str(b) + ")"
@@ -86,6 +90,8 @@ class Div:
         a = self.components[0]
         if not type(a.value()) in [int, float, str]:
             aa = "(" + str(a) + ")"
+        else:
+            aa = str(a)
         for b in self.components[:1]:
             if not type(b.value()) in [int, float, str]:
                 aa += " / (" + str(b) + ")"
