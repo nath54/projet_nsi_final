@@ -157,6 +157,8 @@ $jsone = json_encode($terrains);
 script("var terrains = JSON.parse('$jsone');");
 
 
+$jsone = json_encode($objets);
+script("var objets = JSON.parse('$jsone');");
 
 if(count($cases_terrains)>0){
     $jsone = json_encode($cases_terrains);
