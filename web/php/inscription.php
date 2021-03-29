@@ -1,11 +1,13 @@
 <?php
 session_start();
+$debug=true; // changer quand on mettra en ligne
 
 // on teste si le joueur a soumis le formulaire
 // TODO: $_POST['inscription'] jamais définie (et est-ce utile ?)
 if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
 	// Si les variables n'existent pas, on le signale
-	if (empty($_POST['pseudo']) OR empty($_POST['pseudo']) OR empty($_POST['mdp_confirm'])){
+	if (empty($_POST['pseudo']) OR empty($_POST['mdp']) OR empty($_POST['mdp_confirm']) OR empty($_POST['sexe']) OR empty($_POST['classe']))
+	{
 		$erreur = 'Une des variables est vide.';
 	}
 	// Sinon, on teste le mot de passe et la confirmation du mot de passe
@@ -21,9 +23,9 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
 		$sql = 'SELECT count(*) FROM utilisateurs WHERE pseudo=?';
 		$data = requete_prep($db, $sql, array($_POST["pseudo"]));
 		print_r($data);
-		if (count($data) == 0) {
-			$sql = 'INSERT INTO utilisateurs VALUES("", ?, MD5(?))';
-			$status = action_prep($db, $sql, array($_POST["pseudo"], $_POST["mdp"]));
+		if ($data[0][0] == 0) {
+			$sql = 'INSERT INTO utilisateurs (pseudo,mdp,sexe,classe) VALUES(?, MD5(?), ?, ?)';
+			$status = action_prep($db, $sql, array($_POST["pseudo"], $_POST["mdp"], $_POST["sexe"], $_POST["classe"]),$debug);
 
 			$db = null;
 
@@ -59,8 +61,26 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
             <label for="mdp"> Mot de passe : </label> <input type="password" name="mdp" value=" <?php if (isset($_POST['mdp'])) echo htmlentities(trim($_POST['mdp'])); ?> "> <br />
 
             <label for="mdp_confirm"> Confirmation du mot de passe : </label> <input type="password" name="mdp_confirm" value=" <?php if (isset($_POST['mdp_confirm'])) echo htmlentities(trim($_POST['mdp_confirm'])); ?> "> <br />
+			
+			<!-- html entities convertit tous les caractères en entités HTML -->
+			
+			<form>
+			Sexe :
+				<select name="nom" size="1">
+					<OPTION>Homme
+					<OPTION>Femme
+					<OPTION>Autre
+				</select>
+			</form>
 
-            <!-- html entities convertit tous les caractères en entités HTML -->
+			<form>
+			Classe :
+				<select name="nom" size="1">
+					<OPTION>Chevalier
+					<OPTION>Chasseur
+					<OPTION>Sorcier
+				</select>
+			</form>
 
             <input type="submit" name="inscription" value="Inscription">
 
