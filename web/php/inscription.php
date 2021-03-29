@@ -23,7 +23,7 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
 		$data = requete_prep($db, $sql, array($_POST["pseudo"]));
 		print_r($data);
 		if ($data[0][0] == 0) {
-			$sql = 'INSERT INTO utilisateurs VALUES(?, MD5(?))';
+			$sql = 'INSERT INTO utilisateurs (pseudo,mdp) VALUES(?, MD5(?))';
 			$status = action_prep($db, $sql, array($_POST["pseudo"], $_POST["mdp"]),$debug);
 
 			$db = null;
