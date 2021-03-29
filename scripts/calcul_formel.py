@@ -43,7 +43,15 @@ class Sum:
 
     """
     def __init__(self, *args):
-        self.components = args
+        self.components = list(args)
+        for c in self.components:
+            if type(c) == Expr and len(c.components)==1:
+                c = c.components[0]
+            if type(c) == Sum:
+                arguments_c = c.components
+                self.components.remove(c)
+                self.components += arguments_c
+                self = Sum(self.components)
 
     def value(self):
         """Simplifie la valeur de la somme."""
@@ -68,6 +76,17 @@ class Sum:
                 if tp_groupe != "nbs" and tp_groupe!="reste":
                     variables[tp_groupe] = groupes_tries[tp_groupe]
             # TODO: faire la factorisation, et rajouter les expressions dans la liste expressions_variables
+            if False:
+                for variable, liste in variables.items():
+                    lst_coefficients = []
+                    for expression in liste:
+                        autres_coef = []
+                        for coef in expression.components:
+                            if coef.value() != variable:
+                                autres_coef.append(coef)
+                        lst_coefficients += autres_coef
+                    print(lst_coefficients)
+                    expressions_variables.append(Mul(Expr(variable), Sum(*lst_coefficients)))
             # restes
             reste = groupes_tries["reste"]
             if len(reste)==1:
@@ -104,20 +123,19 @@ class Sum:
 
 
 def test_somme():
-    a = Expr(5)
-    b = Expr("a")
-    d = Expr(1)
-    e = a + d
-    c = Sum(a,b,d).value()
-    print(c)
-    print(e)
+    a = Expr("a")
+    b = Expr(2)
+    c = Expr(5)
+    e = Expr("b")
+    d = Sum(Mul(a, b), Mul(a, e), Expr(a), c, b)
+    print(d.value())
 #endregion
 
 
 #region multiplication
 class Mul:
     def __init__(self, *args):
-        self.components = args
+        self.components = list(args)
 
     def value(self):
         if all([type(c) in [int, float] for c in self.components]):
