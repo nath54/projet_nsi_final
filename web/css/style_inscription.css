@@ -67,6 +67,20 @@ body {
     left: -50%;
 }
 
+body{
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.inscr {
+    width: 1000px;
+    height: 600px;
+    overflow: hidden;
+    background: #000000;
+    border-radius: 12px;
+    margin: 70px auto;
+    box-shadow: 0px 0px 10000px rgba(117, 0, 0, 0.8);
+    }
+
 .inscr .titre{
     width: 498px;
     height: 35px;
@@ -85,7 +99,5 @@ body {
     font-family: 'PressStart2P-Regular', 'Times New Roman', Times, serif;
 }
 
-.inscr .boutons{
-    width: 498px;
-    height: 5px
-}
+
+

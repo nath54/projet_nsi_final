@@ -20,7 +20,7 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
 			exit();
 		}
 		// Si on ne trouve rien, mauvais login / mot de passe
-		elseif ($data[0] == 0) {
+		elseif ($data[0][0] == 0) {
 			$erreur = 'Compte non reconnu.';
 		}
 		// sinon, alors la, il y a un gros problème :)
@@ -52,9 +52,10 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
 					</br>
                     <div class="soustitre">Mot de passe: </div>
                     <input type="password" required title="Password" placeholder="Mot de passe" data-icon="x" name="pass" class="bouton">
-                    
+                    </br>
 					</br>
-                    <div class="envoyer"><a href="#" title="valider">Valider</a></div>
+                    <a href="post_accueil.php" class="envoyer">Valider</a>
+					
 					<div class="oubli">
                         <div class="col"><a href="#" title="Retrouver mot de passe">Forgot Password ?</a></div>
                     </div>
