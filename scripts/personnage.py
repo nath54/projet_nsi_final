@@ -128,14 +128,21 @@ class Personnage:
 
         if self.region_actu not in self.server.carte.regions.keys():
             raise UserWarning("Erreur ! Région inconnue")
+
         k = str(npx)+"_"+str(npy)
         tp_case = self.server.carte.regions[self.region_actu].get_case(npx,npy)
-
         if tp_case not in self.server.carte.terrains.keys():
             raise UserWarning("Erreur !")
 
+        tp_objet = self.server.carte.regions[self.region_actu].get_case_obj(npx,npy)
+        if tp_objet not in self.server.carte.objets.keys():
+            raise UserWarning("Erreur !")
+
+        if self.server.carte.objets[tp_objet]["collision"]: ## Si une case est occupée par un arbre ou autre,
+            peut_se_depl = False                                  ## alors le déplacement est impossible
+
         if not self.server.carte.terrains[tp_case]["peut_marcher"]: ## Si une case est occupée par un arbre ou autre,
-            peut_se_depl = False                                    ## alors le déplacement est impossible
+            peut_se_depl = False
 
         if peut_se_depl:
             self.position["x"] += dep[0]
@@ -177,9 +184,9 @@ class Personnage:
         """
         if niv_monstre < self.niveau :
             self.xp = self.xp
-        
+
         if vie_monstre == 0 :
-            self.xp = self.xp + xp 
+            self.xp = self.xp + xp
             self.level_up()
 
     def level_up(self):

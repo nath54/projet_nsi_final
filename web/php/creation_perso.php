@@ -21,27 +21,25 @@
             
                 <!-- Menu de création -->
                 <!-- Après le choix du sexe et de la classe -->
+                <!-- &nbsp = espace -->
                 <div class="menu_creation_perso column">
                     <div class="row">
-                        <button><</button><a>Tete<span id="num_tete_sel">1</span>/6</a><button>></button>
+                        <button onclick="clic(1,-1);"><</button><a>&nbsp Tete<span id="choix1">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(1,+1);">></button>
                     </div>
                     <div class="row">
-                        <button><</button><a>Couleur de peau<span id="num_cdp_sel">1</span>/6</a><button>></button>
+                        <button onclick="clic(1,-1);"><</button><a>&nbsp Cheveux<span id="choix2">1</span>/6 &nbsp</a><button onclick="clic(1,+1);">></button>
                     </div>
                     <div class="row">
-                        <button><</button><a>Cheveux<span id="num_cheveux_sel">1</span>/6</a><button>></button>
+                        <button onclick="clic(1,-1);"><</button><a>&nbsp Barbe<span id="choix3">1</span>/6 &nbsp&nbsp&nbsp</a><button onclick="clic(1,+1);">></button>
                     </div>
                     <div class="row">
-                        <button><</button><a>Barbe<span id="num_barbe_sel">1</span>/6</a><button>></button>
+                        <button onclick="clic(1,-1);"><</button><a>&nbsp Haut<span id="choix4">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(1,+1);">></button>
                     </div>
                     <div class="row">
-                        <button><</button><a>Haut<span id="num_haut_sel">1</span>/6</a><button>></button>
+                        <button onclick="clic(1,-1);"><</button><a>&nbsp Bas<span id="choix5">1</span>/6 &nbsp&nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(1,+1);">></button>
                     </div>
                     <div class="row">
-                        <button><</button><a>Bas<span id="num_bas_sel">1</span>/6</a><button>></button>
-                    </div>
-                    <div class="row">
-                        <button><</button><a>Pied<span id="num_pied_sel">1</span>/6</a><button>></button>
+                        <button onclick="clic(1,-1);"><</button><a>&nbsp Pied<span id="choix6">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(1,+1);">></button>
                     </div>
                 </div>
 
@@ -54,6 +52,8 @@
                     <div class="valider_creation">
                         <button class="validation_perso_creation" href="">VALIDER</button>
                     </div>
+
+                    
 
 
                     

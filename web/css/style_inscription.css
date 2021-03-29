@@ -1,6 +1,6 @@
 @font-face {
-    font-family:'seagram_tfb';
-    src: url(seagram_tfb.ttf);
+    font-family:'PressStart2P-Regular';
+    src: url(PressStart2P-Regular.ttf);
 }
 
 body {
@@ -82,6 +82,10 @@ body {
     border-top-right-radius: 6px;
     border-top-left-radius: 6px;
     -ms-flex-align: center;
-    font-family: 'seagram_tfb', 'Times New Roman', Times, serif;
+    font-family: 'PressStart2P-Regular', 'Times New Roman', Times, serif;
 }
 
+.inscr .boutons{
+    width: 498px;
+    height: 5px
+}

@@ -31,7 +31,6 @@ class Serveur:
             raise UserWarning("ERREUR !")
         await self.serveurWebsocket.send(ws_u, message)
 
-
     ###############  PERSONNAGES ###############
 
     def load_perso(self, id_utilisateur):
@@ -41,7 +40,6 @@ class Serveur:
 
     async def bouger_perso(self, id_utilisateur, deplacement):
         await self.personnages[id_utilisateur].bouger(deplacement)
-
 
 
 if __name__=='__main__':
