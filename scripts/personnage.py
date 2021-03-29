@@ -201,6 +201,9 @@ class Personnage:
             self.vie_max = self.vie_max + 50     ## Valeur de l'augmentation des stats à voir
             self.mana_max = self.mana_max + 50
 
+        else:
+            pass
+
     def modifier_vie(self, vie):
         """Modifie la vie du personnage et check s'il est mort
 
