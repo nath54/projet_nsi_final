@@ -20,7 +20,7 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
 			exit();
 		}
 		// Si on ne trouve rien, mauvais login / mot de passe
-		elseif ($data[0] == 0) {
+		elseif ($data[0][0] == 0) {
 			$erreur = 'Compte non reconnu.';
 		}
 		// sinon, alors la, il y a un gros problème :)

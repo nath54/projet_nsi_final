@@ -6,6 +6,33 @@ Classes:
     Div: Traite les éléments de division
     Expr: Permet de gérer les interactions entre différentes expressions
 """
+
+def trie(components):
+    groups = {
+        "nbs": [], # Quand il n'y a pas de variables
+        # les variables se rajouteront ici
+        # TODO:
+        # la on met le reste pour l'instant
+        "reste": []
+    }
+    for expression in components:
+        if type(expression.value()) in [int, float]:
+            groups["nbs"].append(expression)
+            continue
+        if type(expression) == Mul:
+            # TODO: regarder si il y a une variable dans les composants de l'expression
+            for e in expression.components:
+                val = e.value()
+                if type(val) == str:
+                    if not val in groups.keys():
+                        groups[val]=[]
+                    groups[val].append(expression)
+                    continue
+        # Si on est toujours la, c'est qu'on ne l'a pas ajouté
+        groups["reste"].append(expression)
+    return groups
+
+
 # region Somme
 class Sum:
     """Classe d'un monstre de type somme.
@@ -16,7 +43,15 @@ class Sum:
 
     """
     def __init__(self, *args):
-        self.components = args
+        self.components = list(args)
+        for c in self.components:
+            if type(c) == Expr and len(c.components)==1:
+                c = c.components[0]
+            if type(c) == Sum:
+                arguments_c = c.components
+                self.components.remove(c)
+                self.components += arguments_c
+                self = Sum(self.components)
 
     def value(self):
         """Simplifie la valeur de la somme."""
@@ -26,10 +61,56 @@ class Sum:
             return Expr(r)
         else:
             # Permet de simplifier au maximum une somme
-            a = self.components[0]
-            for b in self.components[1:]:
-                a = Sum(a, b)
-            return Expr(a)
+            expression_nombres = None
+            expressions_variables = []
+            expression_reste = None
+            # on récupère les groupes triés
+            groupes_tries = trie(self.components)
+            # on fait déjà la somme des nombres faciles
+            somme_nbs = sum([e.value() for e in groupes_tries["nbs"]])
+            if somme_nbs != 0:
+                expression_nombres = Expr(somme_nbs)
+            # variables
+            variables = {}
+            for tp_groupe in groupes_tries.keys():
+                if tp_groupe != "nbs" and tp_groupe!="reste":
+                    variables[tp_groupe] = groupes_tries[tp_groupe]
+            # TODO: faire la factorisation, et rajouter les expressions dans la liste expressions_variables
+            if False:
+                for variable, liste in variables.items():
+                    lst_coefficients = []
+                    for expression in liste:
+                        autres_coef = []
+                        for coef in expression.components:
+                            if coef.value() != variable:
+                                autres_coef.append(coef)
+                        lst_coefficients += autres_coef
+                    print(lst_coefficients)
+                    expressions_variables.append(Mul(Expr(variable), Sum(*lst_coefficients)))
+            # restes
+            reste = groupes_tries["reste"]
+            if len(reste)==1:
+                expression_reste = reste[0]
+            elif len(reste)>=2:
+                expression_reste = Sum(reste[0],reste[1])
+                for x in range(2, len(reste)):
+                    expression_reste = Sum(expression_reste, reste[x])
+            # on fait la somme de ce qui nous reste
+            liste = []
+            if expression_nombres != None:
+                liste.append(expression_nombres)
+            liste += expressions_variables
+            if expression_reste != None:
+                liste.append(expression_reste)
+            if len(liste)==0:
+                return Expr(0)
+            elif len(liste)==1:
+                return Expr(liste[0])
+            else:
+                a = Sum(liste[0], liste[1])
+                for x in range(2, len(liste)):
+                    a = Sum(a, liste[x])
+                return Expr(a)
 
     def __str__(self):
         expressions = []
@@ -42,20 +123,19 @@ class Sum:
 
 
 def test_somme():
-    a = Expr(5)
-    b = Expr("a")
-    d = Expr(1)
-    e = a + d
-    c = a + b + d
-    print(c)
-    print(e)
+    a = Expr("a")
+    b = Expr(2)
+    c = Expr(5)
+    e = Expr("b")
+    d = Sum(Mul(a, b), Mul(a, e), a, c, b)
+    print(d.value())
 #endregion
 
 
 #region multiplication
 class Mul:
     def __init__(self, *args):
-        self.components = args
+        self.components = list(args)
 
     def value(self):
         if all([type(c) in [int, float] for c in self.components]):
