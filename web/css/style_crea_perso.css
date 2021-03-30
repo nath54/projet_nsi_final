@@ -1,7 +1,27 @@
+/* Couleur d'arrière plan */
 body{
     background-color: rgba(0, 0, 0, 0.8);
 }
 
+
+/* Bouton > */
+button{
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+/* Surbrillance du bouton > */
+button:hover {
+    background-color: #337935;
+}
+
+/* Bouton validation */
 .validation_perso_creation{
     background-color: #00ff37;
     border: none;
@@ -16,6 +36,7 @@ body{
     margin-top:120px;
 }
 
+/* Surbrillance bouton validation */
 .validation_perso_creation:hover {
     opacity: 1;
     background-color: #72df3f;
@@ -23,7 +44,7 @@ body{
   }
 
 
-
+/* Bouton precedent  */
 .precedent_perso_creation{
     background-color: #ff0800;
     border: none;
@@ -38,6 +59,7 @@ body{
     margin-top:120px;
 }
 
+/* Surbrillance bouton precedent */
 .precedent_perso_creation:hover {
     opacity: 1;
     background-color: #b60600;
@@ -45,6 +67,7 @@ body{
   }
 
 
+/* Titre (Creation personnage) */
 h1{
     font-family: 'Press Start 2P', cursive;
     font-size: 36px;
@@ -56,6 +79,7 @@ h1{
     text-shadow: rgb(180, 180, 180) 1px 0 8px;
 }
 
+/* Zone de texte qui s'adapte avec ces paramètres */
 a{
     font-family: 'Press Start 2P', cursive;
     font-size: 16px;
@@ -64,24 +88,7 @@ a{
 }
 
 
-
-button{
-    background-color: #4CAF50; /* Green */
-    border: none;
-    color: white;
-    padding: 5px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-}
-
-button:hover {
-    background-color: #337935;
-  }
-
-
-
+/* Div de tout les choix de customisation */
 .menu_creation_perso {
     margin-top:120px;
 }

@@ -54,7 +54,6 @@
                     </div>
                 </div>
 
-
                 
             <!-- Aperçu du sprite avec ses changements -->
             <div class="sprite_creation">
@@ -68,7 +67,6 @@
                     </div>
 
 
-                    
                     <!-- Bouton precedent, qui revient au formulaire d'inscription -->
                     <div class="precedent_creation">
                     <button class="precedent_perso_creation" href=""><a>PRECEDENT</a></button>
