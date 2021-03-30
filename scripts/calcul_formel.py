@@ -127,7 +127,7 @@ def test_somme():
     b = Expr(2)
     c = Expr(5)
     e = Expr("b")
-    d = Sum(Mul(a, b), Mul(a, e), Expr(a), c, b)
+    d = Sum(Mul(a, b), Mul(a, e), a, c, b)
     print(d.value())
 #endregion
 
