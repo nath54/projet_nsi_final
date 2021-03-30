@@ -20,6 +20,11 @@ class Region:
         for t in objs:
             self.cases_objets[str(t[0])+"_"+str(t[1])] = int(t[2])
 
+        #
+
+        self.ennemis = {}
+        self.pnjs = {}
+
     def get_case(self, x, y):
         i = f"{x}_{y}"
         if i in self.cases_terrains.keys():
@@ -42,6 +47,33 @@ class Carte:
         self.terrains = {}
         self.objets = {}
         self.load()
+        #
+
+    def est_case_libre(self, region,x, y):
+        if region not in self.regions.keys():
+            raise UserWarning("Erreur ! Région inconnue")
+
+        k = str(x)+"_"+str(y)
+        tp_case = self.regions[region].get_case(x,y)
+        if tp_case not in self.terrains.keys():
+            raise UserWarning("Erreur !")
+
+        tp_objet = self.regions[region].get_case_obj(x,y)
+        if tp_objet not in self.objets.keys():
+            raise UserWarning("Erreur !")
+
+        if self.objets[tp_objet]["collision"]: ## Si une case est occupée par un arbre ou autre,
+            return False                                  ## alors le déplacement est impossible
+
+        if not self.server.carte.terrains[tp_case]["peut_marcher"]: ## Si une case est occupée par un arbre ou autre,
+            return False
+
+        for p in self.server.personnages.values():
+            if p.position["x"]==x and p.position["y"]==y:
+                return False
+
+        # ca devrait être bon la
+        return True
 
     def load(self):
         sql = "SELECT id_region,nom FROM regions";

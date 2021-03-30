@@ -126,25 +126,8 @@ class Personnage:
         npx, npy = self.position["x"]+dep[0], self.position["y"]+dep[1]
         peut_se_depl = True
 
-        if self.region_actu not in self.server.carte.regions.keys():
-            raise UserWarning("Erreur ! Région inconnue")
 
-        k = str(npx)+"_"+str(npy)
-        tp_case = self.server.carte.regions[self.region_actu].get_case(npx,npy)
-        if tp_case not in self.server.carte.terrains.keys():
-            raise UserWarning("Erreur !")
-
-        tp_objet = self.server.carte.regions[self.region_actu].get_case_obj(npx,npy)
-        if tp_objet not in self.server.carte.objets.keys():
-            raise UserWarning("Erreur !")
-
-        if self.server.carte.objets[tp_objet]["collision"]: ## Si une case est occupée par un arbre ou autre,
-            peut_se_depl = False                                  ## alors le déplacement est impossible
-
-        if not self.server.carte.terrains[tp_case]["peut_marcher"]: ## Si une case est occupée par un arbre ou autre,
-            peut_se_depl = False
-
-        if peut_se_depl:
+        if self.server.carte.est_case_libre(self.region_actu, npx, npy):
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
             await self.server.send_to_user(self.id_utilisateur, {"action": "position_perso", "x":self.position["x"], "y":self.position["y"]})
