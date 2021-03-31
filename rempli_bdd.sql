@@ -1,4 +1,4 @@
-$
+
 INSERT INTO terrain SET
     id_terrain = 0,
     image_="vide.png",

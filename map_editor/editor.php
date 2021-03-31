@@ -467,6 +467,7 @@ function aff(){
             }
             document.getElementById(""+x+"-"+y).setAttribute("xlink:href","../imgs/tuiles/"+img);
             //
+            img = "rien.png"
             if(Object.keys(cases_objets).includes(""+cx+"-"+cy)){
                 img=objets[cases_objets[""+cx+"-"+cy]["id_objet"]]["img"];
             }

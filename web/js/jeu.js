@@ -17,6 +17,9 @@ var personnage = {
     "xp_tot": 100,
     "region_actu": 1
 }
+var autre_joueurs = {
+
+}
 
 /**
  *
