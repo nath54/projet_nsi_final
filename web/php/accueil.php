@@ -44,7 +44,7 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
     <body>
         <form method="POST" action="post_accueil.php">
 
-            <section class="pseudo">
+            <section class="login">
                 <div class="titre">Maths Quest</div>
                 <form action="accueil.php" method="post">
                     <div class="soustitre">Nom d'utilisateur: </div>
