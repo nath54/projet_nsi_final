@@ -10,7 +10,7 @@
     if (isset($_POST['mdp']) AND $_POST['mdp'] == 'mdp')
     // On laisse le joueur se connecter au jeu, si son mot de passe est bon
     {
-        header('Location: post_accueil.php');
+        header('Location jeu.php');
     }
     else // Sinon on ne laisse pas le joueur se connecter
     {
