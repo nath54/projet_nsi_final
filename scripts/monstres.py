@@ -1,5 +1,6 @@
 class monstre:
     def __init__(self, server, id_monstre):
+        self.server = server
         self.id_monstre = id_monstre
         self.nom = "" # charger depuis la bdd
         self.pv = ""
