@@ -19,6 +19,19 @@
         <h1>Creation personnage</h1>
 
 
+        <a class="compte_bouton" href="#"></a>
+<!--                 <script>
+                function clic(a,b){
+                    var ligne = document.getElementById("choix"+a);
+                    var n = parseInt(ligne.innerHTML);
+                    n = n+b;
+                    if n>6{
+                        n=n-6
+                        }
+                    if n=<0{
+                    ligne.innerHTML = n;
+                    }
+                }              -->
 
                 <!-- Script qui permet d'afficher le numéro suivant du choix -->
                 <script>
@@ -72,6 +85,9 @@
                     <button class="precedent_perso_creation" href=""><a>PRECEDENT</a></button>
                     </div>
 
+
+
+ 
                     
 
 
