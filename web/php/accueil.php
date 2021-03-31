@@ -2,24 +2,24 @@
 // on teste si le visiteur a soumis le formulaire de connexion
 // TODO: $_POST['connexion'] jamais définie (et est-ce utile ?)
 if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
-	if (!empty($_POST['login']) && !empty($_POST['pass'])) {
+	if (!empty($_POST['pseudo']) && !empty($_POST['pass'])) {
 		include_once("../../includes/bdd.php");
 		$db = load_db("../../includes/config.json");
 
-		// on teste si une entrée de la base contient ce couple login / pass
+		// on teste si une entrée de la base contient ce couple pseudo / pass
 		$sql = 'SELECT count(*) FROM utilisateurs WHERE pseudo=? AND mdp=MD5(?)';
-		$data = requete_prep($db, $sql, array($_POST['login'], $_POST['pass']));
+		$data = requete_prep($db, $sql, array($_POST['pseudo'], $_POST['pass']));
 
 		$db = null;
 
 		// si on obtient une réponse, alors l'utilisateur est un membre
 		if ($data[0] == 1) {
 			session_start();
-			$_SESSION['login'] = $_POST['login'];
+			$_SESSION['pseudo'] = $_POST['pseudo'];
 			header('Location: membre.php');
 			exit();
 		}
-		// Si on ne trouve rien, mauvais login / mot de passe
+		// Si on ne trouve rien, mauvais pseudo / mot de passe
 		elseif ($data[0][0] == 0) {
 			$erreur = 'Compte non reconnu.';
 		}
@@ -48,7 +48,7 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
                 <div class="titre">Maths Quest</div>
                 <form action="accueil.php" method="post">
                     <div class="soustitre">Nom d'utilisateur: </div>
-                    <input type="text" required title="Username" placeholder="Nom d'utilisateur" name="login" data-icon="U" class="bouton">
+                    <input type="text" required title="Username" placeholder="Nom d'utilisateur" name="pseudo" data-icon="U" class="bouton">
 					</br>
                     <div class="soustitre">Mot de passe: </div>
                     <input type="password" required title="Password" placeholder="Mot de passe" data-icon="x" name="pass" class="bouton">
