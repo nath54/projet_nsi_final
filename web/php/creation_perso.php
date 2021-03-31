@@ -20,6 +20,19 @@
 
 
 
+<!--                 <script>
+                function clic(a,b){
+                    var ligne = document.getElementById("choix"+a);
+                    var n = parseInt(ligne.innerHTML);
+                    n = n+b;
+                    if n>6{
+                        n=n-6
+                        }
+                    if n=<0{
+                    ligne.innerHTML = n;
+                    }
+                }              -->
+
                 <!-- Script qui permet d'afficher le numéro suivant du choix -->
                 <script>
                 function clic(a,b){
