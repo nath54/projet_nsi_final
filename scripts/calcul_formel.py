@@ -43,15 +43,24 @@ class Sum:
 
     """
     def __init__(self, *args):
-        self.components = list(args)
-        for c in self.components:
-            if type(c) == Expr and len(c.components)==1:
-                c = c.components[0]
-            if type(c) == Sum:
-                arguments_c = c.components
-                self.components.remove(c)
-                self.components += arguments_c
+        """Créé une somme
+
+        Arguments:
+            *args(tuple(int|str|Sum|Expr))
+                Liste des termes de la somme
+        """
+        self.components = []
+        i = 0
+        for arg in args:
+            if type(arg) == Expr and len(arg.components) == 1:
+                self.components.append(Expr(arg.components[0]))
+            if type(arg) == Sum:
+                termes = arg.components
+                self.components += termes
                 self = Sum(self.components)
+            if type(arg) in [str, int, float]:
+                self.components.append(Expr(arg))
+                i += 1
 
     def value(self):
         """Simplifie la valeur de la somme."""
@@ -75,18 +84,18 @@ class Sum:
             for tp_groupe in groupes_tries.keys():
                 if tp_groupe != "nbs" and tp_groupe!="reste":
                     variables[tp_groupe] = groupes_tries[tp_groupe]
-            # TODO: faire la factorisation, et rajouter les expressions dans la liste expressions_variables
-            if False:
-                for variable, liste in variables.items():
-                    lst_coefficients = []
-                    for expression in liste:
-                        autres_coef = []
-                        for coef in expression.components:
-                            if coef.value() != variable:
-                                autres_coef.append(coef)
-                        lst_coefficients += autres_coef
-                    print(lst_coefficients)
-                    expressions_variables.append(Mul(Expr(variable), Sum(*lst_coefficients)))
+            """TODO: faire la factorisation, et rajouter les expressions dans la liste expressions_variables
+            for variable, liste in variables.items():
+                lst_coefficients = []
+                for expression in liste:
+                    autres_coef = []
+                    for coef in expression.components:
+                        if coef.value() != variable:
+                            autres_coef.append(coef)
+                    lst_coefficients += autres_coef
+                print(lst_coefficients)
+                expressions_variables.append(Mul(Expr(variable), Sum(*lst_coefficients)))
+            """
             # restes
             reste = groupes_tries["reste"]
             if len(reste)==1:
@@ -123,12 +132,12 @@ class Sum:
 
 
 def test_somme():
-    a = Expr("a")
-    b = Expr(2)
-    c = Expr(5)
-    e = Expr("b")
-    d = Sum(Mul(a, b), Mul(a, e), a, c, b)
-    print(d.value())
+    print("DEBUT DU TEST : Sum")
+    var = str(Sum(18, 24, 22, "a").value())
+    assert var == "64 + a", f"Mauvaise valeur : {var} au lieu de '64 + a'"
+    var = str(Sum(1, 5, Sum("a", "b")).value())
+    assert var == "6 + a + b", f"Mauvaise valeur : {var} au lieu de '6 + a + b'"
+    print("FIN DU TEST : Sum")
 #endregion
 
 
@@ -237,6 +246,11 @@ class Expr:
         return self.__str__()
 
     def __eq__(self, other):
+        """Teste l'égalité entre deux expressions
+
+        TODO: Faudra avoir une syntaxe bien définie pour éviter qu'on ait des :
+              '2 × a' == 'a × 2' -> False
+        """
         return str(self) == str(other)
 
 #endregion
@@ -245,8 +259,6 @@ class Expr:
 
 
 if __name__ == "__main__":
-    print("Début des tests : Somme")
     test_somme()
-    print("Fin des tests : Somme")
 
 #endregion

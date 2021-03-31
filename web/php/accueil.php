@@ -2,13 +2,13 @@
 // on teste si le visiteur a soumis le formulaire de connexion
 // TODO: $_POST['connexion'] jamais définie (et est-ce utile ?)
 if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
-	if (!empty($_POST['pseudo']) && !empty($_POST['pass'])) {
+	if (!empty($_POST['pseudo']) && !empty($_POST['mdp'])) {
 		include_once("../../includes/bdd.php");
 		$db = load_db("../../includes/config.json");
 
-		// on teste si une entrée de la base contient ce couple pseudo / pass
+		// on teste si une entrée de la base contient ce couple pseudo / mdp
 		$sql = 'SELECT count(*) FROM utilisateurs WHERE pseudo=? AND mdp=MD5(?)';
-		$data = requete_prep($db, $sql, array($_POST['pseudo'], $_POST['pass']));
+		$data = requete_prep($db, $sql, array($_POST['pseudo'], $_POST['mdp']));
 
 		$db = null;
 
@@ -51,7 +51,7 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
                     <input type="text" required title="Username" placeholder="Nom d'utilisateur" name="pseudo" data-icon="U" class="bouton">
 					</br>
                     <div class="soustitre">Mot de passe: </div>
-                    <input type="password" required title="Password" placeholder="Mot de passe" data-icon="x" name="pass" class="bouton">
+                    <input type="password" required title="Password" placeholder="Mot de passe" data-icon="x" name="mdp" class="bouton">
                     </br>
 					</br>
                     <a href="post_accueil.php" class="envoyer">Valider</a>

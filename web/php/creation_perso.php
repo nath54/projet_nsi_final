@@ -19,7 +19,7 @@
         <h1>Creation personnage</h1>
 
 
-
+        <a class="compte_bouton" href="#"></a>
 <!--                 <script>
                 function clic(a,b){
                     var ligne = document.getElementById("choix"+a);
@@ -85,6 +85,9 @@
                     <button class="precedent_perso_creation" href=""><a>PRECEDENT</a></button>
                     </div>
 
+
+
+ 
                     
 
 

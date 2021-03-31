@@ -13,6 +13,6 @@ if (!isset($_SESSION['pseudo'])) {
 
 <body>
 Bienvenue <?php echo htmlentities(trim($_SESSION['pseudo'])); ?> !<br />
-<a href="deconnexion.php">Revenir à l'accueil</a>
+<a href="creation_perso.php">Création du personnage</a>
 </body>
 </html>
