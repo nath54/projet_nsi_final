@@ -26,5 +26,8 @@ class monstre:
         self.position = {"x": int(res[6]), "y": int(res[7])}
         self.id_region = int(res[8])
 
+    def emplacement(self): ## Retourne la position du monstre
+        return self.position
+
     def bouger(self):
         pass
