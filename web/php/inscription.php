@@ -62,7 +62,7 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
     <body>
         Inscription à l'espace membre :<br />
         <form action="inscription.php" method="post">
-		<link href="../css/style_inscription.css" rel="stylesheet" />
+		<link href="../css/style_co.css" rel="stylesheet" />
 
             <label for="pseudo"> Pseudo : </label> <input type="text" name="pseudo" value=" <?php if (isset($_POST['pseudo'])) echo htmlentities(trim($_POST['pseudo'])); ?> "> <br />
 
