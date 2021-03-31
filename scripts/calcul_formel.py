@@ -49,16 +49,18 @@ class Sum:
             *args(tuple(int|str|Sum|Expr))
                 Liste des termes de la somme
         """
-        self.components = list(args)
-        for c in self.components:
-            if type(c) == Expr and len(c.components) == 1:
-                c = c.components[0]
-            if type(c) == Sum:
-                arguments_c = c.components
-                self.components.remove(c)
-                self.components += arguments_c
+        self.components = []
+        i = 0
+        for arg in args:
+            if type(arg) == Expr and len(arg.components) == 1:
+                self.components.append(Expr(arg.components[0]))
+            if type(arg) == Sum:
+                termes = arg.components
+                self.components += termes
                 self = Sum(self.components)
-            if type(c) in [str, int, float]:
+            if type(arg) in [str, int, float]:
+                self.components.append(Expr(arg))
+                i += 1
 
     def value(self):
         """Simplifie la valeur de la somme."""
@@ -131,16 +133,10 @@ class Sum:
 
 def test_somme():
     print("DEBUT DU TEST : Sum")
-    a = Expr(18)
-    b = Expr(24)
-    assert str(Sum(18, 24).value()) == "42", "Mauvaise valeur."
-
-
-    b = Expr(2)
-    c = Expr(5)
-    e = Expr("b")
-    d = Sum(b, a, c, e)
-    print(d.value())
+    var = str(Sum(18, 24, 22, "a").value())
+    assert var == "64 + a", f"Mauvaise valeur : {var} au lieu de '64 + a'"
+    var = str(Sum(1, 5, Sum("a", "b")).value())
+    assert var == "6 + a + b", f"Mauvaise valeur : {var} au lieu de '6 + a + b'"
     print("FIN DU TEST : Sum")
 #endregion
 
