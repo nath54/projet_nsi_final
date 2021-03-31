@@ -7,7 +7,7 @@ body{
     background-color: rgba(0, 0, 0, 0.8);
 }
 
-.login {
+.pseudo {
     width: 500px;
     height: 400px;
     overflow: hidden;
@@ -18,7 +18,7 @@ body{
     box-shadow: 0px 0px 10000px rgba(117, 0, 0, 0.8);
     }
 
-.login .titre {
+.pseudo .titre {
     width: 498px;
     height: 35px;
     padding-top: 13px;
@@ -37,7 +37,7 @@ body{
     font-family: 'PressStart2P-Regular', 'Times New Roman', Times, serif;
 }
 
-.login .soustitre{
+.pseudo .soustitre{
     width: 498px;
     height: 35px;
     padding-top: 13px;
@@ -52,13 +52,13 @@ body{
     border-radius: 50px;
 }
 
-.login .bouton {
+.pseudo .bouton {
     width: 498px;
     height: 30px;
     align-items: center;
 }
 
-.login form {
+.pseudo form {
     width: 240px;
     height: auto;
     overflow: hidden;
@@ -67,7 +67,7 @@ body{
 }
 
 
-.login form input[type=text], .login form input[type=password] {
+.pseudo form input[type=text], .pseudo form input[type=password] {
     width: 200px;
     font-size: 450px;
     padding-top: 14px;
@@ -87,14 +87,14 @@ body{
     text-decoration: underline;
 }
 
-.login form input[type=text] {
+.pseudo form input[type=text] {
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     border-top: #0b0b0b solid 1px;
     background: #141414 url 10px center no-repeat;
 }
 
-.login form input[type=password] {
+.pseudo form input[type=password] {
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
     border-top: #0b0b0b 1px solid;
@@ -102,7 +102,7 @@ body{
     background: #141414 url 10px center no-repeat;
 }
 
-.login .envoyer {
+.pseudo .envoyer {
     width: 498px;
     height: 12px;
     display: block;
@@ -116,7 +116,7 @@ body{
     text-decoration: underline;
 }
 
-.login .oubli {
+.pseudo .oubli {
     width: 240px;
     height: auto;
     overflow: hidden;
@@ -126,19 +126,19 @@ body{
     text-align: center;
 }
 
-.login .oubli .col {
+.pseudo .oubli .col {
     width: 50%;
     height: auto;
     float: left;
 }
 
-.login .oubli .col a {
+.pseudo .oubli .col a {
     color: #fff;
     text-decoration: none;
     font: 12px 'PressStart2P-Regular', 'Times New Roman', Times, serif;
 }
 
-.login .inscr{
+.pseudo .inscr{
     width: 498px;
     height: 6px;
     display: block;
