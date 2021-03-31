@@ -141,16 +141,26 @@ CREATE TABLE pnj (
 ## TABLE `monstre`:
  - `id_monstre` *INT PRIMARY KEY AUTO_INCREMENT* : id d'un monstre
  - `nom_monstre` _TEXT_ : nom du monstre
+ - `niveau` _INT_ : niveau du monstre 
  - `pv` _INT_ : pv du monstre
  - `armure` _INT_ : armure du monstre
  - `dgt` _INT_ : dégats infligés par le monstre
-
+ - `loot` _TEXT_ : ce que va lacher le monstre en mourrant
+ - `id_region` _INT_ : région dans laquelle le monstre se situe
+ - `position_x` _INT_ : case x où le monstre est
+ - `position_y` _INT_ : case y où le monstre est
+ 
 ```sql
 CREATE TABLE monstre (id_monstre  INT PRIMARY KEY AUTO_INCREMENT,
 	     nom_monstre TEXT,
+		 niveau INT, 
 	     pv INT,
 		 armure INT,
-		 dgt INT);
+		 dgt INT,
+		 loot TEXT,
+		 id_region INT,
+		 position_x INT,
+		 position y INT);
 ```
 
 

@@ -102,6 +102,11 @@ class ServeurWebsocket:
             self.debug("send to ", websocket, " message : ", message)
         await websocket.send(message)  # On envoie le message
 
+    async def send_all(self, message, excepts_ids=[]):
+        for ws, data in self.USERS.items():
+            if data["id_utilisateur"] not in excepts_ids:
+                await self.send(ws, message)
+
     async def handle_server(self, websocket, _):
         """Fonction qui va gerer et recevoir tous les messaged d'un client websocket
            de sa connection à sa déconnection
@@ -151,6 +156,21 @@ class ServeurWebsocket:
                 # TODO: renvoyer que la connection s'est bien effectuée ou pas
                 self.server.load_perso(id_utilisateur)
                 await self.send_infos_persos(websocket)
+                for i,p in self.server.personnages.items():
+                    if i == self.USERS[websocket]["id_utilisateur"]:
+                        continue
+                    if self.server.personnages[id_utilisateur].region_actu != p.region_actu:
+                        # s'ils ne sont pas dans la même région, on n'envoie pas les données
+                        continue
+                    infos = {
+                        "action": "autre_joueur",
+                        "id_user": i,
+                        "region": p.region_actu,
+                        "x": p.position["x"],
+                        "y": p.position["y"]
+                    }
+                    await self.send(websocket, infos)
+
             elif data["action"] == "deplacement": # un autre exemple d'action à gerer
                 # TODO : mettre des verifs ici, ou dans la fonction qu'on appelle
                 await self.server.bouger_perso(self.USERS[websocket]["id_utilisateur"], data["deplacement"])

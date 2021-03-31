@@ -54,15 +54,22 @@
                     </div>
                 </div>
 
-
                 
             <!-- Aperçu du sprite avec ses changements -->
             <div class="sprite_creation">
 
 
+
+
                     <!-- Bouton valier, qui enregistre toutes les modifs dans la BDD -->
                     <div class="valider_creation">
-                        <button class="validation_perso_creation" href="">VALIDER</button>
+                        <button class="validation_perso_creation" href=""><a>VALIDER</a></button>
+                    </div>
+
+
+                    <!-- Bouton precedent, qui revient au formulaire d'inscription -->
+                    <div class="precedent_creation">
+                    <button class="precedent_perso_creation" href=""><a>PRECEDENT</a></button>
                     </div>
 
                     

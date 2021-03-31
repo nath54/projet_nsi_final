@@ -1,45 +1,10 @@
+/* Couleur d'arrière plan */
 body{
     background-color: rgba(0, 0, 0, 0.8);
 }
 
-.validation_perso_creation{
-    background-color: #00ff37;
-    border: none;
-    color: white;
-    padding: 16px 32px;
-    text-align: center;
-    font-size: 36px;
-    margin: 4px 2px;
-    opacity: 0.6;
-    transition: 1s;
-    margin-top:120px;
-}
 
-.validation_perso_creation:hover {
-    opacity: 1;
-    background-color: #42aa12;
-  }
-
-
-h1{
-    font-family: 'Press Start 2P', cursive;
-    font-size: 36px;
-    font-weight: 300;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-a{
-    font-family: 'Press Start 2P', cursive;
-    font-size: 16px;
-    font-weight: 100;
-    color: white;
-}
-
-
-
+/* Bouton > */
 button{
     background-color: #4CAF50; /* Green */
     border: none;
@@ -51,12 +16,79 @@ button{
     font-size: 16px;
 }
 
+/* Surbrillance du bouton > */
 button:hover {
     background-color: #337935;
+}
+
+/* Bouton validation */
+.validation_perso_creation{
+    background-color: #00ff37;
+    border: none;
+    color: white;
+    padding: 16px 16px;
+    text-align: center;
+    font-size: 36px;
+    margin: 4px 2px;
+    width: 175px;
+    opacity: 0.6;
+    transition: 1s;
+    margin-top:120px;
+}
+
+/* Surbrillance bouton validation */
+.validation_perso_creation:hover {
+    opacity: 1;
+    background-color: #72df3f;
+    width: 300px;
   }
 
 
+/* Bouton precedent  */
+.precedent_perso_creation{
+    background-color: #ff0800;
+    border: none;
+    color: white;
+    padding: 16px 16px;
+    text-align: center;
+    font-size: 36px;
+    margin: 4px 2px;
+    width: 175px;
+    opacity: 0.6;
+    transition: 1s;
 
+}
+
+/* Surbrillance bouton precedent */
+.precedent_perso_creation:hover {
+    opacity: 1;
+    background-color: #b60600;
+    width: 300px;
+  }
+
+
+/* Titre (Creation personnage) */
+h1{
+    font-family: 'Press Start 2P', cursive;
+    font-size: 36px;
+    font-weight: 300;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: rgb(180, 180, 180) 1px 0 8px;
+}
+
+/* Zone de texte qui s'adapte avec ces paramètres */
+a{
+    font-family: 'Press Start 2P', cursive;
+    font-size: 16px;
+    font-weight: 100;
+    color: white;
+}
+
+
+/* Div de tout les choix de customisation */
 .menu_creation_perso {
     margin-top:120px;
 }
