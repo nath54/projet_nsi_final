@@ -37,7 +37,8 @@ foreach($r as $i=>$data){
 
 $liste_regions = array();
 foreach(requete_prep($db, "SELECT * FROM regions") as $i=>$data){
-    $liste_regions[$data["nom"]]=$data["id_region"];
+    //$liste_regions[$data["nom"]]=$data["id_region"];
+    $liste_region[$data["id_region"]]=$data["nom"];
 }
 
 $region_selected = "";
@@ -52,10 +53,10 @@ if(isset($_POST["region_selected"])){
 
 if(isset($_POST["delete_region"])){
     if(in_array($_POST["delete_region"], array_keys($liste_regions))){
-        $idr = $liste_regions[$_POST["delete_region"]];
+        $idr = $_POST["delete_region"];
         //
-        $query = "DELETE FROM regions WHERE nom=:nom";
-        $vars = array(":nom"=>$_POST["delete_region"]);
+        $query = "DELETE FROM regions WHERE id_region=:idr";
+        $vars = array(":idr"=>$idr);
         $query2 = "DELETE FROM regions_terrains WHERE id_region=:idr";
         $vars2 = array(":idr"=>$idr);
         $query3 = "DELETE FROM regions_objets WHERE id_region=:idr";
@@ -74,15 +75,15 @@ if(isset($_POST["delete_region"])){
 
 
 if(isset($_POST["new_region"])){
-    if($_POST["new_region"]!="" && !in_array($_POST["new_region"], $liste_regions)){
+    if($_POST["new_region"]!="" && !in_array($_POST["new_region"], array_values($liste_regions))){
         $query = "INSERT INTO regions SET nom=:nom, tx=100, ty=100;";
         $vars = array(":nom"=>$_POST["new_region"]);
         if(!action_prep($db, $query, $vars)){
             alert("Il y a eu une erreur lors de la création de la région !");
         }
         else{
-            $region_selected = $_POST["new_region"];
-            $liste_regions[$_POST["new_region"]]=$db->lastInsertId();
+            $region_selected = $db->lastInsertId();
+            $liste_regions[$db->lastInsertId()]=$_POST["new_reg"];
         }
     }
     else{
@@ -94,9 +95,8 @@ $cases_terrains = array();
 $cases_objets = array();
 
 if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST["data_objets"])){
-    $nom_region = $_POST["save_terrain"];
-    $region_selected = $nom_region;
-    $id_region = $liste_regions[$region_selected];
+    $idr = $_POST["save_terrain"];
+    $region_selected = $idr;
     $datas = json_decode($_POST["data_terrain"], true);
     $datas_o = json_decode($_POST["data_objets"], true);
     // alert($id_region);
@@ -140,7 +140,7 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST
 
 if($region_selected!=""){
     $requested = "SELECT * FROM regions_terrains WHERE id_region=:idr";
-    $vars = array(":idr"=>$liste_regions[$region_selected]);
+    $vars = array(":idr"=>$region_selected);
     foreach(requete_prep($db, $requested, $vars) as $i=>$data){
         $x=$data["x"];
         $y=$data["y"];
@@ -148,7 +148,7 @@ if($region_selected!=""){
         $cases_terrains["$x-$y"]=array("x"=>$x, "y"=>$y, "tile"=>$tile);
     }
     $requested = "SELECT * FROM regions_objets WHERE id_region=:idr";
-    $vars = array(":idr"=>$liste_regions[$region_selected]);
+    $vars = array(":idr"=>$region_selected);
     foreach(requete_prep($db, $requested, $vars) as $i=>$data){
         $x=$data["x"];
         $y=$data["y"];
@@ -201,12 +201,12 @@ else{
                     <?php
 
                         // Il faudra peut-être changer les infos de la BDD
-                        foreach($liste_regions as $nom=>$id){
+                        foreach($liste_regions as $idr=>$nom){
                             $sel="";
-                            if($nom==$region_selected){
+                            if($idr==$region_selected){
                                 $sel="selected";
                             }
-                            echo "<option $sel>$nom</option>";
+                            echo "<option value=$idr $sel>".$liste_regions[$idr]."</option>";
                         }
 
                     ?>
