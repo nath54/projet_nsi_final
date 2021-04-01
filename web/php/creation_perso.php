@@ -18,8 +18,10 @@
     <!-- Titre création du personnage -->
         <h1>Creation personnage</h1>
 
+        <div class="compte_bouton">
+        <img class ="icone_compte" src="compte.png">
+        </div>
 
-        <a class="compte_bouton" href="#"></a>
 <!--                 <script>
                 function clic(a,b){
                     var ligne = document.getElementById("choix"+a);
@@ -73,6 +75,7 @@
 
 
 
+                    
 
                     <!-- Bouton valier, qui enregistre toutes les modifs dans la BDD -->
                     <div class="valider_creation">

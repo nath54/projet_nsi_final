@@ -99,11 +99,15 @@ a{
     height: 300px;
     width: 300px;
     border-radius: 50%;
-    border: 3px solid rgb(255, 255, 255);
+    border: 3px solid rgb(100, 12, 12);
     transition: 1s;
     
   }
 
 .compte_bouton:hover{
-    
+    opacity: 1;
+    background-color: rgb(121, 32, 32);
+    height: 300px;
+    width: 300px;
+
 }
