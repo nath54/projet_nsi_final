@@ -1,9 +1,0 @@
-{
-    "ip": "localhost",
-    "port": 3307,
-    "database": "projetclasse",
-    "user": "projetclasse",
-    "password": "proj#17CLASSE",
-    "port_websocket": 6546,
-    "host_websocket": ""
-}

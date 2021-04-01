@@ -21,7 +21,7 @@ class ServeurWebsocket:
 
         Author : Nathan
         """
-        config = self.load_config("config.json")  # Fichier de configuration
+        config = self.load_config("../includes/config.json")  # Fichier de configuration
         self.IP = config["host_websocket"]  # Ip/Information Réseau pour la connexion websocket
         self.PORT = config["port_websocket"]  # Port utilisée pour la connexion websocket
         self.USERS = dict()  # Dictionnaire des utilisateurs actuellement connectés au serveur websocket

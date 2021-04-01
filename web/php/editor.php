@@ -1,8 +1,8 @@
 <?php
-include_once "../includes/init.php";
-include_once "../includes/bdd.php";
+include_once "../../includes/init.php";
+include_once "../../includes/bdd.php";
 
-$db = load_db();
+$db = load_db("../../includes/config.json");
 
 
 
@@ -187,7 +187,7 @@ else{
     <head>
         <meta charset="UTF-8" />
         <title>Editeur de map</title>
-        <link href="editor.css" rel="stylesheet" />
+        <link href="../css/editor.css" rel="stylesheet" />
     </head>
     <body>
         <!-- header -->

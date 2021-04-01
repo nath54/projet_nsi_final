@@ -19,7 +19,7 @@ class dbClient:
 
     def __init__(self):
         # on récupere les infos
-        with open('config.json') as json_file:
+        with open('../includes/config.json') as json_file:
             data = json.load(json_file)
             self.db_ip = data["ip"]
             self.db_port = data["port"]

@@ -81,7 +81,7 @@ INSERT INTO terrain SET
 
 INSERT INTO terrain SET
     id_terrain = 10,
-    image_="sol_pierre_O.png",
+    image_="sol_pierre_0.png",
     nom="sol pierre 0",
     peut_marcher=1,
 	cultivable=0,
@@ -106,7 +106,7 @@ INSERT INTO terrain SET
 INSERT INTO terrain SET
     id_terrain = 13,
     image_="lava_1.gif",
-    nom="sol pierre 2",
+    nom="lave 1",
     peut_marcher=0,
 	cultivable=0,
 	objet_dessus=1;

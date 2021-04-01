@@ -196,7 +196,7 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                                 $y = $data["y"] * $tc;
                                 $img = $terrains[$data["id_terrain"]]["img"];
                                 $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
-                                echo "<image z-index=\"1\" x=$x y=$y width=$ct height=$ct xlink:href=\"../../imgs/tuiles/$img\" class=\"case\"></image>";
+                                echo "<image z-index=\"1\" x=$x y=$y width=$ct height=$ct xlink:href=\"../imgs/tuiles/$img\" class=\"case\"></image>";
                             }
                         ?>
                     </g>
@@ -212,7 +212,7 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                                 $zindex = $objets[$data["id_objet"]]["z_index"];
                                 $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
                                 if($zindex==1){
-                                    echo "<image x=$x y=$y width=$ct height=$ct xlink:href=\"../../imgs/objets/$img\" class=\"case\"></image>";
+                                    echo "<image x=$x y=$y width=$ct height=$ct xlink:href=\"../imgs/objets/$img\" class=\"case\"></image>";
                                 }
                             }
                         ?>
@@ -245,7 +245,7 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                                 $zindex = $objets[$data["id_objet"]]["z_index"];
                                 $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
                                 if($zindex==3){
-                                    echo "<image x=$x y=$y width=$ct height=$ct xlink:href=\"../../imgs/objets/$img\" class=\"case\"></image>";
+                                    echo "<image x=$x y=$y width=$ct height=$ct xlink:href=\"../imgs/objets/$img\" class=\"case\"></image>";
                                 }
                             }
                         ?>
