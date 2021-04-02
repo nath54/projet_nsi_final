@@ -76,7 +76,12 @@ h1{
     display: flex;
     align-items: center;
     justify-content: center;
-    text-shadow: rgb(180, 180, 180) 1px 0 8px;
+    text-shadow: rgb(180, 180, 180) 3px 0 11px;
+    transition: 1s;
+}
+
+h1:hover{
+    text-shadow: rgb(218, 218, 218) 11px 0 19px;
 }
 
 /* Zone de texte qui s'adapte avec ces paramètres */
@@ -93,22 +98,70 @@ a{
     margin-top:120px;
 }
 
-
+/* Bouton compte */
 .compte_bouton {
     display:block;
-    height: 80px;
-    width: 80px;
+    height: 40px;
+    width: 40px;
     border-radius: 50%;
     border: 3px solid rgb(255, 255, 255);
     transition: 1s;
-    margin-left:120px;
-    
+    margin-left:10px;
+    top: 100%;
+    padding: 5px;
   }
 
+/* Hover du bouton compte */
 .compte_bouton:hover{
     opacity: 1;
-    background-color: rgb(255, 255, 255);
-    height: 100px;
-    width: 100px;
+    background-color:rgba(0, 0, 0, 0.80);
+    height: 60px;
+    width: 60px;
+
 
 }
+
+/* Image du bouton compte */
+.login{
+    width: 100%;
+    height: auto;
+    margin: 0px;
+}
+
+/* Bouton parametre */
+.parametre_bouton {
+    display:block;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 3px solid rgb(255, 255, 255);
+    transition: 1s;
+    margin-left:20px;
+    padding: 5px;
+    top: auto;
+  }
+
+/* Hover du bouton de parametre */
+.parametre_bouton:hover{
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.80);
+    height: 60px;
+    width: 60px;
+}
+
+/* Image de l'engrenage */
+.engrenage{
+    width: 100%;
+    height: auto;
+    margin: 0px;
+}
+
+#bouton_header{
+    width: 100% ;
+    height: 100% ;
+    }
+     
+    #bouton_header div{
+    float:left;
+    }
+
