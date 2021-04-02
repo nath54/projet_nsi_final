@@ -28,30 +28,23 @@
             </div>
         </div>
 
+        
+                 <!-- Script qui permet d'afficher le numéro suivant des vetements  -->
                  <script>
-                function clic(a,b){
-                    var ligne = document.getElementById("choix"+a);
-                    var n = parseInt(ligne.innerHTML);
-                    n = n+b;
-                    if (n>6){
-                        n=n-6;
-                        }
-                    if (n<=0){
-                    n = n+6;
-                    }
-                    ligne.innerHTML = n;
-                }              
-
-                </script>
-                <!-- Script qui permet d'afficher le numéro suivant du choix 
-                <script>
                     function clic(a,b){
                         var ligne = document.getElementById("choix"+a);
                         var n = parseInt(ligne.innerHTML);
-                        n = ((n+b-1)%6)+1;
+                        n = n+b;
+                        if (n>6){
+                            n=n-6;
+                            }
+                        if (n<=0){
+                        n = n+6;
+                        }
                         ligne.innerHTML = n;
-                    }               
-                </script>-->
+                    }              
+                </script>
+
             
                 <!-- Menu de création -->
                 <!-- Après le choix du sexe et de la classe -->

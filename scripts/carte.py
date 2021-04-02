@@ -40,6 +40,7 @@ class Region:
             return 0
 
 class Carte:
+    """Gère toutes les régions, les collisions..."""
     def __init__(self, server):
         self.server = server
         self.db = server.db
