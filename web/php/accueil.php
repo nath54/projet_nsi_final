@@ -62,7 +62,7 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
                     <input type="password" required title="Password" placeholder="Mot de passe" data-icon="x" name="mdp" class="bouton">
                     </br>
 					</br>
-					<input type="submit" value="Valider" />					
+					<input type="submit" class="envoyer" value="Valider" />					
 					<div class="oubli">
                         <div class="col"><a href="#" title="Retrouver mot de passe">Forgot Password ?</a></div>
                     </div>
