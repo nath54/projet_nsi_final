@@ -26,7 +26,7 @@ class ServeurWebsocket:
             False -> Cache les messages d'erreur
     """
 
-    # \=-=-=-=-=-=-=-=-=-=-=-=-= INITIALISATION =-=-=-=-=-=-=-=-=-=-=-=-=/
+    # \=~=~=~=~=~=~=~=~=~=~=~=~= INITIALISATION =~=~=~=~=~=~=~=~=~=~=~=~=/
 
     def __init__(self, server):
         """Constructeur de la classe ServeurWebsocket
@@ -70,7 +70,7 @@ class ServeurWebsocket:
             now = datetime.now().time()  # time object
             print(now, ":", *message)  # Affiche le message
 
-    # \=-=-=-=-=-=-=-=-=- REGISTER / UNREGISTER CONNECTION -=-=-=-=-=-=-=-=-=/
+    # \=~=~=~=~=~=~=~=~=~ REGISTER / UNREGISTER CONNECTION -=~=~=~=~=~=~=~=~=/
 
     async def register(self, websocket):
         """Enregistre un client websocket lorsqu'il se connecte
@@ -98,7 +98,7 @@ class ServeurWebsocket:
         self.debug("Client disconnected !", websocket)
         del(self.USERS[websocket])  # On enlève l'utilisateur
 
-    # \=-=-=-=-=-=-=-=-=-=-= INTERACTION CLIENT/SERVEUR =-=-=-=-=-=-=-=-=-=-=/
+    # \=~=~=~=~=~=~=~=~=~=~= INTERACTION CLIENT/SERVEUR =~=~=~=~=~=~=~=~=~=~=/
 
     async def send(self, websocket, message):
         """Envoie un message au websocket
@@ -223,7 +223,7 @@ class ServeurWebsocket:
             # Il faudra faire attention aux types d'event
             print("Unsupported event : ", data)
 
-    # \=-=-=-=-=-=-=-=-=-=-=-=-= START SERVER =-=-=-=-=-=-=-=-=-=-=-=-=/
+    # \=~=~=~=~=~=~=~=~=~=~=~=~= START SERVER =~=~=~=~=~=~=~=~=~=~=~=~=/
 
     def start(self):
         """Lance le serveur websocket, à appeler dans le serveur.py.

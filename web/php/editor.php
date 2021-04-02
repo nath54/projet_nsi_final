@@ -38,7 +38,7 @@ foreach($r as $i=>$data){
 $liste_regions = array();
 foreach(requete_prep($db, "SELECT * FROM regions") as $i=>$data){
     //$liste_regions[$data["nom"]]=$data["id_region"];
-    $liste_region[$data["id_region"]]=$data["nom"];
+    $liste_regions[$data["id_region"]]=$data["nom"];
 }
 
 $region_selected = "";
@@ -49,7 +49,6 @@ if(isset($_POST["region_selected"])){
         $id_region = $liste_regions[$region_selected];
     }
 }
-
 
 if(isset($_POST["delete_region"])){
     if(in_array($_POST["delete_region"], array_keys($liste_regions))){
@@ -72,7 +71,6 @@ if(isset($_POST["delete_region"])){
         alert("La region n'existe pas !");
     }
 }
-
 
 if(isset($_POST["new_region"])){
     if($_POST["new_region"]!="" && !in_array($_POST["new_region"], array_values($liste_regions))){
@@ -97,48 +95,51 @@ $cases_objets = array();
 if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST["data_objets"])){
     $idr = $_POST["save_terrain"];
     $region_selected = $idr;
-    $delete_t = $_POST["delete_terrains"];
-    $delete_o = $_POST["delete_objets"];
-    $update_t = $_POST["update_terrains"];
-    $update_o = $_POST["update_objets"];
+    $delete_t = json_decode($_POST["delete_terrains"]);
+    $delete_o = json_decode($_POST["delete_objets"]);
+    $update_t = json_decode($_POST["update_terrains"]);
+    $update_o = json_decode($_POST["update_objets"]);
+    $new_t = json_decode($_POST["new_terrains"]);
+    $new_o = json_decode($_POST["new_objets"]);
+    $req = "DELETE FROM regions_terrains WHERE x,y,id_region IN ";
     // $datas = json_decode($_POST["data_terrain"], true);
     // $datas_o = json_decode($_POST["data_objets"], true);
     // alert($id_region);
     // echo $_POST["data_terrain"];
-    // On nettoie
-    $query = "DELETE FROM regions_terrains WHERE id_region=:idr";
-    $vars = array(":idr"=>$idr);
-    if(!action_prep($db, $query, $vars)){
-        clog("probleme suppression");
-    }
-    $query = "DELETE FROM regions_objets WHERE id_region=:idr";
-    $vars = array(":idr"=>$idr);
-    if(!action_prep($db, $query, $vars)){
-        clog("probleme suppression2");
-    }
-    // On remplace
-    foreach($datas as $i=>$data){
-        if($data["tile"]==NULL || $data["tile"]==0){
-            continue;
-        }
-        $query = "INSERT INTO regions_terrains SET x=:x, y=:y, id_terrain=:tile, id_region=:idr";
-        // echo $data["x"].", ".$data["y"]." : ".$data["tile"]." - ";
-        $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":tile"=>$data["tile"], ":idr"=>$idr);
-        if(!action_prep($db, $query, $vars)){
-            clog("probleme insertion");
-        }
-    }
-    foreach($datas_o as $i=>$data){
-        if($data["id_objet"]==NULL || $data["id_objet"]==0){
-            continue;
-        }
-        $query = "INSERT INTO regions_objets SET x=:x, y=:y, id_objet=:id_objet, id_region=:idr";
-        // echo $data["x"].", ".$data["y"]." : ".$data["tile"]." - ";
-        $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":id_objet"=>$data["id_objet"], ":idr"=>$idr);
-        if(!action_prep($db, $query, $vars)){
-            clog("probleme insertion2");
-        }
-    }
+    // // On nettoie
+    // $query = "DELETE FROM regions_terrains WHERE id_region=:idr";
+    // $vars = array(":idr"=>$idr);
+    // if(!action_prep($db, $query, $vars)){
+    //     clog("probleme suppression");
+    // }
+    // $query = "DELETE FROM regions_objets WHERE id_region=:idr";
+    // $vars = array(":idr"=>$idr);
+    // if(!action_prep($db, $query, $vars)){
+    //     clog("probleme suppression2");
+    // }
+    // // On remplace
+    // foreach($datas as $i=>$data){
+    //     if($data["tile"]==NULL || $data["tile"]==0){
+    //         continue;
+    //     }
+    //     $query = "INSERT INTO regions_terrains SET x=:x, y=:y, id_terrain=:tile, id_region=:idr";
+    //     // echo $data["x"].", ".$data["y"]." : ".$data["tile"]." - ";
+    //     $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":tile"=>$data["tile"], ":idr"=>$idr);
+    //     if(!action_prep($db, $query, $vars)){
+    //         clog("probleme insertion");
+    //     }
+    // }
+    // foreach($datas_o as $i=>$data){
+    //     if($data["id_objet"]==NULL || $data["id_objet"]==0){
+    //         continue;
+    //     }
+    //     $query = "INSERT INTO regions_objets SET x=:x, y=:y, id_objet=:id_objet, id_region=:idr";
+    //     // echo $data["x"].", ".$data["y"]." : ".$data["tile"]." - ";
+    //     $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":id_objet"=>$data["id_objet"], ":idr"=>$idr);
+    //     if(!action_prep($db, $query, $vars)){
+    //         clog("probleme insertion2");
+    //     }
+    // }
 }
 
 
@@ -367,11 +368,20 @@ var dec_y = 0;
 var is_clicking = false;
 var hx=null;
 var hy=null;
-var viewport = document.getElementById("viewport");
+if(document.getElementById("viewport")){
+    var viewport = document.getElementById("viewport");
+}
+else{
+    var viewport = null;
+}
 
-var update = [];
-var new = [];
-var delete = [];
+var update_t = {};
+var new_t = {};
+var delete_t = {};
+
+var update_o = {};
+var new_o = {};
+var delete_o = {};
 
 function arrayRemove(arr, value) {
     return arr.filter(function(ele){
@@ -379,28 +389,31 @@ function arrayRemove(arr, value) {
     });
 }
 
-viewport.addEventListener('mousedown', e => {
-    dcx,dcy=null,null;
-    if(hx!=null && hy!=null){
-        change_case(hx,hy);
-    }
-    is_clicking = true;
-});
+if(viewport!=null){
 
-viewport.addEventListener('mousemove', e => {
-    if (is_clicking === true && (dcx!=hx || dcy!=hy)) {
+    viewport.addEventListener('mousedown', e => {
+        dcx,dcy=null,null;
         if(hx!=null && hy!=null){
             change_case(hx,hy);
         }
-    }
-});
+        is_clicking = true;
+    });
 
-viewport.addEventListener('mouseup', e => {
-    if (is_clicking === true) {
-        is_clicking = false;
-    }
-});
+    viewport.addEventListener('mousemove', e => {
+        if (is_clicking === true && (dcx!=hx || dcy!=hy)) {
+            if(hx!=null && hy!=null){
+                change_case(hx,hy);
+            }
+        }
+    });
 
+    viewport.addEventListener('mouseup', e => {
+        if (is_clicking === true) {
+            is_clicking = false;
+        }
+    });
+
+}
 function mo(cx,cy){
     hx = cx;
     hy = cy;
@@ -440,26 +453,44 @@ function change_case(x, y){
     if(tile_selected==0){
         if(tp_selected=="terrains"){
             if(Object.keys(cases_terrains).includes(i)){
-                delete cases_terrains[i];
+                delete update_t[i];
                 var e = document.getElementById(""+x+"-"+y);
                 e.setAttribute("xlink:href","../imgs/tuiles/vide.png");
+            }
+            else{
+                delete new_t[i];
             }
         }
         else if(tp_selected=="objets"){
             if(Object.keys(cases_objets).includes(i)){
-                delete cases_objets[i];
+                delete update_o[i];
                 var e = document.getElementById("o_"+x+"-"+y);
                 e.setAttribute("xlink:href","../imgs/objets/rien.png");
+            }
+            else{
+                delete new_o[i];
             }
         }
     }
     else{
         if(tp_selected=="terrains"){
-            cases_terrains[i] = {"x":cx, "y":cy, "tile":tile_selected};
+            if(Object.keys(cases_terrains).includes(i)){
+                update_t[i] = {"x":cx, "y":cy, "tile":tile_selected};
+            }
+            else{
+                new_t[i] = {"x":cx, "y":cy, "tile":tile_selected};
+            }
+            // cases_terrains[i] = {"x":cx, "y":cy, "tile":tile_selected};
             var e = document.getElementById(""+x+"-"+y);
             e.setAttribute("xlink:href","../imgs/tuiles/"+terrains[tile_selected]["img"]);
         }else if(tp_selected=="objets"){
-            cases_objets[i] = {"x":cx, "y":cy, "id_objet":tile_selected};
+            // cases_objets[i] = {"x":cx, "y":cy, "id_objet":tile_selected};
+            if(Object.keys(cases_terrains).includes(i)){
+                update_o[i] = {"x":cx, "y":cy, "id_objet":tile_selected};
+            }
+            else{
+                new_o[i] = {"x":cx, "y":cy, "id_objet":tile_selected};
+            }
             var e = document.getElementById("o_"+x+"-"+y);
             e.setAttribute("xlink:href","../imgs/objets/"+objets[tile_selected]["img"]);
         }
@@ -562,14 +593,24 @@ function save_tiles(){
     i.setAttribute("name", "save_terrain");
     i.value=nom;
     f.appendChild(i);
-    var ii=document.createElement("input");
-    ii.setAttribute("name", "data_terrain");
-    ii.value=JSON.stringify(cases_terrains);
-    f.appendChild(ii);
-    var iii=document.createElement("input");
-    iii.setAttribute("name", "data_objets");
-    iii.value=JSON.stringify(cases_objets);
-    f.appendChild(iii);
+
+    var liste_donnees = [
+        ["delete_terrains", delete_t],
+        ["udpate_terrains", update_t],
+        ["new_terrains", new_t],
+
+        ["delete_objets", delete_o],
+        ["delete_objets", update_o],
+        ["new_objets", new_o]
+    ]
+
+    for([nom,data] of liste_donnees){
+        var ii=document.createElement("input");
+        ii.setAttribute("name", nom);
+        ii.value=JSON.stringify(liste_donnees);
+        f.appendChild(ii);
+    }
+
     document.body.appendChild(f);
     f.submit();
 }
