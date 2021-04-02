@@ -141,7 +141,7 @@ CREATE TABLE pnj (
 ## TABLE `monstre`:
  - `id_monstre` *INT PRIMARY KEY AUTO_INCREMENT* : id d'un monstre
  - `nom_monstre` _TEXT_ : nom du monstre
- - `niveau` _INT_ : niveau du monstre 
+ - `niveau` _INT_ : niveau du monstre
  - `pv` _INT_ : pv du monstre
  - `armure` _INT_ : armure du monstre
  - `dgt` _INT_ : dégats infligés par le monstre
@@ -149,11 +149,11 @@ CREATE TABLE pnj (
  - `id_region` _INT_ : région dans laquelle le monstre se situe
  - `position_x` _INT_ : case x où le monstre est
  - `position_y` _INT_ : case y où le monstre est
- 
+
 ```sql
 CREATE TABLE monstre (id_monstre  INT PRIMARY KEY AUTO_INCREMENT,
 	     nom_monstre TEXT,
-		 niveau INT, 
+		 niveau INT,
 	     pv INT,
 		 armure INT,
 		 dgt INT,
@@ -254,9 +254,9 @@ CREATE TABLE regions(
 CREATE TABLE regions_terrains(
 	x INT NOT NULL,
 	y INT NOT NULL,
-	id_region INT,
+	id_region INT NOT NULL,
 	id_terrain INT DEFAULT 0,
-	CONSTRAINT comp_key_x_y PRIMARY KEY (x,y)
+	CONSTRAINT comp_key_x_y PRIMARY KEY (x, y, id_region)
 );
 ```
 
@@ -272,9 +272,9 @@ CREATE TABLE regions_terrains(
 CREATE TABLE regions_objets(
 	x INT NOT NULL,
 	y INT NOT NULL,
-	id_region INT,
+	id_region INT NOT NULL,
 	id_objet INT DEFAULT 0,
-	CONSTRAINT comp_key_x_y PRIMARY KEY (x,y)
+	CONSTRAINT comp_key_x_y PRIMARY KEY (x, y, id_region)
 );
 ```
 

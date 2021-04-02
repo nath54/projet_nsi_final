@@ -60,9 +60,14 @@ CREATE TABLE pnj (
 
 CREATE TABLE monstre (id_monstre  INT PRIMARY KEY AUTO_INCREMENT,
 	     nom_monstre TEXT,
+		 niveau INT,
 	     pv INT,
 		 armure INT,
-		 dgt INT);
+		 dgt INT,
+		 loot TEXT,
+		 id_region INT,
+		 position_x INT,
+		 position y INT);
 
 
 CREATE TABLE classe (
@@ -105,17 +110,17 @@ CREATE TABLE regions(
 CREATE TABLE regions_terrains(
 	x INT NOT NULL,
 	y INT NOT NULL,
-	id_region INT,
+	id_region INT NOT NULL,
 	id_terrain INT DEFAULT 0,
-	CONSTRAINT comp_key_x_y PRIMARY KEY (x,y)
+	CONSTRAINT comp_key_x_y PRIMARY KEY (x, y, id_region)
 );
 
 
 CREATE TABLE regions_objets(
 	x INT NOT NULL,
 	y INT NOT NULL,
-	id_region INT,
+	id_region INT NOT NULL,
 	id_objet INT DEFAULT 0,
-	CONSTRAINT comp_key_x_y PRIMARY KEY (x,y)
+	CONSTRAINT comp_key_x_y PRIMARY KEY (x, y, id_region)
 );
 
