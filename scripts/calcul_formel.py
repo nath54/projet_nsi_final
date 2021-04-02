@@ -7,11 +7,12 @@ Classes:
     Expr: Permet de gérer les interactions entre différentes expressions
 """
 
+
 def trie(components):
     groups = {
-        "nbs": [], # Quand il n'y a pas de variables
+        "nbs": [],  # Quand il n'y a pas de variables
         # les variables se rajouteront ici
-        # TODO:
+        # TODO: Compléter les variables ?
         # la on met le reste pour l'instant
         "reste": []
     }
@@ -20,15 +21,16 @@ def trie(components):
             groups["nbs"].append(expression)
             continue
         if type(expression) == Mul:
-            # TODO: regarder si il y a une variable dans les composants de l'expression
+            # TODO: Regarder s'il y a une variable dans les composants
+            #       de l'expression
             for e in expression.components:
                 val = e.value()
                 if type(val) == str:
-                    if not val in groups.keys():
-                        groups[val]=[]
+                    if val not in groups.keys():
+                        groups[val] = []
                     groups[val].append(expression)
                     continue
-        # Si on est toujours la, c'est qu'on ne l'a pas ajouté
+        # Si on est toujours là, c'est qu'on ne l'a pas ajouté
         groups["reste"].append(expression)
     return groups
 
@@ -63,7 +65,12 @@ class Sum:
                 i += 1
 
     def value(self):
-        """Simplifie la valeur de la somme."""
+        """Simplifie la valeur de la somme.
+
+        Returns:
+            Expr
+                Résultat de la somme sous forme d'Expr
+        """
         # Si tous les nombres sont des int ou float, on les simplifie.
         if all([type(c.value()) in [int, float] for c in self.components]):
             r = sum(terme.value() for terme in self.components)
@@ -82,9 +89,10 @@ class Sum:
             # variables
             variables = {}
             for tp_groupe in groupes_tries.keys():
-                if tp_groupe != "nbs" and tp_groupe!="reste":
+                if tp_groupe != "nbs" and tp_groupe != "reste":
                     variables[tp_groupe] = groupes_tries[tp_groupe]
-            """TODO: faire la factorisation, et rajouter les expressions dans la liste expressions_variables
+            """TODO: Faire la factorisation, et rajouter les expressions
+                     dans la liste expressions_variables
             for variable, liste in variables.items():
                 lst_coefficients = []
                 for expression in liste:
@@ -94,26 +102,27 @@ class Sum:
                             autres_coef.append(coef)
                     lst_coefficients += autres_coef
                 print(lst_coefficients)
-                expressions_variables.append(Mul(Expr(variable), Sum(*lst_coefficients)))
+                expressions_variables.append(Mul(Expr(variable),\
+                    Sum(*lst_coefficients)))
             """
             # restes
             reste = groupes_tries["reste"]
-            if len(reste)==1:
+            if len(reste) == 1:
                 expression_reste = reste[0]
-            elif len(reste)>=2:
-                expression_reste = Sum(reste[0],reste[1])
+            elif len(reste) >= 2:
+                expression_reste = Sum(reste[0], reste[1])
                 for x in range(2, len(reste)):
                     expression_reste = Sum(expression_reste, reste[x])
             # on fait la somme de ce qui nous reste
             liste = []
-            if expression_nombres != None:
+            if expression_nombres is not None:
                 liste.append(expression_nombres)
             liste += expressions_variables
-            if expression_reste != None:
+            if expression_reste is not None:
                 liste.append(expression_reste)
-            if len(liste)==0:
+            if len(liste) == 0:
                 return Expr(0)
-            elif len(liste)==1:
+            elif len(liste) == 1:
                 return Expr(liste[0])
             else:
                 a = Sum(liste[0], liste[1])
@@ -130,18 +139,23 @@ class Sum:
                 expressions.append("(" + str(terme) + ")")
         return " + ".join(expressions)
 
+    def __print__(self):
+        return str(self)
+
 
 def test_somme():
     print("DEBUT DU TEST : Sum")
     var = str(Sum(18, 24, 22, "a").value())
     assert var == "64 + a", f"Mauvaise valeur : {var} au lieu de '64 + a'"
     var = str(Sum(1, 5, Sum("a", "b")).value())
-    assert var == "6 + a + b", f"Mauvaise valeur : {var} au lieu de '6 + a + b'"
+    assert var == "6 + a + b",\
+        f"Mauvaise valeur : {var} au lieu de '6 + a + b'"
+    print(Sum(1, 5, "a", "a"))
     print("FIN DU TEST : Sum")
-#endregion
+# endregion
 
 
-#region multiplication
+# region multiplication
 class Mul:
     def __init__(self, *args):
         self.components = list(args)
@@ -149,7 +163,8 @@ class Mul:
     def value(self):
         if all([type(c) in [int, float] for c in self.components]):
             r = self.components[0]
-            # TODO: Il faudra s'arreter de diviser comme ca si on a un nombre irrationnel
+            # TODO: Il faudra s'arrêter de diviser comme ça si on a un nombre
+            #       irrationnel ?????
             for c in self.components[1:]:
                 r *= c
             return Expr(r)
@@ -167,10 +182,13 @@ class Mul:
             else:
                 expressions.append(f"({str(terme)})")
         return " × ".join(expressions)
-#endregion
+
+    def __print__(self):
+        return str(self)
+# endregion
 
 
-#region division
+# region division
 class Div:
     def __init__(self, *args):
         self.components = args
@@ -180,9 +198,10 @@ class Div:
     def value(self):
         if all([type(c) in [int, float] for c in self.components]):
             r = self.components[0]
-            # TODO: Il faudra s'arreter de diviser comme ca si on a un nombre irrationnel
+            # TODO: Il faudra s'arrêter de diviser comme ça si on a un nombre
+            #       irrationnel
             for c in self.components[1:]:
-                r/=c
+                r /= c
             return Expr(r)
         else:
             a = self.components[0]
@@ -202,10 +221,13 @@ class Div:
             else:
                 aa += " / " + str(b)
         return aa
-#endregion
+
+    def __print__(self):
+        return str(self)
+# endregion
 
 
-#region expression mathématique
+# region expression mathématique
 class Expr:
     def __init__(self, *components):
         self.components = components
@@ -252,13 +274,8 @@ class Expr:
               '2 × a' == 'a × 2' -> False
         """
         return str(self) == str(other)
-
-#endregion
-
-#region tests :
+# endregion
 
 
 if __name__ == "__main__":
     test_somme()
-
-#endregion

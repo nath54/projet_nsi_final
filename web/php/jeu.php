@@ -5,7 +5,9 @@ include_once "../../includes/bdd.php";
 
 $db = load_db("../../includes/config.json");
 
-$_SESSION["player_id"] = 1;
+if(!isset($_SESSION["player_id"])){
+    $_SESSION["player_id"] = 1;
+}
 $id_player = $_SESSION["player_id"];
 
 // On récupère les infos du joueur :
@@ -257,13 +259,13 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
         </div>
 
     </body>
-    <script src="../js/webscocket_client.js"></script>
+    <script src="../js/websocket_client.js"></script>
     <script src="../js/jeu.js"></script>
     <script>
 
 <?php
 $data = open_json("../../includes/config.json");
-$url_ws = $data["url_websocket"].":".$data["port_websocket"];
+$url_ws = $data["url_websocket"];
 ?>
 var ws_url = "<?php echo $url_ws; ?>";
 

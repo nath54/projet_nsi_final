@@ -97,8 +97,12 @@ $cases_objets = array();
 if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST["data_objets"])){
     $idr = $_POST["save_terrain"];
     $region_selected = $idr;
-    $datas = json_decode($_POST["data_terrain"], true);
-    $datas_o = json_decode($_POST["data_objets"], true);
+    $delete_t = $_POST["delete_terrains"];
+    $delete_o = $_POST["delete_objets"];
+    $update_t = $_POST["update_terrains"];
+    $update_o = $_POST["update_objets"];
+    // $datas = json_decode($_POST["data_terrain"], true);
+    // $datas_o = json_decode($_POST["data_objets"], true);
     // alert($id_region);
     // echo $_POST["data_terrain"];
     // On nettoie
@@ -365,6 +369,10 @@ var hx=null;
 var hy=null;
 var viewport = document.getElementById("viewport");
 
+var update = [];
+var new = [];
+var delete = [];
+
 function arrayRemove(arr, value) {
     return arr.filter(function(ele){
         return ele != value;
@@ -575,6 +583,15 @@ function set_selection(ii){
             document.getElementById(i).style.display="none";
         }
     }
+}
+
+function export_region(){
+    var texte={"terrains":cases_terrains, "objets":cases_objets};
+    var texte = JSON.stringify(texte);
+}
+
+function import_region(){
+
 }
 
 document.addEventListener('keydown', (event) => {
