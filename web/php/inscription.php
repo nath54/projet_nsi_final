@@ -61,36 +61,38 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
     </head>
 
     <body>
-        Inscription à l'espace membre :<br />
-        <form action="inscription.php" method="post">
-		<link href="../css/style_co.css" rel="stylesheet" />
+		<section class="inscr">	
+			Inscription à l'espace membre :<br />
+			<form action="inscription.php" method="post">
+			<link href="../css/style_co.css" rel="stylesheet" />
 
-            <label for="pseudo"> Pseudo : </label> <input type="text" name="pseudo" value=" <?php if (isset($_POST['pseudo'])) echo htmlentities(trim($_POST['pseudo'])); ?> "> <br />
+				<label for="pseudo"> Pseudo : </label> <input type="text" name="pseudo" value=" <?php if (isset($_POST['pseudo'])) echo htmlentities(trim($_POST['pseudo'])); ?> "> <br />
 
-            <label for="mdp"> Mot de passe : </label> <input type="password" name="mdp" value=" <?php if (isset($_POST['mdp'])) echo htmlentities(trim($_POST['mdp'])); ?> "> <br />
+				<label for="mdp"> Mot de passe : </label> <input type="password" name="mdp" value=" <?php if (isset($_POST['mdp'])) echo htmlentities(trim($_POST['mdp'])); ?> "> <br />
 
-            <label for="mdp_confirm"> Confirmation du mot de passe : </label> <input type="password" name="mdp_confirm" value=" <?php if (isset($_POST['mdp_confirm'])) echo htmlentities(trim($_POST['mdp_confirm'])); ?> "> <br />
-			
-			<!-- html entities convertit tous les caractères en entités HTML -->
+				<label for="mdp_confirm"> Confirmation du mot de passe : </label> <input type="password" name="mdp_confirm" value=" <?php if (isset($_POST['mdp_confirm'])) echo htmlentities(trim($_POST['mdp_confirm'])); ?> "> <br />
+				
+				<!-- html entities convertit tous les caractères en entités HTML -->
 
-			Sexe :
-				<select name="sexe" size="1">
-					<OPTION>Homme</option>
-					<OPTION>Femme
-					<OPTION>Autre
-				</select>
+				Sexe :
+					<select name="sexe" size="1">
+						<option>Homme</option>
+						<option>Femme</option>
+						<option>Autre</option>
+					</select>
 
-			Classe :
-				<select name="classe" size="1">
-					<OPTION>Chevalier
-					<OPTION>Chasseur
-					<OPTION>Sorcier
-				</select>
+				Classe :
+					<select name="classe" size="1">
+						<option>Chevalier</option>
+						<option>Chasseur</option>
+						<option>Sorcier</option>
+					</select>
 
 
-            <input type="submit" name="inscription" value="Inscription">
+				<input type="submit" name="inscription" value="Inscription">
 
-        </form>
+			</form>
+		</section>
 
 		<?php
 			// TODO: Retirer pour la version finale
