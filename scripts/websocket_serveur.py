@@ -1,4 +1,3 @@
-
 import asyncio
 
 import websockets as ws
@@ -10,33 +9,49 @@ from datetime import datetime
 
 
 class ServeurWebsocket:
-    """
-    Ceci est la classe websocket pour communiquer avec le client websocket javascript
+    """Communique avec le client websocket javascript
+
+    Attributes:
+        IP(str)
+            IP/Information réseau pour la connexion WebSocket
+        PORT(int)
+            Port utilisé pour la connexion websocket
+        USERS(dict<WebSocket, int>)
+            Utilisateurs actuellement connectés au serveur websocket
+            Format {Instance WebSocket: ID de l'utilisateur}
+        server(Serveur)
+            Référence au serveur
+        DEBUG(bool)
+            True  -> Affiche des messages d'erreur pour le débuggage
+            False -> Cache les messages d'erreur
     """
 
-    ###################################### INITIALISATION ######################################
+    # \=-=-=-=-=-=-=-=-=-=-=-=-= INITIALISATION =-=-=-=-=-=-=-=-=-=-=-=-=/
 
     def __init__(self, server):
         """Constructeur de la classe ServeurWebsocket
 
         Author : Nathan
         """
-        config = self.load_config("../includes/config.json")  # Fichier de configuration
-        self.IP = config["host_websocket"]  # Ip/Information Réseau pour la connexion websocket
-        self.PORT = config["port_websocket"]  # Port utilisée pour la connexion websocket
-        self.USERS = dict()  # Dictionnaire des utilisateurs actuellement connectés au serveur websocket
-                             # websocket : id_utilisateur
+        config = self.load_config("../includes/config.json")
+        """Fichier de configuration"""
+
+        self.IP = config["host_websocket"]
+        self.PORT = config["port_websocket"]
+        self.USERS = dict()
         self.server = server
-        self.DEBUG = True  # Permettra d'afficher des messages d'erreurs/de débuggage lors des tests
+        self.DEBUG = True
 
     def load_config(self, path):
         """Récupère la config du serveur enregistrée dans un fichier json
 
-        Args:
+        Arguments:
             path (str): chemin utilisé pour lire le fichier de configuration
 
         Returns:
-            dict<???, ???>: Renvoie un dictionnaire contenant les infos du fichier de configuration
+            dict<str, str|int>
+                Renvoie un dictionnaire contenant les infos du fichier
+                de configuration
 
         Author : Nathan
         """
@@ -44,56 +59,61 @@ class ServeurWebsocket:
         return data
 
     def debug(self, *message):
-        """Affiche des messages quand on est en mode debug
+        """Affiche des messages en mode débug
 
-        Args:
-            *message (list): La liste des informations a afficher
+        Arguments:
+            *message (list): La liste des informations à afficher
 
         Author : Nathan
         """
         if self.DEBUG:
-            now = datetime.now().time() # time object
-            print(now, ":", *message) # Affiche le message
+            now = datetime.now().time()  # time object
+            print(now, ":", *message)  # Affiche le message
 
-    ############################# REGISTER / UNREGISTER CONNECTION #############################
+    # \=-=-=-=-=-=-=-=-=- REGISTER / UNREGISTER CONNECTION -=-=-=-=-=-=-=-=-=/
 
     async def register(self, websocket):
-        """Fonction qui va enregistrer un client websocket connecté
+        """Enregistre un client websocket lorsqu'il se connecte
 
-        Args:
-            websocket (websocket): client websocket
+        Arguments:
+            websocket(websocket)
+                Client websocket à enregistrer
 
         Author : Nathan
 
         """
         self.debug("Client connected !", websocket)
-        self.USERS[websocket] = {"id_utilisateur": None} # On va pouvoir stocker des informations
-                                       # relatives au client websocket ici
+        self.USERS[websocket] = {"id_utilisateur": None}
+        """On stocke des infos relatives au client websocket ici"""
 
-    async def unregister(self,websocket):
-        """Fonction qui va enlever un client websocket qui se déconnecte
+    async def unregister(self, websocket):
+        """Enlève un client websocket lorsqu'il se déconnecte
 
-        Args:
-            websocket (websocket): client websocket
+        Arguments:
+            websocket (websocket)
+                Client websocket à déconnecter
 
         Author : Nathan
         """
         self.debug("Client disconnected !", websocket)
-        del(self.USERS[websocket]) # On enleve l'utilisateur
+        del(self.USERS[websocket])  # On enlève l'utilisateur
 
-
-    ################################ INTERACTION CLIENT/SERVEUR ################################
+    # \=-=-=-=-=-=-=-=-=-=-= INTERACTION CLIENT/SERVEUR =-=-=-=-=-=-=-=-=-=-=/
 
     async def send(self, websocket, message):
-        """fonction qui envoie un message au websocket
-           `message` peut être sous format parsable par json
+        """Envoie un message au websocket
 
-           S'utilise de la manière suivante :
-            await self.send(websocket, {"exemple", "ex", "encore_exemple", "ex"})
+        S'utilise de la manière suivante :
+            await self.send(websocket, {"exemple": "ex",\
+                                        "encore_exemple": "ex"})
 
-        Args:
-            websocket (websocket): client websocket
-            message (dict/str): message à envoyer
+        Arguments:
+            websocket(websocket)
+                Client websocket auquel on envoie le message
+            message (dict|str)
+                Message à envoyer
+                dict -> Objet json à envoyer
+                str  -> Message à envoyer
 
         Author : Nathan
         """
@@ -103,64 +123,86 @@ class ServeurWebsocket:
         await websocket.send(message)  # On envoie le message
 
     async def send_all(self, message, excepts_ids=[]):
+        """Envoie un message à tous les clients
+
+        Arguments:
+            message(dict|str)
+                Message à envoyer
+                dict -> Objet json à envoyer
+                str  -> Message à envoyer
+            excepts_ids(list<int>)
+                ID des utilisateurs auquel on enverra pas le messages
+        """
         for ws, data in self.USERS.items():
             if data["id_utilisateur"] not in excepts_ids:
                 await self.send(ws, message)
 
     async def handle_server(self, websocket, _):
-        """Fonction qui va gerer et recevoir tous les messaged d'un client websocket
-           de sa connection à sa déconnection
+        """Gère et reçoit tous les messages d'un client websocket
 
-        Args:
-            websocket (websocket): client websocket
+        Arguments:
+            websocket (websocket)
+                Client websocket dont on gère les messages
 
         Author : Nathan
         """
-        await self.register(websocket) # On enregistre l'utilisateur
+        await self.register(websocket)  # On enregistre l'utilisateur
         try:
-            async for message in websocket: # on traite tous les messages que l'on recoit
+            # on traite tous les messages que l'on recoit
+            async for message in websocket:
                 await self.gere_messages(websocket, message)
         finally:
-            await self.unregister(websocket) # On supprime l'utilisateur
+            # On supprime l'utilisateur
+            await self.unregister(websocket)
 
     async def send_infos_persos(self, websocket):
+        """Envoie un dictionnaire contenant toutes les infos d'un perso
+
+        Arguments:
+            websocket(websocket)
+                Client websocket auquel on envoie les infos
+
+        Author: Nathan
+        """
         p = self.server.personnages[self.USERS[websocket]["id_utilisateur"]]
-        infos = {"action":"infos_perso",
-                    "x": p.position["x"],
-                    "y": p.position["y"],
-                    "vie": p.vie,
-                    "vie_max": p.vie_max,
-                    "mana": p.mana,
-                    "mana_max": p.mana_max,
-                    "xp": p.xp,
-                    "xp_tot": p.xp_tot,
-                    "region_actu": p.region_actu}
+        infos = {"action": "infos_perso",
+                 "x": p.position["x"],
+                 "y": p.position["y"],
+                 "vie": p.vie,
+                 "vie_max": p.vie_max,
+                 "mana": p.mana,
+                 "mana_max": p.mana_max,
+                 "xp": p.xp,
+                 "xp_tot": p.xp_tot,
+                 "region_actu": p.region_actu}
         await self.send(websocket, infos)
 
     async def gere_messages(self, websocket, message):
-        """analyse tous les messages qu'elle recoit,
-           et réagit en conséquence
+        """Analyse les messages reçus et effectue les actions sur le serveur.
 
-        Args:
-            websocket (websocket): client websocket
-            message (str): message recu
+        Arguments:
+            websocket(websocket)
+                Client websocket dont on reçoit le message.
+            message (str):
+                Message reçu sous forme json contenant les instructions.
 
         Author : Nathan
         """
         data = json.loads(message)
         self.debug("get from ", websocket, " : ", data)
         if "action" in data.keys():
-            if data["action"] == "connection":  # un exemple d'action possible
+            if data["action"] == "connection":  # Un exemple d'action possible
                 id_utilisateur = data["id_utilisateur"]
                 self.USERS[websocket]["id_utilisateur"] = id_utilisateur
-                # TODO: renvoyer que la connection s'est bien effectuée ou pas
+                # TODO: Renvoyer que la connexion s'est bien effectuée ou pas
                 self.server.load_perso(id_utilisateur)
                 await self.send_infos_persos(websocket)
-                for i,p in self.server.personnages.items():
+                for i, p in self.server.personnages.items():
                     if i == self.USERS[websocket]["id_utilisateur"]:
                         continue
-                    if self.server.personnages[id_utilisateur].region_actu != p.region_actu:
-                        # s'ils ne sont pas dans la même région, on n'envoie pas les données
+                    if self.server.personnages[id_utilisateur].region_actu !=\
+                            p.region_actu:
+                        # Pas dans la même région : on n'envoie pas les données
                         continue
                     infos = {
                         "action": "autre_joueur",
@@ -171,25 +213,30 @@ class ServeurWebsocket:
                     }
                     await self.send(websocket, infos)
 
-            elif data["action"] == "deplacement": # un autre exemple d'action à gerer
-                # TODO : mettre des verifs ici, ou dans la fonction qu'on appelle
-                await self.server.bouger_perso(self.USERS[websocket]["id_utilisateur"], data["deplacement"])
-            elif data["action"] == "stats_persos": # un autre exemple d'action à gerer
+            elif data["action"] == "deplacement":  # Un autre exemple d'action
+                # TODO : mettre des vérifs ici ou dans la fonction utilisée
+                user = self.USERS[websocket]["id_utilisateur"]
+                await self.server.bouger_perso(user, data["deplacement"])
+            elif data["action"] == "stats_persos":  # Un autre exemple
                 await self.send_infos_persos(websocket)
         else:
-            print("Unsupported event : ", data)  # Il faudra faire attention aux types d'event
+            # Il faudra faire attention aux types d'event
+            print("Unsupported event : ", data)
 
-    ###################################### START SERVER ######################################
+    # \=-=-=-=-=-=-=-=-=-=-=-=-= START SERVER =-=-=-=-=-=-=-=-=-=-=-=-=/
 
     def start(self):
-        """Lance le serveur websocket, à appeler dans le serveur.py,
+        """Lance le serveur websocket, à appeler dans le serveur.py.
 
-        Author : Nathan
-
+        Author: Nathan
         """
         print("Server starting...")
-        self.serveur = ws.serve(self.handle_server, self.IP, self.PORT)  # On initialise le serveur
+        self.serveur = ws.serve(self.handle_server, self.IP, self.PORT)
+        # On initialise le serveur
+
         print(f"Server listening on {self.IP}:{self.PORT}")
         asyncio.get_event_loop().run_until_complete(self.serveur)
-        asyncio.get_event_loop().run_forever()  # Le serveur tourne tant qu'on ne l'arrête pas
-        # Un petit Ctrl+C fait très bien l'affaire ;)
+
+        asyncio.get_event_loop().run_forever()
+        # Le serveur tourne tant qu'on ne l'arrête pas
+        # Utiliser Ctrl+C pour l'arrêter

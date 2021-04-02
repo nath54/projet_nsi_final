@@ -22,6 +22,7 @@ $db = load_db("../../includes/config.json");
         header('Location: accueil.php');
     }
     
+    
     $res = requete_prep($db, "SELECT * FROM utilisateurs WHERE pseudo = :pseudo AND mdp = MD5(:mdp);", array(":pseudo"=>$_POST["pseudo"], ":mdp"=>$_POST["mdp"]));
     if (count($res)>0)
     // On laisse le joueur se connecter au jeu, si son mot de passe est bon
