@@ -1,5 +1,8 @@
 <?php
-session_start();
+
+include_once("../../includes/init.php");
+include_once("../../includes/bdd.php");
+$db = load_db("../../includes/config.json");
 $debug=true; // changer quand on mettra en ligne
 
 // on teste si le joueur a soumis le formulaire
@@ -25,8 +28,6 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
 	else {
 		// on recherche si ce pseudo est déjà utilisé par un joueur
 
-		include_once("../../includes/bdd.php");
-		$db = load_db("../../includes/config.json");
 		$sql = 'SELECT count(*) FROM utilisateurs WHERE pseudo=?';
 		$data = requete_prep($db, $sql, array($_POST["pseudo"]));
 		print_r($data);
