@@ -86,7 +86,7 @@ body{
     height: 45px;
     padding-top: 13px;
     padding-bottom: 13px;
-    font-size: 25px;
+    font-size: 30px;
     text-align: center;
     color: #bfbfbf;
     text-shadow: rgb(255, 0, 0) 1px 0 8px;
@@ -100,5 +100,37 @@ body{
     font-family: 'PressStart2P-Regular', 'Times New Roman', Times, serif;
 }
 
+.inscr .bouton{
+    width: 1000px;
+    font-size: large;
+    -ms-flex-align: center;
+    text-align: left;
+    color: #bfbfbf;
+    text-shadow: rgb(255, 0, 0);
+    font-family: 'PressStart2P-Regular', 'Times New Roman', Times, serif;
+}
+
+.inscr .select{
+    width: auto;
+    height:12px;
+    font-size:large;
+    -ms-flex-align: start;
+    text-align: start;
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow: rgb(189, 1, 1) 1px 0 8px;
+    font-family: 'PressStart2P-Regular', 'Times New Roman', Times, serif;
+
+}
+
+.inscr .sub{
+    height: 35px;
+    -ms-flex-align: start;
+    width: 250px;
+    text-align: start;
+    color: #bfbfbf;
+    background:#000000;
+    font-size: large;
+    font-family: 'PressStart2P-Regular', 'Times New Roman', Times, serif;
+}
 
 

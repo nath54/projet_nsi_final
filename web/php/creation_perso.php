@@ -18,32 +18,40 @@
     <!-- Titre création du personnage -->
         <h1>Creation personnage</h1>
 
-        <div class="compte_bouton">
+        <div id="bouton_header">
+            <div class="compte_bouton">
+                <img class="login" src="../imgs/header/login.png">
+            </div>
 
+            <div class="parametre_bouton">
+                <img class="engrenage" src="../imgs/header/engrenage.png">
+            </div>
         </div>
 
-<!--                 <script>
+                 <script>
                 function clic(a,b){
                     var ligne = document.getElementById("choix"+a);
                     var n = parseInt(ligne.innerHTML);
                     n = n+b;
-                    if n>6{
-                        n=n-6
+                    if (n>6){
+                        n=n-6;
                         }
-                    if n=<0{
-                    ligne.innerHTML = n;
+                    if (n<=0){
+                    n = n+6;
                     }
-                }              -->
-
-                <!-- Script qui permet d'afficher le numéro suivant du choix -->
-                <script>
-                function clic(a,b){
-                    var ligne = document.getElementById("choix"+a);
-                    var n = parseInt(ligne.innerHTML);
-                    n = ((n+b-1)%6)+1;
                     ligne.innerHTML = n;
-                }               
+                }              
+
                 </script>
+                <!-- Script qui permet d'afficher le numéro suivant du choix 
+                <script>
+                    function clic(a,b){
+                        var ligne = document.getElementById("choix"+a);
+                        var n = parseInt(ligne.innerHTML);
+                        n = ((n+b-1)%6)+1;
+                        ligne.innerHTML = n;
+                    }               
+                </script>-->
             
                 <!-- Menu de création -->
                 <!-- Après le choix du sexe et de la classe -->
@@ -73,10 +81,6 @@
             <!-- Aperçu du sprite avec ses changements -->
             <div class="sprite_creation">
 
-
-
-                    
-
                     <!-- Bouton valier, qui enregistre toutes les modifs dans la BDD -->
                     <div class="valider_creation">
                         <button class="validation_perso_creation" href=""><a>VALIDER</a></button>
@@ -85,17 +89,9 @@
 
                     <!-- Bouton precedent, qui revient au formulaire d'inscription -->
                     <div class="precedent_creation">
-                    <button class="precedent_perso_creation" href=""><a>PRECEDENT</a></button>
+                        <button class="precedent_perso_creation" href=""><a>PRECEDENT</a></button>
                     </div>
 
-
-
- 
-                    
-
-
-                    
-        </div>
-
+            </div>
     </body>
 </html>

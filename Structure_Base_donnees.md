@@ -54,6 +54,35 @@ CREATE TABLE utilisateurs (
  id_bas INT,
  id_pieds INT);
 ```
+## TABLE 'personnalisation':
+ - `id_tete` _INT_ : id de la tête pour le personnalisation
+ - `img_tete` _TEXT_ : image de la tete
+ - `id_cheveux` _INT_ : id des cheveux pour la personnalisation
+ - `img_cheveux` _TEXT_ : image des cheveux
+ - `id_barbe` _INT_ : id de la barbe pour la personnalisation
+ - `img_barbe` : image de la barbe
+ - `id_haut` _INT_ : id du haut du corps pour la perso
+ - `img_haut` _TEXT_ : image du haut
+ - `id_bas` _INT_ : id des jambes pour la perso
+ - `img_bas` _TEXT_ : image du bas
+ - `id_pieds` _INT_ : id des pieds pour la perso
+ - `img_pieds` _TEXT_ : image des pieds
+
+ ```sql
+ CREATE TABLE personnalisation (
+			id_tete INT,
+	     	img_tete TEXT,
+			id_cheveux INT,
+		 	img_cheveux TEXT,
+			id_barbe INT,
+		 	img_barbe TEXT,
+			id_haut INT,
+			img_haut TEXT,
+			id_bas INT,
+			img_bas TEXT,
+			id_pieds INT,
+			img_pieds TEXT);
+```
 
 
 
