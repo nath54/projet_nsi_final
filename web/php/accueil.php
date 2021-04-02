@@ -43,22 +43,22 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
 ?>
 
 <html>
+	<head>
 		<meta charset="utf-8" />
         <title>Accueil</title>
         <link href="../css/style_co.css" rel="stylesheet" />
     </head>
-
-	<div id="bouton_header">
-				<div class="compte_bouton">
-					<img class="login" src="../imgs/header/login.png">
-				</div>
-
-				<div class="parametre_bouton">
-					<img class="engrenage" src="../imgs/header/engrenage.png">
-				</div>
-			</div>
-			
     <body>
+		<div id="bouton_header">
+			<div class="compte_bouton">
+				<img class="login1" src="../imgs/header/login.png">
+			</div>
+
+			<div class="parametre_bouton">
+				<img class="engrenage" src="../imgs/header/engrenage.png">
+			</div>
+		</div>
+			
         <form method="POST" action="post_accueil.php">
 
             <section class="login">

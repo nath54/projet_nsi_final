@@ -7,6 +7,73 @@ body{
     background-color: rgba(0, 0, 0, 0.8);
 }
 
+/* Bouton compte */
+.compte_bouton {
+    display:block;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 3px solid rgb(255, 255, 255);
+    transition: 1s;
+    margin-left:10px;
+    top: 100%;
+    padding: 5px;
+  }
+
+/* Hover du bouton compte */
+.compte_bouton:hover{
+    opacity: 1;
+    background-color:rgba(0, 0, 0, 0.80);
+    height: 60px;
+    width: 60px;
+
+
+}
+
+/* Image du bouton compte */
+.login1{
+    width: 100%;
+    height: auto;
+    margin: 0px;
+}
+
+/* Bouton parametre */
+.parametre_bouton {
+    display:block;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 3px solid rgb(255, 255, 255);
+    transition: 1s;
+    margin-left:20px;
+    padding: 5px;
+    top: auto;
+  }
+
+/* Hover du bouton de parametre */
+.parametre_bouton:hover{
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.80);
+    height: 60px;
+    width: 60px;
+}
+
+/* Image de l'engrenage */
+.engrenage{
+    width: 100%;
+    height: auto;
+    margin: 0px;
+}
+
+#bouton_header{
+    width: 100% ;
+    height: 100% ;
+    }
+     
+    #bouton_header div{
+    float:left;
+    }
+
 .login {
     width: 500px;
     height: 400px;
