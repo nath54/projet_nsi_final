@@ -77,16 +77,16 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
 			<div class="select">
 				Sexe :
 					<select name="sexe" size="1">
-						<OPTION>Homme</option>
-						<OPTION>Femme
-						<OPTION>Autre
+						<option>Homme</option>
+						<option>Femme</option>
+						<option>Autre</option>
 					</select>
 				</br>
 				Classe :
 					<select name="classe" size="1">
-						<OPTION>Chevalier
-						<OPTION>Chasseur
-						<OPTION>Sorcier
+						<option>Chevalier</option>
+						<option>Chasseur</option>
+						<option>Sorcier</option>
 					</select>
 				</br>
 			</div>

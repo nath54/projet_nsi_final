@@ -17,7 +17,13 @@ CREATE TABLE utilisateurs (
  quetes TEXT,
  region_actu INT DEFAULT 1,
  position_x INT,
- position_y INT);
+ position_y INT,
+ id_tete INT,
+ id_cheveux INT,
+ id_barbe INT,
+ id_haut INT,
+ id_bas INT,
+ id_pieds INT);
 
 
 CREATE TABLE objet (

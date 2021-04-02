@@ -19,6 +19,12 @@
  - `region_actu` _INT DEFAULT 1_ : id de la région où le joueur est
  - `position_x` _INT_ : case/position x où le joueur est
  - `position_y` _INT_ : case/position y où le joueur est
+ - `id_tete` _INT_ : id de la tête pour le personnalisation
+ - `id_cheveux` _INT_ : id des cheveux pour la personnalisation
+ - `id_barbe` _INT_ : id de la barbe pour la personnalisation
+ - `id_haut` _INT_ : id du haut du corps pour la perso
+ - `id_bas` _INT_ : id des jambes pour la perso
+ - `id_pieds` _INT_ : id des pieds pour la perso
 
 
 ```sql
@@ -40,8 +46,16 @@ CREATE TABLE utilisateurs (
  quetes TEXT,
  region_actu INT DEFAULT 1,
  position_x INT,
- position_y INT);
+ position_y INT,
+ id_tete INT,
+ id_cheveux INT,
+ id_barbe INT,
+ id_haut INT,
+ id_bas INT,
+ id_pieds INT);
 ```
+
+
 
 
 ## TABLE `objet`:
