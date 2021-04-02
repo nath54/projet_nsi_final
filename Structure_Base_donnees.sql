@@ -25,6 +25,20 @@ CREATE TABLE utilisateurs (
  id_bas INT,
  id_pieds INT);
 
+CREATE TABLE personnalisation (
+			id_tete INT,
+	     	img_tete TEXT,
+			id_cheveux INT,
+		 	img_cheveux TEXT,
+			id_barbe INT,
+		 	img_barbe TEXT,
+			id_haut INT,
+			img_haut TEXT,
+			id_bas INT,
+			img_bas TEXT,
+			id_pieds INT,
+			img_pieds TEXT);
+
 
 CREATE TABLE objet (
 			id_objet INT PRIMARY KEY AUTO_INCREMENT,
