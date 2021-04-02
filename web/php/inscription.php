@@ -67,11 +67,12 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
 			<form action="inscription.php" method="post">
 			
 			<div class="bouton"> 
-				<label for="pseudo"> Pseudo :</label> <input type="text" name="pseudo" value=" <?php if (isset($_POST['pseudo'])) echo htmlentities(trim($_POST['pseudo'])); ?> "> <br />
-
-				<label for="mdp"> Mot de passe :</label> <input type="password" name="mdp" value=" <?php if (isset($_POST['mdp'])) echo htmlentities(trim($_POST['mdp'])); ?> "> <br />
-
-				<label for="mdp_confirm"> Confirmation du mot de passe: </label> <input type="password" name="mdp_confirm" value=" <?php if (isset($_POST['mdp_confirm'])) echo htmlentities(trim($_POST['mdp_confirm'])); ?> "> <br />
+				<label for="pseudo"> Pseudo :</label> <input type="text" name="pseudo" value=" <?php if (isset($_POST['pseudo'])) echo htmlentities(trim($_POST['pseudo'])); ?> "> </br>
+				</br>
+				<label for="mdp"> Mot de passe :</label> <input type="password" name="mdp" value=" <?php if (isset($_POST['mdp'])) echo htmlentities(trim($_POST['mdp'])); ?> "> </br>
+				</br>
+				<label for="mdp_confirm"> Confirmation du mot de passe: </label> <input type="password" name="mdp_confirm" value=" <?php if (isset($_POST['mdp_confirm'])) echo htmlentities(trim($_POST['mdp_confirm'])); ?> "> </br>
+				</br>
 			</div>	
 				<!-- html entities convertit tous les caractères en entités HTML -->
 			<div class="select">
@@ -81,7 +82,7 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
 						<option>Femme</option>
 						<option>Autre</option>
 					</select>
-				</br>
+				</br></br>				
 				Classe :
 					<select name="classe" size="1">
 						<option>Chevalier</option>
@@ -90,7 +91,7 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
 					</select>
 				</br>
 			</div>
-				<input type="submit" name="inscription" value="Inscription">
+			</br></br></br></br><input type="submit" class="sub" name="inscription" value="Inscription">
 
 			</form>
 		</section>
