@@ -19,7 +19,7 @@
         <h1>Creation personnage</h1>
 
         <div class="compte_bouton">
-        <img class ="icone_compte" src="compte.png">
+
         </div>
 
 <!--                 <script>
