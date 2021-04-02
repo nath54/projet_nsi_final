@@ -37,7 +37,7 @@ class Monstre:
 
         npx, npy = self.position["x"]+dep[0], self.position["y"]+dep[1]
 
-        if self.server.carte.est_case_libre(self.region_actu, npx, npy):
+        if self.server.carte.est_case_libre(self.id_region, npx, npy):
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
 
@@ -46,4 +46,6 @@ class Monstre:
               #  self.position["x"] += dep[0]
                # self.position["y"] += dep[1]
     
+#if __name__ = "__name__":
+    #m = Monstre()
 
