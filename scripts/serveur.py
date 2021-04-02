@@ -43,10 +43,10 @@ class Serveur:
 
     ###############  MONSTRE ###############
 
-    def load_monstre(self, id_monstre):
+    #def load_monstre(self, id_monstre):
         # res = self.db.requete_db("SELECT * FROM monstre WHERE id_monstre=?", (id_monstre,))
-        monstre = Monstre(self, id_monstre)
-        self.monstres[id_monstre] = monstre
+        #monstre = Monstre(self, id_monstre)
+        #self.monstres[id_monstre] = monstre
 
 if __name__=='__main__':
     # On lance le serveur ici
