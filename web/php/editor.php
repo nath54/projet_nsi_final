@@ -132,6 +132,7 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST
             }
         }
         $req.=" );";
+        echo "delete terrains : $req";
         if(!requete_prep($db, $req, $vars)){
             echo "probleme delete terrains";
             die();
@@ -165,6 +166,7 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST
             }
         }
         $req.=" );";
+        echo "delete objets : $req";
         if(!requete_prep($db, $req, $vars)){
             echo "probleme delete objets";
             die();
@@ -187,18 +189,19 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST
             }
             // pour requete non préparée
             if($mode==0){
-                $req.="( ".$data["x"].", ".$data["y"].", ".$data["id_region"].", ".$data["tile"]." )";
+                $req.="( ".$data["x"].", ".$data["y"].", ".$data["id_region"].", ".$data["id_terrain"]." )";
             }
             else{
                 $req.="(:x_$compteur, :y_$compteur, :idr_$compteur, :idt_$compteur)";
                 $vars[":x_$compteur"]=$data["x"];
                 $vars[":y_$compteur"]=$data["y"];
                 $vars[":idr_$compteur"]=$data["id_region"];
-                $vars[":idt_$compteur"]=$data["tile"];
+                $vars[":idt_$compteur"]=$data["id_terrain"];
                 $compteur+=1;
             }
         }
         $req.=" ON DUPLICATE KEY UPDATE id_region=VALUES(id_region), x=VALUES(x), y=VALUES(y);";
+        echo "insert terrains : $req";
         if(!requete_prep($db, $req, $vars)){
             echo "probleme insert/update terrains";
             die();
@@ -234,6 +237,7 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST
             }
         }
         $req.=" ON DUPLICATE KEY UPDATE id_region=VALUES(id_region), x=VALUES(x), y=VALUES(y);";
+        echo "insert objets : $req";
         if(!requete_prep($db, $req, $vars)){
             echo "probleme insert/update objets";
             die();
@@ -250,7 +254,7 @@ if($region_selected!=""){
         $x=$data["x"];
         $y=$data["y"];
         $tile=$data["id_terrain"];
-        $cases_terrains["$x-$y"]=array("x"=>$x, "y"=>$y, "tile"=>$tile);
+        $cases_terrains["$x-$y"]=array("x"=>$x, "y"=>$y, "id_terrain"=>$tile);
     }
     $requested = "SELECT * FROM regions_objets WHERE id_region=:idr";
     $vars = array(":idr"=>$region_selected);
@@ -362,7 +366,7 @@ else{
                             $idd = "$x-$y";
                             $src="../imgs/tuiles/vide.png";
                             if(isset($cases_terrains[$idd])){
-                                $img = $terrains[$cases_terrains[$idd]["tile"]]["img"];
+                                $img = $terrains[$cases_terrains[$idd]["id_terrain"]]["img"];
                                 $src="../imgs/tuiles/$img";
                             }
                             $ct = $tc+0.15;
@@ -456,6 +460,8 @@ else{
     </body>
 </html>
 <script>
+
+const id_region = <?php if($region_selected != ""){ echo $region_selected; } else { echo "null"; } ?>;
 
 var dcx = null;
 var dcy = null;
@@ -553,43 +559,53 @@ function change_case(x, y){
     if(tile_selected==0){
         if(tp_selected=="terrains"){
             if(Object.keys(cases_terrains).includes(i)){
-                delete update_t[i];
+                if(Object.keys(update_t).includes(i)){
+                    delete update_t[i];
+                }
+                delete_t[i] = {"x":cx, "y": cy, "id_region": id_region}
                 var e = document.getElementById(""+x+"-"+y);
                 e.setAttribute("xlink:href","../imgs/tuiles/vide.png");
             }
             else{
-                delete new_t[i];
+                if(Object.keys(new_t).includes(i)){
+                    delete new_t[i];
+                }
             }
         }
         else if(tp_selected=="objets"){
             if(Object.keys(cases_objets).includes(i)){
-                delete update_o[i];
+                if(Object.keys(update_o).includes(i)){
+                    delete update_o[i];
+                }
+                delete_o[i] = {"x":cx, "y": cy, "id_region": id_region}
                 var e = document.getElementById("o_"+x+"-"+y);
                 e.setAttribute("xlink:href","../imgs/objets/rien.png");
             }
             else{
-                delete new_o[i];
+                if(Object.keys(new_o).includes(i)){
+                    delete new_o[i];
+                }
             }
         }
     }
     else{
         if(tp_selected=="terrains"){
-            if(Object.keys(cases_terrains).includes(i)){
-                update_t[i] = {"x":cx, "y":cy, "tile":tile_selected};
+            if(Object.keys(cases_terrains).includes(i) && cases_terrains[i]["id_terrain"]!=tile_selected){
+                update_t[i] = {"x":cx, "y":cy, "id_terrain":tile_selected, "id_region": id_region};
             }
             else{
-                new_t[i] = {"x":cx, "y":cy, "tile":tile_selected};
+                new_t[i] = {"x":cx, "y":cy, "id_terrain":tile_selected, "id_region": id_region};
             }
-            // cases_terrains[i] = {"x":cx, "y":cy, "tile":tile_selected};
+            // cases_terrains[i] = {"x":cx, "y":cy, "id_terrain":tile_selected};
             var e = document.getElementById(""+x+"-"+y);
             e.setAttribute("xlink:href","../imgs/tuiles/"+terrains[tile_selected]["img"]);
-        }else if(tp_selected=="objets"){
+        }else if(tp_selected=="objets" && cases_terrains[i]["id_objet"]!=tile_selected){
             // cases_objets[i] = {"x":cx, "y":cy, "id_objet":tile_selected};
             if(Object.keys(cases_terrains).includes(i)){
-                update_o[i] = {"x":cx, "y":cy, "id_objet":tile_selected};
+                update_o[i] = {"x":cx, "y":cy, "id_objet":tile_selected, "id_region": id_region};
             }
             else{
-                new_o[i] = {"x":cx, "y":cy, "id_objet":tile_selected};
+                new_o[i] = {"x":cx, "y":cy, "id_objet":tile_selected, "id_region": id_region};
             }
             var e = document.getElementById("o_"+x+"-"+y);
             e.setAttribute("xlink:href","../imgs/objets/"+objets[tile_selected]["img"]);
@@ -607,7 +623,7 @@ function aff(){
             var cy = y + dec_y;
             img = "vide.png";
             if(Object.keys(cases_terrains).includes(""+cx+"-"+cy)){
-                img=terrains[cases_terrains[""+cx+"-"+cy]["tile"]]["img"];
+                img=terrains[cases_terrains[""+cx+"-"+cy]["id_terrain"]]["img"];
             }
             document.getElementById(""+x+"-"+y).setAttribute("xlink:href","../imgs/tuiles/"+img);
             //
@@ -712,7 +728,8 @@ function save_tiles(){
     }
 
     document.body.appendChild(f);
-    f.submit();
+    console.log(f);
+    // f.submit();
 }
 
 function set_selection(ii){
