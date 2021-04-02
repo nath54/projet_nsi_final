@@ -160,7 +160,7 @@ CREATE TABLE monstre (id_monstre  INT PRIMARY KEY AUTO_INCREMENT,
 		 loot TEXT,
 		 id_region INT,
 		 position_x INT,
-		 position y INT);
+		 position_y INT);
 ```
 
 

@@ -83,7 +83,7 @@ if(isset($_POST["new_region"])){
         }
         else{
             $region_selected = $db->lastInsertId();
-            $liste_regions[$db->lastInsertId()]=$_POST["new_reg"];
+            $liste_regions[$db->lastInsertId()]=$_POST["new_region"];
         }
     }
     else{
@@ -103,12 +103,12 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST
     // echo $_POST["data_terrain"];
     // On nettoie
     $query = "DELETE FROM regions_terrains WHERE id_region=:idr";
-    $vars = array(":idr"=>$id_region);
+    $vars = array(":idr"=>$idr);
     if(!action_prep($db, $query, $vars)){
-        console.log("probleme suppression");
+        clog("probleme suppression");
     }
     $query = "DELETE FROM regions_objets WHERE id_region=:idr";
-    $vars = array(":idr"=>$id_region);
+    $vars = array(":idr"=>$idr);
     if(!action_prep($db, $query, $vars)){
         clog("probleme suppression2");
     }
@@ -119,7 +119,7 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST
         }
         $query = "INSERT INTO regions_terrains SET x=:x, y=:y, id_terrain=:tile, id_region=:idr";
         // echo $data["x"].", ".$data["y"]." : ".$data["tile"]." - ";
-        $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":tile"=>$data["tile"], ":idr"=>$liste_regions[$nom_region]);
+        $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":tile"=>$data["tile"], ":idr"=>$idr);
         if(!action_prep($db, $query, $vars)){
             clog("probleme insertion");
         }
@@ -130,7 +130,7 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST
         }
         $query = "INSERT INTO regions_objets SET x=:x, y=:y, id_objet=:id_objet, id_region=:idr";
         // echo $data["x"].", ".$data["y"]." : ".$data["tile"]." - ";
-        $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":id_objet"=>$data["id_objet"], ":idr"=>$liste_regions[$nom_region]);
+        $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":id_objet"=>$data["id_objet"], ":idr"=>$idr);
         if(!action_prep($db, $query, $vars)){
             clog("probleme insertion2");
         }
@@ -285,6 +285,9 @@ else{
                     echo "<p>Aucune région n'a été choisie</p>";
                 }
             ?>
+            <div>
+                <p>Case hover: <span id="hover_case">aucune</span></p>
+            </div>
             </div>
 
             <!-- tiles menu -->
@@ -343,6 +346,7 @@ else{
 
             </div>
 
+
         </div>
     </body>
 </html>
@@ -395,6 +399,7 @@ function mo(cx,cy){
 }
 
 function ml(cx,cy){
+    document.getElementById("hover_case").innerHTML = "x : "+(dec_x+cx)+" , y : "+(dec_y+cy);
     if(hx==cx && hy==cy){
         hx=null;
         hy=null;
@@ -505,7 +510,7 @@ function delete_region(){
 }
 
 function select_tile(id_tile){
-    if(id_tile==tile_selected){
+    if(id_tile==tile_selected && tp_selected=="terrains"){
         return;
     }
     if(tp_selected=="terrains"){
@@ -523,7 +528,7 @@ function select_tile(id_tile){
 
 
 function select_objets(id_tile){
-    if(id_tile==tile_selected){
+    if(id_tile==tile_selected && tp_selected=="objets"){
         return;
     }
     if(tp_selected=="terrains"){
