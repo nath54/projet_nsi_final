@@ -1,10 +1,18 @@
 <?php
+
+include_once("../../includes/init.php");
+include_once("../../includes/bdd.php");
+$db = load_db("../../includes/config.json");
+
+if(isset($_SESSION["error"])){
+	alert($_SESSION["error"]);
+	unset($_SESSION["error"]);
+}
+
 // on teste si le visiteur a soumis le formulaire de connexion
 // TODO: $_POST['connexion'] jamais définie (et est-ce utile ?)
 if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
 	if (!empty($_POST['pseudo']) && !empty($_POST['mdp'])) {
-		include_once("../../includes/bdd.php");
-		$db = load_db("../../includes/config.json");
 
 		// on teste si une entrée de la base contient ce couple pseudo / mdp
 		$sql = 'SELECT count(*) FROM utilisateurs WHERE pseudo=? AND mdp=MD5(?)';
@@ -54,8 +62,7 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
                     <input type="password" required title="Password" placeholder="Mot de passe" data-icon="x" name="mdp" class="bouton">
                     </br>
 					</br>
-                    <a href="post_accueil.php" class="envoyer">Valider</a>
-					
+					<input type="submit" value="Valider" />					
 					<div class="oubli">
                         <div class="col"><a href="#" title="Retrouver mot de passe">Forgot Password ?</a></div>
                     </div>
