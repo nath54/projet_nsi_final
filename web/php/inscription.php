@@ -58,39 +58,42 @@ if (isset($_POST['inscription']) && $_POST['inscription'] == 'Inscription') {
     <head>
         <meta charset="utf-8">
         <title>Inscription</title>
+		<link href="../css/style_inscription.css" rel="stylesheet" />
     </head>
 
     <body>
-        Inscription à l'espace membre :<br />
-        <form action="inscription.php" method="post">
-		<link href="../css/style_co.css" rel="stylesheet" />
-
-            <label for="pseudo"> Pseudo : </label> <input type="text" name="pseudo" value=" <?php if (isset($_POST['pseudo'])) echo htmlentities(trim($_POST['pseudo'])); ?> "> <br />
-
-            <label for="mdp"> Mot de passe : </label> <input type="password" name="mdp" value=" <?php if (isset($_POST['mdp'])) echo htmlentities(trim($_POST['mdp'])); ?> "> <br />
-
-            <label for="mdp_confirm"> Confirmation du mot de passe : </label> <input type="password" name="mdp_confirm" value=" <?php if (isset($_POST['mdp_confirm'])) echo htmlentities(trim($_POST['mdp_confirm'])); ?> "> <br />
+		<section class="inscr">	
+			<div class="titre">Inscription à l'espace membre :</div><br />
+			<form action="inscription.php" method="post">
 			
-			<!-- html entities convertit tous les caractères en entités HTML -->
 
-			Sexe :
-				<select name="sexe" size="1">
-					<OPTION>Homme</option>
-					<OPTION>Femme
-					<OPTION>Autre
-				</select>
+				<label for="pseudo"> Pseudo : </label> <input type="text" name="pseudo" value=" <?php if (isset($_POST['pseudo'])) echo htmlentities(trim($_POST['pseudo'])); ?> "> <br />
 
-			Classe :
-				<select name="classe" size="1">
-					<OPTION>Chevalier
-					<OPTION>Chasseur
-					<OPTION>Sorcier
-				</select>
+				<label for="mdp"> Mot de passe : </label> <input type="password" name="mdp" value=" <?php if (isset($_POST['mdp'])) echo htmlentities(trim($_POST['mdp'])); ?> "> <br />
+
+				<label for="mdp_confirm"> Confirmation du mot de passe : </label> <input type="password" name="mdp_confirm" value=" <?php if (isset($_POST['mdp_confirm'])) echo htmlentities(trim($_POST['mdp_confirm'])); ?> "> <br />
+				
+				<!-- html entities convertit tous les caractères en entités HTML -->
+
+				Sexe :
+					<select name="sexe" size="1">
+						<OPTION>Homme</option>
+						<OPTION>Femme
+						<OPTION>Autre
+					</select>
+
+				Classe :
+					<select name="classe" size="1">
+						<OPTION>Chevalier
+						<OPTION>Chasseur
+						<OPTION>Sorcier
+					</select>
 
 
-            <input type="submit" name="inscription" value="Inscription">
+				<input type="submit" name="inscription" value="Inscription">
 
-        </form>
+			</form>
+		</section>
 
 		<?php
 			// TODO: Retirer pour la version finale
