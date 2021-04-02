@@ -272,6 +272,9 @@ CREATE TABLE regions_terrains(
 	id_terrain INT DEFAULT 0,
 	CONSTRAINT comp_key_x_y PRIMARY KEY (x, y, id_region)
 );
+
+CREATE INDEX `index_id_region` ON `regions_terrains` (`id_region`);
+
 ```
 
 
@@ -290,6 +293,9 @@ CREATE TABLE regions_objets(
 	id_objet INT DEFAULT 0,
 	CONSTRAINT comp_key_x_y PRIMARY KEY (x, y, id_region)
 );
+
+CREATE INDEX `index_id_region` ON `regions_objets` (`id_region`);
+
 ```
 
 ```sql
