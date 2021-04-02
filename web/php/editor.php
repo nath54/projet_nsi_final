@@ -95,51 +95,151 @@ $cases_objets = array();
 if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST["data_objets"])){
     $idr = $_POST["save_terrain"];
     $region_selected = $idr;
-    $delete_t = json_decode($_POST["delete_terrains"]);
-    $delete_o = json_decode($_POST["delete_objets"]);
-    $update_t = json_decode($_POST["update_terrains"]);
-    $update_o = json_decode($_POST["update_objets"]);
-    $new_t = json_decode($_POST["new_terrains"]);
-    $new_o = json_decode($_POST["new_objets"]);
-    $req = "DELETE FROM regions_terrains WHERE x,y,id_region IN ";
-    // $datas = json_decode($_POST["data_terrain"], true);
-    // $datas_o = json_decode($_POST["data_objets"], true);
-    // alert($id_region);
-    // echo $_POST["data_terrain"];
-    // // On nettoie
-    // $query = "DELETE FROM regions_terrains WHERE id_region=:idr";
-    // $vars = array(":idr"=>$idr);
-    // if(!action_prep($db, $query, $vars)){
-    //     clog("probleme suppression");
-    // }
-    // $query = "DELETE FROM regions_objets WHERE id_region=:idr";
-    // $vars = array(":idr"=>$idr);
-    // if(!action_prep($db, $query, $vars)){
-    //     clog("probleme suppression2");
-    // }
-    // // On remplace
-    // foreach($datas as $i=>$data){
-    //     if($data["tile"]==NULL || $data["tile"]==0){
-    //         continue;
-    //     }
-    //     $query = "INSERT INTO regions_terrains SET x=:x, y=:y, id_terrain=:tile, id_region=:idr";
-    //     // echo $data["x"].", ".$data["y"]." : ".$data["tile"]." - ";
-    //     $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":tile"=>$data["tile"], ":idr"=>$idr);
-    //     if(!action_prep($db, $query, $vars)){
-    //         clog("probleme insertion");
-    //     }
-    // }
-    // foreach($datas_o as $i=>$data){
-    //     if($data["id_objet"]==NULL || $data["id_objet"]==0){
-    //         continue;
-    //     }
-    //     $query = "INSERT INTO regions_objets SET x=:x, y=:y, id_objet=:id_objet, id_region=:idr";
-    //     // echo $data["x"].", ".$data["y"]." : ".$data["tile"]." - ";
-    //     $vars = array(":x"=>$data["x"], ":y"=>$data["y"], ":id_objet"=>$data["id_objet"], ":idr"=>$idr);
-    //     if(!action_prep($db, $query, $vars)){
-    //         clog("probleme insertion2");
-    //     }
-    // }
+    // Pour changer si on veut passer en requetes préparée, plus de calcul, mais plus de sécurité
+    $mode = 0; // normal = 0 sinon préparé = 1
+    $delete_t = json_decode($_POST["delete_terrains"], true);
+    $delete_o = json_decode($_POST["delete_objets"], true);
+    $update_t = json_decode($_POST["update_terrains"], true);
+    $update_o = json_decode($_POST["update_objets"], true);
+    $new_t = json_decode($_POST["new_terrains"], true);
+    $new_o = json_decode($_POST["new_objets"], true);
+    $iu_t = $new_t + $update_t;
+    $iu_o = $new_o + $update_o;
+    /***************** DELETE TERRAINS : *******************/
+    if(count($delete_t)>0){
+        $req = "DELETE FROM regions_terrains WHERE (x,y,id_region) IN ( ";
+        $virgule = false;
+        $vars = array();
+        // Pour requete_prep:
+        $compteur = 0;
+        foreach($delete_t as $i=>$data){
+            if(!$virgule){
+                $virgule=true;
+            }
+            else{
+                $req.=", ";
+            }
+            // pour requete non préparée
+            if($mode==0){
+                $req.="( ".$data["x"].", ".$data["y"].", ".$data["id_region"]." )";
+            }
+            else{
+                $req.="(:x_$compteur, :y_$compteur, :idr_$compteur)";
+                $vars[":x_$compteur"]=$data["x"];
+                $vars[":y_$compteur"]=$data["y"];
+                $vars[":idr_$compteur"]=$data["id_region"];
+                $compteur+=1;
+            }
+        }
+        $req.=" );";
+        if(!requete_prep($db, $req, $vars)){
+            echo "probleme delete terrains";
+            die();
+        }
+    }
+
+    /***************** DELETE OBJETS : *******************/
+    if(count($delete_t)>0){
+        $req = "DELETE FROM regions_objets WHERE (x,y,id_region) IN ( ";
+        $virgule = false;
+        $vars = array();
+        // Pour requete_prep:
+        $compteur = 0;
+        foreach($delete_o as $i=>$data){
+            if(!$virgule){
+                $virgule=true;
+            }
+            else{
+                $req.=", ";
+            }
+            // pour requete non préparée
+            if($mode==0){
+                $req.="( ".$data["x"].", ".$data["y"].", ".$data["id_region"]." )";
+            }
+            else{
+                $req.="(:x_$compteur, :y_$compteur, :idr_$compteur)";
+                $vars[":x_$compteur"]=$data["x"];
+                $vars[":y_$compteur"]=$data["y"];
+                $vars[":idr_$compteur"]=$data["id_region"];
+                $compteur+=1;
+            }
+        }
+        $req.=" );";
+        if(!requete_prep($db, $req, $vars)){
+            echo "probleme delete objets";
+            die();
+        }
+    }
+
+    /***************** INSERT/UPDATE NEW TERRAINS : *******************/
+    if(count($iu_t)>0){
+        $req = "INSERT INTO regions_terrains (x,y,id_region,id_terrain) VALUES ";
+        $virgule = false;
+        $vars = array();
+        // Pour requete_prep:
+        $compteur = 0;
+        foreach($iu_t as $i=>$data){
+            if(!$virgule){
+                $virgule=true;
+            }
+            else{
+                $req.=", ";
+            }
+            // pour requete non préparée
+            if($mode==0){
+                $req.="( ".$data["x"].", ".$data["y"].", ".$data["id_region"].", ".$data["tile"]." )";
+            }
+            else{
+                $req.="(:x_$compteur, :y_$compteur, :idr_$compteur, :idt_$compteur)";
+                $vars[":x_$compteur"]=$data["x"];
+                $vars[":y_$compteur"]=$data["y"];
+                $vars[":idr_$compteur"]=$data["id_region"];
+                $vars[":idt_$compteur"]=$data["tile"];
+                $compteur+=1;
+            }
+        }
+        $req.=" ON DUPLICATE KEY UPDATE id_region=VALUES(id_region), x=VALUES(x), y=VALUES(y);";
+        if(!requete_prep($db, $req, $vars)){
+            echo "probleme insert/update terrains";
+            die();
+        }
+    }
+
+
+    /***************** INSERT/UPDATE NEW OBJETS : *******************/
+    if(count($iu_o)>0){
+        $req = "INSERT INTO regions_objets (x,y,id_region,id_objet) VALUES ";
+        $virgule = false;
+        $vars = array();
+        // Pour requete_prep:
+        $compteur = 0;
+        foreach($iu_o as $i=>$data){
+            if(!$virgule){
+                $virgule=true;
+            }
+            else{
+                $req.=", ";
+            }
+            // pour requete non préparée
+            if($mode==0){
+                $req.="( ".$data["x"].", ".$data["y"].", ".$data["id_region"].", ".$data["id_objet"]." )";
+            }
+            else{
+                $req.="(:x_$compteur, :y_$compteur, :idr_$compteur, :ido_$compteur)";
+                $vars[":x_$compteur"]=$data["x"];
+                $vars[":y_$compteur"]=$data["y"];
+                $vars[":idr_$compteur"]=$data["id_region"];
+                $vars[":ido_$compteur"]=$data["id_objet"];
+                $compteur+=1;
+            }
+        }
+        $req.=" ON DUPLICATE KEY UPDATE id_region=VALUES(id_region), x=VALUES(x), y=VALUES(y);";
+        if(!requete_prep($db, $req, $vars)){
+            echo "probleme insert/update objets";
+            die();
+        }
+    }
+
 }
 
 
