@@ -1,4 +1,4 @@
-class monstre:
+class Monstre: 
     def __init__(self, server, id_monstre):
         self.server = server
         self.id_monstre = id_monstre
