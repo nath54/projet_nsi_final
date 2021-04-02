@@ -30,7 +30,7 @@ class Monstre:
         return self.position
 
     def bouger(self, dep):  ## Ajouter la collision avec les murs ...
-       """
+       
         assert (isinstance(dep, tuple) or isinstance(dep, list)) and len(dep)==2, "Le déplacement n'est pas un tuple."
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
             "Les positions ne sont pas des entiers."
@@ -40,6 +40,10 @@ class Monstre:
         if self.server.carte.est_case_libre(self.region_actu, npx, npy):
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
-       """
-       
-        pass
+
+        #if self.personnage.region_actu == self.id_region :
+            #while self.position != self.personnage.position :
+              #  self.position["x"] += dep[0]
+               # self.position["y"] += dep[1]
+    
+
