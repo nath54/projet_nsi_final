@@ -41,6 +41,12 @@ class Serveur:
     async def bouger_perso(self, id_utilisateur, deplacement):
         await self.personnages[id_utilisateur].bouger(deplacement)
 
+    ###############  MONSTRE ###############
+
+    def load_monstre(self, id_monstre):
+        # res = self.db.requete_db("SELECT * FROM monstre WHERE id_monstre=?", (id_monstre,))
+        monstre = Monstre(self, id_monstre)
+        self.monstres[id_monstre] = monstre
 
 if __name__=='__main__':
     # On lance le serveur ici
