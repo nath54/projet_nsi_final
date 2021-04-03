@@ -299,6 +299,12 @@ else{
 
 ?>
 <html>
+    <style>
+body {
+    overflow: hidden;
+}
+
+    </style>
     <head>
         <meta charset="UTF-8" />
         <title>Editeur de map</title>
@@ -400,8 +406,12 @@ else{
                     echo "<p>Aucune région n'a été choisie</p>";
                 }
             ?>
-            <div>
+            <div class="row">
                 <p>Case hover: <span id="hover_case">aucune</span></p>
+                <hr />
+                <p>Nombre de modifications: <span id="nb_modifs">0</span></p>
+                <hr />
+                <b id="alert_modifs" style="color:red; display:none;">Vous avez fait plus de 100 modifs, il faudrait peut-être penser à sauvegarder !</b>
             </div>
             </div>
 
@@ -488,7 +498,6 @@ else{
 }
 
 var compteur_modif = 0;
-var dernier_alerte = 0;
 
 var update_t = {};
 var new_t = {};
@@ -570,14 +579,19 @@ function change_case(x, y){
             if(Object.keys(cases_terrains).includes(i)){
                 if(Object.keys(update_t).includes(i)){
                     delete update_t[i];
+                    compteur_modif -= 1;
                 }
-                delete_t[i] = {"x":cx, "y": cy, "id_region": id_region}
+                if(!Object.keys(delete_t).includes(i)){
+                    delete_t[i] = {"x":cx, "y": cy, "id_region": id_region};
+                    compteur_modif += 1;
+                }
                 var e = document.getElementById(""+x+"-"+y);
                 e.setAttribute("xlink:href","../imgs/tuiles/vide.png");
             }
             else{
                 if(Object.keys(new_t).includes(i)){
                     delete new_t[i];
+                    compteur_modif -= 1;
                 }
             }
         }
@@ -585,14 +599,19 @@ function change_case(x, y){
             if(Object.keys(cases_objets).includes(i)){
                 if(Object.keys(update_o).includes(i)){
                     delete update_o[i];
+                    compteur_modif -= 1;
                 }
-                delete_o[i] = {"x":cx, "y": cy, "id_region": id_region}
+                if(!Object.keys(delete_o).includes(i)){
+                    delete_o[i] = {"x":cx, "y": cy, "id_region": id_region};
+                    compteur_modif += 1;
+                }
                 var e = document.getElementById("o_"+x+"-"+y);
                 e.setAttribute("xlink:href","../imgs/objets/rien.png");
             }
             else{
                 if(Object.keys(new_o).includes(i)){
                     delete new_o[i];
+                    compteur_modif -= 1;
                 }
             }
         }
@@ -601,10 +620,16 @@ function change_case(x, y){
         if(tp_selected=="terrains"){
             if(Object.keys(cases_terrains).includes(i)){
                 if(cases_terrains[i]["id_terrain"]!=tile_selected){
+                    if(!Object.keys(update_t).includes(i)){
+                        compteur_modif += 1;
+                    }
                     update_t[i] = {"x":cx, "y":cy, "id_terrain":tile_selected, "id_region": id_region};
                 }
             }
             else{
+                if(!Object.keys(new_t).includes(i)){
+                    compteur_modif += 1;
+                }
                 new_t[i] = {"x":cx, "y":cy, "id_terrain":tile_selected, "id_region": id_region};
             }
             // cases_terrains[i] = {"x":cx, "y":cy, "id_terrain":tile_selected};
@@ -614,15 +639,28 @@ function change_case(x, y){
             // cases_objets[i] = {"x":cx, "y":cy, "id_objet":tile_selected};
             if(Object.keys(cases_objets).includes(i)){
                 if(cases_objets[i]["id_objet"]!=tile_selected){
+                    if(!Object.keys(update_o).includes(i)){
+                        compteur_modif += 1;
+                    }
                     update_o[i] = {"x":cx, "y":cy, "id_objet":tile_selected, "id_region": id_region};
                 }
             }
             else{
+                if(!Object.keys(new_o).includes(i)){
+                    compteur_modif += 1;
+                }
                 new_o[i] = {"x":cx, "y":cy, "id_objet":tile_selected, "id_region": id_region};
             }
             var e = document.getElementById("o_"+x+"-"+y);
             e.setAttribute("xlink:href","../imgs/objets/"+objets[tile_selected]["img"]);
         }
+    }
+    document.getElementById("nb_modifs").innerHTML=compteur_modif;
+    if(compteur_modif>=100){
+        document.getElementById("alert_modifs").style.display="initial";
+    }
+    else{
+        document.getElementById("alert_modifs").style.display="none";
     }
 }
 
