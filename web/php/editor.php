@@ -92,7 +92,13 @@ if(isset($_POST["new_region"])){
 $cases_terrains = array();
 $cases_objets = array();
 
-if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST["data_objets"])){
+echo "Post : <br />";
+foreach($_POST as $k => $v){
+    echo "$k = $v <br />";
+}
+
+if(isset($_POST["save_terrain"]) && isset($_POST["delete_terrains"]) && isset($_POST["update_terrains"])  && isset($_POST["new_terrains"])  && isset($_POST["delete_objets"]) && isset($_POST["update_objets"])  && isset($_POST["new_objets"]) ){
+    echo "SAVE TERRAIN ! <br />";
     $idr = $_POST["save_terrain"];
     $region_selected = $idr;
     // Pour changer si on veut passer en requetes préparée, plus de calcul, mais plus de sécurité
@@ -132,9 +138,9 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST
             }
         }
         $req.=" );";
-        echo "delete terrains : $req";
-        if(!requete_prep($db, $req, $vars)){
-            echo "probleme delete terrains";
+        echo "delete terrains : $req <br />";
+        if(!action_prep($db, $req, $vars)){
+            echo "probleme delete terrains <br />";
             die();
         }
     }
@@ -166,9 +172,9 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST
             }
         }
         $req.=" );";
-        echo "delete objets : $req";
-        if(!requete_prep($db, $req, $vars)){
-            echo "probleme delete objets";
+        echo "delete objets : $req <br />";
+        if(!action_prep($db, $req, $vars)){
+            echo "probleme delete objets <br />";
             die();
         }
     }
@@ -201,9 +207,9 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST
             }
         }
         $req.=" ON DUPLICATE KEY UPDATE id_region=VALUES(id_region), x=VALUES(x), y=VALUES(y);";
-        echo "insert terrains : $req";
-        if(!requete_prep($db, $req, $vars)){
-            echo "probleme insert/update terrains";
+        echo "insert terrains : $req <br />";
+        if(!action_prep($db, $req, $vars)){
+            echo "probleme insert/update terrains  <br />";
             die();
         }
     }
@@ -237,9 +243,9 @@ if(isset($_POST["save_terrain"]) && isset($_POST["data_terrain"])&& isset($_POST
             }
         }
         $req.=" ON DUPLICATE KEY UPDATE id_region=VALUES(id_region), x=VALUES(x), y=VALUES(y);";
-        echo "insert objets : $req";
-        if(!requete_prep($db, $req, $vars)){
-            echo "probleme insert/update objets";
+        echo "insert objets : $req <br />";
+        if(!action_prep($db, $req, $vars)){
+            echo "probleme insert/update objets <br />";
             die();
         }
     }
@@ -700,36 +706,37 @@ function select_objets(id_tile){
 }
 
 function save_tiles(){
-    var nom = "<?php echo $region_selected; ?>";
+    var idr = "<?php echo $region_selected; ?>";
     var f=document.createElement("form");
     f.setAttribute("style","display:none;")
     f.setAttribute("method", "POST");
     f.setAttribute("action", "editor.php");
     var i=document.createElement("input");
     i.setAttribute("name", "save_terrain");
-    i.value=nom;
+    i.setAttribute("value", idr);
     f.appendChild(i);
 
     var liste_donnees = [
         ["delete_terrains", delete_t],
-        ["udpate_terrains", update_t],
+        ["update_terrains", update_t],
         ["new_terrains", new_t],
 
         ["delete_objets", delete_o],
-        ["delete_objets", update_o],
+        ["update_objets", update_o],
         ["new_objets", new_o]
     ]
 
     for([nom,data] of liste_donnees){
         var ii=document.createElement("input");
         ii.setAttribute("name", nom);
-        ii.value=JSON.stringify(liste_donnees);
+        ii.setAttribute("value", JSON.stringify(data));
+        // ii.value=JSON.stringify(data);
         f.appendChild(ii);
     }
 
     document.body.appendChild(f);
     console.log(f);
-    // f.submit();
+    f.submit();
 }
 
 function set_selection(ii){
