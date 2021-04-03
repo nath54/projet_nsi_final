@@ -206,7 +206,7 @@ if(isset($_POST["save_terrain"]) && isset($_POST["delete_terrains"]) && isset($_
                 $compteur+=1;
             }
         }
-        $req.=" ON DUPLICATE KEY UPDATE id_region=VALUES(id_region), x=VALUES(x), y=VALUES(y);";
+        $req.=" ON DUPLICATE KEY UPDATE id_terrain=VALUES(id_terrain);";
         // echo "insert terrains : $req <br />";
         if(!action_prep($db, $req, $vars)){
             echo "probleme insert/update terrains  <br />";
@@ -242,8 +242,8 @@ if(isset($_POST["save_terrain"]) && isset($_POST["delete_terrains"]) && isset($_
                 $compteur+=1;
             }
         }
-        $req.=" ON DUPLICATE KEY UPDATE id_region=VALUES(id_region), x=VALUES(x), y=VALUES(y);";
-        echo "insert objets : $req <br />";
+        $req.=" ON DUPLICATE KEY UPDATE id_objet=VALUES(id_objet);";
+        // echo "insert objets : $req <br />";
         if(!action_prep($db, $req, $vars)){
             echo "probleme insert/update objets <br />";
             die();
@@ -627,15 +627,23 @@ function aff(){
         for(y=0; y<ty; y++){
             var cx = x + dec_x;
             var cy = y + dec_y;
+            var ii = ""+cx+"-"+cy;
             img = "vide.png";
-            if(Object.keys(cases_terrains).includes(""+cx+"-"+cy)){
-                img=terrains[cases_terrains[""+cx+"-"+cy]["id_terrain"]]["img"];
+            if(Object.keys(cases_terrains).includes(ii) && !Object.keys(delete_t).includes(ii)){
+                if(Object.keys(update_t).includes(ii)){
+                    img=terrains[update_t[ii]["id_terrain"]]["img"];
+                }else{
+                    img=terrains[cases_terrains[ii]["id_terrain"]]["img"];
+                }
+            }
+            if(Object.keys(new_t).includes(ii) ){
+                img=terrains[new_t[ii]["id_terrain"]]["img"];
             }
             document.getElementById(""+x+"-"+y).setAttribute("xlink:href","../imgs/tuiles/"+img);
             //
             img = "rien.png"
-            if(Object.keys(cases_objets).includes(""+cx+"-"+cy)){
-                img=objets[cases_objets[""+cx+"-"+cy]["id_objet"]]["img"];
+            if(Object.keys(cases_objets).includes(ii)){
+                img=objets[cases_objets[ii]["id_objet"]]["img"];
             }
             document.getElementById("o_"+x+"-"+y).setAttribute("xlink:href","../imgs/objets/"+img);
         }
