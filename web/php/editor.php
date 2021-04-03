@@ -92,13 +92,13 @@ if(isset($_POST["new_region"])){
 $cases_terrains = array();
 $cases_objets = array();
 
-echo "Post : <br />";
-foreach($_POST as $k => $v){
-    echo "$k = $v <br />";
-}
+// echo "Post : <br />";
+// foreach($_POST as $k => $v){
+//     echo "$k = $v <br />";
+// }
 
 if(isset($_POST["save_terrain"]) && isset($_POST["delete_terrains"]) && isset($_POST["update_terrains"])  && isset($_POST["new_terrains"])  && isset($_POST["delete_objets"]) && isset($_POST["update_objets"])  && isset($_POST["new_objets"]) ){
-    echo "SAVE TERRAIN ! <br />";
+    // echo "SAVE TERRAIN ! <br />";
     $idr = $_POST["save_terrain"];
     $region_selected = $idr;
     // Pour changer si on veut passer en requetes préparée, plus de calcul, mais plus de sécurité
@@ -138,7 +138,7 @@ if(isset($_POST["save_terrain"]) && isset($_POST["delete_terrains"]) && isset($_
             }
         }
         $req.=" );";
-        echo "delete terrains : $req <br />";
+        // echo "delete terrains : $req <br />";
         if(!action_prep($db, $req, $vars)){
             echo "probleme delete terrains <br />";
             die();
@@ -146,7 +146,7 @@ if(isset($_POST["save_terrain"]) && isset($_POST["delete_terrains"]) && isset($_
     }
 
     /***************** DELETE OBJETS : *******************/
-    if(count($delete_t)>0){
+    if(count($delete_o)>0){
         $req = "DELETE FROM regions_objets WHERE (x,y,id_region) IN ( ";
         $virgule = false;
         $vars = array();
@@ -172,7 +172,7 @@ if(isset($_POST["save_terrain"]) && isset($_POST["delete_terrains"]) && isset($_
             }
         }
         $req.=" );";
-        echo "delete objets : $req <br />";
+        // echo "delete objets : $req <br />";
         if(!action_prep($db, $req, $vars)){
             echo "probleme delete objets <br />";
             die();
@@ -207,7 +207,7 @@ if(isset($_POST["save_terrain"]) && isset($_POST["delete_terrains"]) && isset($_
             }
         }
         $req.=" ON DUPLICATE KEY UPDATE id_region=VALUES(id_region), x=VALUES(x), y=VALUES(y);";
-        echo "insert terrains : $req <br />";
+        // echo "insert terrains : $req <br />";
         if(!action_prep($db, $req, $vars)){
             echo "probleme insert/update terrains  <br />";
             die();

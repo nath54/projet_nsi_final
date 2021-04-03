@@ -142,7 +142,7 @@ INSERT INTO objets SET
     nom = "buisson_1",
     image_ = "buisson_1.png",
     z_index = 3,
-    collision = 1;
+    collision = 0;
 
 
 INSERT INTO objets SET
