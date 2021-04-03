@@ -434,9 +434,8 @@ body {
                     </div>
 
                     <div id="terrains">
-
+                        <div class="row"> <input id="search_t" type="text" placeholder="search" onkeypress="search_t();" onchange="search_t();" /> <p>Press Enter to search</p></div>
                         <?php
-
                             foreach($terrains as $i=>$data){
                                 $img = $data["img"];
                                 $nom = $data["nom"];
@@ -444,7 +443,7 @@ body {
                                 if($i==0){ // au début, l'herbe sera selectionne par defaut
                                     $sel = "liste_element_selectione";
                                 }
-                                echo "<div id=\"liste_elt_$i\" class=\"liste_element $sel\" onclick=\"select_tile($i);\"><img class=\"img_liste_element\" src=\"../imgs/tuiles/$img\" /><label>$nom</label></div>";
+                                echo "<div value=\"$nom\" id=\"liste_elt_$i\" class=\"liste_terrains liste_element $sel\" onclick=\"select_tile($i);\"><img class=\"img_liste_element\" src=\"../imgs/tuiles/$img\" /><label>$nom</label></div>";
                             }
 
                         ?>
@@ -452,15 +451,14 @@ body {
                     </div>
 
                     <div id="objets" style="display:none;">
-
+                        <div class="row"> <input id="search_o" type="text" placeholder="search" onkeypress="search_o();" onchange="search_o();" /> <p>Press Enter to search</p></div>
                         <?php
-
                             foreach($objets as $i=>$data){
                                 $img = $data["img"];
                                 $nom = $data["nom"];
                                 $sel = "";
                                 // $ido = $data["id_objet"];
-                                echo "<div id=\"liste_obj_$i\" class=\"liste_element $sel\" onclick=\"select_objets($i);\"><img class=\"img_liste_element\" src=\"../imgs/objets/$img\" /><label>$nom</label></div>";
+                                echo "<div value=\"$nom\" id=\"liste_obj_$i\" class=\"liste_objets liste_element $sel\" onclick=\"select_objets($i);\"><img class=\"img_liste_element\" src=\"../imgs/objets/$img\" /><label>$nom</label></div>";
                             }
 
                         ?>
@@ -817,6 +815,30 @@ function export_region(){
 
 function import_region(){
 
+}
+
+function search_t(){
+    var research = document.getElementById("search_t").value;
+    for(el of document.getElementsByClassName("liste_terrains")){
+        if(el.getAttribute("value").startsWith(research)){
+            el.style.display = "inline-flex";
+        }
+        else{
+            el.style.display = "none";
+        }
+    }
+}
+
+function search_o(){
+    var research = document.getElementById("search_o").value;
+    for(el of document.getElementsByClassName("liste_objets")){
+        if(el.getAttribute("value").startsWith(research)){
+            el.style.display = "inline-flex";
+        }
+        else{
+            el.style.display = "none";
+        }
+    }
 }
 
 document.addEventListener('keydown', (event) => {
