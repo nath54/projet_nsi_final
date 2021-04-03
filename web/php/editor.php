@@ -487,6 +487,9 @@ else{
     var viewport = null;
 }
 
+var compteur_modif = 0;
+var dernier_alerte = 0;
+
 var update_t = {};
 var new_t = {};
 var delete_t = {};
@@ -596,8 +599,10 @@ function change_case(x, y){
     }
     else{
         if(tp_selected=="terrains"){
-            if(Object.keys(cases_terrains).includes(i) && cases_terrains[i]["id_terrain"]!=tile_selected){
-                update_t[i] = {"x":cx, "y":cy, "id_terrain":tile_selected, "id_region": id_region};
+            if(Object.keys(cases_terrains).includes(i)){
+                if(cases_terrains[i]["id_terrain"]!=tile_selected){
+                    update_t[i] = {"x":cx, "y":cy, "id_terrain":tile_selected, "id_region": id_region};
+                }
             }
             else{
                 new_t[i] = {"x":cx, "y":cy, "id_terrain":tile_selected, "id_region": id_region};
@@ -605,10 +610,12 @@ function change_case(x, y){
             // cases_terrains[i] = {"x":cx, "y":cy, "id_terrain":tile_selected};
             var e = document.getElementById(""+x+"-"+y);
             e.setAttribute("xlink:href","../imgs/tuiles/"+terrains[tile_selected]["img"]);
-        }else if(tp_selected=="objets" && cases_terrains[i]["id_objet"]!=tile_selected){
+        }else if(tp_selected=="objets"){
             // cases_objets[i] = {"x":cx, "y":cy, "id_objet":tile_selected};
-            if(Object.keys(cases_terrains).includes(i)){
-                update_o[i] = {"x":cx, "y":cy, "id_objet":tile_selected, "id_region": id_region};
+            if(Object.keys(cases_objets).includes(i)){
+                if(cases_objets[i]["id_objet"]!=tile_selected){
+                    update_o[i] = {"x":cx, "y":cy, "id_objet":tile_selected, "id_region": id_region};
+                }
             }
             else{
                 new_o[i] = {"x":cx, "y":cy, "id_objet":tile_selected, "id_region": id_region};
@@ -642,8 +649,15 @@ function aff(){
             document.getElementById(""+x+"-"+y).setAttribute("xlink:href","../imgs/tuiles/"+img);
             //
             img = "rien.png"
-            if(Object.keys(cases_objets).includes(ii)){
-                img=objets[cases_objets[ii]["id_objet"]]["img"];
+            if(Object.keys(cases_objets).includes(ii) && !Object.keys(delete_o).includes(ii)){
+                if(Object.keys(update_o).includes(ii)){
+                    img=objets[update_o[ii]["id_objet"]]["img"];
+                }else{
+                    img=objets[cases_objets[ii]["id_objet"]]["img"];
+                }
+            }
+            if(Object.keys(new_o).includes(ii) ){
+                img=objets[new_o[ii]["id_objet"]]["img"];
             }
             document.getElementById("o_"+x+"-"+y).setAttribute("xlink:href","../imgs/objets/"+img);
         }
