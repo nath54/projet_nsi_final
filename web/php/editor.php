@@ -591,6 +591,8 @@ function change_case(x, y){
                     delete new_t[i];
                     compteur_modif -= 1;
                 }
+                var e = document.getElementById(""+x+"-"+y);
+                e.setAttribute("xlink:href","../imgs/tuiles/vide.png");
             }
         }
         else if(tp_selected=="objets"){
@@ -611,6 +613,8 @@ function change_case(x, y){
                     delete new_o[i];
                     compteur_modif -= 1;
                 }
+                var e = document.getElementById("o_"+x+"-"+y);
+                e.setAttribute("xlink:href","../imgs/objets/rien.png");
             }
         }
     }
