@@ -270,6 +270,10 @@ if($region_selected!=""){
         $ido=$data["id_objet"];
         $cases_objets["$x-$y"]=array("x"=>$x, "y"=>$y, "id_objet"=>$ido);
     }
+    script("var nom_region=\"".$liste_regions[$region_selected]."\"");
+}
+else{
+    script("var nom_region=\"\"");
 }
 
 
@@ -349,6 +353,12 @@ body {
                     <label>New region</label>
                     <input id="new_region_name" type="text" placeholder="nom de la region">
                     <button onclick="new_region();">Créer</button>
+                </div>
+
+                <div class="row">
+                    <button onclick="export_region();">Export region</button>
+                    <input id="file_import" type="file" accept=".json">
+                    <button onclick="import_region();">Import region</button>
                 </div>
 
             </div>
@@ -812,13 +822,51 @@ function set_selection(ii){
     }
 }
 
+function download_text(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
 function export_region(){
     var texte={"terrains":cases_terrains, "objets":cases_objets};
     var texte = JSON.stringify(texte);
+    download_text("exported_region_"+nom_region+"_.json", texte);
+}
+
+function handleFileSelect (e) {
+    var files = e.target.files;
+    if (files.length < 1) {
+        alert('select a file...');
+        return;
+    }
+    var file = files[0];
+    var reader = new FileReader();
+    reader.onload = onFileLoaded;
+    reader.readAsDataURL(file);
+}
+
+function onFileLoaded (e) {
+    var match = /^data:(.*);base64,(.*)$/.exec(e.target.result);
+    if (match == null) {
+        throw 'Could not parse result'; // should not happen
+    }
+    var mimeType = match[1];
+    var content = match[2];
+    alert(mimeType);
+    alert(content);
 }
 
 function import_region(){
-
+    var fi = document.getElementById("file_import");
+    handleFileSelect(fi);
 }
 
 function search_t(){
