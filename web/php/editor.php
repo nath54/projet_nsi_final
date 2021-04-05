@@ -252,6 +252,105 @@ if(isset($_POST["save_terrain"]) && isset($_POST["delete_terrains"]) && isset($_
 
 }
 
+if(isset($_POST["import_data"]) && isset($_POST["import_region"])){
+    $content = $_POST["import_data"];
+    $data = json_decode($content, true);
+    $cases_terrains = $data["terrains"];
+    $cases_objets = $data["objets"];
+    $id_region = $_POST["import_region"];
+    // Pour changer si on veut passer en requetes préparée, plus de calcul, mais plus de sécurité
+    $mode = 0; // normal = 0 sinon préparé = 1
+    // On supprime tout:
+    $query = "DELETE FROM regions_terrains WHERE id_region=:idr;";
+    $query2 = "DELETE FROM regions_objets WHERE id_region=:idr;";
+    $vars = array(":idr"=>$id_region);
+    //
+    if(!action_prep($db, $query, $vars)){
+        echo "probleme delete regions_terrains <br />";
+        die();
+    }
+    if(!action_prep($db, $query2, $vars)){
+        echo "probleme delete regions_objets <br />";
+        die();
+    }
+    // On crée tout
+
+
+    if(count($cases_terrains)>0){
+        $req = "INSERT INTO regions_terrains (x,y,id_region,id_terrain) VALUES ";
+        $virgule = false;
+        $vars = array();
+        if($mode==1){
+            $vars[":idr"]=$id_region;
+        }
+        // Pour requete_prep:
+        $compteur = 0;
+        foreach($cases_terrains as $i=>$data){
+            if(!$virgule){
+                $virgule=true;
+            }
+            else{
+                $req.=", ";
+            }
+            // pour requete non préparée
+            if($mode==0){
+                $req.="( ".$data["x"].", ".$data["y"].", ".$id_region.", ".$data["id_terrain"]." )";
+            }
+            else{
+                $req.="(:x_$compteur, :y_$compteur, :idr, :idt_$compteur)";
+                $vars[":x_$compteur"]=$data["x"];
+                $vars[":y_$compteur"]=$data["y"];
+                $vars[":idt_$compteur"]=$data["id_terrain"];
+                $compteur+=1;
+            }
+        }
+        $req.=";";
+        // echo "insert objets : $req <br />";
+        if(!action_prep($db, $req, $vars)){
+            echo "probleme import insert terrain <br />";
+            die();
+        }
+    }
+
+    if(count($cases_objets)>0){
+        $req = "INSERT INTO regions_objets (x,y,id_region,id_objet) VALUES ";
+        $virgule = false;
+        $vars = array();
+        if($mode==1){
+            $vars[":idr"]=$id_region;
+        }
+        // Pour requete_prep:
+        $compteur = 0;
+        foreach($cases_objets as $i=>$data){
+            if(!$virgule){
+                $virgule=true;
+            }
+            else{
+                $req.=", ";
+            }
+            // pour requete non préparée
+            if($mode==0){
+                $req.="( ".$data["x"].", ".$data["y"].", ".$id_region.", ".$data["id_objet"]." )";
+            }
+            else{
+                $req.="(:x_$compteur, :y_$compteur, :idr, :ido_$compteur)";
+                $vars[":x_$compteur"]=$data["x"];
+                $vars[":y_$compteur"]=$data["y"];
+                $vars[":ido_$compteur"]=$data["id_objet"];
+                $compteur+=1;
+            }
+        }
+        $req.=";";
+        // echo "insert objets : $req <br />";
+        if(!action_prep($db, $req, $vars)){
+            echo "probleme import insert objets <br />";
+            die();
+        }
+    }
+
+    $region_selected = $id_region;
+
+}
 
 if($region_selected!=""){
     $requested = "SELECT * FROM regions_terrains WHERE id_region=:idr";
@@ -838,7 +937,9 @@ function download_text(filename, text) {
 function export_region(){
     var texte={"terrains":cases_terrains, "objets":cases_objets};
     var texte = JSON.stringify(texte);
-    download_text("exported_region_"+nom_region+"_.json", texte);
+    if(confirm("Ceci n'exportera pas les dernieres modifications non sauvegardées, voulez vous quand même exporter cette région ?")){
+        download_text("exported_region_"+nom_region+"_.json", texte);
+    }
 }
 
 function handleFileSelect (e) {
@@ -861,11 +962,24 @@ function onFileLoaded (e) {
     }
     var mimeType = match[1];
     var content = atob(match[2]);
-    // console.log(content);
-    var data = JSON.parse(content);
-    var cases_terrains = data["terrains"];
-    var cases_objets = data["objets"];
-    console.log(cases_terrains, cases_objets)
+    var confirmation = confirm("êtes vous bien sur de remplacer tout le contenu de la map actuelle par le contenu du fichier ?");
+    if(confirmation){
+        var f = document.createElement("form");
+        f.setAttribute("method", "POST");
+        f.setAttribute("action", "editor.php");
+        f.style.display = "none";
+        var i = document.createElement("input");
+        i.setAttribute("name", "import_data");
+        i.setAttribute("value", content);
+        f.appendChild(i);
+        var ii = document.createElement("input");
+        ii.setAttribute("name", "import_region");
+        ii.setAttribute("value", id_region);
+        f.appendChild(ii);
+        document.body.appendChild(f);
+        f.submit();
+    }
+
 }
 
 var fi = document.getElementById("file_import");
