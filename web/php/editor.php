@@ -937,7 +937,7 @@ function download_text(filename, text) {
 function export_region(){
     var texte={"terrains":cases_terrains, "objets":cases_objets};
     var texte = JSON.stringify(texte);
-    if(confirm("Ceci n'exportera pas les dernieres modifications non sauvegardées, voulez vous quand même exporter cette région ?")){
+    if(compteur_modif==0 || confirm("Ceci n'exportera pas les dernieres modifications non sauvegardées, voulez vous quand même exporter cette région ?")){
         download_text("exported_region_"+nom_region+"_.json", texte);
     }
 }
