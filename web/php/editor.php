@@ -357,7 +357,7 @@ body {
 
                 <div class="row">
                     <button onclick="export_region();">Export region</button>
-                    <input id="file_import" type="file" accept=".json">
+                    <input id="file_import" style="display:none;" type="file" accept=".json">
                     <button onclick="import_region();">Import region</button>
                 </div>
 
@@ -855,18 +855,24 @@ function handleFileSelect (e) {
 
 function onFileLoaded (e) {
     var match = /^data:(.*);base64,(.*)$/.exec(e.target.result);
+    // var match = e.target.result;
     if (match == null) {
         throw 'Could not parse result'; // should not happen
     }
     var mimeType = match[1];
-    var content = match[2];
-    alert(mimeType);
-    alert(content);
+    var content = atob(match[2]);
+    // console.log(content);
+    var data = JSON.parse(content);
+    var cases_terrains = data["terrains"];
+    var cases_objets = data["objets"];
+    console.log(cases_terrains, cases_objets)
 }
 
+var fi = document.getElementById("file_import");
+fi.onchange = handleFileSelect;
+
 function import_region(){
-    var fi = document.getElementById("file_import");
-    handleFileSelect(fi);
+    fi.click();
 }
 
 function search_t(){
