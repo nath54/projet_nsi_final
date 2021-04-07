@@ -94,11 +94,15 @@
             </div>
 
         <div id="sprite">
-        
+            <svg viewBox="0 0 128 128" style="border:1px solid black" id="viewport" xmlns="http://www.w3.org/2000/svg">
+                <image id="tete" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                <image id="cheveux" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                <image id="barbe" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                <image id="haut" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                <image id="bas" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                <image id="pied" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+            </svg>
         </div>
-
-
-
 
 
         </div>
