@@ -120,6 +120,22 @@ INSERT INTO terrain SET
 	objet_dessus=1;
 
 
+INSERT INTO terrain SET
+    id_terrain = 15,
+    image_="caillou_1.png",
+    nom="caillou_1",
+    peut_marcher=1,
+	cultivable=0,
+	objet_dessus=1;
+
+INSERT INTO terrain SET
+    id_terrain = 16,
+    image_="sable_1.png",
+    nom="sable_1",
+    peut_marcher=1,
+	cultivable=0,
+	objet_dessus=1;
+
 -- OBJETS :
 
 INSERT INTO objets SET
@@ -167,6 +183,15 @@ INSERT INTO objets SET
     image_ = "porte_prison_ouverte.png",
     z_index = 3,
     collision = 0;
+
+
+INSERT INTO objets SET
+    id_objet = 6,
+    nom = "mur_metallique",
+    image_ = "mur_metallique.png",
+    z_index = 3,
+    collision = 1;
+
 
 -- Compte admin
 
