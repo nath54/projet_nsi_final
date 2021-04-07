@@ -35,7 +35,7 @@ $db = load_db("../../includes/config.json");
         $_SESSION["error"]="Probleme de connexion";
         header('Location: accueil.php');
     }
-    $req = mysql_query("SELECT * FROM 'personnalisation'");
+    $req = mysql_query("SELECT * FROM 'personnalisation' WHERE 'player_id'='id_utilisateur'");
     if(empty($req))
     {
         $_SESSION["error"]="Personnage non créé";
