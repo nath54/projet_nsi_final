@@ -31,6 +31,8 @@ if(!isset($_SESSION["id_admin"])){
             <li><a href="editor.php">Editeur de map</a></li>
         </ul>
 
+        <a href="admin_connect.php">Se déconnecter</a>
+
     </body>
 
 </html>

@@ -14,8 +14,6 @@ if(!isset($_SESSION["id_admin"])){
     die();
 }
 
-
-
 $requete = "SELECT * FROM terrain;";
 $terrains = array();
 $r = requete_prep($db, $requete);
