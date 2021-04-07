@@ -212,6 +212,8 @@ class Personnage:
         if not self.server.carte.cases_terrains :  # si le joueur marche sur une case noir ou un élément qui va trigger le passage
             self.region_actu = self.server.Region.id_region
             self.server.carte.load()
+            # TODO : définir une nouvelle position à la suite du changement
+            self.load_perso()
         pass
 
 
