@@ -10,13 +10,15 @@ $db = load_db("../../includes/config.json");
 unset($_SESSION["id_admin"]);
 
 if(isset($_POST["pseudo"]) && isset($_POST["password"])){
-    $res = requete_prep($db, "SELECT id_admin FROM comptes_administrateurs WHERE pseudo=:pseudo AND mdp=MD5(:mdp);", array(":pseudo"=>$_POST["pseudo"], ":mdp"=>$_POST["password"]));
+    $sql = "SELECT id_admin FROM comptes_administrateurs WHERE pseudo=:pseudo AND mdp=MD5(:mdp);";
+    $args = array(":pseudo"=>$_POST["pseudo"], ":mdp"=>$_POST["password"]);
+    $res = requete_prep($db, $sql, $args);
     if(count($res) > 0){
-        $_SESSION["id_admin"]=$res[0]["id_admin"];
+        $_SESSION["id_admin"] = $res[0]["id_admin"];
         header("Location: admin_accueil.php");
     }
     else{
-        alert("Le mot de passe était éroné");
+        alert("Le mot de passe était erroné");
     }
 }
 

@@ -9,7 +9,7 @@
 
         <!-- Importation des fonts -->
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 
 
@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        
+
                  <!-- Script qui permet d'afficher le numéro suivant des vetements  -->
                  <script>
                     function clic(a,b){
@@ -42,10 +42,10 @@
                         n = n+6;
                         }
                         ligne.innerHTML = n;
-                    }              
+                    }
                 </script>
 
-            
+
                 <!-- Menu de création -->
                 <!-- Après le choix du sexe et de la classe -->
                 <!-- &nbsp = espace -->
@@ -70,7 +70,7 @@
                     </div>
                 </div>
 
-                
+
             <!-- Aperçu du sprite avec ses changements -->
             <div class="sprite_creation">
 

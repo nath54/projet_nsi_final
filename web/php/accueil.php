@@ -58,7 +58,7 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
 				<img class="engrenage" src="../imgs/header/engrenage.png">
 			</div>
 		</div>
-			
+
         <form method="POST" action="post_accueil.php">
 
             <section class="login">
@@ -71,12 +71,12 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
                     <input type="password" required title="Password" placeholder="Mot de passe" data-icon="x" name="mdp" class="bouton">
                     </br>
 					</br>
-					<input type="submit" class="envoyer" value="Valider" />					
+					<input type="submit" class="envoyer" value="Valider" />
 					<div class="oubli">
                         <div class="col"><a href="#" title="Retrouver mot de passe">Forgot Password ?</a></div>
                     </div>
 					<a href="inscription.php" class="inscr">Si vous n'avez pas de compte, inscrivez vous !</a>
-                    
+
                 </form>
             </section>
         </form>
