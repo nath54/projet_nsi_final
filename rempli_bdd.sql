@@ -136,6 +136,14 @@ INSERT INTO terrain SET
 	cultivable=0,
 	objet_dessus=1;
 
+INSERT INTO terrain SET
+    id_terrain = 17,
+    image_="caillou_2.png",
+    nom="caillou_2",
+    peut_marcher=1,
+	cultivable=0,
+	objet_dessus=1;
+
 -- OBJETS :
 
 INSERT INTO objets SET
