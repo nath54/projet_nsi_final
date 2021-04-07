@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Entête page internet -->
+<!-- Entête page internet -->   
 <html>
     <head>
         <!-- Nom du jeu + reliement au css -->

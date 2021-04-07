@@ -25,12 +25,14 @@ class Monstre:
         self.loot = res[5]
         self.position = {"x": int(res[6]), "y": int(res[7])}
         self.id_region = int(res[8])
+        self.load_monstre()
 
     def emplacement(self): ## Retourne la position du monstre
         return self.position
 
-    def bouger(self, dep):  ## Ajouter la collision avec les murs ...
-       
+    def bouger(self, dep):  # Le serveur s'occupera des déplacements
+        ## Ajouter la collision avec les murs ...
+
         assert (isinstance(dep, tuple) or isinstance(dep, list)) and len(dep)==2, "Le déplacement n'est pas un tuple."
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
             "Les positions ne sont pas des entiers."
@@ -41,10 +43,11 @@ class Monstre:
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
 
-        #if self.personnage.region_actu == self.id_region :   #Faire en sorte que le monstre suive le personnage
-            #while self.position != self.personnage.position :
-              #  self.position["x"] += dep[0]
-               # self.position["y"] += dep[1]
+        if self.server.personnage.region_actu == self.id_region :   #Faire en sorte que le monstre suive le personnage
+            #if self.server.carte.
+            while self.position != self.server.personnage.position :
+                self.position["x"] += dep[0]
+                self.position["y"] += dep[1]
 
     def modif_vie(self, pv):
         if self.pv > 0 :
@@ -56,6 +59,7 @@ class Monstre:
             pass
         if self.pv < 0 :
             # Le monstre devient négatif, pensez a ajouter des changements de stats etc 
+            pass
 
     
 #if __name__ = "__name__":
