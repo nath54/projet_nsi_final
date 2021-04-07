@@ -1,12 +1,25 @@
 /* Couleur d'arrière plan */
-body{
+
+body {
     background-color: rgba(0, 0, 0, 0.8);
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
 }
 
 
 /* Bouton > */
-button{
-    background-color: #4CAF50; /* Green */
+
+button {
+    background-color: #4CAF50;
+    /* Green */
     border: none;
     color: white;
     padding: 5px 10px;
@@ -16,13 +29,17 @@ button{
     font-size: 16px;
 }
 
+
 /* Surbrillance du bouton > */
+
 button:hover {
     background-color: #337935;
 }
 
+
 /* Bouton validation */
-.validation_perso_creation{
+
+.validation_perso_creation {
     background-color: #00ff37;
     border: none;
     color: white;
@@ -33,19 +50,22 @@ button:hover {
     width: 175px;
     opacity: 0.6;
     transition: 1s;
-    margin-top:120px;
+    margin-top: 120px;
 }
 
+
 /* Surbrillance bouton validation */
+
 .validation_perso_creation:hover {
     opacity: 1;
     background-color: #72df3f;
     width: 300px;
-  }
+}
 
 
 /* Bouton precedent  */
-.precedent_perso_creation{
+
+.precedent_perso_creation {
     background-color: #ff0800;
     border: none;
     color: white;
@@ -56,19 +76,21 @@ button:hover {
     width: 175px;
     opacity: 0.6;
     transition: 1s;
-
 }
 
+
 /* Surbrillance bouton precedent */
+
 .precedent_perso_creation:hover {
     opacity: 1;
     background-color: #b60600;
     width: 300px;
-  }
+}
 
 
 /* Titre (Creation personnage) */
-h1{
+
+h1 {
     font-family: 'Press Start 2P', cursive;
     font-size: 36px;
     font-weight: 300;
@@ -80,12 +102,14 @@ h1{
     transition: 1s;
 }
 
-h1:hover{
+h1:hover {
     text-shadow: rgb(218, 218, 218) 11px 0 19px;
 }
 
+
 /* Zone de texte qui s'adapte avec ces paramètres */
-a{
+
+a {
     font-family: 'Press Start 2P', cursive;
     font-size: 16px;
     font-weight: 100;
@@ -94,107 +118,122 @@ a{
 
 
 /* Div de tout les choix de customisation */
+
 .menu_creation_perso {
-    margin-top:120px;
+    margin-top: 120px;
 }
 
 
 /* Bouton accueil */
+
 .accueil_bouton {
-    display:block;
+    display: block;
     height: 40px;
     width: 40px;
     border-radius: 50%;
     border: 3px solid rgb(255, 255, 255);
     transition: 1s;
-    margin-left:10px;
+    margin-left: 10px;
     top: 100%;
     padding: 5px;
-  }
+}
+
 
 /* Hover du bouton accueil */
-.accueil_bouton:hover{
-    opacity: 1;
-    background-color:rgba(0, 0, 0, 0.80);
-    height: 60px;
-    width: 60px;
 
-
-}
-
-/* Image du bouton accueil */
-.maison{
-    width: 100%;
-    height: auto;
-    margin: 0px;
-}
-
-
-
-/* Bouton compte */
-.compte_bouton {
-    display:block;
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    border: 3px solid rgb(255, 255, 255);
-    transition: 1s;
-    margin-left:10px;
-    top: 100%;
-    padding: 5px;
-  }
-
-/* Hover du bouton compte */
-.compte_bouton:hover{
-    opacity: 1;
-    background-color:rgba(0, 0, 0, 0.80);
-    height: 60px;
-    width: 60px;
-
-
-}
-
-/* Image du bouton compte */
-.login{
-    width: 100%;
-    height: auto;
-    margin: 0px;
-}
-
-/* Bouton parametre */
-.parametre_bouton {
-    display:block;
-    height: 40px;
-    width: 40px;
-    border-radius: 50%;
-    border: 3px solid rgb(255, 255, 255);
-    transition: 1s;
-    margin-left:20px;
-    padding: 5px;
-    top: auto;
-  }
-
-/* Hover du bouton de parametre */
-.parametre_bouton:hover{
+.accueil_bouton:hover {
     opacity: 1;
     background-color: rgba(0, 0, 0, 0.80);
     height: 60px;
     width: 60px;
 }
 
-/* Image de l'engrenage */
-.engrenage{
+
+/* Image du bouton accueil */
+
+.maison {
     width: 100%;
     height: auto;
     margin: 0px;
 }
 
-#bouton_header{
-    width: 100% ;
-    height: 100% ;
-    }
-     
-    #bouton_header div{
-    float:left;
-    }
 
+/* Bouton compte */
+
+.compte_bouton {
+    display: block;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 3px solid rgb(255, 255, 255);
+    transition: 1s;
+    margin-left: 10px;
+    top: 100%;
+    padding: 5px;
+}
+
+
+/* Hover du bouton compte */
+
+.compte_bouton:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.80);
+    height: 60px;
+    width: 60px;
+}
+
+
+/* Image du bouton compte */
+
+.login {
+    width: 100%;
+    height: auto;
+    margin: 0px;
+}
+
+
+/* Bouton parametre */
+
+.parametre_bouton {
+    display: block;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 3px solid rgb(255, 255, 255);
+    transition: 1s;
+    margin-left: 20px;
+    padding: 5px;
+    top: auto;
+}
+
+
+/* Hover du bouton de parametre */
+
+.parametre_bouton:hover {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 0.80);
+    height: 60px;
+    width: 60px;
+}
+
+
+/* Image de l'engrenage */
+
+.engrenage {
+    width: 100%;
+    height: auto;
+    margin: 0px;
+}
+
+#bouton_header {
+    width: 100%;
+    height: 100%;
+}
+
+#bouton_header div {
+    float: left;
+}
+
+#sprite {
+    margin: auto;
+}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- Entête page internet -->   
+<!-- Entête page internet -->
 <html>
     <head>
         <!-- Nom du jeu + reliement au css -->
@@ -9,48 +9,39 @@
 
         <!-- Importation des fonts -->
         <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     </head>
 
-<div class="row">
-    <div class="creation_perso">
-    <!-- Titre création du personnage -->
-        <h1>Creation personnage</h1>
-        
-        <!-- Div des boutons -->
-        <div id="bouton_header">
+    <body class="column">
+        <!-- Header -->
+        <div>
+            <!-- Titre création du personnage -->
+            <h1>Creation personnage</h1>
 
-            <!-- Bouton accueil -->
-            <div class="accueil_bouton">
-                <img class="maison" src="../imgs/header/maison.png">
-            </div>
+            <!-- Div des boutons -->
+            <div id="bouton_header">
 
-            <!-- Bouton compte -->
-            <div class="compte_bouton">
-                <img class="login" src="../imgs/header/login.png">
-            </div>
+                <!-- Bouton accueil -->
+                <div class="accueil_bouton">
+                    <img class="maison" src="../imgs/header/maison.png">
+                </div>
 
-            <!-- Bouton parametre -->
-            <div class="parametre_bouton">
-                <img class="engrenage" src="../imgs/header/engrenage.png">
+                <!-- Bouton compte -->
+                <div class="compte_bouton">
+                    <img class="login" src="../imgs/header/login.png">
+                </div>
+
+                <!-- Bouton parametre -->
+                <div class="parametre_bouton">
+                    <img class="engrenage" src="../imgs/header/engrenage.png">
+                </div>
             </div>
         </div>
-        
-                 <!-- Script qui permet d'afficher le numéro suivant des vetements  -->
-                 <script>
-                    function clic(a,b){
-                        var ligne = document.getElementById("choix"+a);
-                        var n = parseInt(ligne.innerHTML);
-                        n = n+b;
-                        if (n>6){
-                            n=n-6;
-                            }
-                        if (n<=0){
-                        n = n+6;
-                        }
-                        ligne.innerHTML = n;
-                    }              
-                </script>
+
+        <div class="row">
+
+            <div class="creation_perso">
+
 
                 <!-- Menu de création -->
                 <!-- Après le choix du sexe et de la classe -->
@@ -76,35 +67,51 @@
                     </div>
                 </div>
 
-                
-            <!-- Aperçu du sprite avec ses changements -->
-            <div class="sprite_creation">
 
-                <!-- Bouton valier, qui enregistre toutes les modifs dans la BDD -->
-                <div class="valider_creation">
-                    <button class="validation_perso_creation" href=""><a>VALIDER</a></button>
-                </div>
+                <!-- Aperçu du sprite avec ses changements -->
+                <div class="sprite_creation">
+
+                    <!-- Bouton valier, qui enregistre toutes les modifs dans la BDD -->
+                    <div class="valider_creation">
+                        <button class="validation_perso_creation" href=""><a>VALIDER</a></button>
+                    </div>
 
 
-                <!-- Bouton precedent, qui revient au formulaire d'inscription -->
-                <div class="precedent_creation">
-                    <button class="precedent_perso_creation" href=""><a>PRECEDENT</a></button>
+                    <!-- Bouton precedent, qui revient au formulaire d'inscription -->
+                    <div class="precedent_creation">
+                        <button class="precedent_perso_creation" href=""><a>PRECEDENT</a></button>
+                    </div>
+
                 </div>
 
             </div>
 
-        <div id="sprite">
-            <svg viewBox="0 0 128 128" style="border:1px solid black" id="viewport" xmlns="http://www.w3.org/2000/svg">
-                <image id="tete" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
-                <image id="cheveux" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
-                <image id="barbe" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
-                <image id="haut" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
-                <image id="bas" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
-                <image id="pied" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
-            </svg>
-        </div>
-
-
+            <div id="sprite">
+                <svg viewBox="0 0 128 128" style="border:1px solid black; width:200px;" id="viewport" xmlns="http://www.w3.org/2000/svg">
+                    <image id="tete" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="cheveux" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="barbe" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="haut" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="bas" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="pied" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                </svg>
+            </div>
         </div>
     </body>
 </html>
+
+<!-- Script qui permet d'afficher le numéro suivant des vetements  -->
+<script>
+    function clic(a,b){
+        var ligne = document.getElementById("choix"+a);
+        var n = parseInt(ligne.innerHTML);
+        n = n+b;
+        if (n>6){
+            n=n-6;
+            }
+        if (n<=0){
+        n = n+6;
+        }
+        ligne.innerHTML = n;
+    }
+</script>
