@@ -6,7 +6,9 @@ include_once "../../includes/bdd.php";
 $db = load_db("../../includes/config.json");
 
 if(!isset($_SESSION["player_id"])){
-    $_SESSION["player_id"] = 1;
+    $_SESSION["error"] = "Vous n'êtes pas connecté !";
+    header("Location: accueil.php");
+    die();
 }
 $id_player = $_SESSION["player_id"];
 
@@ -277,6 +279,7 @@ function launch(){
     start_websocket(ws_url);
 }
 function launch2(){
+    alert("id : "+<?php echo $id_player; ?>);
     // Websocket is ready
     ws_send({"action":"connection", "id_utilisateur":<?php echo $id_player;?>});
 }

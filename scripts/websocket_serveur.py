@@ -202,8 +202,7 @@ class ServeurWebsocket:
                 for i, p in self.server.personnages.items():
                     if i == self.USERS[websocket]["id_utilisateur"]:
                         continue
-                    if self.server.personnages[id_utilisateur].region_actu !=\
-                            p.region_actu:
+                    if self.server.personnages[id_utilisateur].region_actu != p.region_actu:
                         # Pas dans la même région : on n'envoie pas les données
                         continue
                     infos = {

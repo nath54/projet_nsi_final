@@ -85,7 +85,7 @@ function on_message(event) {
             break;
 
         case 'debug':
-            alert(data.message);
+            // alert(data.message);
             break;
 
         default:
