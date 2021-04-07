@@ -194,6 +194,8 @@ class ServeurWebsocket:
             if data["action"] == "connection":  # Un exemple d'action possible
                 id_utilisateur = data["id_utilisateur"]
                 self.USERS[websocket]["id_utilisateur"] = id_utilisateur
+                await self.send(websocket, {"action": "debug", "message": f"id {id_utilisateur}"})
+                print("aaaaaaaaaaaaaaaaaaaaz")
                 # TODO: Renvoyer que la connexion s'est bien effectuée ou pas
                 self.server.load_perso(id_utilisateur)
                 await self.send_infos_persos(websocket)

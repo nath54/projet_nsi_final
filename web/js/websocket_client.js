@@ -84,6 +84,10 @@ function on_message(event) {
             aff();
             break;
 
+        case 'debug':
+            alert(data.message);
+            break;
+
         default:
             // Il faut faire attention aux types d'actions que l'on gère
             // Et ne pas oublier les "break;" à la fin de chaque cas
