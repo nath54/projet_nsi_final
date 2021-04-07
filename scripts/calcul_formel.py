@@ -151,6 +151,9 @@ def test_somme():
     assert var == "6 + a + b",\
         f"Mauvaise valeur : {var} au lieu de '6 + a + b'"
     print(Sum(1, 5, "a", "a"))
+    var = str(Sum(1, 5, "a", "a"))
+    assert var == "6 + 2 × a",\
+        f"Mauvaise valeur : {var} au lieu de '6 + 2 × a'"
     print("FIN DU TEST : Sum")
 # endregion
 
