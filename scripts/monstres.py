@@ -43,9 +43,9 @@ class Monstre:
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
 
-        if self.personnage.region_actu == self.id_region :   #Faire en sorte que le monstre suive le personnage
+        if self.server.personnage.region_actu == self.id_region :   #Faire en sorte que le monstre suive le personnage
             #if self.server.carte.
-            while self.position != self.personnage.position :
+            while self.position != self.server.personnage.position :
                 self.position["x"] += dep[0]
                 self.position["y"] += dep[1]
 
