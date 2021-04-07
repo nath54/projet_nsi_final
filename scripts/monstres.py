@@ -41,7 +41,7 @@ class Monstre:
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
 
-        #if self.personnage.region_actu == self.id_region :
+        #if self.personnage.region_actu == self.id_region :   #Faire en sorte que le monstre suive le personnage
             #while self.position != self.personnage.position :
               #  self.position["x"] += dep[0]
                # self.position["y"] += dep[1]
@@ -50,7 +50,7 @@ class Monstre:
         if self.pv > 0 :
             # Le monstre est positif
             pass 
-        
+
         if self.pv == 0 :
             # TODO: Monstre doit mourir et loot un item
             pass
