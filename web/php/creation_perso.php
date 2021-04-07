@@ -10,24 +10,31 @@
         <!-- Importation des fonts -->
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> 
-
-
-
     </head>
+
+<div class="row">
     <div class="creation_perso">
     <!-- Titre création du personnage -->
         <h1>Creation personnage</h1>
-
+        
+        <!-- Div des boutons -->
         <div id="bouton_header">
+
+            <!-- Bouton accueil -->
+            <div class="accueil_bouton">
+                <img class="maison" src="../imgs/header/maison.png">
+            </div>
+
+            <!-- Bouton compte -->
             <div class="compte_bouton">
                 <img class="login" src="../imgs/header/login.png">
             </div>
 
+            <!-- Bouton parametre -->
             <div class="parametre_bouton">
                 <img class="engrenage" src="../imgs/header/engrenage.png">
             </div>
         </div>
-
         
                  <!-- Script qui permet d'afficher le numéro suivant des vetements  -->
                  <script>
@@ -45,7 +52,6 @@
                     }              
                 </script>
 
-            
                 <!-- Menu de création -->
                 <!-- Après le choix du sexe et de la classe -->
                 <!-- &nbsp = espace -->
@@ -74,17 +80,27 @@
             <!-- Aperçu du sprite avec ses changements -->
             <div class="sprite_creation">
 
-                    <!-- Bouton valier, qui enregistre toutes les modifs dans la BDD -->
-                    <div class="valider_creation">
-                        <button class="validation_perso_creation" href=""><a>VALIDER</a></button>
-                    </div>
+                <!-- Bouton valier, qui enregistre toutes les modifs dans la BDD -->
+                <div class="valider_creation">
+                    <button class="validation_perso_creation" href=""><a>VALIDER</a></button>
+                </div>
 
 
-                    <!-- Bouton precedent, qui revient au formulaire d'inscription -->
-                    <div class="precedent_creation">
-                        <button class="precedent_perso_creation" href=""><a>PRECEDENT</a></button>
-                    </div>
+                <!-- Bouton precedent, qui revient au formulaire d'inscription -->
+                <div class="precedent_creation">
+                    <button class="precedent_perso_creation" href=""><a>PRECEDENT</a></button>
+                </div>
 
             </div>
+
+        <div id="sprite">
+        
+        </div>
+
+
+
+
+
+        </div>
     </body>
 </html>

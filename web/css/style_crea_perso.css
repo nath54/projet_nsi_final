@@ -98,6 +98,39 @@ a{
     margin-top:120px;
 }
 
+
+/* Bouton accueil */
+.accueil_bouton {
+    display:block;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    border: 3px solid rgb(255, 255, 255);
+    transition: 1s;
+    margin-left:10px;
+    top: 100%;
+    padding: 5px;
+  }
+
+/* Hover du bouton accueil */
+.accueil_bouton:hover{
+    opacity: 1;
+    background-color:rgba(0, 0, 0, 0.80);
+    height: 60px;
+    width: 60px;
+
+
+}
+
+/* Image du bouton accueil */
+.maison{
+    width: 100%;
+    height: auto;
+    margin: 0px;
+}
+
+
+
 /* Bouton compte */
 .compte_bouton {
     display:block;
