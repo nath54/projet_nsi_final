@@ -87,8 +87,8 @@
             </div>
 
             <div id="sprite">
-                <svg viewBox="0 0 128 128" style="border:1px solid black; width:200px;" id="viewport" xmlns="http://www.w3.org/2000/svg">
-                    <image id="tete" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                <svg viewBox="0 0 128 128" style="border:1px solid black; width:500px;" id="viewport" xmlns="http://www.w3.org/2000/svg">
+                    <image id="tete" x=0 y=0 width=128 height=128 xlink:href="../imgs/sprites/sprite_fixe_droit.png" />
                     <image id="cheveux" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
                     <image id="barbe" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
                     <image id="haut" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
