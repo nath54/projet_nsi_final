@@ -70,6 +70,7 @@ CREATE TABLE utilisateurs (
 
  ```sql
 CREATE TABLE personnalisation (
+			id_utilisateur INT,
 			id_tete INT,
 	     	img_tete TEXT,
 			id_cheveux INT,
