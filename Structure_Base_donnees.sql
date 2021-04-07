@@ -25,7 +25,8 @@ CREATE TABLE utilisateurs (
  id_bas INT,
  id_pieds INT);
 
-CREATE TABLE personnalisation (
+
+ CREATE TABLE personnalisation (
 			id_tete INT,
 	     	img_tete TEXT,
 			id_cheveux INT,
@@ -135,6 +136,9 @@ CREATE TABLE regions_terrains(
 	CONSTRAINT comp_key_x_y PRIMARY KEY (x, y, id_region)
 );
 
+CREATE INDEX `index_id_region` ON `regions_terrains` (`id_region`);
+
+
 
 CREATE TABLE regions_objets(
 	x INT NOT NULL,
@@ -143,4 +147,16 @@ CREATE TABLE regions_objets(
 	id_objet INT DEFAULT 0,
 	CONSTRAINT comp_key_x_y PRIMARY KEY (x, y, id_region)
 );
+
+CREATE INDEX `index_id_region` ON `regions_objets` (`id_region`);
+
+
+
+
+CREATE TABLE comptes_administrateurs (
+	id_admin INT PRIMARY KEY AUTO_INCREMENT,
+	pseudo TEXT NOT NULL,
+	mdp TEXT NOT NULL
+);
+
 

@@ -4,6 +4,16 @@ include_once "../../includes/bdd.php";
 
 $db = load_db("../../includes/config.json");
 
+// Pour l'instant, on va rester simple
+// après, on pourra utiliser des tokens, des clés des sessions etc...
+// Pour l'instant, juste admin
+// Par contre, il faudra aussi veiller a ce que le compte ne reste pas trop inactif.
+if(!isset($_SESSION["id_admin"])){
+    $_SESSION["error"]="Vous n'êtes pas connecté en tant qu'administrateur !";
+    header("Location: admin_connect.php");
+    die();
+}
+
 
 
 $requete = "SELECT * FROM terrain;";
@@ -962,7 +972,7 @@ function onFileLoaded (e) {
     }
     var mimeType = match[1];
     var content = atob(match[2]);
-    var confirmation = confirm("êtes vous bien sur de remplacer tout le contenu de la map actuelle par le contenu du fichier ?");
+    var confirmation = confirm("êtes vous bien sur de remplacer tout le contenu de la région actuelle par le contenu du fichier ?");
     if(confirmation){
         var f = document.createElement("form");
         f.setAttribute("method", "POST");

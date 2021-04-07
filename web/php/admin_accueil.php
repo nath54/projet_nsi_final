@@ -22,11 +22,15 @@ if(!isset($_SESSION["id_admin"])){
     </head>
 
     <body>
-    
+
         <h1>Admin Accueil : </h1>
 
         <p>Vous avez ici accès aux outils administrateurs, </p>
-    
+
+        <ul>
+            <li><a href="editor.php">Editeur de map</a></li>
+        </ul>
+
     </body>
 
 </html>

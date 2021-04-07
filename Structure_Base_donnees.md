@@ -84,9 +84,6 @@ CREATE TABLE utilisateurs (
 			img_pieds TEXT);
 ```
 
-
-
-
 ## TABLE `objet`:
  - `id_objet` *INT PRIMARY KEY AUTO_INCREMENT* : id objet dans le jeu
  - `nom_objet` _TEXT_ : nom des objets
@@ -326,6 +323,24 @@ CREATE TABLE regions_objets(
 CREATE INDEX `index_id_region` ON `regions_objets` (`id_region`);
 
 ```
+
+
+
+## TABLE `comptes_administrateurs`
+- `id_admin` _INT PRIMARY KEY AUTO_INCREMENT_ : id de l'admin
+- `pseudo` _TEXT NOT NULL_
+- `mdp` _TEXT NOT NULL_
+
+```sql
+
+CREATE TABLE comptes_administrateurs (
+	id_admin INT PRIMARY KEY AUTO_INCREMENT,
+	pseudo TEXT NOT NULL,
+	mdp TEXT NOT NULL
+);
+
+```
+
 
 ```sql
 -- A laisser, sinon, il manquera la derniere partie sql pour le programme python
