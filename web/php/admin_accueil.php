@@ -4,6 +4,7 @@
 include_once "../../includes/init.php";
 include_once "../../includes/bdd.php";
 
+// TODO:
 // Pour l'instant, on va rester simple
 // après, on pourra utiliser des tokens, des clés des sessions etc...
 // Pour l'instant, juste admin

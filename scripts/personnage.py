@@ -208,6 +208,12 @@ class Personnage:
         elif self.vie > self.vie_max:
             self.vie = self.vie_max
 
+    def changement_region(self):
+        if not self.server.carte.cases_terrains :  # si le joueur marche sur une case noir ou un élément qui va trigger le passage
+            self.region_actu = self.server.Region.id_region
+            self.server.carte.load()
+        pass
+
 
 # if __name__ == "__main__":
 #     print("début des tests")

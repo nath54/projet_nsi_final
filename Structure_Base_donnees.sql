@@ -26,7 +26,8 @@ CREATE TABLE utilisateurs (
  id_pieds INT);
 
 
- CREATE TABLE personnalisation (
+CREATE TABLE personnalisation (
+			id_utilisateur INT,
 			id_tete INT,
 	     	img_tete TEXT,
 			id_cheveux INT,
