@@ -69,7 +69,8 @@ CREATE TABLE utilisateurs (
  - `img_pieds` _TEXT_ : image des pieds
 
  ```sql
- CREATE TABLE personnalisation (
+CREATE TABLE personnalisation (
+			id_utilisateur INT,
 			id_tete INT,
 	     	img_tete TEXT,
 			id_cheveux INT,
