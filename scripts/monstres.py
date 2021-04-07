@@ -45,6 +45,18 @@ class Monstre:
             #while self.position != self.personnage.position :
               #  self.position["x"] += dep[0]
                # self.position["y"] += dep[1]
+
+    def modif_vie(self, pv):
+        if self.pv > 0 :
+            # Le monstre est positif
+            pass 
+        
+        if self.pv == 0 :
+            # TODO: Monstre doit mourir et loot un item
+            pass
+        if self.pv < 0 :
+            # Le monstre devient négatif, pensez a ajouter des changements de stats etc 
+
     
 #if __name__ = "__name__":
     #m = Monstre()
