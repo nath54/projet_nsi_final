@@ -234,9 +234,8 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
                     <!-- Les autres joueurs -->
 
-                    <?php
-
-                    ?>
+                    <g id="svg_autres_joueurs">
+                    </g>
 
                     <!-- Les objets de z-index 4 -->
 
@@ -274,6 +273,7 @@ var ws_url = "<?php echo $url_ws; ?>";
 var en_chargement = true;
 tx = <?php echo $tx; ?>;
 ty = <?php echo $ty; ?>;
+tc = <?php echo $tc; ?>;
 
 function launch(){
     start_websocket(ws_url);

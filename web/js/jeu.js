@@ -4,9 +4,14 @@
  *
  */
 
-var tx = 100; // Ca sera changé
-var ty = 100; // Ca sera changé
+var svgns = "http://www.w3.org/2000/svg"
+
+var tx = 100; // Ca sera changé (taille horizontale de la viewBox)
+var ty = 100; // Ca sera changé (taille verticale de la viewBox)
+var tc = 100; // Ca sera changé (taille d'une case)
 var personnage = {
+    "id_perso": 0,
+    "nom": 0,
     "x": 0,
     "y": 0,
     "vie": 100,
@@ -17,9 +22,11 @@ var personnage = {
     "xp_tot": 100,
     "region_actu": 1
 }
-var autre_joueurs = {
 
-}
+// Dict autre_joueurs :
+// key : id_utilisateur
+// value : dictionnaire personnage
+var autres_joueurs = {}
 
 /**
  *
@@ -34,6 +41,33 @@ function aff() {
     var py = personnage.y * p.getAttribute("height");
     p.setAttribute("x", px);
     p.setAttribute("y", py);
+    // On affiche aussi tous les autres joueurs
+    for (ap of Object.keys(autres_joueurs)) {
+        var p = document.getElementById("player_" + ap.id_perso);
+        if (p == undefined) {
+
+            var p = document.createElementNS(svgns, "svg");
+            p.setAttributeNS(svgns, "x", ap.x);
+            p.setAttributeNS(svgns, "y", ap.y);
+            p.setAttributeNS(svgns, "width", tc);
+            p.setAttributeNS(svgns, "height", tc);
+            p.setAttribute("id", "player_" + ap.id_perso);
+
+            var i = document.createElementNS(svgns, "image");
+            i.setAttributeNS(svgns, "width", tc);
+            i.setAttributeNS(svgns, "height", tc);
+            i.setAttributeNS(svgns, "xlink:href", "../imgs/sprites/sprite_fixe_droit.png");
+            p.appendChild(i);
+
+            document.getElementById("svg_autres_joueurs").appendChild(p);
+        }
+
+        var apx = ap.x * p.getAttribute("width");
+        var apy = ap.y * p.getAttribute("height");
+        p.setAttribute("x", apx);
+        p.setAttribute("y", apy);
+    }
+    //
     var v = document.getElementById("viewport");
     // avb = v.getAttribute("viewBox");
     // var b = avb.split(" ");

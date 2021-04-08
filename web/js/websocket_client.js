@@ -68,9 +68,8 @@ function on_message(event) {
     switch (data.action) {
 
         case 'infos_perso':
-            for (cle of["x", "y", "vie", "vie_max", "mana", "mana_max", "exp", "exp_max", "region_actu"]) {
-                personnage[cle] = data[cle];
-            }
+            delete data['action']
+            personnage = data;
 
             if (en_chargement) {
                 en_chargement = false;
@@ -86,6 +85,27 @@ function on_message(event) {
 
         case 'debug':
             // alert(data.message);
+            break;
+
+        case 'joueur':
+            var id_j = data.id_perso;
+            delete data['action']
+            autres_joueurs[id_j] = data;
+            aff();
+            break;
+
+        case 'j_leave':
+            delete autres_joueurs[data.id_perso];
+            aff();
+            break;
+
+        case 'j_pos':
+            var id_j = data.id_perso;
+            if (Object.keys(autres_joueurs).includes(id_j)) {
+                autres_joueurs[id_j].x = data.x;
+                autres_joueurs[id_j].y = data.y;
+                aff();
+            }
             break;
 
         default:
