@@ -35,16 +35,16 @@ var autres_joueurs = {}
  */
 
 function aff() {
-    console.log(personnage);
     var p = document.getElementById("player");
     var px = personnage.x * p.getAttribute("width");
     var py = personnage.y * p.getAttribute("height");
     p.setAttribute("x", px);
     p.setAttribute("y", py);
     // On affiche aussi tous les autres joueurs
-    for (ap of Object.keys(autres_joueurs)) {
+    for (k of Object.keys(autres_joueurs)) {
+        var ap = autres_joueurs[k];
         var p = document.getElementById("player_" + ap.id_perso);
-        if (p == undefined) {
+        if (!p) {
 
             var p = document.createElementNS(svgns, "svg");
             p.setAttributeNS(svgns, "x", ap.x);

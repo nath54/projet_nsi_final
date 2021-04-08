@@ -100,6 +100,12 @@ class ServeurWebsocket:
 
     # \=~=~=~=~=~=~=~=~=~=~= INTERACTION CLIENT/SERVEUR =~=~=~=~=~=~=~=~=~=~=/
 
+    def wsFromId(self, id_):
+        for ws, id_u in self.USERS.items():
+            if id_ == id_u:
+                return ws
+        return None
+
     async def send(self, websocket, message):
         """Envoie un message au websocket
 

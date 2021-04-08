@@ -64,7 +64,7 @@ function on_message(event) {
      */
     // On recoit les informations
     data = JSON.parse(event.data);
-    console.log("get on websocket : ", data);
+    // console.log("get on websocket : ", data);
     // On traite les informations
     switch (data.action) {
 
@@ -93,6 +93,8 @@ function on_message(event) {
             var id_j = data.id_perso;
             delete data['action']
             autres_joueurs[id_j] = data;
+            console.log(data);
+            console.log("aaaa", autres_joueurs);
             aff();
             break;
 
@@ -103,7 +105,8 @@ function on_message(event) {
 
         case 'j_pos':
             var id_j = data.id_perso;
-            if (Object.keys(autres_joueurs).includes(id_j)) {
+            console.log(autres_joueurs[id_j]);
+            if (autres_joueurs[id_j]) {
                 autres_joueurs[id_j].x = data.x;
                 autres_joueurs[id_j].y = data.y;
                 aff();
