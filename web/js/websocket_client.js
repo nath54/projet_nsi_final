@@ -29,6 +29,7 @@ function start_websocket(ws_url) {
         // On affiche un message d'erreur
         alert("There was an error during connection");
         // On peut aussi renvoyer vers la page d'accueil
+        window.location.href = "accueil.php";
     };
 
     // On relie le websocket a notre fonction qui gere les messages recus
@@ -73,6 +74,7 @@ function on_message(event) {
 
             if (en_chargement) {
                 en_chargement = false;
+                document.getElementById("loading").style.display = "none";
                 aff();
             }
             break;
