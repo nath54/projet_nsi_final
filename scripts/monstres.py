@@ -10,6 +10,7 @@ class Monstre:
         self.position = {"x": 0, "y": 0}
         self.id_region = 1
         self.loot = ""
+        self.load_monstre()
 
 
     def load_monstre(self): ## On charge le monstre en lui attribuant ses capacités à partir de la BDD
@@ -25,13 +26,11 @@ class Monstre:
         self.loot = res[5]
         self.position = {"x": int(res[6]), "y": int(res[7])}
         self.id_region = int(res[8])
-        self.load_monstre()
 
     def emplacement(self): ## Retourne la position du monstre
         return self.position
 
     def bouger(self, dep):  # Le serveur s'occupera des déplacements
-        ## Ajouter la collision avec les murs ...
 
         assert (isinstance(dep, tuple) or isinstance(dep, list)) and len(dep)==2, "Le déplacement n'est pas un tuple."
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
@@ -50,13 +49,15 @@ class Monstre:
                 self.position["y"] += dep[1]
 
     def modif_vie(self, pv):
+        self.pv += self.server.personnage.attaquer()
         if self.pv > 0 :
             # Le monstre est positif
             pass 
 
         if self.pv == 0 :
             # TODO: Monstre doit mourir et loot un item
-            pass
+            return self.loot 
+    
         if self.pv < 0 :
             # Le monstre devient négatif, pensez a ajouter des changements de stats etc 
             pass
