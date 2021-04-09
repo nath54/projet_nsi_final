@@ -21,6 +21,7 @@
                     <img class="engrenage" src="../imgs/header/engrenage.png">
                 </div>
             </div>
+            
             <!-- Titre création du personnage -->
             <h1>Creation personnage</h1>
         </div>
