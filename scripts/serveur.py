@@ -85,11 +85,12 @@ class Serveur:
                  "xp_tot": perso.xp_tot,
                  "region_actu": perso.region_actu}
         print(id_utilisateur)
-        await self.serveurWebsocket.send_all(infos, [perso.id_utilisateur])
+        await self.serveurWebsocket.send_all(infos, [id_utilisateur])
         ws_base = self.serveurWebsocket.wsFromId(id_utilisateur)
         #on va récuperer toutes les infos des autres joueurs
         for ws, data in self.serveurWebsocket.USERS.items():
             if id_utilisateur != data["id_utilisateur"]:
+                print("aaaa", id_utilisateur, data["id_utilisateur"])
                 id_utilisateur = data["id_utilisateur"]
                 p = self.personnages[id_utilisateur]
                 infos = {"action": "joueur",
