@@ -209,7 +209,7 @@ class ServeurWebsocket:
         self.debug("get from ", websocket, " : ", data)
         if "action" in data.keys():
             if data["action"] == "connection":  # Un exemple d'action possible
-                id_utilisateur = data["id_utilisateur"]
+                id_utilisateur = int(data["id_utilisateur"])
                 self.USERS[websocket]["id_utilisateur"] = id_utilisateur
                 # await self.send(websocket, {"action": "debug", "message": f"id {id_utilisateur}"})
                 await self.server.load_perso(id_utilisateur)

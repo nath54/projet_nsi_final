@@ -91,10 +91,10 @@ class Serveur:
         for ws, data in self.serveurWebsocket.USERS.items():
             if id_utilisateur != data["id_utilisateur"]:
                 print("aaaa", id_utilisateur, data["id_utilisateur"])
-                id_utilisateur = data["id_utilisateur"]
-                p = self.personnages[id_utilisateur]
+                id_perso = data["id_utilisateur"]
+                p = self.personnages[id_perso]
                 infos = {"action": "joueur",
-                         "id_perso": p.id_utilisateur,
+                         "id_perso": id_utilisateur,
                          "nom": p.nom,
                          "x": p.position["x"],
                          "y": p.position["y"],
