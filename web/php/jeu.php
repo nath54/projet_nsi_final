@@ -291,7 +291,7 @@ function launch(){
 function launch2(){
     // alert("id : "+<?php echo $id_player; ?>);
     // Websocket is ready
-    ws_send({"action":"connection", "id_utilisateur":<?php echo $id_player;?>});
+    ws_send({"action":"connection", "id_utilisateur":parseInt(<?php echo $id_player;?>)});
 }
 
     </script>

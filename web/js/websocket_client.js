@@ -95,7 +95,7 @@ function on_message(event) {
             break;
 
         case 'joueur':
-            var id_j = data.id_perso;
+            var id_j = parseInt(data.id_perso);
             delete data['action']
             autres_joueurs[id_j] = data;
             console.log(data);
@@ -104,12 +104,14 @@ function on_message(event) {
             break;
 
         case 'j_leave':
-            delete autres_joueurs[data.id_perso];
+            delete autres_joueurs[parseInt(data.id_perso)];
             aff();
             break;
 
         case 'j_pos':
-            var id_j = data.id_perso;
+            var id_j = parseInt(data.id_perso);
+            console.log("id_j ", id_j);
+            console.log("autres joueurs : ", autres_joueurs);
             console.log(autres_joueurs[id_j]);
             if (autres_joueurs[id_j]) {
                 autres_joueurs[id_j].x = data.x;

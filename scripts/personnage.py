@@ -128,6 +128,7 @@ class Personnage:
         if self.server.carte.est_case_libre(self.region_actu, npx, npy):
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
+            print("perso ",self.id_utilisateur)
             await self.server.send_to_user(self.id_utilisateur, {"action": "position_perso", "x":self.position["x"], "y":self.position["y"]})
             await self.server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":self.id_utilisateur, "x":self.position["x"], "y":self.position["y"], "region":self.region_actu}, [self.id_utilisateur])
 
