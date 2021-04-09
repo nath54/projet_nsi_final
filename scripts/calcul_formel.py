@@ -108,13 +108,23 @@ class Sum:
                     else:
                         variables[terme] = 1
                 if isinstance(terme, Mul):
-                    vars_facto.append(terme)
-
+                    coeff = [const.value() for const in terme.components\
+                             if type(const.value()) in [int, float]][0]
+                    var = [variable.value() for variable in terme.components\
+                           if isinstance(variable.value(), str)][0]
+                    if var in variables:
+                        variables[var] += coeff
+                    else:
+                        variables[var] = coeff
             for var in variables:
-                if variables[var] == 1:
+                if variables[var] == 0:
+                    continue
+                elif variables[var] == 1:
                     vars_facto.append(var)
-                elif variables[var] > 1:
+                else:
                     vars_facto.append(Mul(Expr(variables[var]), Expr(var)).value())
+            if total_constantes == 0:
+                return Expr(vars_facto)
             e = Expr(Sum(total_constantes, vars_facto))
             return e
 
@@ -139,13 +149,14 @@ def test_somme():
     var = str(Sum(1, 5, Sum("a", "b")).value())
     assert var == "6 + a + b",\
         f"Mauvaise valeur : {var} au lieu de '6 + a + b'"
-    print(Sum(1, 5, "a", "a"))
     var = str(Sum(1, 5, "a", "a").value())
     assert var == "6 + (2 × a)",\
         f"Mauvaise valeur : {var} au lieu de '6 + (2 × a)'"
     var = str(Sum(1, 5, "a", "a", "a", "b", "b", "b").value())
     assert var == "6 + (3 × a) + (3 × b)",\
         f"Mauvaise valeur : {var} au lieu de '6 + (3 × a) + (3 × b)'"
+    var = str(Sum("a", Mul(3, "a").value()).value())
+    assert var == "4 × a", f"{var}"
     print("FIN DU TEST : Sum")
 # endregion
 
@@ -153,7 +164,12 @@ def test_somme():
 # region multiplication
 class Mul:
     def __init__(self, *args):
-        self.components = list(args)
+        self.components = []
+        for arg in args:
+            if not isinstance(arg, Expr):
+                self.components.append(Expr(arg))
+            else:
+                self.components.append(arg)
 
     def value(self):
         if all([type(c) in [int, float] for c in self.components]):
