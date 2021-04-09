@@ -61,7 +61,9 @@ else {
     <body>
 		<section class="inscr">
 			<div class="titre">Inscription à l'espace membre :</div><br />
-			<?php echo $erreur; ?>
+			<section class="erreur">
+			<?php echo $erreur ?>
+			</section>
 			<form action="inscription.php" method="post">
 			
 			<div class="bouton"> 
