@@ -159,16 +159,17 @@ class ServeurWebsocket:
                 await self.gere_messages(websocket, message)
         finally:
             id_perso = self.USERS[websocket]["id_utilisateur"]
-            p = self.server.personnages[id_perso]
-            # on va enregistrer sa derniere position dans la bdd
-            self.server.db.action_db("UPDATE utilisateurs SET position_x = ?, position_y = ? WHERE id_utilisateur = ?;", ( p.position["x"], p.position["y"], id_perso))
-            #
-            del self.server.personnages[id_perso]
-            mes_parti = {"action":"j_leave", "id_perso": id_perso}
-            # On supprime l'utilisateur
-            await self.unregister(websocket)
-            # on dit a tt le monde que le joueur a quitté
-            await self.send_all(mes_parti)
+            if id_perso is not None:
+                p = self.server.personnages[id_perso]
+                # on va enregistrer sa derniere position dans la bdd
+                self.server.db.action_db("UPDATE utilisateurs SET position_x = ?, position_y = ? WHERE id_utilisateur = ?;", ( p.position["x"], p.position["y"], id_perso))
+                #
+                del self.server.personnages[id_perso]
+                mes_parti = {"action":"j_leave", "id_perso": id_perso}
+                # On supprime l'utilisateur
+                await self.unregister(websocket)
+                # on dit a tt le monde que le joueur a quitté
+                await self.send_all(mes_parti)
 
     async def send_infos_persos(self, websocket):
         """Envoie un dictionnaire contenant toutes les infos d'un perso
@@ -210,6 +211,10 @@ class ServeurWebsocket:
         if "action" in data.keys():
             if data["action"] == "connection":  # Un exemple d'action possible
                 id_utilisateur = int(data["id_utilisateur"])
+                for _, donnees in self.USERS.items():
+                    if id_utilisateur == donnees["id_utilisateur"]:
+                        await self.send(websocket, {"action":"prob_connection", "message":"qqun a déjà le meme id connecté"})
+                        raise UserWarning("Probleme de connection, faudra trouver une facon plus 'propre' de quitter cette connexion")
                 self.USERS[websocket]["id_utilisateur"] = id_utilisateur
                 # await self.send(websocket, {"action": "debug", "message": f"id {id_utilisateur}"})
                 await self.server.load_perso(id_utilisateur)

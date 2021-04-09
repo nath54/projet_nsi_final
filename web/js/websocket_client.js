@@ -68,6 +68,11 @@ function on_message(event) {
     // On traite les informations
     switch (data.action) {
 
+        case 'prob_connection':
+            alert("QQun avec le meme id est déjà connecté !");
+            window.location.href = "accueil.php";
+            break;
+
         case 'infos_perso':
             delete data['action']
             personnage = data;
