@@ -62,7 +62,7 @@ class Serveur:
 
     # \=~=~=~=~=~=~=~=~=  PERSONNAGES =~=~=~=~=~=~=~=~=/
 
-    def load_perso(self, id_utilisateur):
+    async def load_perso(self, id_utilisateur):
         """Charge un personnage et l'associe dans self.personnages"""
         """
         res = self.db.requete_db(\"""SELECT * FROM utilisateurs\
@@ -71,6 +71,42 @@ class Serveur:
         """
         perso = Personnage(self, id_utilisateur)
         self.personnages[id_utilisateur] = perso
+        # on envoie a tout le monde les infos du joueur
+        infos = {"action": "joueur",
+                 "id_perso": id_utilisateur,
+                 "nom": perso.nom,
+                 "x": perso.position["x"],
+                 "y": perso.position["y"],
+                 "vie": perso.vie,
+                 "vie_max": perso.vie_max,
+                 "mana": perso.mana,
+                 "mana_max": perso.mana_max,
+                 "xp": perso.xp,
+                 "xp_tot": perso.xp_tot,
+                 "region_actu": perso.region_actu}
+        print(id_utilisateur)
+        await self.serveurWebsocket.send_all(infos, [id_utilisateur])
+        ws_base = self.serveurWebsocket.wsFromId(id_utilisateur)
+        #on va récuperer toutes les infos des autres joueurs
+        for ws, data in self.serveurWebsocket.USERS.items():
+            if id_utilisateur != data["id_utilisateur"]:
+                print("aaaa", id_utilisateur, data["id_utilisateur"])
+                id_utilisateur = data["id_utilisateur"]
+                p = self.personnages[id_utilisateur]
+                infos = {"action": "joueur",
+                         "id_perso": p.id_utilisateur,
+                         "nom": p.nom,
+                         "x": p.position["x"],
+                         "y": p.position["y"],
+                         "vie": p.vie,
+                         "vie_max": p.vie_max,
+                         "mana": p.mana,
+                         "mana_max": p.mana_max,
+                         "xp": p.xp,
+                         "xp_tot": p.xp_tot,
+                         "region_actu": p.region_actu}
+                await self.serveurWebsocket.send(ws_base, infos)
+
 
     async def bouger_perso(self, id_utilisateur, deplacement):
         await self.personnages[id_utilisateur].bouger(deplacement)

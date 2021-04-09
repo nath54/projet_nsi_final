@@ -129,7 +129,7 @@ class Personnage:
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
             await self.server.send_to_user(self.id_utilisateur, {"action": "position_perso", "x":self.position["x"], "y":self.position["y"]})
-            await self.server.serveurWebsocket.send_all({"action": "j_pos", "id":self.id_utilisateur, "x":self.position["x"], "y":self.position["y"], "region":self.region_actu}, [self.id_utilisateur])
+            await self.server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":self.id_utilisateur, "x":self.position["x"], "y":self.position["y"], "region":self.region_actu}, [self.id_utilisateur])
 
     def emplacement(self):
         """Renvoie la position du personnage"""
@@ -212,6 +212,8 @@ class Personnage:
         if not self.server.carte.cases_terrains :  # si le joueur marche sur une case noir ou un élément qui va trigger le passage
             self.region_actu = self.server.Region.id_region
             self.server.carte.load()
+            # TODO : définir une nouvelle position à la suite du changement
+            self.load_perso()
         pass
 
 

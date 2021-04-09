@@ -100,6 +100,12 @@ class ServeurWebsocket:
 
     # \=~=~=~=~=~=~=~=~=~=~= INTERACTION CLIENT/SERVEUR =~=~=~=~=~=~=~=~=~=~=/
 
+    def wsFromId(self, id_):
+        for ws, data in self.USERS.items():
+            if id_ == data["id_utilisateur"]:
+                return ws
+        return None
+
     async def send(self, websocket, message):
         """Envoie un message au websocket
 
@@ -152,8 +158,17 @@ class ServeurWebsocket:
             async for message in websocket:
                 await self.gere_messages(websocket, message)
         finally:
+            id_perso = self.USERS[websocket]["id_utilisateur"]
+            p = self.server.personnages[id_perso]
+            # on va enregistrer sa derniere position dans la bdd
+            self.server.db.action_db("UPDATE utilisateurs SET position_x = ?, position_y = ? WHERE id_utilisateur = ?;", ( p.position["x"], p.position["y"], id_perso))
+            #
+            del self.server.personnages[id_perso]
+            mes_parti = {"action":"j_leave", "id_perso": id_perso}
             # On supprime l'utilisateur
             await self.unregister(websocket)
+            # on dit a tt le monde que le joueur a quitté
+            await self.send_all(mes_parti)
 
     async def send_infos_persos(self, websocket):
         """Envoie un dictionnaire contenant toutes les infos d'un perso
@@ -166,6 +181,8 @@ class ServeurWebsocket:
         """
         p = self.server.personnages[self.USERS[websocket]["id_utilisateur"]]
         infos = {"action": "infos_perso",
+                 "id_perso": p.id_utilisateur,
+                 "pseudo": p.nom,
                  "x": p.position["x"],
                  "y": p.position["y"],
                  "vie": p.vie,
@@ -194,25 +211,9 @@ class ServeurWebsocket:
             if data["action"] == "connection":  # Un exemple d'action possible
                 id_utilisateur = data["id_utilisateur"]
                 self.USERS[websocket]["id_utilisateur"] = id_utilisateur
-                # TODO: Renvoyer que la connexion s'est bien effectuée ou pas
-                self.server.load_perso(id_utilisateur)
+                # await self.send(websocket, {"action": "debug", "message": f"id {id_utilisateur}"})
+                await self.server.load_perso(id_utilisateur)
                 await self.send_infos_persos(websocket)
-                for i, p in self.server.personnages.items():
-                    if i == self.USERS[websocket]["id_utilisateur"]:
-                        continue
-                    if self.server.personnages[id_utilisateur].region_actu !=\
-                            p.region_actu:
-                        # Pas dans la même région : on n'envoie pas les données
-                        continue
-                    infos = {
-                        "action": "autre_joueur",
-                        "id_user": i,
-                        "region": p.region_actu,
-                        "x": p.position["x"],
-                        "y": p.position["y"]
-                    }
-                    await self.send(websocket, infos)
-
             elif data["action"] == "deplacement":  # Un autre exemple d'action
                 # TODO : mettre des vérifs ici ou dans la fonction utilisée
                 user = self.USERS[websocket]["id_utilisateur"]

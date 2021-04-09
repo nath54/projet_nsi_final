@@ -59,7 +59,7 @@ else {
     </head>
 
     <body>
-		<section class="inscr">	
+		<section class="inscr">
 			<div class="titre">Inscription à l'espace membre :</div><br />
 			<?php echo $erreur; ?>
 			<form action="inscription.php" method="post">
@@ -71,7 +71,7 @@ else {
 				</br>
 				<label for="mdp_confirm"> Confirmation du mot de passe: </label> <input type="password" name="mdp_confirm" value=" <?php if (isset($_POST['mdp_confirm'])) echo htmlentities(trim($_POST['mdp_confirm'])); ?> "> </br>
 				</br>
-			</div>	
+			</div>
 				<!-- html entities convertit tous les caractères en entités HTML -->
 			<div class="select">
 				Sexe :
@@ -80,7 +80,7 @@ else {
 						<option>Femme</option>
 						<option>Autre</option>
 					</select>
-				</br></br>				
+				</br></br>
 				Classe :
 					<select name="classe" size="1">
 						<option>Chevalier</option>
