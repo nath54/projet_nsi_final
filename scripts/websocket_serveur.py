@@ -212,24 +212,8 @@ class ServeurWebsocket:
                 id_utilisateur = data["id_utilisateur"]
                 self.USERS[websocket]["id_utilisateur"] = id_utilisateur
                 # await self.send(websocket, {"action": "debug", "message": f"id {id_utilisateur}"})
-                # TODO: Renvoyer que la connexion s'est bien effectuée ou pas
                 await self.server.load_perso(id_utilisateur)
                 await self.send_infos_persos(websocket)
-                # for i, p in self.server.personnages.items():
-                #     if i == self.USERS[websocket]["id_utilisateur"]:
-                #         continue
-                #     if self.server.personnages[id_utilisateur].region_actu != p.region_actu:
-                #         # Pas dans la même région : on n'envoie pas les données
-                #         continue
-                #     infos = {
-                #         "action": "autre_joueur",
-                #         "id_user": i,
-                #         "region": p.region_actu,
-                #         "x": p.position["x"],
-                #         "y": p.position["y"]
-                #     }
-                #     await self.send(websocket, infos)
-
             elif data["action"] == "deplacement":  # Un autre exemple d'action
                 # TODO : mettre des vérifs ici ou dans la fonction utilisée
                 user = self.USERS[websocket]["id_utilisateur"]
