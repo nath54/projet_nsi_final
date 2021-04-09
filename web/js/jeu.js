@@ -41,31 +41,32 @@ function aff() {
     p.setAttribute("x", px);
     p.setAttribute("y", py);
     // On affiche aussi tous les autres joueurs
-    for (k of Object.keys(autres_joueurs)) {
-        var ap = autres_joueurs[k];
+    for (ap of Object.values(autres_joueurs)) {
+        // var ap = autres_joueurs[k];
+        var apx = ap.x * tc;
+        var apy = ap.y * tc;
         var p = document.getElementById("player_" + ap.id_perso);
+        console.log(ap.id_perso, " x : ", apx, " y : ", apy);
         if (!p) {
-
             var p = document.createElementNS(svgns, "svg");
-            p.setAttributeNS(svgns, "x", ap.x);
-            p.setAttributeNS(svgns, "y", ap.y);
-            p.setAttributeNS(svgns, "width", tc);
-            p.setAttributeNS(svgns, "height", tc);
+            p.setAttribute("x", apx);
+            p.setAttribute("y", apy);
+            p.setAttribute("width", tc);
+            p.setAttribute("height", tc);
             p.setAttribute("id", "player_" + ap.id_perso);
+            p.style.zIndex = 2;
 
             var i = document.createElementNS(svgns, "image");
-            i.setAttributeNS(svgns, "width", tc);
-            i.setAttributeNS(svgns, "height", tc);
-            i.setAttributeNS(svgns, "xlink:href", "../imgs/sprites/sprite_fixe_droit.png");
+            i.setAttribute("width", tc);
+            i.setAttribute("height", tc);
+            i.setAttribute("xlink:href", "../imgs/sprites/sprite_fixe_droit.png");
             p.appendChild(i);
 
             document.getElementById("svg_autres_joueurs").appendChild(p);
+        } else {
+            p.setAttribute("x", apx);
+            p.setAttribute("y", apy);
         }
-
-        var apx = ap.x * p.getAttribute("width");
-        var apy = ap.y * p.getAttribute("height");
-        p.setAttribute("x", apx);
-        p.setAttribute("y", apy);
     }
     //
     var v = document.getElementById("viewport");
