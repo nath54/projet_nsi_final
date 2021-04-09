@@ -8,12 +8,12 @@
 
                 <!-- Bouton accueil -->
                 <div class="accueil_bouton">
-                    <img class="maison" src="../imgs/header/maison.png">
+                    <a href="accueil.php"><img class="maison" src="../imgs/header/maison.png"></a>
                 </div>
 
                 <!-- Bouton compte -->
                 <div class="compte_bouton">
-                    <img class="login" src="../imgs/header/login.png">
+                    <a href="inscription.php"><img class="login" src="../imgs/header/login.png"></a>
                 </div>
 
                 <!-- Bouton parametre -->
