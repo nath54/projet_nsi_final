@@ -43,7 +43,7 @@ $db = load_db("../../includes/config.json");
     }
     else // Sinon on ne laisse pas le joueur se connecter
     {
-        $_SESSION["error"]="Probleme de connexion";
+        $_SESSION["error"]="Pseudo ou mot de passe incorrect";
         header('Location: accueil.php');
     }
     ?>
