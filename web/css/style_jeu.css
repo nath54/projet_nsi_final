@@ -81,6 +81,7 @@ body {
 #div_row_2 {}
 
 #ui,
+#loading,
 #viewport {
     position: absolute;
     top: 0;

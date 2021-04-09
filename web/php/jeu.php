@@ -6,7 +6,9 @@ include_once "../../includes/bdd.php";
 $db = load_db("../../includes/config.json");
 
 if(!isset($_SESSION["player_id"])){
-    $_SESSION["player_id"] = 1;
+    $_SESSION["error"] = "Vous n'êtes pas connecté !";
+    header("Location: accueil.php");
+    die();
 }
 $id_player = $_SESSION["player_id"];
 
@@ -111,7 +113,6 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
     <body onload="launch();">
 
         <div>
-
             <div id="ui">
                 <div class="box full">
                     <div class="row_center">
@@ -232,9 +233,8 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
                     <!-- Les autres joueurs -->
 
-                    <?php
-
-                    ?>
+                    <g id="svg_autres_joueurs">
+                    </g>
 
                     <!-- Les objets de z-index 4 -->
 
@@ -258,6 +258,17 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
         </div>
 
+
+        <div id="loading" style="background-color:black; z-index:10;  text-align: center;">
+
+            <h2 style="color: white; text-align: center; margin-top:100px;">Loading ...</h2>
+
+            <div class=" text-align: center;">
+                <img src="../imgs/loading.gif" width=200px height=200px style=" text-align: center;" />
+            </div>
+
+        </div>
+
     </body>
     <script src="../js/websocket_client.js"></script>
     <script src="../js/jeu.js"></script>
@@ -272,11 +283,13 @@ var ws_url = "<?php echo $url_ws; ?>";
 var en_chargement = true;
 tx = <?php echo $tx; ?>;
 ty = <?php echo $ty; ?>;
+tc = <?php echo $tc; ?>;
 
 function launch(){
     start_websocket(ws_url);
 }
 function launch2(){
+    // alert("id : "+<?php echo $id_player; ?>);
     // Websocket is ready
     ws_send({"action":"connection", "id_utilisateur":<?php echo $id_player;?>});
 }
