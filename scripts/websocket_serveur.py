@@ -159,6 +159,10 @@ class ServeurWebsocket:
                 await self.gere_messages(websocket, message)
         finally:
             id_perso = self.USERS[websocket]["id_utilisateur"]
+            p = self.server.personnages[id_perso]
+            # on va enregistrer sa derniere position dans la bdd
+            self.server.db.action_db("UPDATE utilisateurs SET position_x = ?, position_y = ? WHERE id_utilisateur = ?;", ( p.position["x"], p.position["y"], id_perso))
+            #
             del self.server.personnages[id_perso]
             mes_parti = {"action":"j_leave", "id_perso": id_perso}
             # On supprime l'utilisateur

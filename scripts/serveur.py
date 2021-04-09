@@ -93,17 +93,17 @@ class Serveur:
                 id_utilisateur = data["id_utilisateur"]
                 p = self.personnages[id_utilisateur]
                 infos = {"action": "joueur",
-                    "id_perso": p.id_utilisateur,
-                    "nom": p.nom,
-                    "x": p.position["x"],
-                    "y": p.position["y"],
-                    "vie": p.vie,
-                    "vie_max": p.vie_max,
-                    "mana": p.mana,
-                    "mana_max": p.mana_max,
-                    "xp": p.xp,
-                    "xp_tot": p.xp_tot,
-                    "region_actu": p.region_actu}
+                         "id_perso": p.id_utilisateur,
+                         "nom": p.nom,
+                         "x": p.position["x"],
+                         "y": p.position["y"],
+                         "vie": p.vie,
+                         "vie_max": p.vie_max,
+                         "mana": p.mana,
+                         "mana_max": p.mana_max,
+                         "xp": p.xp,
+                         "xp_tot": p.xp_tot,
+                         "region_actu": p.region_actu}
                 await self.serveurWebsocket.send(ws_base, infos)
 
     async def bouger_perso(self, id_utilisateur, deplacement):
