@@ -294,5 +294,7 @@ function launch2(){
     ws_send({"action":"connection", "id_utilisateur":parseInt(<?php echo $id_player;?>)});
 }
 
+alert("Vous etes bien sur la bonne version");
+
     </script>
 </html>
