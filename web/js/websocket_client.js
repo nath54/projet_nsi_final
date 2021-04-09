@@ -71,6 +71,7 @@ function on_message(event) {
         case 'prob_connection':
             alert("QQun avec le meme id est déjà connecté !");
             window.location.href = "accueil.php";
+            break;
 
         case 'infos_perso':
             delete data['action']
