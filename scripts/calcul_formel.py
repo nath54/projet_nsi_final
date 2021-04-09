@@ -60,75 +60,64 @@ class Sum:
                 termes = arg.components
                 self.components += termes
                 self = Sum(self.components)
+            if isinstance(arg, list):
+                for i in arg:
+                    self.components.append(Expr(i))
             if type(arg) in [str, int, float]:
                 self.components.append(Expr(arg))
                 i += 1
 
-    def value(self):
-        """Simplifie la valeur de la somme.
+    def factorisation(self):
+        liste_termes = [terme for terme in self.components.value()]
+        if len(liste_termes) > 1:
+            liste_var = [terme for terme in liste_termes\
+                         if isinstance(terme, str)]
+            if len(liste_var) > 1:
+                dico = {}
+                for var in liste_var:
+                    if var in dico.keys:
+                        dico[var] += 1
+                    else:
+                        dico[var] = 1
+                n_liste_terme = []
+                for variable, coeff in dico:
+                    if coeff == 1:
+                        n_liste_terme.append(Expr(variable))
+                    if coeff > 1:
+                        n_liste_terme.append(Mul(coeff, variable))
+                variables = Sum(n_liste_terme)
 
-        Returns:
-            Expr
-                Résultat de la somme sous forme d'Expr
-        """
+    def value(self):
         # Si tous les nombres sont des int ou float, on les simplifie.
         if all([type(c.value()) in [int, float] for c in self.components]):
             r = sum(terme.value() for terme in self.components)
             return Expr(r)
+        # Sinon, on simplifie au maximum
         else:
-            # Permet de simplifier au maximum une somme
-            expression_nombres = None
-            expressions_variables = []
-            expression_reste = None
-            # on récupère les groupes triés
-            groupes_tries = trie(self.components)
-            # on fait déjà la somme des nombres faciles
-            somme_nbs = sum([e.value() for e in groupes_tries["nbs"]])
-            if somme_nbs != 0:
-                expression_nombres = Expr(somme_nbs)
-            # variables
+            total_constantes = sum([terme.value() for terme in self.components\
+                                    if type(terme.value()) in [int, float]])
+            reste = [terme.value() for terme in self.components\
+                     if type(terme.value()) not in [int, float]]
             variables = {}
-            for tp_groupe in groupes_tries.keys():
-                if tp_groupe != "nbs" and tp_groupe != "reste":
-                    variables[tp_groupe] = groupes_tries[tp_groupe]
-            """TODO: Faire la factorisation, et rajouter les expressions
-                     dans la liste expressions_variables
-            for variable, liste in variables.items():
-                lst_coefficients = []
-                for expression in liste:
-                    autres_coef = []
-                    for coef in expression.components:
-                        if coef.value() != variable:
-                            autres_coef.append(coef)
-                    lst_coefficients += autres_coef
-                print(lst_coefficients)
-                expressions_variables.append(Mul(Expr(variable),\
-                    Sum(*lst_coefficients)))
-            """
-            # restes
-            reste = groupes_tries["reste"]
-            if len(reste) == 1:
-                expression_reste = reste[0]
-            elif len(reste) >= 2:
-                expression_reste = Sum(reste[0], reste[1])
-                for x in range(2, len(reste)):
-                    expression_reste = Sum(expression_reste, reste[x])
-            # on fait la somme de ce qui nous reste
-            liste = []
-            if expression_nombres is not None:
-                liste.append(expression_nombres)
-            liste += expressions_variables
-            if expression_reste is not None:
-                liste.append(expression_reste)
-            if len(liste) == 0:
-                return Expr(0)
-            elif len(liste) == 1:
-                return Expr(liste[0])
-            else:
-                a = Sum(liste[0], liste[1])
-                for x in range(2, len(liste)):
-                    a = Sum(a, liste[x])
-                return Expr(a)
+            vars_facto = []
+            for terme in reste:
+                # Dans le cas où le terme est un str, donc une variable
+                if isinstance(terme, str):
+                    if terme in variables:
+                        variables[terme] += 1
+                    else:
+                        variables[terme] = 1
+                if isinstance(terme, Mul):
+                    vars_facto.append(terme)
+
+            for var in variables:
+                if variables[var] == 1:
+                    vars_facto.append(var)
+                elif variables[var] > 1:
+                    vars_facto.append(Mul(Expr(variables[var]), Expr(var)).value())
+            e = Expr(Sum(total_constantes, vars_facto))
+            return e
+
 
     def __str__(self):
         expressions = []
@@ -151,9 +140,12 @@ def test_somme():
     assert var == "6 + a + b",\
         f"Mauvaise valeur : {var} au lieu de '6 + a + b'"
     print(Sum(1, 5, "a", "a"))
-    var = str(Sum(1, 5, "a", "a"))
-    assert var == "6 + 2 × a",\
-        f"Mauvaise valeur : {var} au lieu de '6 + 2 × a'"
+    var = str(Sum(1, 5, "a", "a").value())
+    assert var == "6 + (2 × a)",\
+        f"Mauvaise valeur : {var} au lieu de '6 + (2 × a)'"
+    var = str(Sum(1, 5, "a", "a", "a", "b", "b", "b").value())
+    assert var == "6 + (3 × a) + (3 × b)",\
+        f"Mauvaise valeur : {var} au lieu de '6 + (3 × a) + (3 × b)'"
     print("FIN DU TEST : Sum")
 # endregion
 
