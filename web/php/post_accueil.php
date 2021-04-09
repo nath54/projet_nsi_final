@@ -29,21 +29,22 @@ $db = load_db("../../includes/config.json");
     {
         $_SESSION["player_id"] = $res[0]["id_utilisateur"];
         header('Location: jeu.php');
+
+        $req = requete_prep($db, "SELECT * FROM 'personnalisation' WHERE id_utilisateur = :id_utilisateur;", array(":id_utilisateur"=>$_SESSION["player_id"]));
+        if(count($req)>0)
+        {
+            $_SESSION["error"]="Personnage non créé";
+            header('Location: creation_perso.php');
+        }
+        else
+        {
+            header('Location: jeu.php');
+        }
     }
     else // Sinon on ne laisse pas le joueur se connecter
     {
         $_SESSION["error"]="Probleme de connexion";
         header('Location: accueil.php');
-    }
-    $req = mysql_query("SELECT * FROM 'personnalisation' WHERE 'player_id'='id_utilisateur'");
-    if(empty($req))
-    {
-        $_SESSION["error"]="Personnage non créé";
-        header('Location: creation_perso.php');
-    }
-    else
-    {
-        header('Location: jeu.php');
     }
     ?>
     
