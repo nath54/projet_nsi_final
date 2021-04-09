@@ -48,7 +48,7 @@ foreach($res as $i=>$data){
 $cases_objets = array();
 $res = requete_prep($db, "SELECT x, y, id_objet FROM regions_objets WHERE id_region=:idr;", array(":idr"=>$id_region));
 if($res==NULL){
-    echo("L'obket n'a pas pu charger");
+    echo("L'objet n'a pas pu charger");
     die();
 }
 foreach($res as $i=>$data){
