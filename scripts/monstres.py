@@ -49,7 +49,9 @@ class Monstre:
                 self.position["y"] += dep[1]
 
     def modif_vie(self, pv):
+
         self.pv += self.server.personnage.attaquer()
+        
         if self.pv > 0 :
             # Le monstre est positif
             pass 
