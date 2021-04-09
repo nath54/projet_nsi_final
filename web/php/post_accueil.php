@@ -12,7 +12,7 @@ $db = load_db("../../includes/config.json");
     </head>
     <body>
     
-        <?php
+    <?php
         
     foreach($_POST as $k=>$v){
         echo "$k = $v <br />";
