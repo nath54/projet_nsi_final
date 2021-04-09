@@ -54,6 +54,7 @@ function aff() {
             p.setAttribute("width", tc);
             p.setAttribute("height", tc);
             p.setAttribute("id", "player_" + ap.id_perso);
+            p.style.zIndex = 2;
 
             var i = document.createElementNS(svgns, "image");
             i.setAttribute("width", tc);
