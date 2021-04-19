@@ -35,11 +35,11 @@ var autres_joueurs = {}
  */
 
 function aff() {
-    var p = document.getElementById("player");
-    var px = personnage.x * p.getAttribute("width");
-    var py = personnage.y * p.getAttribute("height");
-    p.setAttribute("x", px);
-    p.setAttribute("y", py);
+    var player = document.getElementById("player");
+    var px = personnage.x * player.getAttribute("width");
+    var py = personnage.y * player.getAttribute("height");
+    player.setAttribute("x", px);
+    player.setAttribute("y", py);
     // On affiche aussi tous les autres joueurs
     for (ap of Object.values(autres_joueurs)) {
         // var ap = autres_joueurs[k];
@@ -47,22 +47,12 @@ function aff() {
         var apy = ap.y * tc;
         var p = document.getElementById("player_" + ap.id_perso);
         console.log(ap.id_perso, " x : ", apx, " y : ", apy);
-        if (!p) {
-            var p = document.createElementNS(svgns, "svg");
-            p.setAttribute("x", apx);
-            p.setAttribute("y", apy);
-            p.setAttribute("width", tc);
-            p.setAttribute("height", tc);
-            p.setAttribute("id", "player_" + ap.id_perso);
-            p.style.zIndex = 2;
-
-            var i = document.createElementNS(svgns, "image");
-            i.setAttribute("width", tc);
-            i.setAttribute("height", tc);
-            i.setAttribute("xlink:href", "../imgs/sprites/sprite_fixe_droit.png");
-            p.appendChild(i);
-
-            document.getElementById("svg_autres_joueurs").appendChild(p);
+        if (p == undefined || p == null) {
+            let newSvg = document.getElementById("player").cloneNode(true)
+            newSvg.id = "player_" + ap.id_perso
+            newSvg.setAttribute("x", apx)
+            newSvg.setAttribute("y", apy)
+            document.getElementById("svg_autres_joueurs").appendChild(newSvg);
         } else {
             p.setAttribute("x", apx);
             p.setAttribute("y", apy);

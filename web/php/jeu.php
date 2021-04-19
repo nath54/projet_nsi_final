@@ -225,7 +225,7 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
                     <?php
                         $img_p = "../imgs/sprites/sprite_fixe_droit.png";
-                        echo "<svg z-index=\"2\" x=$px y=$py width=$tc height=$tc id=\"player\">";
+                        echo "<svg x=$px y=$py width=$tc height=$tc id=\"player\">";
                         echo "<image width=$tc height=$tc xlink:href=\"$img_p\"></image>";
                         echo "</svg>";
 
@@ -286,6 +286,8 @@ ty = <?php echo $ty; ?>;
 tc = <?php echo $tc; ?>;
 
 function launch(){
+    // make a simple rectangle
+
     start_websocket(ws_url);
 }
 function launch2(){
@@ -294,7 +296,6 @@ function launch2(){
     ws_send({"action":"connection", "id_utilisateur":parseInt(<?php echo $id_player;?>)});
 }
 
-alert("Vous etes bien sur la bonne version");
 
     </script>
 </html>
