@@ -114,6 +114,35 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
         <div>
             <div id="ui">
+                <!-- Menu Princ -->
+                <div id="menu_princ" class="ui_box" style="display:none;">
+                    <button onclick="set_menu('');" class="bt_x">X</button>
+                    <div class="row">
+                        <button>Quitter</button>
+                        <button onclick="set_menu('menu_stats');">Stats</button>
+                        <button onclick="set_menu('menu_inv');">Inventaire</button>
+                    </div>
+                </div>
+                <!-- Menu inventaire -->
+                <div id="menu_inv" class="ui_box" style="display:none;">
+                    <button onclick="set_menu('');" class="bt_x">X</button>
+                </div>
+                <!-- Menu stats -->
+                <div id="menu_stats" class="ui_box" style="display:none;">
+                    <button onclick="set_menu('');" class="bt_x">X</button>
+                    <div class="row">
+                        <div class="column" style="width:50%">
+                            <div class="row">
+                                <b>Nom : </b>
+                                <span id="player_name"></span>
+                            </div>
+                        </div>
+                        <div class="column" style="width:50%">
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Menu base -->
                 <div class="box full">
                     <div class="row_center">
 

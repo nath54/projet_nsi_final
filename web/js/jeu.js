@@ -173,6 +173,12 @@ document.addEventListener('keydown', (event) => {
             ws_send({ "action": "deplacement", "deplacement": [-1, 0] });
         } else if (nomTouche === 'ArrowRight') {
             ws_send({ "action": "deplacement", "deplacement": [1, 0] });
+        } else if (nomTouche === 'Escape') {
+            if (document.getElementById("menu_princ").style.display == "none") {
+                set_menu("menu_princ")
+            } else {
+                set_menu("")
+            }
         }
     }
 }, false);
@@ -180,3 +186,14 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('keyup', (event) => {
     const nomTouche = event.key;
 }, false);
+
+function set_menu(nom_menu) {
+    for (im of["menu_princ", "menu_inv", "menu_stats"]) {
+        var m = document.getElementById(im);
+        if (im == nom_menu) {
+            m.style.display = "initial";
+        } else {
+            m.style.display = "none";
+        }
+    }
+}
