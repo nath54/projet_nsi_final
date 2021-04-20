@@ -51,20 +51,57 @@ function aff() {
             let newSvg = document.getElementById("player").cloneNode(true)
             newSvg.id = "player_" + ap.id_perso
             newSvg.setAttribute("x", apx)
-            newSvg.setAttribute("y", apy)
+            newSvg.setAttribute("y", apy - 20)
+            newSvg.setAttribute("height", tc + 20)
+            newSvg.firstChild.setAttribute("y", 20);
+            // pseudo
+            let text = document.createElementNS(svgns, "text");
+            text.innerHTML = ap.nom;
+            text.setAttribute("x", "20")
+            text.setAttribute("y", "10")
+            newSvg.appendChild(text);
+            // pv
+            let pv = document.createElementNS(svgns, "rect");
+            pv.setAttribute("id", "pv_player_" + ap.id_perso);
+            pv.setAttribute("x", 0);
+            pv.setAttribute("y", 15);
+            pv.setAttribute("width", ap.vie / ap.vie_max * tc);
+            pv.setAttribute("height", 5);
+            pv.setAttribute("fill", "red");
+            newSvg.appendChild(pv);
+            // pm
+            let pm = document.createElementNS(svgns, "rect");
+            pm.setAttribute("id", "pm_player_" + ap.id_perso);
+            pm.setAttribute("x", 0);
+            pm.setAttribute("y", 20);
+            pm.setAttribute("width", ap.mana / ap.mana_max * tc);
+            pm.setAttribute("height", 5);
+            pm.setAttribute("fill", "blue");
+            newSvg.appendChild(pm);
+            // on ajoute
             document.getElementById("svg_autres_joueurs").appendChild(newSvg);
         } else {
             p.setAttribute("x", apx);
-            p.setAttribute("y", apy);
+            p.setAttribute("y", apy - 20);
+            document.getElementById("pv_player_" + ap.id_perso).setAttribute("width", ap.vie / ap.vie_max * tc)
+            document.getElementById("pm_player_" + ap.id_perso).setAttribute("width", ap.mana / ap.mana_max * tc)
         }
     }
     //
     var v = document.getElementById("viewport");
-    // avb = v.getAttribute("viewBox");
-    // var b = avb.split(" ");
-    // avtx = int(b[2]);
-    // avty = int(b[3]);
     v.setAttribute("viewBox", "" + (px - tx / 2) + " " + (py - ty / 2) + " " + tx + " " + ty);
+    // On va update les infos affichés à l'écran :
+    var pv = document.getElementById("progress_vie")
+    pv.value = personnage.vie
+    pv.max = personnage.vie_max;
+    var tv = document.getElementById("text_vie")
+    tv.innerHTML = "" + personnage.vie + "/" + personnage.vie_max
+        //
+    var pm = document.getElementById("progress_mana")
+    pm.value = personnage.mana
+    pm.max = personnage.mana_max
+    var tm = document.getElementById("text_mana")
+    tm.innerHTML = "" + personnage.mana + "/" + personnage.mana_max
 }
 
 /**

@@ -183,7 +183,7 @@ class ServeurWebsocket:
         p = self.server.personnages[self.USERS[websocket]["id_utilisateur"]]
         infos = {"action": "infos_perso",
                  "id_perso": p.id_utilisateur,
-                 "pseudo": p.nom,
+                 "nom": p.nom,
                  "x": p.position["x"],
                  "y": p.position["y"],
                  "vie": p.vie,
