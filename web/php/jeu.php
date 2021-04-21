@@ -118,7 +118,7 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                 <div id="menu_princ" class="ui_box" style="display:none;">
                     <button onclick="set_menu('');" class="bt_x">X</button>
                     <div class="row">
-                        <button>Quitter</button>
+                        <button onclick="window.location.href='accueil.php'">Quitter</button>
                         <button onclick="set_menu('menu_stats');">Stats</button>
                         <button onclick="set_menu('menu_inv');">Inventaire</button>
                     </div>
