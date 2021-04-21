@@ -105,6 +105,14 @@ function on_message(event) {
 
         case 'j_leave':
             delete autres_joueurs[parseInt(data.id_perso)];
+            var d = document.getElementById("player_" + ap.id_perso);
+            if (d != undefined) {
+                d.parentNode.removeChild(d);
+            }
+            var dd = document.getElementById("infos_player_" + ap.id_perso);
+            if (dd != undefined) {
+                dd.parentNode.removeChild(dd);
+            }
             aff();
             break;
 

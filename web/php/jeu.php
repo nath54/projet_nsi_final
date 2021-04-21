@@ -282,6 +282,12 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                         ?>
                     </g>
 
+                    <!-- Les infos des autres joueurs -->
+
+                    <g id="svg_infos_autres_joueurs">
+                            
+                    </g>
+
                 </svg>
 
 
