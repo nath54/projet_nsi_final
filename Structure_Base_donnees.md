@@ -180,28 +180,27 @@ CREATE TABLE pnj (
 
 
 ## TABLE `monstre`:
- - `id_monstre` *INT PRIMARY KEY AUTO_INCREMENT* : id d'un monstre
- - `nom_monstre` _TEXT_ : nom du monstre
- - `niveau` _INT_ : niveau du monstre
- - `pv` _INT_ : pv du monstre
- - `armure` _INT_ : armure du monstre
- - `dgt` _INT_ : dégats infligés par le monstre
+ - `id_monstre` *INT PRIMARY KEY* : id d'un monstre, il n'est pas en auto-increment parce que comme ca, ce sera plus simple de controller
+ - `nom` _TEXT_ : nom du monstre
+ - `niveau` _INT_ : niveau du monstre (le plus simple sera de faire plusieurs mêmes monstres de niveaux différents)
+ - `pv_min` _INT_ : pv du monstre
+ - `pv_max` _INT_ : pv du monstre
+ - `dgt_min` _INT_ : dégats infligés par le monstre
+ - `dgt_max` _INT_ : dégats infligés par le monstre
  - `loot` _TEXT_ : ce que va lacher le monstre en mourrant
- - `id_region` _INT_ : région dans laquelle le monstre se situe
- - `position_x` _INT_ : case x où le monstre est
- - `position_y` _INT_ : case y où le monstre est
+ - `img_base` _TEXT_ : chemin vers l'image de base du monstre
 
 ```sql
-CREATE TABLE monstre (id_monstre  INT PRIMARY KEY AUTO_INCREMENT,
-	     nom_monstre TEXT,
+CREATE TABLE monstre (
+		 id_monstre  INT PRIMARY KEY,
+	     nom TEXT,
 		 niveau INT,
-	     pv INT,
-		 armure INT,
-		 dgt INT,
+	     pv_min INT,
+		 pv_max INT,
+		 dgt_min INT,
+		 dgt_max INT,
 		 loot TEXT,
-		 id_region INT,
-		 position_x INT,
-		 position_y INT);
+		 img_base TEXT);
 ```
 
 
