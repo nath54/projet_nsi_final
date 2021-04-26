@@ -5,26 +5,26 @@
  - `pseudo` _TEXT_ : pseudo
  - `mdp` _TEXT_ : mdp du user
  - `sexe` _TEXT_ : Détermine le sexe du personnage
- - `vie` _INT_ : vie actuelle du joueur
- - `stamina` _INT_ : Stamina actuelle du joueur
- - `mana` _INT_ : Mana actuelle du joueur
- - `armor` _INT_ : Armure du joueur
+ - `vie` _INT DEFAULT 100_ : vie actuelle du joueur
+ - `stamina` _INT DEFAULT 100_ : Stamina actuelle du joueur
+ - `mana` _INT DEFAULT 100_ : Mana actuelle du joueur
+ - `armor` _INT DEFAULT 0_ : Armure du joueur
  - `classe` _TEXT_ : classe du joueur
- - `niveau` _INT_ : niveau du joueur
- - `argent` _INT_ : argent du joueur
- - `experience` _INT_ : expérience du joueur
- - `experience_tot` _INT_ : expérience a atteindre du joueur pour qu'il passe au niveau suivant
+ - `niveau` _INT DEFAULT 1_ : niveau du joueur
+ - `argent` _INT DEFAULT 0_ : argent du joueur
+ - `experience` _INT DEFAULT 0_ : expérience du joueur
+ - `experience_tot` _INT DEFAULT 100_ : expérience a atteindre du joueur pour qu'il passe au niveau suivant
  - `competence` _TEXT_ : qualité du personnage
  - `quetes` _TEXT_ : les quetes réalisée par le joueur
  - `region_actu` _INT DEFAULT 1_ : id de la région où le joueur est
- - `position_x` _INT_ : case/position x où le joueur est
- - `position_y` _INT_ : case/position y où le joueur est
- - `id_tete` _INT_ : id de la tête pour le personnalisation
- - `id_cheveux` _INT_ : id des cheveux pour la personnalisation
- - `id_barbe` _INT_ : id de la barbe pour la personnalisation
- - `id_haut` _INT_ : id du haut du corps pour la perso
- - `id_bas` _INT_ : id des jambes pour la perso
- - `id_pieds` _INT_ : id des pieds pour la perso
+ - `position_x` _INT DEFAULT 1_ : case/position x où le joueur est
+ - `position_y` _INT DEFAULT 1_ : case/position y où le joueur est
+ - `id_tete` _INT DEFAULT 1_ : id de la tête pour le personnalisation
+ - `id_cheveux` _INT DEFAULT 1_ : id des cheveux pour la personnalisation
+ - `id_barbe` _INT DEFAULT 1_ : id de la barbe pour la personnalisation
+ - `id_haut` _INT DEFAULT 1_ : id du haut du corps pour la perso
+ - `id_bas` _INT DEFAULT 1_ : id des jambes pour la perso
+ - `id_pieds` _INT DEFAULT 1_ : id des pieds pour la perso
 
 
 ```sql
@@ -33,26 +33,26 @@ CREATE TABLE utilisateurs (
  pseudo TEXT,
  mdp TEXT,
  sexe TEXT,
- vie INT,
- stamina INT,
- mana INT,
- armor INT,
+ vie INT DEFAULT 100,
+ stamina INT DEFAULT 100,
+ mana INT DEFAULT 100,
+ armor INT DEFAULT 0,
  classe TEXT,
- niveau INT,
- argent INT,
- experience INT,
- experience_tot INT,
+ niveau INT DEFAULT 1,
+ argent INT DEFAULT 0,
+ experience INT DEFAULT 0,
+ experience_tot INT DEFAULT 100,
  competence TEXT,
  quetes TEXT,
  region_actu INT DEFAULT 1,
- position_x INT,
- position_y INT,
- id_tete INT,
- id_cheveux INT,
- id_barbe INT,
- id_haut INT,
- id_bas INT,
- id_pieds INT);
+ position_x INT DEFAULT 1,
+ position_y INT DEFAULT 1,
+ id_tete INT DEFAULT 1,
+ id_cheveux INT DEFAULT 1,
+ id_barbe INT DEFAULT 1,
+ id_haut INT DEFAULT 1,
+ id_bas INT DEFAULT 1,
+ id_pieds INT DEFAULT 1);
 ```
 ## TABLE 'personnalisation':
  - `id_tete` _INT_ : id de la tête pour le personnalisation
@@ -194,13 +194,13 @@ CREATE TABLE pnj (
 CREATE TABLE monstre (
 		 id_monstre  INT PRIMARY KEY,
 	     nom TEXT,
-		 niveau INT,
-	     pv_min INT,
-		 pv_max INT,
-		 dgt_min INT,
-		 dgt_max INT,
+		 niveau INT NOT NULL,
+	     pv_min INT NOT NULL,
+		 pv_max INT NOT NULL,
+		 dgt_min INT NOT NULL,
+		 dgt_max INT NOT NULL,
 		 loot TEXT,
-		 img_base TEXT);
+		 img_base TEXT NOT NULL);
 ```
 
 
