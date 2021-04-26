@@ -67,26 +67,6 @@ class Sum:
                 self.components.append(Expr(arg))
                 i += 1
 
-    def factorisation(self):
-        liste_termes = [terme for terme in self.components.value()]
-        if len(liste_termes) > 1:
-            liste_var = [terme for terme in liste_termes\
-                         if isinstance(terme, str)]
-            if len(liste_var) > 1:
-                dico = {}
-                for var in liste_var:
-                    if var in dico.keys:
-                        dico[var] += 1
-                    else:
-                        dico[var] = 1
-                n_liste_terme = []
-                for variable, coeff in dico:
-                    if coeff == 1:
-                        n_liste_terme.append(Expr(variable))
-                    if coeff > 1:
-                        n_liste_terme.append(Mul(coeff, variable))
-                variables = Sum(n_liste_terme)
-
     def value(self):
         # Si tous les nombres sont des int ou float, on les simplifie.
         if all([type(c.value()) in [int, float] for c in self.components]):
@@ -116,6 +96,8 @@ class Sum:
                         variables[var] += coeff
                     else:
                         variables[var] = coeff
+                if isinstance(terme, Div):
+                    pass  # TODO
             for var in variables:
                 if variables[var] == 0:
                     continue
@@ -124,15 +106,15 @@ class Sum:
                 else:
                     vars_facto.append(Mul(Expr(variables[var]), Expr(var)).value())
             if total_constantes == 0:
-                return Expr(vars_facto)
-            e = Expr(Sum(total_constantes, vars_facto))
+                return Expr(Sum(*vars_facto))
+            e = Expr(Sum(total_constantes, *vars_facto))
             return e
 
 
     def __str__(self):
         expressions = []
         for terme in self.components:
-            if type(terme.value()) in [int, float, str]:
+            if type(terme.value()) in [int, float, str, Mul]:
                 expressions.append(str(terme))
             else:
                 expressions.append("(" + str(terme) + ")")
@@ -144,19 +126,42 @@ class Sum:
 
 def test_somme():
     print("DEBUT DU TEST : Sum")
+
+    # TEST SIMPLIFICATION DE CONSTANTES
+    var = str(Sum(18, 24, 22).value())
+    assert var == "64", f"Mauvaise valeur : {var} au lieu de '64'"
+
+    # TEST SIMPLIFICATION DE CONSTANTES AVEC VARIABLE (1 VAR)
     var = str(Sum(18, 24, 22, "a").value())
     assert var == "64 + a", f"Mauvaise valeur : {var} au lieu de '64 + a'"
+
+    # TEST SIMPLIFICATION DE CONSTANTES AVEC VARIABLES (PLUSIEURS VARS)
     var = str(Sum(1, 5, Sum("a", "b")).value())
     assert var == "6 + a + b",\
         f"Mauvaise valeur : {var} au lieu de '6 + a + b'"
+
+    # FACTORISATION D'UNE SOMME AVEC PLUSIEURS ITÉRATIONS DE VARIABLES (1 VAR)
     var = str(Sum(1, 5, "a", "a").value())
-    assert var == "6 + (2 × a)",\
-        f"Mauvaise valeur : {var} au lieu de '6 + (2 × a)'"
+    assert var == "6 + 2 × a",\
+        f"Mauvaise valeur : {var} au lieu de '6 + 2 × a'"
+
+    # FACTORISATION D'UNE SOMME AVEC PLUSIEURS ITÉRATIONS DE VARIABLES (PLUSIEURS VARS)
     var = str(Sum(1, 5, "a", "a", "a", "b", "b", "b").value())
-    assert var == "6 + (3 × a) + (3 × b)",\
-        f"Mauvaise valeur : {var} au lieu de '6 + (3 × a) + (3 × b)'"
+    assert var == "6 + 3 × a + 3 × b",\
+        f"Mauvaise valeur : {var} au lieu de '6 + 3 × a + 3 × b'"
+
+    # FACTORISATION D'UNE SOMME AVEC UN COMPOSANT DE MULTIPLICATION (1 VAR)
     var = str(Sum("a", Mul(3, "a").value()).value())
     assert var == "4 × a", f"{var}"
+
+    # FACTORISATION D'UNE SOMME AVEC UN COMPOSANT DE MULTIPLICATION (PLUSIEURS VARS)
+    var = str(Sum("a", Mul(3, "a").value(), "b", "b", Mul(40, "b").value()).value())
+    assert var == "4 × a + 42 × b", f"{var}"
+
+    # FACTORISATION D'UNE SOMME AVEC UN COMPOSANT DE DIVISION (1 VAR)
+    var = str(Sum(Div("a", 4).value(), "a").value())
+    assert var == "5 / 4 × a", f"{var}"
+
     print("FIN DU TEST : Sum")
 # endregion
 
@@ -244,6 +249,10 @@ class Expr:
         self.components = components
 
     def value(self):
+        """Renvoie la valeur de l'expression
+
+        TODO: Dans quel contexte len(self.components) > 1 ?
+        """
         if len(self.components) == 0:
             return None
         elif len(self.components) == 1:
