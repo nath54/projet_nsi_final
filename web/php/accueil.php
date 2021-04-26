@@ -54,6 +54,7 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
 		<div id="bouton_header">
 			<div class="compte_bouton">
 				<img class="login1" src="../imgs/header/login.png">
+				<a href="../php/creation_perso.php">
 			</div>
 
 			<div class="parametre_bouton">
