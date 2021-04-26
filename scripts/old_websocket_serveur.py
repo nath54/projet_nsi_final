@@ -1,5 +1,6 @@
+import asyncio
 
-import wss as ws
+import websockets as ws
 # Pour ne pas le confondre avec les variables websocket que l'on utilisera
 
 import json
@@ -38,10 +39,8 @@ class ServeurWebsocket:
         self.IP = config["host_websocket"]
         self.PORT = config["port_websocket"]
         self.USERS = dict()
-        self.WEBSOCKETS = {}
         self.server = server
         self.DEBUG = True
-        self.ws_server = None
 
     def load_config(self, path):
         """Récupère la config du serveur enregistrée dans un fichier json
@@ -73,7 +72,7 @@ class ServeurWebsocket:
 
     # \=~=~=~=~=~=~=~=~=~ REGISTER / UNREGISTER CONNECTION -=~=~=~=~=~=~=~=~=/
 
-    def register(self, websocket):
+    async def register(self, websocket):
         """Enregistre un client websocket lorsqu'il se connecte
 
         Arguments:
@@ -84,11 +83,10 @@ class ServeurWebsocket:
 
         """
         self.debug("Client connected !", websocket)
-        self.USERS[websocket['id']] = {"id_utilisateur": None}
-        self.WEBSOCKETS[websocket['id']] = websocket
+        self.USERS[websocket] = {"id_utilisateur": None}
         """On stocke des infos relatives au client websocket ici"""
 
-    def unregister(self, websocket):
+    async def unregister(self, websocket):
         """Enlève un client websocket lorsqu'il se déconnecte
 
         Arguments:
@@ -98,25 +96,21 @@ class ServeurWebsocket:
         Author : Nathan
         """
         self.debug("Client disconnected !", websocket)
-        del(self.USERS[websocket['id']])  # On enlève l'utilisateur
-        del(self.WEBSOCKETS[websocket['id']])
+        del(self.USERS[websocket])  # On enlève l'utilisateur
 
     # \=~=~=~=~=~=~=~=~=~=~= INTERACTION CLIENT/SERVEUR =~=~=~=~=~=~=~=~=~=~=/
 
-    def get_ws(self, id_ws):
-        return self.WEBSOCKETS[id_ws]
-
     def wsFromId(self, id_):
-        for ws_id, data in self.USERS.items():
+        for ws, data in self.USERS.items():
             if id_ == data["id_utilisateur"]:
-                return self.get_ws(ws_id)
+                return ws
         return None
 
-    def send(self, websocket, message):
+    async def send(self, websocket, message):
         """Envoie un message au websocket
 
         S'utilise de la manière suivante :
-            self.send(websocket, {"exemple": "ex",\
+            await self.send(websocket, {"exemple": "ex",\
                                         "encore_exemple": "ex"})
 
         Arguments:
@@ -132,9 +126,9 @@ class ServeurWebsocket:
         message = json.dumps(message)  # On convertit en json
         if self.DEBUG:
             self.debug("send to ", websocket, " message : ", message)
-        self.ws_server.send_message(websocket, message)
+        await websocket.send(message)  # On envoie le message
 
-    def send_all(self, message, excepts_ids=[]):
+    async def send_all(self, message, excepts_ids=[]):
         """Envoie un message à tous les clients
 
         Arguments:
@@ -145,11 +139,39 @@ class ServeurWebsocket:
             excepts_ids(list<int>)
                 ID des utilisateurs auquel on enverra pas le messages
         """
-        for id_ws, data in self.USERS.items():
+        for ws, data in self.USERS.items():
             if data["id_utilisateur"] not in excepts_ids:
-                self.send(self.get_ws(id_ws), message)
+                await self.send(ws, message)
 
-    def send_infos_persos(self, websocket):
+    async def handle_server(self, websocket, _):
+        """Gère et reçoit tous les messages d'un client websocket
+
+        Arguments:
+            websocket (websocket)
+                Client websocket dont on gère les messages
+
+        Author : Nathan
+        """
+        await self.register(websocket)  # On enregistre l'utilisateur
+        try:
+            # on traite tous les messages que l'on recoit
+            async for message in websocket:
+                await self.gere_messages(websocket, message)
+        finally:
+            id_perso = self.USERS[websocket]["id_utilisateur"]
+            if id_perso is not None:
+                p = self.server.personnages[id_perso]
+                # on va enregistrer sa derniere position dans la bdd
+                self.server.db.action_db("UPDATE utilisateurs SET position_x = ?, position_y = ? WHERE id_utilisateur = ?;", ( p.position["x"], p.position["y"], id_perso))
+                #
+                del self.server.personnages[id_perso]
+                mes_parti = {"action":"j_leave", "id_perso": id_perso}
+                # On supprime l'utilisateur
+                await self.unregister(websocket)
+                # on dit a tt le monde que le joueur a quitté
+                await self.send_all(mes_parti)
+
+    async def send_infos_persos(self, websocket):
         """Envoie un dictionnaire contenant toutes les infos d'un perso
 
         Arguments:
@@ -158,7 +180,7 @@ class ServeurWebsocket:
 
         Author: Nathan
         """
-        p = self.server.personnages[self.USERS[websocket['id']]["id_utilisateur"]]
+        p = self.server.personnages[self.USERS[websocket]["id_utilisateur"]]
         infos = {"action": "infos_perso",
                  "id_perso": p.id_utilisateur,
                  "nom": p.nom,
@@ -171,9 +193,9 @@ class ServeurWebsocket:
                  "xp": p.xp,
                  "xp_tot": p.xp_tot,
                  "region_actu": p.region_actu}
-        self.send(websocket, infos)
+        await self.send(websocket, infos)
 
-    def gere_messages(self, websocket, ws_server, message):
+    async def gere_messages(self, websocket, message):
         """Analyse les messages reçus et effectue les actions sur le serveur.
 
         Arguments:
@@ -191,40 +213,21 @@ class ServeurWebsocket:
                 id_utilisateur = int(data["id_utilisateur"])
                 for _, donnees in self.USERS.items():
                     if id_utilisateur == donnees["id_utilisateur"]:
-                        self.send(websocket, {"action":"prob_connection", "message":"qqun a déjà le meme id connecté"})
+                        await self.send(websocket, {"action":"prob_connection", "message":"qqun a déjà le meme id connecté"})
                         raise UserWarning("Probleme de connection, faudra trouver une facon plus 'propre' de quitter cette connexion")
-                self.USERS[websocket['id']]["id_utilisateur"] = id_utilisateur
-                # self.send(websocket, {"action": "debug", "message": f"id {id_utilisateur}"})
-                self.server.load_perso(id_utilisateur)
-                self.send_infos_persos(websocket)
+                self.USERS[websocket]["id_utilisateur"] = id_utilisateur
+                # await self.send(websocket, {"action": "debug", "message": f"id {id_utilisateur}"})
+                await self.server.load_perso(id_utilisateur)
+                await self.send_infos_persos(websocket)
             elif data["action"] == "deplacement":  # Un autre exemple d'action
                 # TODO : mettre des vérifs ici ou dans la fonction utilisée
-                user = self.USERS[websocket['id']]["id_utilisateur"]
-                self.server.bouger_perso(user, data["deplacement"])
+                user = self.USERS[websocket]["id_utilisateur"]
+                await self.server.bouger_perso(user, data["deplacement"])
             elif data["action"] == "stats_persos":  # Un autre exemple
-                self.send_infos_persos(websocket)
+                await self.send_infos_persos(websocket)
         else:
             # Il faudra faire attention aux types d'event
             print("Unsupported event : ", data)
-
-    def nouveau_client(self, websocket, ws_server):
-        self.register(websocket)
-	    # ws_server.send_message_to_all("Hey all, a new client has joined us")
-
-    def client_part(self, websocket, ws_server):
-        print("Client(%d) disconnected" % websocket['id'])
-        id_perso = self.USERS[websocket['id']]["id_utilisateur"]
-        if id_perso is not None:
-            p = self.server.personnages[id_perso]
-            # on va enregistrer sa derniere position dans la bdd
-            self.server.db.action_db("UPDATE utilisateurs SET position_x = ?, position_y = ? WHERE id_utilisateur = ?;", ( p.position["x"], p.position["y"], id_perso))
-            #
-            del self.server.personnages[id_perso]
-            mes_parti = {"action":"j_leave", "id_perso": id_perso}
-            # On supprime l'utilisateur
-            self.unregister(websocket)
-            # on dit a tt le monde que le joueur a quitté
-            self.send_all(mes_parti)
 
     # \=~=~=~=~=~=~=~=~=~=~=~=~= START SERVER =~=~=~=~=~=~=~=~=~=~=~=~=/
 
@@ -234,14 +237,12 @@ class ServeurWebsocket:
         Author: Nathan
         """
         print("Server starting...")
-
-        self.ws_server = ws.WebsocketServer(self.PORT)
-        self.ws_server.set_fn_new_client(self.nouveau_client)
-        self.ws_server.set_fn_client_left(self.client_part)
-        self.ws_server.set_fn_message_received(self.gere_messages)
+        self.serveur = ws.serve(self.handle_server, self.IP, self.PORT)
         # On initialise le serveur
 
         print(f"Server listening on {self.IP}:{self.PORT}")
-        self.ws_server.run_forever()
+        asyncio.get_event_loop().run_until_complete(self.serveur)
+
+        asyncio.get_event_loop().run_forever()
         # Le serveur tourne tant qu'on ne l'arrête pas
         # Utiliser Ctrl+C pour l'arrêter
