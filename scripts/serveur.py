@@ -35,7 +35,7 @@ class Serveur:
 
     # \=~=~=~=~=~=~=~=~= WEBSOCKET =~=~=~=~=~=~=~=~=/
 
-    async def send_to_user(self, id_utilisateur, message):
+    def send_to_user(self, id_utilisateur, message):
         """Envoie un message à un utilisateur avec son id
 
         Arguments:
@@ -52,17 +52,17 @@ class Serveur:
         """
         ws_u = None
         print(id_utilisateur, self.serveurWebsocket.USERS.items())
-        for ws, data in self.serveurWebsocket.USERS.items():
+        for id_ws, data in self.serveurWebsocket.USERS.items():
             if data["id_utilisateur"] == id_utilisateur:
-                ws_u = ws
+                ws_u = self.serveurWebsocket.get_ws(id_ws)
                 break
         if ws_u is None:
             raise UserWarning("L'ID de l'utilisateur n'est pas dans data")
-        await self.serveurWebsocket.send(ws_u, message)
+        self.serveurWebsocket.send(ws_u, message)
 
     # \=~=~=~=~=~=~=~=~=  PERSONNAGES =~=~=~=~=~=~=~=~=/
 
-    async def load_perso(self, id_utilisateur):
+    def load_perso(self, id_utilisateur):
         """Charge un personnage et l'associe dans self.personnages"""
         """
         res = self.db.requete_db(\"""SELECT * FROM utilisateurs\
@@ -85,10 +85,10 @@ class Serveur:
                  "xp_tot": perso.xp_tot,
                  "region_actu": perso.region_actu}
         print(id_utilisateur)
-        await self.serveurWebsocket.send_all(infos, [id_utilisateur])
+        self.serveurWebsocket.send_all(infos, [id_utilisateur])
         ws_base = self.serveurWebsocket.wsFromId(id_utilisateur)
         #on va récuperer toutes les infos des autres joueurs
-        for ws, data in self.serveurWebsocket.USERS.items():
+        for ws_id, data in self.serveurWebsocket.USERS.items():
             if id_utilisateur != data["id_utilisateur"]:
                 print("aaaa", id_utilisateur, data["id_utilisateur"])
                 id_perso = data["id_utilisateur"]
@@ -105,11 +105,11 @@ class Serveur:
                          "xp": p.xp,
                          "xp_tot": p.xp_tot,
                          "region_actu": p.region_actu}
-                await self.serveurWebsocket.send(ws_base, infos)
+                self.serveurWebsocket.send(ws_base, infos)
 
 
-    async def bouger_perso(self, id_utilisateur, deplacement):
-        await self.personnages[id_utilisateur].bouger(deplacement)
+    def bouger_perso(self, id_utilisateur, deplacement):
+        self.personnages[id_utilisateur].bouger(deplacement)
 
     # \=~=~=~=~=~=~=~=~= MONSTRE =~=~=~=~=~=~=~=~=/
 
