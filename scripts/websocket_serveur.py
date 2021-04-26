@@ -235,7 +235,7 @@ class ServeurWebsocket:
         """
         print("Server starting...")
 
-        self.ws_server = ws.WebsocketServer(self.PORT)
+        self.ws_server = ws.WebsocketServer(self.PORT, self.IP)
         self.ws_server.set_fn_new_client(self.nouveau_client)
         self.ws_server.set_fn_client_left(self.client_part)
         self.ws_server.set_fn_message_received(self.gere_messages)
