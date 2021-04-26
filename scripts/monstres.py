@@ -42,15 +42,19 @@ class Monstre:
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
 
+        position_ini = self.position
+
         if self.server.personnage.region_actu == self.id_region :   #Faire en sorte que le monstre suive le personnage
-            #if self.server.carte.
-            while self.position != self.server.personnage.position :
-                self.position["x"] += dep[0]
-                self.position["y"] += dep[1]
+            if self.server.personnage.position == self.position["x"] + 2 and self.server.personnage.position == self.position["y"] + 2: # si l'utilisateur se situe à 2 cases du monstre
+                while self.position != self.server.personnage.position :
+                    self.position["x"] += dep[0]
+                    self.position["y"] += dep[1]
+                    if self.position["x"] == self.position["x"] + 6 and self.position["y"] == self.position["y"] + 6 :
+                        self.position = position_ini  # Limite la distance que parcourt le monstre en suicant le joueur, le fait retourner à sa position initiale
 
     def modif_vie(self, pv):
 
-        self.pv += self.server.personnage.attaquer()
+        self.pv -= self.server.personnage.attaquer()
         
         if self.pv > 0 :
             # Le monstre est positif
