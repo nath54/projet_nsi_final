@@ -28,7 +28,7 @@
 
                 <!-- Bouton compte -->
                 <div class="compte_bouton">
-                    <img class="login" src="../imgs/header/login.png">
+                    <img class="login" src="../imgs/header/login.png">                   
                 </div>
 
                 <!-- Bouton parametre -->
