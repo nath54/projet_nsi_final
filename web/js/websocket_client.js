@@ -95,21 +95,31 @@ function on_message(event) {
             break;
 
         case 'joueur':
-            var id_j = data.id_perso;
-            delete data['action']
-            autres_joueurs[id_j] = data;
-            console.log(data);
-            console.log("aaaa", autres_joueurs);
-            aff();
+            var id_j = parseInt(data.id_perso);
+            if (id_j != personnage.id_perso) {
+                delete data['action']
+                autres_joueurs[id_j] = data;
+                aff();
+            }
             break;
 
         case 'j_leave':
-            delete autres_joueurs[data.id_perso];
+            delete autres_joueurs[parseInt(data.id_perso)];
+            var d = document.getElementById("player_" + ap.id_perso);
+            if (d != undefined) {
+                d.parentNode.removeChild(d);
+            }
+            var dd = document.getElementById("infos_player_" + ap.id_perso);
+            if (dd != undefined) {
+                dd.parentNode.removeChild(dd);
+            }
             aff();
             break;
 
         case 'j_pos':
-            var id_j = data.id_perso;
+            var id_j = parseInt(data.id_perso);
+            console.log("id_j ", id_j);
+            console.log("autres joueurs : ", autres_joueurs);
             console.log(autres_joueurs[id_j]);
             if (autres_joueurs[id_j]) {
                 autres_joueurs[id_j].x = data.x;

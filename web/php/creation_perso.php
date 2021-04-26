@@ -2,33 +2,18 @@
 <!-- Entête page internet -->
 <html>
     <head>
-        <!-- Nom du jeu + reliement au css -->
-        <meta charset="utf-8">
-        <title>Nom jeu - Création personnage</title>
-        <link rel="stylesheet" href="../css/style_crea_perso.css">
-
-        <!-- Importation des fonts -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-    </head>
-
-    <body class="column">
-        <!-- Header -->
         <div>
-            <!-- Titre création du personnage -->
-            <h1>Creation personnage</h1>
-
             <!-- Div des boutons -->
             <div id="bouton_header">
 
                 <!-- Bouton accueil -->
                 <div class="accueil_bouton">
-                    <img class="maison" src="../imgs/header/maison.png">
+                    <a href="accueil.php"><img class="maison" src="../imgs/header/maison.png"></a>
                 </div>
 
                 <!-- Bouton compte -->
                 <div class="compte_bouton">
-                    <img class="login" src="../imgs/header/login.png">                   
+                    <a href="inscription.php"><img class="login" src="../imgs/header/login.png"></a>
                 </div>
 
                 <!-- Bouton parametre -->
@@ -36,7 +21,22 @@
                     <img class="engrenage" src="../imgs/header/engrenage.png">
                 </div>
             </div>
+            
+            <!-- Titre création du personnage -->
+            <h1>Creation personnage</h1>
         </div>
+            <!-- Nom du jeu + reliement au css -->
+            <meta charset="utf-8">
+            <title>Nom jeu - Création personnage</title>
+            <link rel="stylesheet" href="../css/style_crea_perso.css">
+
+            <!-- Importation des fonts -->
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    </head>
+
+    <body class="column">
+        <!-- Header -->
 
         <div class="row">
 

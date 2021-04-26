@@ -35,45 +35,83 @@ var autres_joueurs = {}
  */
 
 function aff() {
-    var p = document.getElementById("player");
-    var px = personnage.x * p.getAttribute("width");
-    var py = personnage.y * p.getAttribute("height");
-    p.setAttribute("x", px);
-    p.setAttribute("y", py);
-    // On affiche aussi tous les autres joueurs
-    for (k of Object.keys(autres_joueurs)) {
-        var ap = autres_joueurs[k];
-        var p = document.getElementById("player_" + ap.id_perso);
-        if (!p) {
-
-            var p = document.createElementNS(svgns, "svg");
-            p.setAttributeNS(svgns, "x", ap.x);
-            p.setAttributeNS(svgns, "y", ap.y);
-            p.setAttributeNS(svgns, "width", tc);
-            p.setAttributeNS(svgns, "height", tc);
-            p.setAttribute("id", "player_" + ap.id_perso);
-
-            var i = document.createElementNS(svgns, "image");
-            i.setAttributeNS(svgns, "width", tc);
-            i.setAttributeNS(svgns, "height", tc);
-            i.setAttributeNS(svgns, "xlink:href", "../imgs/sprites/sprite_fixe_droit.png");
-            p.appendChild(i);
-
-            document.getElementById("svg_autres_joueurs").appendChild(p);
-        }
-
-        var apx = ap.x * p.getAttribute("width");
-        var apy = ap.y * p.getAttribute("height");
-        p.setAttribute("x", apx);
-        p.setAttribute("y", apy);
-    }
+    var player = document.getElementById("player");
+    var px = personnage.x * player.getAttribute("width");
+    var py = personnage.y * player.getAttribute("height");
+    player.setAttribute("x", px);
+    player.setAttribute("y", py);
     //
     var v = document.getElementById("viewport");
-    // avb = v.getAttribute("viewBox");
-    // var b = avb.split(" ");
-    // avtx = int(b[2]);
-    // avty = int(b[3]);
     v.setAttribute("viewBox", "" + (px - tx / 2) + " " + (py - ty / 2) + " " + tx + " " + ty);
+    // On affiche aussi tous les autres joueurs
+    for (ap of Object.values(autres_joueurs)) {
+        // var ap = autres_joueurs[k];
+        var apx = ap.x * tc;
+        var apy = ap.y * tc;
+        var p = document.getElementById("player_" + ap.id_perso);
+        console.log(ap.id_perso, " x : ", apx, " y : ", apy);
+        if (p == undefined || p == null) {
+            let newSvg = document.getElementById("player").cloneNode(true)
+            newSvg.id = "player_" + ap.id_perso
+            newSvg.setAttribute("x", apx);
+            newSvg.setAttribute("y", apy);
+            // on ajoute
+            document.getElementById("svg_autres_joueurs").appendChild(newSvg);
+            // Les infos
+            var svgInfos = document.createElementNS(svgns, "svg");
+            svgInfos.setAttribute("id", "infos_player_" + ap.id_perso);
+            svgInfos.setAttribute("x", apx);
+            svgInfos.setAttribute("y", apy - 20);
+            // pseudo
+            let text = document.createElementNS(svgns, "text");
+            text.innerHTML = ap.nom;
+            text.setAttribute("x", 10)
+            text.setAttribute("y", 15)
+            svgInfos.appendChild(text);
+            // pv
+            let pv = document.createElementNS(svgns, "rect");
+            pv.setAttribute("id", "pv_player_" + ap.id_perso);
+            pv.setAttribute("x", 0);
+            pv.setAttribute("y", 20);
+            pv.setAttribute("width", ap.vie / ap.vie_max * tc);
+            pv.setAttribute("height", 5);
+            pv.setAttribute("fill", "red");
+            pv.style.zIndex = 10;
+            svgInfos.appendChild(pv);
+            // pm
+            let pm = document.createElementNS(svgns, "rect");
+            pm.setAttribute("id", "pm_player_" + ap.id_perso);
+            pm.setAttribute("x", 0);
+            pm.setAttribute("y", 23);
+            pm.setAttribute("width", ap.mana / ap.mana_max * tc);
+            pm.setAttribute("height", 3);
+            pm.setAttribute("fill", "blue");
+            pm.style.zIndex = 10
+            svgInfos.appendChild(pm);
+            // on ajoute
+            document.getElementById("svg_infos_autres_joueurs").appendChild(svgInfos);
+        } else {
+            p.setAttribute("x", apx);
+            p.setAttribute("y", apy);
+            document.getElementById("pv_player_" + ap.id_perso).setAttribute("width", ap.vie / ap.vie_max * tc)
+            document.getElementById("pm_player_" + ap.id_perso).setAttribute("width", ap.mana / ap.mana_max * tc)
+            var svgInfos = document.getElementById("infos_player_" + ap.id_perso);
+            svgInfos.setAttribute("x", apx);
+            svgInfos.setAttribute("y", apy - 20);
+        }
+    }
+    // On va update les infos affichés à l'écran :
+    var pv = document.getElementById("progress_vie");
+    pv.value = personnage.vie;
+    pv.max = personnage.vie_max;
+    var tv = document.getElementById("text_vie");
+    tv.innerHTML = "" + personnage.vie + "/" + personnage.vie_max;
+    //
+    var pm = document.getElementById("progress_mana")
+    pm.value = personnage.mana
+    pm.max = personnage.mana_max
+    var tm = document.getElementById("text_mana")
+    tm.innerHTML = "" + personnage.mana + "/" + personnage.mana_max
 }
 
 /**
@@ -145,6 +183,12 @@ document.addEventListener('keydown', (event) => {
             ws_send({ "action": "deplacement", "deplacement": [-1, 0] });
         } else if (nomTouche === 'ArrowRight') {
             ws_send({ "action": "deplacement", "deplacement": [1, 0] });
+        } else if (nomTouche === 'Escape') {
+            if (document.getElementById("menu_princ").style.display == "none") {
+                set_menu("menu_princ")
+            } else {
+                set_menu("")
+            }
         }
     }
 }, false);
@@ -152,3 +196,14 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('keyup', (event) => {
     const nomTouche = event.key;
 }, false);
+
+function set_menu(nom_menu) {
+    for (im of["menu_princ", "menu_inv", "menu_stats"]) {
+        var m = document.getElementById(im);
+        if (im == nom_menu) {
+            m.style.display = "initial";
+        } else {
+            m.style.display = "none";
+        }
+    }
+}

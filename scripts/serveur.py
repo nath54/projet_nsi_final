@@ -94,7 +94,7 @@ class Serveur:
                 id_perso = data["id_utilisateur"]
                 p = self.personnages[id_perso]
                 infos = {"action": "joueur",
-                         "id_perso": id_utilisateur,
+                         "id_perso": id_perso,
                          "nom": p.nom,
                          "x": p.position["x"],
                          "y": p.position["y"],
