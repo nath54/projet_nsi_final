@@ -50,21 +50,23 @@ class Monstre:
                     self.position["x"] += dep[0]
                     self.position["y"] += dep[1]
                     if self.position["x"] == self.position["x"] + 6 and self.position["y"] == self.position["y"] + 6 :
-                        self.position = position_ini  # Limite la distance que parcourt le monstre en suicant le joueur, le fait retourner à sa position initiale
+                        self.position = position_ini  # Limite la distance que parcourt le monstre en suivant le joueur, le fait retourner à sa position initiale
 
-    def modif_vie(self, pv):
+    def modif_vie(self ,id_monstre ,pv):
 
         self.pv -= self.server.personnage.attaquer()
         
-        if self.pv > 0 :
+        if self.id_monstre == id_monstre and self.pv > 0 :
             # Le monstre est positif
             pass 
 
-        if self.pv == 0 :
+        if self.id_monstre == id_monstre and self.pv == 0 :
             # TODO: Monstre doit mourir et loot un item
-            return self.loot 
+            #self.remove()
+            #return self.loot
+            pass
     
-        if self.pv < 0 :
+        if self.id_monstre == id_monstre and self.pv < 0 :
             # Le monstre devient négatif, pensez a ajouter des changements de stats etc 
             pass
 
