@@ -31,7 +31,7 @@ $db = load_db("../../includes/config.json");
         header('Location: jeu.php');
 
         $req = requete_prep($db, "SELECT * FROM personnalisation WHERE id_utilisateur = :id_utilisateur;", array(":id_utilisateur"=>$_SESSION["player_id"]));
-        if(count($req)>0)
+        if('niveau' == 0)
         {
             $_SESSION["error"]="Personnage non créé";
             header('Location: creation_perso.php');

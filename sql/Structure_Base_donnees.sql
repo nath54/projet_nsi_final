@@ -39,7 +39,8 @@ CREATE TABLE personnalisation (
 			id_bas INT,
 			img_bas TEXT,
 			id_pieds INT,
-			img_pieds TEXT);
+			img_pieds TEXT,
+			niveau INT);
 
 
 CREATE TABLE objet (
