@@ -183,11 +183,13 @@ CREATE TABLE pnj (
  - `id_monstre` *INT PRIMARY KEY* : id d'un monstre, il n'est pas en auto-increment parce que comme ca, ce sera plus simple de controller
  - `nom` _TEXT_ : nom du monstre
  - `niveau` _INT_ : niveau du monstre (le plus simple sera de faire plusieurs mêmes monstres de niveaux différents)
- - `pv_min` _INT_ : pv du monstre
- - `pv_max` _INT_ : pv du monstre
- - `dgt_min` _INT_ : dégats infligés par le monstre
- - `dgt_max` _INT_ : dégats infligés par le monstre
- - `loot` _TEXT_ : ce que va lacher le monstre en mourrant
+ - `pv` _TEXT_ : dict json décrivant les pv du monstre
+				 exemple : {"forme": "random between", "values": [1,5]}
+				 exemple : {"forme": "random form between", "form":"5x", "values": [1,5]}
+ - `dgt` _TEXT_ : dict json dégats infligés par le monstre
+				 exemple : {"forme": "random between", "values": [1,5]}
+				 exemple : {"forme": "random form between", "form":"5x", "values": [1,5]}
+ - `loot` _TEXT_ : liste json ce que va lacher le monstre en mourrant
  - `img_base` _TEXT_ : chemin vers l'image de base du monstre
 
 ```sql
@@ -195,10 +197,8 @@ CREATE TABLE monstre (
 		 id_monstre  INT PRIMARY KEY,
 	     nom TEXT,
 		 niveau INT NOT NULL,
-	     pv_min INT NOT NULL,
-		 pv_max INT NOT NULL,
-		 dgt_min INT NOT NULL,
-		 dgt_max INT NOT NULL,
+	     pv TEXT NOT NULL,
+		 dgt TEXT NOT NULL,
 		 loot TEXT,
 		 img_base TEXT NOT NULL);
 ```

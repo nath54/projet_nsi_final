@@ -4,26 +4,26 @@ CREATE TABLE utilisateurs (
  pseudo TEXT,
  mdp TEXT,
  sexe TEXT,
- vie INT,
- stamina INT,
- mana INT,
- armor INT,
+ vie INT DEFAULT 100,
+ stamina INT DEFAULT 100,
+ mana INT DEFAULT 100,
+ armor INT DEFAULT 0,
  classe TEXT,
- niveau INT,
- argent INT,
- experience INT,
- experience_tot INT,
+ niveau INT DEFAULT 1,
+ argent INT DEFAULT 0,
+ experience INT DEFAULT 0,
+ experience_tot INT DEFAULT 100,
  competence TEXT,
  quetes TEXT,
  region_actu INT DEFAULT 1,
- position_x INT,
- position_y INT,
- id_tete INT,
- id_cheveux INT,
- id_barbe INT,
- id_haut INT,
- id_bas INT,
- id_pieds INT);
+ position_x INT DEFAULT 1,
+ position_y INT DEFAULT 1,
+ id_tete INT DEFAULT 1,
+ id_cheveux INT DEFAULT 1,
+ id_barbe INT DEFAULT 1,
+ id_haut INT DEFAULT 1,
+ id_bas INT DEFAULT 1,
+ id_pieds INT DEFAULT 1);
 
 
 CREATE TABLE personnalisation (
@@ -39,8 +39,7 @@ CREATE TABLE personnalisation (
 			id_bas INT,
 			img_bas TEXT,
 			id_pieds INT,
-			img_pieds TEXT,
-			niveau INT);
+			img_pieds TEXT);
 
 
 CREATE TABLE objet (
@@ -81,16 +80,14 @@ CREATE TABLE pnj (
 	     	role_ TEXT);
 
 
-CREATE TABLE monstre (id_monstre  INT PRIMARY KEY AUTO_INCREMENT,
-	     nom_monstre TEXT,
-		 niveau INT,
-	     pv INT,
-		 armure INT,
-		 dgt INT,
+CREATE TABLE monstre (
+		 id_monstre  INT PRIMARY KEY,
+	     nom TEXT,
+		 niveau INT NOT NULL,
+	     pv TEXT NOT NULL,
+		 dgt TEXT NOT NULL,
 		 loot TEXT,
-		 id_region INT,
-		 position_x INT,
-		 position_y INT);
+		 img_base TEXT NOT NULL);
 
 
 CREATE TABLE classe (
