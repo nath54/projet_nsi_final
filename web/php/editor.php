@@ -611,10 +611,10 @@ body {
                     </div>
 
                     <div id="terrains">
-                        <!-- INPUT POUR CHERCHER LES TYPES DE CASES QUI COMMENCENT PAR UNE CERTAINE CHAINE DE CARACTERES -->
+                        <!-- INPUT POUR CHERCHER LES TYPES DE CASES DE TERRAINS QUI COMMENCENT PAR UNE CERTAINE CHAINE DE CARACTERES -->
                         <div class="row"> <input id="search_t" type="text" placeholder="search" onkeypress="search_t();" onchange="search_t();" /> <p>Press Enter to search</p></div>
                         <?php
-                            
+                            // ON CHARGE TOUTES LES DONNEES DES TYPES DE TERRAINS
                             foreach($terrains as $i=>$data){
                                 $img = $data["img"];
                                 $nom = $data["nom"];
@@ -624,14 +624,14 @@ body {
                                 }
                                 echo "<div value=\"$nom\" id=\"liste_elt_$i\" class=\"liste_terrains liste_element $sel\" onclick=\"select_tile($i);\"><img class=\"img_liste_element\" src=\"../imgs/tuiles/$img\" /><label>$nom</label></div>";
                             }
-
                         ?>
-
                     </div>
 
                     <div id="objets" style="display:none;">
+                        <!-- INPUT POUR CHERCHER LES TYPES DE CASES D'OBJETS QUI COMMENCENT PAR UNE CERTAINE CHAINE DE CARACTERES -->
                         <div class="row"> <input id="search_o" type="text" placeholder="search" onkeypress="search_o();" onchange="search_o();" /> <p>Press Enter to search</p></div>
                         <?php
+                            // ON CHARGE TOUTES LES DONNEES DES TYPES D'OBJETS
                             foreach($objets as $i=>$data){
                                 $img = $data["img"];
                                 $nom = $data["nom"];
@@ -654,8 +654,10 @@ body {
 </html>
 <script>
 
+// L'id de la region que l'on a chargée dans l'editeur
 const id_region = <?php if($region_selected != ""){ echo $region_selected; } else { echo "null"; } ?>;
 
+// Le décalage de l'affichage
 var dcx = null;
 var dcy = null;
 
