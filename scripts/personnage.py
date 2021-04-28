@@ -149,7 +149,7 @@ class Personnage:
     def attaquer(self):
         pass
 
-    def interagir(self, touche):
+    def interagir(self):
         pass
 
     def gagner_xp(self, xp, niv_monstre, vie_monstre):
