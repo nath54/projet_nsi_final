@@ -669,6 +669,7 @@ var dec_y = 0;
 var is_clicking = false;
 var hx=null;
 var hy=null;
+
 if(document.getElementById("viewport")){
     var viewport = document.getElementById("viewport");
 }
@@ -676,61 +677,21 @@ else{
     var viewport = null;
 }
 
-var compteur_modif = 0;
+var compteur_modif = 0; // Cette fonction va enregistrer le nombre de modifications faites
 
+// Variables pour sauvegarder les modifs du terrain dans la bdd
 var update_t = {};
 var new_t = {};
 var delete_t = {};
 
+// Variables pour sauvegarder les modifs du terrain dans la bdd
 var update_o = {};
 var new_o = {};
 var delete_o = {};
 
-// TODO: Attention : fonction jamais utilisée
-function arrayRemove(arr, value) {
-    return arr.filter(function(ele){
-        return ele != value;
-    });
-}
-
-if(viewport != null){
-
-    viewport.addEventListener('mousedown', e => {
-        dcx, dcy = null, null;
-        if(hx != null && hy != null){
-            change_case(hx, hy);
-        }
-        is_clicking = true;
-    });
-
-    viewport.addEventListener('mousemove', e => {
-        if (is_clicking === true && (dcx != hx || dcy != hy)) {
-            if(hx != null && hy != null){
-                change_case(hx,hy);
-            }
-        }
-    });
-
-    viewport.addEventListener('mouseup', e => {
-        if (is_clicking === true) {
-            is_clicking = false;
-        }
-    });
-
-}
-function mo(cx,cy){
-    hx = cx;
-    hy = cy;
-}
-
-function ml(cx,cy){
-    document.getElementById("hover_case").innerHTML = "x : " + (dec_x + cx) + " , y : " + (dec_y + cy);
-    if(hx == cx && hy == cy){
-        hx = null;
-        hy = null;
-    }
-}
-
+/**
+ * FONCTION POUR CHANGER LA REGION SELECTIONNEE
+ */
 
 function change_map(){
     var nom = document.getElementById("region_sel").value;
@@ -745,6 +706,11 @@ function change_map(){
     document.body.appendChild(f);
     f.submit();
 }
+
+
+/**
+ * FONCTION POUR CHANGER UNE CASE
+ */
 
 function change_case(x, y){
     //
@@ -848,6 +814,10 @@ function change_case(x, y){
     }
 }
 
+/**
+ * FONCTION POUR AFFICHER/RAFRAICHIR LE VIEWPORT
+ */
+
 function aff(){
     var tx = 20;
     var ty = 16;
@@ -886,6 +856,10 @@ function aff(){
     }
 }
 
+/**
+ * FONCTION POUR CREER UNE NOUVELLE REGION
+ */
+
 function new_region(){
     var nom = document.getElementById("new_region_name").value;
     var f = document.createElement("form");
@@ -900,6 +874,10 @@ function new_region(){
     f.submit();
 }
 
+/**
+ * FONCTION POUR SUPPRIMER UNE REGION
+ */
+
 function delete_region(){
     var nom = "<?php echo $region_selected; ?>";
     var f = document.createElement("form");
@@ -913,6 +891,10 @@ function delete_region(){
     document.body.appendChild(f);
     f.submit();
 }
+
+/**
+ * FONCTION POUR CHANGER L'ITEM SELECTIONNE
+ */
 
 function select_tile(id_tile){
     if(id_tile == tile_selected && tp_selected == "terrains"){
@@ -931,7 +913,6 @@ function select_tile(id_tile){
     tp_selected = "terrains";
 }
 
-
 function select_objets(id_tile){
     if(id_tile == tile_selected && tp_selected == "objets"){
         return;
@@ -948,6 +929,10 @@ function select_objets(id_tile){
     tile_selected = id_tile;
     tp_selected = "objets";
 }
+
+/**
+ * FONCTION POUR SAUVEGARDER LES MODIFICATIONS
+ */
 
 function save_tiles(){
     var idr = "<?php echo $region_selected; ?>";
@@ -983,6 +968,10 @@ function save_tiles(){
     f.submit();
 }
 
+/**
+ * FONCTION POUR CHANGER DE MENU D'ITEMS
+ */
+
 function set_selection(ii){
     for(i of ["terrains", "objets"]){
         if(i == ii){
@@ -993,6 +982,10 @@ function set_selection(ii){
         }
     }
 }
+
+/**
+ * FONCTIONS POUR GERER L'IMPORT ET EXPORT
+ */
 
 function download_text(filename, text) {
     var element = document.createElement('a');
@@ -1062,6 +1055,10 @@ function import_region(){
     fi.click();
 }
 
+/**
+ * FONCTIONS POUR GERER LA RECHERCHE D'ELEMENTS
+ */
+
 function search_t(){
     var research = document.getElementById("search_t").value;
     for(el of document.getElementsByClassName("liste_terrains")){
@@ -1086,6 +1083,10 @@ function search_o(){
     }
 }
 
+/**
+ * FONCTIONS POUR GERER LE CLAVIER
+ */
+
 document.addEventListener('keydown', (event) => {
     const nomTouche = event.key;
     if (nomTouche === 'ArrowUp') {
@@ -1109,5 +1110,46 @@ document.addEventListener('keydown', (event) => {
 document.addEventListener('keyup', (event) => {
     const nomTouche = event.key;
 }, false);
+
+
+/**
+ * FONCTIONS POUR GERER LA SOURIS
+ */
+if(viewport != null){
+    viewport.addEventListener('mousedown', e => {
+        dcx, dcy = null, null;
+        if(hx != null && hy != null){
+            change_case(hx, hy);
+        }
+        is_clicking = true;
+    });
+
+    viewport.addEventListener('mousemove', e => {
+        if (is_clicking === true && (dcx != hx || dcy != hy)) {
+            if(hx != null && hy != null){
+                change_case(hx,hy);
+            }
+        }
+    });
+
+    viewport.addEventListener('mouseup', e => {
+        if (is_clicking === true) {
+            is_clicking = false;
+        }
+    });
+
+}
+function mo(cx,cy){
+    hx = cx;
+    hy = cy;
+}
+
+function ml(cx,cy){
+    document.getElementById("hover_case").innerHTML = "x : " + (dec_x + cx) + " , y : " + (dec_y + cy);
+    if(hx == cx && hy == cy){
+        hx = null;
+        hy = null;
+    }
+}
 
 </script>
