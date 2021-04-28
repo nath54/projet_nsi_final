@@ -46,9 +46,9 @@ class Monstre:
                     if self.position["x"] == self.position["x"] + 6 and self.position["y"] == self.position["y"] + 6 :
                         self.position = position_ini  # Limite la distance que parcourt le monstre en suivant le joueur, le fait retourner à sa position initiale
 
-    def modif_vie(self ,id_monstre ,pv):
+    def modif_vie(self ,valeur_modif , Sum):
 
-        self.pv -= self.server.personnage.attaquer()
+        self.pv = function(self.)
         
         if self.id_monstre == id_monstre and self.pv > 0 :
             # Le monstre est positif
