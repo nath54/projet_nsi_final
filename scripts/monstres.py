@@ -4,8 +4,6 @@ class Monstre:
         self.id_monstre = id_monstre
         self.nom = "" # changer les valeurs depuis la bdd lors du chargement du monstre
         self.pv = 0
-        self.pv_max = 0
-        self.armor = 0
         self.dgt =  0
         self.position = {"x": 0, "y": 0}
         self.id_region = 1
@@ -19,7 +17,6 @@ class Monstre:
 
         self.nom = res[0]
         self.pv = int(res[1])
-        self.pv_max = int(res[1])
         self.niveau = int(res[2])
         self.dgt = int(res[3])
         self.loot = res[4]
