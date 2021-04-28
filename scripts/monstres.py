@@ -1,4 +1,6 @@
-class Monstre: 
+from calcul_formel import *
+
+class Monstre:
     def __init__(self, server, id_monstre):
         self.server = server
         self.id_monstre = id_monstre
@@ -46,25 +48,24 @@ class Monstre:
                     if self.position["x"] == self.position["x"] + 6 and self.position["y"] == self.position["y"] + 6 :
                         self.position = position_ini  # Limite la distance que parcourt le monstre en suivant le joueur, le fait retourner à sa position initiale
 
-    def modif_vie(self ,valeur_modif , Sum):
+    def modif_vie(self ,valeur_modif , fct=Sum):
+        self.pv = fct(self.pv, valeur_modif)
 
-        self.pv = function(self.)
-        
-        if self.id_monstre == id_monstre and self.pv > 0 :
+        if self.pv > 0 :
             # Le monstre est positif
-            pass 
+            pass
 
-        if self.id_monstre == id_monstre and self.pv == 0 :
+        if self.pv == 0 :
             # TODO: Monstre doit mourir et loot un item
             #self.remove()
             #return self.loot
             pass
-    
-        if self.id_monstre == id_monstre and self.pv < 0 :
-            # Le monstre devient négatif, pensez a ajouter des changements de stats etc 
+
+        if self.pv < 0 :
+            # Le monstre devient négatif, pensez a ajouter des changements de stats etc
             pass
 
-    
+
 #if __name__ = "__name__":
     #m = Monstre()
 
