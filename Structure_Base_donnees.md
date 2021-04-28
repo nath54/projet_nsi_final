@@ -29,30 +29,30 @@
 
 ```sql
 CREATE TABLE utilisateurs (
- id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
- pseudo TEXT,
- mdp TEXT,
- sexe TEXT,
- vie INT DEFAULT 100,
- stamina INT DEFAULT 100,
- mana INT DEFAULT 100,
- armor INT DEFAULT 0,
- classe TEXT,
- niveau INT DEFAULT 1,
- argent INT DEFAULT 0,
- experience INT DEFAULT 0,
- experience_tot INT DEFAULT 100,
- competence TEXT,
- quetes TEXT,
- region_actu INT DEFAULT 1,
- position_x INT DEFAULT 1,
- position_y INT DEFAULT 1,
- id_tete INT DEFAULT 1,
- id_cheveux INT DEFAULT 1,
- id_barbe INT DEFAULT 1,
- id_haut INT DEFAULT 1,
- id_bas INT DEFAULT 1,
- id_pieds INT DEFAULT 1);
+	id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
+	pseudo TEXT,
+	mdp TEXT,
+ 	sexe TEXT,
+ 	vie INT DEFAULT 100,
+ 	stamina INT DEFAULT 100,
+ 	mana INT DEFAULT 100,
+ 	armor INT DEFAULT 0,
+ 	classe TEXT,
+ 	niveau INT DEFAULT 1,
+ 	argent INT DEFAULT 0,
+ 	experience INT DEFAULT 0,
+ 	experience_tot INT DEFAULT 100,
+ 	competence TEXT,
+ 	quetes TEXT,
+ 	region_actu INT DEFAULT 1,
+ 	position_x INT DEFAULT 1,
+ 	position_y INT DEFAULT 1,
+ 	id_tete INT DEFAULT 1,
+ 	id_cheveux INT DEFAULT 1,
+ 	id_barbe INT DEFAULT 1,
+ 	id_haut INT DEFAULT 1,
+ 	id_bas INT DEFAULT 1,
+ 	id_pieds INT DEFAULT 1);
 ```
 ## TABLE 'personnalisation':
  - `id_tete` _INT_ : id de la tête pour le personnalisation
@@ -109,11 +109,11 @@ CREATE TABLE personnalisation (
 
 ```sql
 CREATE TABLE objet (
-			id_objet INT PRIMARY KEY AUTO_INCREMENT,
-	     	nom_objet TEXT,
-		 	description_ TEXT,
-		 	image_ TEXT,
-			effet TEXT);
+	id_objet INT PRIMARY KEY AUTO_INCREMENT,
+ 	nom_objet TEXT,
+ 	description_ TEXT,
+ 	image_ TEXT,
+	effet TEXT);
 ```
 
 
@@ -124,9 +124,9 @@ CREATE TABLE objet (
 
 ```sql
 CREATE TABLE inventaire (
-			id_objet  INT PRIMARY KEY AUTO_INCREMENT,
-	     	id_utilisateur INT,
-	     	quantite INT);
+	id_objet  INT PRIMARY KEY AUTO_INCREMENT,
+	id_utilisateur INT,
+ 	quantite INT);
 ```
 
 
@@ -138,10 +138,10 @@ CREATE TABLE inventaire (
 
 ```sql
 CREATE TABLE monde (
-			id_monde INT PRIMARY KEY AUTO_INCREMENT,
-			ville TEXT,
-	     	region TEXT,
-		 	niveau INT);
+	id_monde INT PRIMARY KEY AUTO_INCREMENT,
+	ville TEXT,
+	region TEXT,
+ 	niveau INT);
 ```
 
 
@@ -173,9 +173,9 @@ CREATE TABLE quete
 
 ```sql
 CREATE TABLE pnj (
-			id_pnj INT PRIMARY KEY AUTO_INCREMENT,
-	     	nom_pnj TEXT,
-	     	role_ TEXT);
+	id_pnj INT PRIMARY KEY AUTO_INCREMENT,
+ 	nom_pnj TEXT,
+ 	role_ TEXT);
 ```
 
 
@@ -194,13 +194,13 @@ CREATE TABLE pnj (
 
 ```sql
 CREATE TABLE monstre (
-		 id_monstre  INT PRIMARY KEY,
-	     nom TEXT,
-		 niveau INT NOT NULL,
-	     pv TEXT NOT NULL,
-		 dgt TEXT NOT NULL,
-		 loot TEXT,
-		 img_base TEXT NOT NULL);
+	id_monstre  INT PRIMARY KEY,
+	nom TEXT,
+	niveau INT NOT NULL,
+	pv TEXT NOT NULL,
+	dgt TEXT NOT NULL,
+	loot TEXT,
+	img_base TEXT NOT NULL);
 ```
 
 
@@ -213,11 +213,11 @@ CREATE TABLE monstre (
 
 ```sql
 CREATE TABLE classe (
-			id_classe  INT PRIMARY KEY AUTO_INCREMENT,
-	     	nom_classe TEXT,
-	     	force_ INT,
-		 	armure INT,
-		 	dgt INT);
+	id_classe  INT PRIMARY KEY AUTO_INCREMENT,
+ 	nom_classe TEXT,
+ 	force_ INT,
+ 	armure INT,
+ 	dgt INT);
 ```
 
 
@@ -231,12 +231,12 @@ CREATE TABLE classe (
 
 ```sql
 CREATE TABLE terrain (
-			id_terrain INT PRIMARY KEY,
-		 	image_ TEXT,
-		 	nom  TEXT,
-	     	peut_marcher BOOLEAN,
-		 	cultivable BOOLEAN,
-		 	objet_dessus BOOLEAN);
+	id_terrain INT PRIMARY KEY,
+ 	image_ TEXT,
+ 	nom  TEXT,
+ 	peut_marcher BOOLEAN,
+ 	cultivable BOOLEAN,
+ 	objet_dessus BOOLEAN);
 ```
 
 
@@ -254,11 +254,11 @@ CREATE TABLE terrain (
 
 ```sql
 CREATE TABLE objets (
-			id_objet INT PRIMARY KEY,
-		 	nom  TEXT,
-		 	image_ TEXT,
-			z_index INT,
-		 	collision BOOLEAN);
+	id_objet INT PRIMARY KEY,
+ 	nom  TEXT,
+ 	image_ TEXT,
+	z_index INT,
+ 	collision BOOLEAN);
 ```
 
 ## TABLE `regions`
@@ -324,6 +324,25 @@ CREATE INDEX `index_id_region` ON `regions_objets` (`id_region`);
 
 ```
 
+## TABLE `regions_monstres`
+- `id_monstre_spawn` *INT PRIMARY KEY AUTO_INCREMENT* : id du monstre
+- `id_region` _INT_ : id de la region
+- `x` _INT NOT NULL_ : clé composée x_y
+- `y` _INT NOT NULL_ : clé composée x_y
+- `id_objet` _INT DEFAULT 0_ :
+
+
+```sql
+CREATE TABLE regions_monstres(
+	id_monstre_spawn INT PRIMARY KEY AUTO_INCREMENT,
+	x INT NOT NULL,
+	y INT NOT NULL,
+	id_region INT NOT NULL,
+	id_monstre INT DEFAULT 0,
+);
+
+CREATE INDEX `index_id_region` ON `regions_monstres` (`id_region`);
+```
 
 
 ## TABLE `comptes_administrateurs`
