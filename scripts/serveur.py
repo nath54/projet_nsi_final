@@ -122,6 +122,10 @@ class Serveur:
         self.monstres[id_monstre] = monstre
     """
 
+    """
+    def bouger_monstre(self, id_monstre, deplacement):
+        self.monstres[id_monstres].bouger(deplacement)
+    """
 
 if __name__ == '__main__':
     # On lance le serveur ici
