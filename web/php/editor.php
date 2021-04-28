@@ -14,6 +14,10 @@ if(!isset($_SESSION["id_admin"])){
     die();
 }
 
+
+/**
+ * ON CHARGE LES INFOS DES TERRAINS
+ */
 $requete = "SELECT * FROM terrain;";
 $terrains = array();
 $r = requete_prep($db, $requete);
@@ -26,8 +30,10 @@ foreach($r as $i => $data){
     $terrains[$data["id_terrain"]] = array("nom"=>$nom, "img"=>$img);
 }
 
-//
 
+/**
+ * ON CHARGE LES INFOS DES OBJETS
+ */
 
 $requete = "SELECT * FROM objets;";
 $objets = array();
@@ -42,13 +48,20 @@ foreach($r as $i => $data){
                                        "img"=>$img, "z_index"=>$data["z_index"]);
 }
 
-//
+
+/**
+ * ON CHARGE LES INFOS DES regions
+ */
 
 $liste_regions = array();
 foreach(requete_prep($db, "SELECT * FROM regions") as $i=>$data){
-    //$liste_regions[$data["nom"]]=$data["id_region"];
     $liste_regions[$data["id_region"]]=$data["nom"];
 }
+
+
+/**
+ * ON REGARDE SI LA REQUETE EST DE TYPE SELECTIONNER UNE REGION
+ */
 
 $region_selected = "";
 $id_region = 0;
@@ -58,6 +71,11 @@ if(isset($_POST["region_selected"])){
         $id_region = $liste_regions[$region_selected];
     }
 }
+
+
+/**
+ * ON REGARDE SI LA REQUETE EST DE TYPE SUPPRIMER UNE REGION
+ */
 
 if(isset($_POST["delete_region"])){
     if(in_array($_POST["delete_region"], array_keys($liste_regions))){
@@ -81,6 +99,9 @@ if(isset($_POST["delete_region"])){
     }
 }
 
+/**
+ * ON REGARDE SI LA REQUETE EST DE TYPE NOUVELLE REGION
+ */
 if(isset($_POST["new_region"])){
     if($_POST["new_region"]!="" && !in_array($_POST["new_region"], array_values($liste_regions))){
         $query = "INSERT INTO regions SET nom=:nom, tx=100, ty=100;";
@@ -98,18 +119,27 @@ if(isset($_POST["new_region"])){
     }
 }
 
+
+/**
+ * ON INITIALISE LES VARIABLES QUI CONTIENDRONT LES INFORMATIONS DES CASES DE LA REGION
+ */
+
 $cases_terrains = array();
 $cases_objets = array();
 
-// echo "Post : <br />";
-// foreach($_POST as $k => $v){
-//     echo "$k = $v <br />";
-// }
 
-if(isset($_POST["save_terrain"]) && isset($_POST["delete_terrains"]) && isset($_POST["update_terrains"]) &&
-   isset($_POST["new_terrains"])  && isset($_POST["delete_objets"]) && isset($_POST["update_objets"])  &&
-   isset($_POST["new_objets"]) ){
-    // echo "SAVE TERRAIN ! <br />";
+/**
+ * ON REGARDE SI LA REQUETE EST DE TYPE SAUVEGARDE DE REGIONS
+ */
+
+if(
+  isset($_POST["save_terrain"]) &&
+  isset($_POST["delete_terrains"]) &&
+  isset($_POST["update_terrains"]) &&
+  isset($_POST["new_terrains"])  &&
+  isset($_POST["delete_objets"]) &&
+  isset($_POST["update_objets"])  &&
+  isset($_POST["new_objets"]) ){
     $idr = $_POST["save_terrain"];
     $region_selected = $idr;
     // Pour changer si on veut passer en requetes préparée, plus de calcul, mais plus de sécurité
@@ -195,8 +225,7 @@ if(isset($_POST["save_terrain"]) && isset($_POST["delete_terrains"]) && isset($_
         $req = "INSERT INTO regions_terrains (x,y,id_region,id_terrain) VALUES ";
         $virgule = false;
         $vars = array();
-        // Pour requete_prep:
-        $compteur = 0;
+        $compteur = 0; // Pour requete_prep:
         foreach($iu_t as $i=>$data){
             if(!$virgule){
                 $virgule=true;
@@ -204,12 +233,11 @@ if(isset($_POST["save_terrain"]) && isset($_POST["delete_terrains"]) && isset($_
             else{
                 $req .= ", ";
             }
-            // pour requete non préparée
-            if($mode == 0){
+            if($mode == 0){ // pour requete non préparée
                 $req .= "( " . $data["x"] . ", " . $data["y"] . ", " . $data["id_region"] . ", " .
                         $data["id_terrain"] . " )";
             }
-            else{
+            else{  // Pour requete_prep:
                 $req .= "(:x_$compteur, :y_$compteur, :idr_$compteur, :idt_$compteur)";
                 $vars[":x_$compteur"] = $data["x"];
                 $vars[":y_$compteur"] = $data["y"];
@@ -219,7 +247,6 @@ if(isset($_POST["save_terrain"]) && isset($_POST["delete_terrains"]) && isset($_
             }
         }
         $req .= " ON DUPLICATE KEY UPDATE id_terrain=VALUES(id_terrain);";
-        // echo "insert terrains : $req <br />";
         if(!action_prep($db, $req, $vars)){
             echo "probleme insert/update terrains  <br />";
             die();
@@ -232,8 +259,7 @@ if(isset($_POST["save_terrain"]) && isset($_POST["delete_terrains"]) && isset($_
         $req = "INSERT INTO regions_objets (x,y,id_region,id_objet) VALUES ";
         $virgule = false;
         $vars = array();
-        // Pour requete_prep:
-        $compteur = 0;
+        $compteur = 0; // Pour requete_prep:
         foreach($iu_o as $i => $data){
             if(!$virgule){
                 $virgule = true;
@@ -241,12 +267,11 @@ if(isset($_POST["save_terrain"]) && isset($_POST["delete_terrains"]) && isset($_
             else{
                 $req .= ", ";
             }
-            // pour requete non préparée
-            if($mode == 0){
+            if($mode == 0){ // pour requete non préparée
                 $req .= "( " . $data["x"] . ", " . $data["y"] . ", " . $data["id_region"] . ", " .
                         $data["id_objet"] . " )";
             }
-            else{
+            else{ // Pour requete_prep:
                 $req .= "(:x_$compteur, :y_$compteur, :idr_$compteur, :ido_$compteur)";
                 $vars[":x_$compteur"] = $data["x"];
                 $vars[":y_$compteur"] = $data["y"];
@@ -256,7 +281,6 @@ if(isset($_POST["save_terrain"]) && isset($_POST["delete_terrains"]) && isset($_
             }
         }
         $req .= " ON DUPLICATE KEY UPDATE id_objet=VALUES(id_objet);";
-        // echo "insert objets : $req <br />";
         if(!action_prep($db, $req, $vars)){
             echo "probleme insert/update objets <br />";
             die();
@@ -365,6 +389,10 @@ if(isset($_POST["import_data"]) && isset($_POST["import_region"])){
 
 }
 
+/**
+ * S'IL Y A BIEN UNE REGION SELECTIONNEE
+ */
+
 if($region_selected != ""){
     $requested = "SELECT * FROM regions_terrains WHERE id_region=:idr";
     $vars = array(":idr" => $region_selected);
@@ -389,13 +417,20 @@ else{
 }
 
 
+/**
+ * ON TRANSFERE LES DONNES VERS JS GRACE A JSON
+ */
+
+
+// Les données du terrain
 $jsone = json_encode($terrains);
 script("var terrains = JSON.parse('$jsone');");
 
-
+// Les données des objets
 $jsone = json_encode($objets);
 script("var objets = JSON.parse('$jsone');");
 
+// Les données des cases de terrain
 if(count($cases_terrains) > 0){
     $jsone = json_encode($cases_terrains);
     script("var cases_terrains = JSON.parse('$jsone');");
@@ -404,7 +439,7 @@ else{
     script("var cases_terrains = {};");
 }
 
-
+// Les données des cases des objets
 if(count($cases_objets) > 0){
     $jsone = json_encode($cases_objets);
     script("var cases_objets = JSON.parse('$jsone');");
@@ -437,7 +472,10 @@ body {
                     <option value="" <?php if($region_selected == ""){ echo "selected"; } ?>>Aucune</option>
                     <?php
 
-                        // Il faudra peut-être changer les infos de la BDD
+                        /**
+                         * ON RECUPERE LA LISTE DES REGIONS ET ON LES METS DANS LA LISTE DEROULANTE
+                         */
+
                         foreach($liste_regions as $idr => $nom){
                             $sel = "";
                             if($idr == $region_selected){
@@ -453,6 +491,12 @@ body {
                 <div>
                     <?php
 
+
+                    /**
+                     * S'IL Y A UNE REGION SELECTIONNE ON AFFICHE LES BOUTONS
+                     * PERMETTANT DE SUPPRIMER LA REGION ET SAUVEGARDER LES MODIFICATIONS
+                     */
+
                     if($region_selected != ""){
                         echo "<button onclick=\"delete_region();\">Supprimer la région choisie</button>";
                         echo "<button onclick=\"save_tiles();\">Sauvegarder la région choisie</button>";
@@ -463,13 +507,18 @@ body {
 
                 <div class="row">
                     <label>New region</label>
+                    <!-- INPUT POUR CHOISIR LE NOM DE LA NOUVELLE REGION -->
                     <input id="new_region_name" type="text" placeholder="nom de la region">
+                    <!-- BOUTON POUR CREER LA NOUVELLE REGION -->
                     <button onclick="new_region();">Créer</button>
                 </div>
 
                 <div class="row">
+                    <!-- BOUTON POUR EXPORTER LA REGION -->
                     <button onclick="export_region();">Export region</button>
+                    <!-- INPUT POUR CHOISIR LE FICHIER A IMPORTER -->
                     <input id="file_import" style="display:none;" type="file" accept=".json">
+                    <!-- BOUTON POUR IMPORTER LES DONNEES -->
                     <button onclick="import_region();">Import region</button>
                 </div>
 
@@ -487,12 +536,14 @@ body {
             <?php
                 if($region_selected!=""){
                     echo "<svg viewBox=\"0 0 100 80\" id=\"viewport\" onmouseleave=\"is_clicking=false;\" style=\"background:white;border:1px solid black;\" xmlns=\"http://www.w3.org/2000/svg\">";
-                    $tx = 20;
-                    $ty = 16;
-                    $tc = 5;
-                    $dx = 0;
-                    $dy = 0;
+
+                    $tx = 20; // NOMBRE DE CASES HORIZONTABLES QUE L'ECRAN AFFICHE
+                    $ty = 16; // NOMBRE DE CASES VERTICALES QUE L'ECRAN AFFICHE
+                    $tc = 5; // LARGEUR DES CASES
+                    $dx = 0; // VARIABLE DE DEPLACEMENT X DANS LA MAP
+                    $dy = 0; // VARIABLE DE DEPLACEMENT Y DANS LA MAP
                     // terrains
+                    // ON CREE LA GRILLE POUR LES TERRAINS
                     for($x = 0; $x < $tx; $x++){
                         for($y = 0; $y < $ty; $y++){
                             $cx = $x * $tc + $dx;
@@ -508,6 +559,7 @@ body {
                         }
                     }
                     // objets
+                    // ON CREE LA GRILLE POUR LES OBJETS
                     for($x = 0; $x < $tx; $x++){
                         for($y = 0; $y < $ty; $y++){
                             $cx = $x * $tc + $dx;
@@ -528,6 +580,8 @@ body {
                     echo "<p>Aucune région n'a été choisie</p>";
                 }
             ?>
+
+            <!-- INFORMATIONS DES MODIFICATIONS -->
             <div class="row">
                 <p>Case hover: <span id="hover_case">aucune</span></p>
                 <hr />
@@ -551,11 +605,13 @@ body {
                 <div class="liste_tiles">
 
                     <div class="row">
+                        <!-- BOUTONS POUR CHOISIR LE MENU DE PLACEMENT -->
                         <button onclick="set_selection('terrains');">Terrains</button>
                         <button onclick="set_selection('objets');">Objets</button>
                     </div>
 
                     <div id="terrains">
+                        <!--  -->
                         <div class="row"> <input id="search_t" type="text" placeholder="search" onkeypress="search_t();" onchange="search_t();" /> <p>Press Enter to search</p></div>
                         <?php
                             foreach($terrains as $i=>$data){
