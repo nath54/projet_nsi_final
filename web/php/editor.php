@@ -611,9 +611,10 @@ body {
                     </div>
 
                     <div id="terrains">
-                        <!--  -->
+                        <!-- INPUT POUR CHERCHER LES TYPES DE CASES QUI COMMENCENT PAR UNE CERTAINE CHAINE DE CARACTERES -->
                         <div class="row"> <input id="search_t" type="text" placeholder="search" onkeypress="search_t();" onchange="search_t();" /> <p>Press Enter to search</p></div>
                         <?php
+                            
                             foreach($terrains as $i=>$data){
                                 $img = $data["img"];
                                 $nom = $data["nom"];
