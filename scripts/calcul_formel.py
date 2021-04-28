@@ -61,8 +61,8 @@ class Sum:
                 self.components += termes
                 self = Sum(self.components)
             if isinstance(arg, list):
-                for i in arg:
-                    self.components.append(Expr(i))
+                for elt in arg:
+                    self.components.append(Expr(elt))
             if type(arg) in [str, int, float]:
                 self.components.append(Expr(arg))
                 i += 1
@@ -87,6 +87,7 @@ class Sum:
                         variables[terme] += 1
                     else:
                         variables[terme] = 1
+                # Dans le cas où le terme est une Multiplication
                 if isinstance(terme, Mul):
                     coeff = [const.value() for const in terme.components\
                              if type(const.value()) in [int, float]][0]
@@ -96,7 +97,9 @@ class Sum:
                         variables[var] += coeff
                     else:
                         variables[var] = coeff
+                # Dans le cas où le terme est une Division
                 if isinstance(terme, Div):
+                    # But : séparer les variables des constantes
                     pass  # TODO
             for var in variables:
                 if variables[var] == 0:
@@ -160,7 +163,7 @@ def test_somme():
 
     # FACTORISATION D'UNE SOMME AVEC UN COMPOSANT DE DIVISION (1 VAR)
     var = str(Sum(Div("a", 4).value(), "a").value())
-    assert var == "5 / 4 × a", f"{var}"
+    assert var == "(5 / 4) × a", f"{var}"
 
     print("FIN DU TEST : Sum")
 # endregion
@@ -206,24 +209,21 @@ class Mul:
 
 # region division
 class Div:
-    def __init__(self, *args):
-        self.components = args
-        assert len(self.components) >= 2,\
-            "Il n'y a pas assez de nombres à diviser !"
+    def __init__(self, numerateur, denominateur):
+        self.num = Expr(numerateur)
+        self.denom = Expr(denominateur)
+        assert self.denom != 0,\
+            "Diviser par 0 : 2U"
 
     def value(self):
-        if all([type(c) in [int, float] for c in self.components]):
-            r = self.components[0]
-            # TODO: Il faudra s'arrêter de diviser comme ça si on a un nombre
-            #       irrationnel
-            for c in self.components[1:]:
-                r /= c
-            return Expr(r)
+        if isinstance(self.num, int) and isinstance(self.denom, int):
+            if self.num % self.denom == 0:
+                return Expr(self.num // self.denom)
+            else:
+                # TODO: Insérer simplification ici
+                return Expr(Div(self.num, self.denom))
         else:
-            a = self.components[0]
-            for b in self.components[1:]:
-                a = Div(a, b)
-            return Expr(a)
+            return Expr(self)
 
     def __str__(self):
         a = self.components[0]
@@ -249,16 +249,11 @@ class Expr:
         self.components = components
 
     def value(self):
-        """Renvoie la valeur de l'expression
-
-        TODO: Dans quel contexte len(self.components) > 1 ?
-        """
+        """Renvoie la valeur de l'expression"""
         if len(self.components) == 0:
             return None
-        elif len(self.components) == 1:
-            return self.components[0]
         else:
-            return self.components
+            return self.components[0]
 
     def __add__(self, other):
         if type(other) in [int, float]:
@@ -277,6 +272,11 @@ class Expr:
         if type(other) in [int, float]:
             other = Expr(other)
         return Div(self, other).value()
+
+    def __mod__(self, other):
+        if type(other) in [int, float]:
+            other = Expr(other)
+        return self.value() % other.value()
 
     def __str__(self):
         return " ".join([str(c) for c in self.components])
