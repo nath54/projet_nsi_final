@@ -50,6 +50,25 @@ foreach($r as $i => $data){
 
 
 /**
+ * ON CHARGE LES INFOS DES OBJETS
+ */
+
+$requete = "SELECT * FROM monstre;";
+$ennemis = array();
+$r = requete_prep($db, $requete);
+if($r == NULL){
+    alert("Il y a eu une erreur !");
+}
+foreach($r as $i => $data){
+    $nom = $data["nom"];
+    $img = $data["img_base"];
+    $ennemis[$data["id_monstre"]] = array("id_monstre"=>$data["id_monstre"], "nom"=>$nom,
+                                       "img_base"=>$img);
+}
+
+
+
+/**
  * ON CHARGE LES INFOS DES regions
  */
 
@@ -87,7 +106,9 @@ if(isset($_POST["delete_region"])){
         $vars2 = array(":idr"=>$idr);
         $query3 = "DELETE FROM regions_objets WHERE id_region=:idr";
         $vars3 = array(":idr"=>$idr);
-        if(!action_prep($db, $query3, $vars3) || !action_prep($db, $query2, $vars2) || !action_prep($db, $query, $vars)){
+        $query4 = "DELETE FROM regions_monstres WHERE id_region=:idr";
+        $vars4 = array(":idr"=>$idr);
+        if(!action_prep($db, $query3, $vars3) || !action_prep($db, $query2, $vars2) || !action_prep($db, $query, $vars) || !action_prep($db, $query4, $vars4)){
             alert("Il y a eu une erreur lors de la suppression de la région !");
         }
         else{
@@ -126,7 +147,7 @@ if(isset($_POST["new_region"])){
 
 $cases_terrains = array();
 $cases_objets = array();
-
+$cases_ennemis = array();
 
 /**
  * ON REGARDE SI LA REQUETE EST DE TYPE SAUVEGARDE DE REGIONS
@@ -139,19 +160,26 @@ if(
   isset($_POST["new_terrains"])  &&
   isset($_POST["delete_objets"]) &&
   isset($_POST["update_objets"])  &&
-  isset($_POST["new_objets"]) ){
+  isset($_POST["new_objets"]) &&
+  isset($_POST["delete_ennemis"]) &&
+  isset($_POST["update_ennemis"])  &&
+  isset($_POST["new_ennemis"]) ){
     $idr = $_POST["save_terrain"];
     $region_selected = $idr;
     // Pour changer si on veut passer en requetes préparée, plus de calcul, mais plus de sécurité
     $mode = 0; // normal = 0 sinon préparé = 1
     $delete_t = json_decode($_POST["delete_terrains"], true);
     $delete_o = json_decode($_POST["delete_objets"], true);
+    $delete_e = json_decode($_POST["delete_ennemis"], true);
     $update_t = json_decode($_POST["update_terrains"], true);
     $update_o = json_decode($_POST["update_objets"], true);
+    $update_e = json_decode($_POST["update_ennemis"], true);
     $new_t = json_decode($_POST["new_terrains"], true);
     $new_o = json_decode($_POST["new_objets"], true);
+    $new_e = json_decode($_POST["new_ennemis"], true);
     $iu_t = $new_t + $update_t;
     $iu_o = $new_o + $update_o;
+    $iu_e = $new_e + $update_e;
     /***************** DELETE TERRAINS : *******************/
     if(count($delete_t)>0){
         $req = "DELETE FROM regions_terrains WHERE (x,y,id_region) IN ( ";
@@ -194,6 +222,40 @@ if(
         // Pour requete_prep:
         $compteur = 0;
         foreach($delete_o as $i=>$data){
+            if(!$virgule){
+                $virgule = true;
+            }
+            else{
+                $req .= ", ";
+            }
+            // pour requete non préparée
+            if($mode == 0){
+                $req .= "( " . $data["x"] . ", " . $data["y"] . ", " . $data["id_region"] . " )";
+            }
+            else{
+                $req .= "(:x_$compteur, :y_$compteur, :idr_$compteur)";
+                $vars[":x_$compteur"] = $data["x"];
+                $vars[":y_$compteur"] = $data["y"];
+                $vars[":idr_$compteur"] = $data["id_region"];
+                $compteur += 1;
+            }
+        }
+        $req .= " );";
+        // echo "delete objets : $req <br />";
+        if(!action_prep($db, $req, $vars)){
+            echo "probleme delete objets <br />";
+            die();
+        }
+    }
+
+    /***************** DELETE ENNEMIS : *******************/
+    if(count($delete_e)>0){
+        $req = "DELETE FROM regions_monstres WHERE (x,y,id_region) IN ( ";
+        $virgule = false;
+        $vars = array();
+        // Pour requete_prep:
+        $compteur = 0;
+        foreach($delete_e as $i=>$data){
             if(!$virgule){
                 $virgule = true;
             }
@@ -287,6 +349,39 @@ if(
         }
     }
 
+    /***************** INSERT/UPDATE NEW ENNEMIS : *******************/
+    if(count($iu_e)>0){
+        $req = "INSERT INTO regions_monstres (x,y,id_region,id_monstre) VALUES ";
+        $virgule = false;
+        $vars = array();
+        $compteur = 0; // Pour requete_prep:
+        foreach($iu_e as $i => $data){
+            if(!$virgule){
+                $virgule = true;
+            }
+            else{
+                $req .= ", ";
+            }
+            if($mode == 0){ // pour requete non préparée
+                $req .= "( " . $data["x"] . ", " . $data["y"] . ", " . $data["id_region"] . ", " .
+                        $data["id_monstre"] . " )";
+            }
+            else{ // Pour requete_prep:
+                $req .= "(:x_$compteur, :y_$compteur, :idr_$compteur, :ide_$compteur)";
+                $vars[":x_$compteur"] = $data["x"];
+                $vars[":y_$compteur"] = $data["y"];
+                $vars[":idr_$compteur"] = $data["id_region"];
+                $vars[":ide_$compteur"] = $data["id_monstre"];
+                $compteur += 1;
+            }
+        }
+        $req .= " ON DUPLICATE KEY UPDATE id_monstre=VALUES(id_monstre);";
+        if(!action_prep($db, $req, $vars)){
+            echo "probleme insert/update ennemis <br />";
+            die();
+        }
+    }
+
 }
 
 if(isset($_POST["import_data"]) && isset($_POST["import_region"])){
@@ -294,12 +389,14 @@ if(isset($_POST["import_data"]) && isset($_POST["import_region"])){
     $data = json_decode($content, true);
     $cases_terrains = $data["terrains"];
     $cases_objets = $data["objets"];
+    $cases_ennemis = $data["ennemis"];
     $id_region = $_POST["import_region"];
     // Pour changer si on veut passer en requetes préparée, plus de calcul, mais plus de sécurité
     $mode = 0; // normal = 0 sinon préparé = 1
     // On supprime tout:
     $query = "DELETE FROM regions_terrains WHERE id_region=:idr;";
     $query2 = "DELETE FROM regions_objets WHERE id_region=:idr;";
+    $query3 = "DELETE FROM regions_monstres WHERE id_region=:idr;";
     $vars = array(":idr"=>$id_region);
     //
     if(!action_prep($db, $query, $vars)){
@@ -308,6 +405,10 @@ if(isset($_POST["import_data"]) && isset($_POST["import_region"])){
     }
     if(!action_prep($db, $query2, $vars)){
         echo "probleme delete regions_objets <br />";
+        die();
+    }
+    if(!action_prep($db, $query3, $vars)){
+        echo "probleme delete regions_ennemis <br />";
         die();
     }
     // On crée tout
@@ -385,6 +486,45 @@ if(isset($_POST["import_data"]) && isset($_POST["import_region"])){
         }
     }
 
+
+
+    if(count($cases_ennemis)>0){
+        $req = "INSERT INTO regions_monstres (x,y,id_region,id_monstre) VALUES ";
+        $virgule = false;
+        $vars = array();
+        if($mode == 1){
+            $vars[":idr"] = $id_region;
+        }
+        // Pour requete_prep:
+        $compteur = 0;
+        foreach($cases_ennemis as $i => $data){
+            if(!$virgule){
+                $virgule = true;
+            }
+            else{
+                $req .= ", ";
+            }
+            // pour requete non préparée
+            if($mode == 0){
+                $req .= "( " . $data["x"] . ", " . $data["y"] . ", " . $id_region . ", " . $data["id_monstre"] . " )";
+            }
+            else{
+                $req .= "(:x_$compteur, :y_$compteur, :idr, :ide_$compteur)";
+                $vars[":x_$compteur"] = $data["x"];
+                $vars[":y_$compteur"] = $data["y"];
+                $vars[":ide_$compteur"] = $data["id_monstre"];
+                $compteur += 1;
+            }
+        }
+        $req .= ";";
+        // echo "insert objets : $req <br />";
+        if(!action_prep($db, $req, $vars)){
+            echo "probleme import insert ennemis <br />";
+            die();
+        }
+    }
+
+
     $region_selected = $id_region;
 
 }
@@ -394,6 +534,7 @@ if(isset($_POST["import_data"]) && isset($_POST["import_region"])){
  */
 
 if($region_selected != ""){
+    // LES TERRAINS
     $requested = "SELECT * FROM regions_terrains WHERE id_region=:idr";
     $vars = array(":idr" => $region_selected);
     foreach(requete_prep($db, $requested, $vars) as $i=>$data){
@@ -402,6 +543,7 @@ if($region_selected != ""){
         $tile = $data["id_terrain"];
         $cases_terrains["$x-$y"] = array("x" => $x, "y" => $y, "id_terrain" => $tile);
     }
+    // LES OBJETS
     $requested = "SELECT * FROM regions_objets WHERE id_region=:idr";
     $vars = array(":idr" => $region_selected);
     foreach(requete_prep($db, $requested, $vars) as $i => $data){
@@ -409,6 +551,15 @@ if($region_selected != ""){
         $y = $data["y"];
         $ido = $data["id_objet"];
         $cases_objets["$x-$y"] = array("x" => $x, "y" =>$y , "id_objet" => $ido);
+    }
+    // LES ENNEMIS
+    $requested = "SELECT * FROM regions_monstres WHERE id_region=:idr";
+    $vars = array(":idr" => $region_selected);
+    foreach(requete_prep($db, $requested, $vars) as $i => $data){
+        $x = $data["x"];
+        $y = $data["y"];
+        $ido = $data["id_monstre"];
+        $cases_ennemis["$x-$y"] = array("x" => $x, "y" =>$y , "id_monstre" => $ido);
     }
     script("var nom_region=\"" . $liste_regions[$region_selected] . "\"");
 }
@@ -430,6 +581,10 @@ script("var terrains = JSON.parse('$jsone');");
 $jsone = json_encode($objets);
 script("var objets = JSON.parse('$jsone');");
 
+// Les données des ennemis
+$jsone = json_encode($ennemis);
+script("var ennemis = JSON.parse('$jsone');");
+
 // Les données des cases de terrain
 if(count($cases_terrains) > 0){
     $jsone = json_encode($cases_terrains);
@@ -446,6 +601,15 @@ if(count($cases_objets) > 0){
 }
 else{
     script("var cases_objets = {};");
+}
+
+// Les données des cases des ennemis
+if(count($cases_ennemis) > 0){
+    $jsone = json_encode($cases_ennemis);
+    script("var cases_ennemis = JSON.parse('$jsone');");
+}
+else{
+    script("var cases_ennemis = {};");
 }
 
 ?>
@@ -574,6 +738,22 @@ body {
                             echo "<image z_index=0 id=\"o_$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$ct\" height=\"$ct\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
                         }
                     }
+                    // ennemis
+                    // ON CREE LA GRILLE POUR LES ENNEMIS
+                    for($x = 0; $x < $tx; $x++){
+                        for($y = 0; $y < $ty; $y++){
+                            $cx = $x * $tc + $dx;
+                            $cy = $y * $tc + $dy;
+                            $idd = "$x-$y";
+                            $src = "";
+                            if(isset($cases_ennemis[$idd])){
+                                $img = $ennemis[$cases_ennemis[$idd]["id_monstre"]]["img_base"];
+                                $src = "../imgs/ennemis/$img";
+                            }
+                            $ct = $tc + 0.15;
+                            echo "<image z_index=0 id=\"e_$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$ct\" height=\"$ct\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
+                        }
+                    }
                     echo "</svg>";
                 }
                 else{
@@ -608,6 +788,7 @@ body {
                         <!-- BOUTONS POUR CHOISIR LE MENU DE PLACEMENT -->
                         <button onclick="set_selection('terrains');">Terrains</button>
                         <button onclick="set_selection('objets');">Objets</button>
+                        <button onclick="set_selection('ennemis');">Ennemis</button>
                     </div>
 
                     <div id="terrains">
@@ -638,6 +819,22 @@ body {
                                 $sel = "";
                                 // $ido = $data["id_objet"];
                                 echo "<div value=\"$nom\" id=\"liste_obj_$i\" class=\"liste_objets liste_element $sel\" onclick=\"select_objets($i);\"><img class=\"img_liste_element\" src=\"../imgs/objets/$img\" /><label>$nom</label></div>";
+                            }
+
+                        ?>
+
+                    </div>
+
+                    <div id="ennemis" style="display:none;">
+                        <!-- INPUT POUR CHERCHER LES TYPES DE CASES D'OBJETS QUI COMMENCENT PAR UNE CERTAINE CHAINE DE CARACTERES -->
+                        <div class="row"> <input id="search_o" type="text" placeholder="search" onkeypress="search_e();" onchange="search_o();" /> <p>Press Enter to search</p></div>
+                        <?php
+                            // ON CHARGE TOUTES LES DONNEES DES TYPES D'OBJETS
+                            foreach($ennemis as $i=>$data){
+                                $img = $data["img_base"];
+                                $nom = $data["nom"];
+                                $sel = "";
+                                echo "<div value=\"$nom\" id=\"liste_enn_$i\" class=\"liste_ennemi liste_element $sel\" onclick=\"select_ennemis($i);\"><img class=\"img_liste_element\" src=\"../imgs/ennemis/$img\" /><label>$nom</label></div>";
                             }
 
                         ?>
@@ -684,10 +881,15 @@ var update_t = {};
 var new_t = {};
 var delete_t = {};
 
-// Variables pour sauvegarder les modifs du terrain dans la bdd
+// Variables pour sauvegarder les modifs des objets dans la bdd
 var update_o = {};
 var new_o = {};
 var delete_o = {};
+
+// Variables pour sauvegarder les modifs des objets dans la bdd
+var update_e = {};
+var new_e = {};
+var delete_e = {};
 
 /**
  * FONCTION POUR CHANGER LA REGION SELECTIONNEE
@@ -709,6 +911,72 @@ function change_map(){
 
 
 /**
+ * FONCTION POUR CHANGER L'ITEM SELECTIONNE
+ */
+
+function select_tile(id_tile){
+    if(id_tile == tile_selected && tp_selected == "terrains"){
+        return;
+    }
+    if(tp_selected == "terrains"){
+        var ad = document.getElementById("liste_elt_" + tile_selected);
+    }
+    else if(tp_selected == "objets"){
+        var ad = document.getElementById("liste_obj_" + tile_selected);
+    }
+    else if(tp_selected == "ennemis"){
+        var ad = document.getElementById("liste_enn_" + tile_selected);
+    }
+    ad.classList.remove("liste_element_selectione");
+    var d = document.getElementById("liste_elt_" + id_tile);
+    d.classList.add("liste_element_selectione");
+    tile_selected = id_tile;
+    tp_selected = "terrains";
+}
+
+function select_objets(id_tile){
+    if(id_tile == tile_selected && tp_selected == "objets"){
+        return;
+    }
+    if(tp_selected == "terrains"){
+        var ad = document.getElementById("liste_elt_" + tile_selected);
+    }
+    else if(tp_selected == "objets"){
+        var ad = document.getElementById("liste_obj_" + tile_selected);
+    }
+    else if(tp_selected == "ennemis"){
+        var ad = document.getElementById("liste_enn_" + tile_selected);
+    }
+    ad.classList.remove("liste_element_selectione");
+    var d = document.getElementById("liste_obj_" + id_tile);
+    d.classList.add("liste_element_selectione");
+    tile_selected = id_tile;
+    tp_selected = "objets";
+}
+
+function select_ennemis(id_monstre){
+    if(id_monstre == tile_selected && tp_selected == "ennemis"){
+        return;
+    }
+    if(tp_selected == "terrains"){
+        var ad = document.getElementById("liste_elt_" + tile_selected);
+    }
+    else if(tp_selected == "objets"){
+        var ad = document.getElementById("liste_obj_" + tile_selected);
+    }
+    else if(tp_selected == "ennemis"){
+        var ad = document.getElementById("liste_enn_" + tile_selected);
+    }
+    ad.classList.remove("liste_element_selectione");
+    var d = document.getElementById("liste_enn_" + id_monstre);
+    d.classList.add("liste_element_selectione");
+    tile_selected = id_monstre;
+    tp_selected = "ennemis";
+}
+
+
+
+/**
  * FONCTION POUR CHANGER UNE CASE
  */
 
@@ -721,6 +989,7 @@ function change_case(x, y){
     dcx, dcy = cx, cy;
     var i = "" + cx + "-" + cy;
     if(tile_selected == 0){
+        // Terrains
         if(tp_selected == "terrains"){
             if(Object.keys(cases_terrains).includes(i)){
                 if(Object.keys(update_t).includes(i)){
@@ -743,6 +1012,7 @@ function change_case(x, y){
                 e.setAttribute("xlink:href","../imgs/tuiles/vide.png");
             }
         }
+        // Objets
         else if(tp_selected == "objets"){
             if(Object.keys(cases_objets).includes(i)){
                 if(Object.keys(update_o).includes(i)){
@@ -765,8 +1035,32 @@ function change_case(x, y){
                 e.setAttribute("xlink:href","../imgs/objets/rien.png");
             }
         }
+        // Ennemis
+        else if(tp_selected == "ennemis"){
+            if(Object.keys(cases_ennemis).includes(i)){
+                if(Object.keys(update_e).includes(i)){
+                    delete update_e[i];
+                    compteur_modif -= 1;
+                }
+                if(!Object.keys(delete_e).includes(i)){
+                    delete_e[i] = {"x": cx, "y": cy, "id_region": id_region};
+                    compteur_modif += 1;
+                }
+                var e = document.getElementById("e_" + x + "-" + y);
+                e.setAttribute("xlink:href","../imgs/objets/rien.png");
+            }
+            else{
+                if(Object.keys(new_e).includes(i)){
+                    delete new_e[i];
+                    compteur_modif -= 1;
+                }
+                var e = document.getElementById("e_"+x+"-"+y);
+                e.setAttribute("xlink:href","../imgs/objets/rien.png");
+            }
+        }
     }
     else{
+        // Terrains
         if(tp_selected=="terrains"){
             if(Object.keys(cases_terrains).includes(i)){
                 if(cases_terrains[i]["id_terrain"]!=tile_selected){
@@ -785,7 +1079,9 @@ function change_case(x, y){
             // cases_terrains[i] = {"x":cx, "y":cy, "id_terrain":tile_selected};
             var e = document.getElementById(""+x+"-"+y);
             e.setAttribute("xlink:href","../imgs/tuiles/"+terrains[tile_selected]["img"]);
-        }else if(tp_selected=="objets"){
+        }
+        // Objets
+        else if(tp_selected=="objets"){
             // cases_objets[i] = {"x":cx, "y":cy, "id_objet":tile_selected};
             if(Object.keys(cases_objets).includes(i)){
                 if(cases_objets[i]["id_objet"] != tile_selected){
@@ -804,7 +1100,27 @@ function change_case(x, y){
             var e = document.getElementById("o_" + x + "-" + y);
             e.setAttribute("xlink:href", "../imgs/objets/" + objets[tile_selected]["img"]);
         }
+        // Ennemis
+        else if(tp_selected=="ennemis"){
+            if(Object.keys(cases_ennemis).includes(i)){
+                if(cases_objets[i]["id_monstre"] != tile_selected){
+                    if(!Object.keys(update_e).includes(i)){
+                        compteur_modif += 1;
+                    }
+                    update_e[i] = {"x": cx, "y": cy, "id_monstre": tile_selected, "id_region": id_region};
+                }
+            }
+            else{
+                if(!Object.keys(new_e).includes(i)){
+                    compteur_modif += 1;
+                }
+                new_e[i] = {"x": cx, "y": cy, "id_monstre": tile_selected, "id_region": id_region};
+            }
+            var e = document.getElementById("e_" + x + "-" + y);
+            e.setAttribute("xlink:href", "../imgs/ennemis/" + ennemis[tile_selected]["img_base"]);
+        }
     }
+    // Modifs
     document.getElementById("nb_modifs").innerHTML = compteur_modif;
     if(compteur_modif >= 100){
         document.getElementById("alert_modifs").style.display = "initial";
@@ -824,9 +1140,11 @@ function aff(){
     var tc = 5;
     for(x = 0; x < tx; x++){
         for(y = 0; y < ty; y++){
+            //
             var cx = x + dec_x;
             var cy = y + dec_y;
             var ii = "" + cx + "-" + cy;
+            // LES TERRAINS
             img = "vide.png";
             if(Object.keys(cases_terrains).includes(ii) && !Object.keys(delete_t).includes(ii)){
                 if(Object.keys(update_t).includes(ii)){
@@ -839,7 +1157,7 @@ function aff(){
                 img = terrains[new_t[ii]["id_terrain"]]["img"];
             }
             document.getElementById("" + x + "-" + y).setAttribute("xlink:href","../imgs/tuiles/" + img);
-            //
+            // LES OBJETS
             img = "rien.png"
             if(Object.keys(cases_objets).includes(ii) && !Object.keys(delete_o).includes(ii)){
                 if(Object.keys(update_o).includes(ii)){
@@ -852,6 +1170,19 @@ function aff(){
                 img = objets[new_o[ii]["id_objet"]]["img"];
             }
             document.getElementById("o_" + x + "-" + y).setAttribute("xlink:href","../imgs/objets/" + img);
+            // LES ENNEMIS
+            img = "rien.png"
+            if(Object.keys(cases_ennemis).includes(ii) && !Object.keys(delete_e).includes(ii)){
+                if(Object.keys(update_e).includes(ii)){
+                    img = ennemis[update_e[ii]["id_monstre"]]["img_base"];
+                }else{
+                    img = ennemis[cases_ennemis[ii]["id_monstre"]]["img_base"];
+                }
+            }
+            if(Object.keys(new_e).includes(ii) ){
+                img = ennemis[new_e[ii]["id_monstre"]]["img_base"];
+            }
+            document.getElementById("e_" + x + "-" + y).setAttribute("xlink:href","../imgs/ennemis/" + img);
         }
     }
 }
@@ -893,44 +1224,6 @@ function delete_region(){
 }
 
 /**
- * FONCTION POUR CHANGER L'ITEM SELECTIONNE
- */
-
-function select_tile(id_tile){
-    if(id_tile == tile_selected && tp_selected == "terrains"){
-        return;
-    }
-    if(tp_selected == "terrains"){
-        var ad = document.getElementById("liste_elt_" + tile_selected);
-    }
-    else{
-        var ad = document.getElementById("liste_obj_" + tile_selected);
-    }
-    ad.classList.remove("liste_element_selectione");
-    var d = document.getElementById("liste_elt_" + id_tile);
-    d.classList.add("liste_element_selectione");
-    tile_selected = id_tile;
-    tp_selected = "terrains";
-}
-
-function select_objets(id_tile){
-    if(id_tile == tile_selected && tp_selected == "objets"){
-        return;
-    }
-    if(tp_selected == "terrains"){
-        var ad = document.getElementById("liste_elt_" + tile_selected);
-    }
-    else{
-        var ad = document.getElementById("liste_obj_" + tile_selected);
-    }
-    ad.classList.remove("liste_element_selectione");
-    var d = document.getElementById("liste_obj_" + id_tile);
-    d.classList.add("liste_element_selectione");
-    tile_selected = id_tile;
-    tp_selected = "objets";
-}
-
-/**
  * FONCTION POUR SAUVEGARDER LES MODIFICATIONS
  */
 
@@ -952,7 +1245,11 @@ function save_tiles(){
 
         ["delete_objets", delete_o],
         ["update_objets", update_o],
-        ["new_objets", new_o]
+        ["new_objets", new_o],
+
+        ["delete_ennemis", delete_e],
+        ["update_ennemis", update_e],
+        ["new_ennemis", new_e]
     ]
 
     for([nom,data] of liste_donnees){
@@ -973,7 +1270,7 @@ function save_tiles(){
  */
 
 function set_selection(ii){
-    for(i of ["terrains", "objets"]){
+    for(i of ["terrains", "objets", "ennemis"]){
         if(i == ii){
             document.getElementById(i).style.display = "initial";
         }
@@ -1001,7 +1298,7 @@ function download_text(filename, text) {
 }
 
 function export_region(){
-    var texte = {"terrains": cases_terrains, "objets": cases_objets};
+    var texte = {"terrains": cases_terrains, "objets": cases_objets, "ennemis": cases_ennemis};
     var texte = JSON.stringify(texte);
     if(compteur_modif == 0 || confirm("Ceci n'exportera pas les dernières modifications non sauvegardées, voulez-vous quand même exporter cette région ?")){
         download_text("exported_region_" + nom_region + "_.json", texte);
@@ -1074,6 +1371,18 @@ function search_t(){
 function search_o(){
     var research = document.getElementById("search_o").value;
     for(el of document.getElementsByClassName("liste_objets")){
+        if(el.getAttribute("value").startsWith(research)){
+            el.style.display = "inline-flex";
+        }
+        else{
+            el.style.display = "none";
+        }
+    }
+}
+
+function search_e(){
+    var research = document.getElementById("search_e").value;
+    for(el of document.getElementsByClassName("liste_ennemis")){
         if(el.getAttribute("value").startsWith(research)){
             el.style.display = "inline-flex";
         }
