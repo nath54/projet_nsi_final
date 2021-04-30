@@ -113,6 +113,9 @@ class Sum:
             e = Expr(Sum(total_constantes, *vars_facto))
             return e
 
+    def __add__(self, other):
+        new_comp = self.components
+        return Sum(*new_comp, other)
 
     def __str__(self):
         expressions = []
@@ -180,12 +183,12 @@ class Mul:
                 self.components.append(arg)
 
     def value(self):
-        if all([type(c) in [int, float] for c in self.components]):
-            r = self.components[0]
+        if all([type(c.value()) in [int, float] for c in self.components]):
+            r = self.components[0].value()
             # TODO: Il faudra s'arrêter de diviser comme ça si on a un nombre
             #       irrationnel ?????
             for c in self.components[1:]:
-                r *= c
+                r *= c.value()
             return Expr(r)
         else:
             a = self.components[0]
@@ -253,7 +256,12 @@ class Expr:
         if len(self.components) == 0:
             return None
         else:
-            return self.components[0]
+            value = None
+            try:
+                value = int(self.components[0])
+            except:
+                value = self.components[0]
+            return value
 
     def __add__(self, other):
         if type(other) in [int, float]:
@@ -296,6 +304,39 @@ class Expr:
         return str(self) == str(other)
 # endregion
 
+def substituer_expr(expression,variable,remplacement):
+    """Prend une expression pour substituer sa variable et l'interpréter
+
+    Args:
+        expression (str):
+            Expression à interpréter (exemple : "5+2*x")
+        variable (str):
+            Nom de la variable (exemple : "x")
+        remplacement (int):
+            Entier par lequel remplacer la variable (exemple : 4)
+
+    Return:
+        Expr: Résultat de l'expression
+    """
+    assert isinstance(expression, str)
+    assert isinstance(variable, str)
+    assert isinstance(remplacement, int)
+    if expression == "":
+        return None
+
+    expression = expression.replace(variable, str(remplacement))
+    liste_terme = expression.split("+")
+    for terme_indice in range(len(liste_terme)):
+        mult = liste_terme[terme_indice].split("*")
+        if len(mult) == 2:
+            liste_terme[terme_indice] = Mul(*mult).value()
+            print(liste_terme[terme_indice])
+    return Sum(*liste_terme).value()
+
+def test_str_to_expr():
+    assert substituer_expr("5+2*x", "x", 4) == 13
+    assert substituer_expr("11037+53*x", "x", 12) == 11673
 
 if __name__ == "__main__":
-    test_somme()
+    test_str_to_expr()
+    # test_somme()
