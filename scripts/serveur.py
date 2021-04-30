@@ -112,20 +112,6 @@ class Serveur:
     def bouger_perso(self, id_utilisateur, deplacement):
         self.personnages[id_utilisateur].bouger(deplacement)
 
-    # \=~=~=~=~=~=~=~=~= MONSTRE =~=~=~=~=~=~=~=~=/
-
-    """
-    def load_monstre(self, id_monstre):
-        res = self.db.requete_db("SELECT * FROM monstre WHERE id_monstre=?",\
-                (id_monstre,))
-        monstre = Monstre(self, id_monstre)
-        self.monstres[id_monstre] = monstre
-    """
-
-    """
-    def bouger_monstre(self, id_monstre, deplacement):
-        self.monstres[id_monstres].bouger(deplacement)
-    """
 
 if __name__ == '__main__':
     # On lance le serveur ici
