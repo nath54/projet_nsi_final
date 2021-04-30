@@ -362,6 +362,22 @@ CREATE TABLE comptes_administrateurs (
 
 ```
 
+## TABLE `arme`:
+ - `id_arme` *INT PRIMARY KEY AUTO_INCREMENT*
+ - `nom` _TEXT_ : nom de l'objet
+ - `classe` _TEXT_ : classe à laquelle l'arme appartient
+ - `niveau` _INT_ : niveau de l'arme
+ - `style` _TEXT_ : Corps à corps ou distance
+ - `portee` _INT_ : Portée d'une arme 
+
+```sql
+CREATE TABLE monde (
+	id_monde INT PRIMARY KEY AUTO_INCREMENT,
+	ville TEXT,
+	region TEXT,
+ 	niveau INT);
+```
+
 
 ```sql
 -- A laisser, sinon, il manquera la derniere partie sql pour le programme python
