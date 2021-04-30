@@ -5,24 +5,28 @@ class Monstre:
         self.server = server
         self.id_monstre = id_monstre
         self.nom = "" # changer les valeurs depuis la bdd lors du chargement du monstre
-        self.pv = 0
+        self.pv = str(dict("forme": "random between", "values": [1,5] ))
         self.dgt =  0
         self.position = {"x": 0, "y": 0}
         self.id_region = 1
-        self.etat = 0
+        self.etat = ""
         self.loot = ""
         self.load_monstre()
 
 
     def load_monstre(self): ## On charge le monstre en lui attribuant ses capacités à partir de la BDD
-        sql = """" SELECT nom_monstre, pv, niveau, dgt, loot FROM monstre WHERE id_monstre =?"""
+        sql = """" SELECT nom_monstre, pv, niveau, dgt, etat, loot FROM monstre WHERE id_monstre =?"""
         res = self.server.db.requete_db(sql, (self.id_monstre,))[0]
 
         self.nom = res[0]
-        self.pv = str(dict("forme": "random between", "values": [1,5] ))
+        for self.
+        if "forme" == "random between":
+            pass
+
         self.niveau = int(res[2])
         self.dgt = int(res[3])
-        self.loot = res[4]
+        self.etat= str(res[4])
+        self.loot = res[5]
 
     def emplacement(self): ## Retourne la position du monstre
         return self.position
