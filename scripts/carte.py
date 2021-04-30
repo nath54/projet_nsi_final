@@ -116,6 +116,16 @@ class Carte:
         # ca devrait être bon la
         return True
 
+    def get_infos_monstres(self):
+        infos = {}
+        for id_spawn, monstre in self.ennemis.items():
+            infos[id_spawn] = {
+                "id_monstre": monstre.id_monstre,
+                "vie": monstre.pv,
+                "position": monstre.position
+            }
+        return infos
+
     def load(self):
         # on récupère les id des régions
         sql = "SELECT id_region,nom FROM regions";

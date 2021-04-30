@@ -209,7 +209,9 @@ class ServeurWebsocket:
 
     def nouveau_client(self, websocket, ws_server):
         self.register(websocket)
-	    # ws_server.send_message_to_all("Hey all, a new client has joined us")
+        #
+        infos = self.carte.get_infos_monstres()
+        self.send(websocket, {"action":"infos_monstres", "infos":infos})
 
     def client_part(self, websocket, ws_server):
         print("Client(%d) disconnected" % websocket['id'])
