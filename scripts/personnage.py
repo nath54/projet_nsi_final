@@ -115,9 +115,6 @@ class Personnage:
 
         Parameters:
             dep(tuple<int, int>): Déplacement du personnage sous forme (x, y)
-
-        TODO: Ajouter tests de collision
-
         """
         assert (isinstance(dep, tuple) or isinstance(dep, list)) and len(dep)==2, "Le déplacement n'est pas un tuple."
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
