@@ -1,5 +1,5 @@
 from calcul_formel import *
-import random
+from random import randint
 
 class Monstre:
     def __init__(self, server, id_monstre):
@@ -7,7 +7,7 @@ class Monstre:
         self.id_monstre = id_monstre
         self.nom = "" # changer les valeurs depuis la bdd lors du chargement du monstre
         self.pv = str(dict("forme": "random between", "values": [1,5] ))
-        self.dgt =  0
+        self.dgt =  str(dict("forme": "random between", "values": [1,5] ))
         self.position = {"x": 0, "y": 0}
         self.id_region = 1
         self.etat = ""
@@ -26,7 +26,10 @@ class Monstre:
                 "forme" = str(randint("values"))
 
         self.niveau = int(res[2])
-        self.dgt = int(res[3])
+        
+        for self.dgt:
+            if "forme" == "random between":
+
         self.etat= str(res[4])
         self.loot = res[5]
 
