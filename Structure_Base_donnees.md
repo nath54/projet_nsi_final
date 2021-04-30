@@ -185,11 +185,11 @@ CREATE TABLE pnj (
  - `niveau` _INT_ : niveau du monstre (le plus simple sera de faire plusieurs mêmes monstres de niveaux différents)
  - `pv` _TEXT_ : dict json décrivant les pv du monstre
 				 exemple : {"forme": "random between", "values": [1,5]}
-				 exemple : {"forme": "random forme between", "form":"5x", "values": [1,5]}
+				 exemple : {"forme": "random expr between", "expr":"5x", "values": [1,5]}
 				 exemple : {"forme": "value", "value": 1}
  - `dgt` _TEXT_ : dict json dégats infligés par le monstre
 				 exemple : {"forme": "random between", "values": [1,5]}
-				 exemple : {"forme": "random forme between", "form":"5x", "values": [1,5]}
+				 exemple : {"forme": "random expr between", "expr":"5x", "values": [1,5]}
 				 exemple : {"forme": "value", "value": 1}
  - `loot` _TEXT_ : liste json ce que va lacher le monstre en mourrant
  - `img_base` _TEXT_ : chemin vers l'image de base du monstre

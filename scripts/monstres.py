@@ -1,37 +1,57 @@
-from calcul_formel import *
-from random import randint
+from calcul_formel import * # pour les pv et les attaques
+import random # pour les pv et les attaques
+import time # pour les temps des etats
 
 class Monstre:
-    def __init__(self, server, id_monstre):
+    def __init__(self, server, id_monstre, id_region, pos):
         self.server = server
         self.id_monstre = id_monstre
         self.nom = "" # changer les valeurs depuis la bdd lors du chargement du monstre
-        self.pv = str(dict("forme": "random between", "values": [1,5] ))
-        self.dgt =  str(dict("forme": "random between", "values": [1,5] ))
+        self.pv = {}
+        self.dgt =  {}
         self.position = {"x": 0, "y": 0}
         self.id_region = 1
-        self.etat = ""
+        self.etat = "vivant" # il sera vivant quand il aura spawn
+        self.dernier_etat = time.time()
         self.loot = ""
-        self.load_monstre()
+        self.load_monstre(id_region, pos)
 
+    def get_value_from_formes(self, forme):
+        if forme["forme"] == "value":
+            return forme["value"]
+        elif forme["forme"] == "random between":
+            return random.randint(*forme["values"])
+        elif forme["forme"] == "random forme between":
+            val = random.randint(*forme["values"])
+            return substituer_expr(forme["expr"],"x",val)
 
-    def load_monstre(self): ## On charge le monstre en lui attribuant ses capacités à partir de la BDD
+    def set_position(self):
+        k = str(self.position["x"])+"_"+str(self.position["y"])
+        self.server.carte.regions[self.id_region].monstres_pos[k] = self
+        #TODO : envoyer la nouvelle position aux joueurs
+
+    def load_monstre(self, id_region, position): ## On charge le monstre en lui attribuant ses capacités à partir de la BDD
         sql = """" SELECT nom_monstre, pv, niveau, dgt, etat, loot FROM monstre WHERE id_monstre =?"""
         res = self.server.db.requete_db(sql, (self.id_monstre,))[0]
 
         self.nom = res[0]
 
-        for self.pv :
-            if "forme" == "random between":
-                "forme" = str(randint("values"))
+        self.pv = json.loads(res[1])
+        self.pv = self.get_value_from_formes(self.pv)
 
         self.niveau = int(res[2])
-        
-        for self.dgt:
-            if "forme" == "random between":
+
+        self.dgt = json.loads(res[3])
+        # on va guarder les dégats sous la forme de dictionnaire
 
         self.etat= str(res[4])
         self.loot = res[5]
+        #
+
+        self.position = position
+        self.id_region = id_region
+        # on update la position dans la region
+        self.set_position()
 
     def emplacement(self): ## Retourne la position du monstre
         return self.position
@@ -57,6 +77,9 @@ class Monstre:
                     self.position["y"] += dep[1]
                     if self.position["x"] == self.position["x"] + 6 and self.position["y"] == self.position["y"] + 6 :
                         self.position = position_ini  # Limite la distance que parcourt le monstre en suivant le joueur, le fait retourner à sa position initiale
+
+        # on update la position dans la region
+        self.set_position()
 
     def modif_vie(self ,valeur_modif , fct=Sum):
         self.pv = fct(self.pv, valeur_modif)
