@@ -8,20 +8,26 @@ class Region:
                                  # comme ca, on y accede cases_terrains[f"{x}_{y}"] => le type de la case
         self.cases_objets = {}   # key "x_y": type de l'objet
                                  # comme ca, on y accede ca[f"{x}_{y}"] => le type de l'objet
-        # on charge les terrains
 
+        # on charge les terrains
         sql = "SELECT x , y, id_terrain FROM regions_terrains WHERE id_region=?"
         ters = self.server.db.requete_db(sql, (self.id_region, ))
         for t in ters:
             self.cases_terrains[str(t[0])+"_"+str(t[1])] = int(t[2])
 
+        # on charge les objets
         sql = "SELECT x , y, id_objet FROM regions_objets WHERE id_region=?"
         objs = self.server.db.requete_db(sql, (self.id_region, ))
         for t in objs:
             self.cases_objets[str(t[0])+"_"+str(t[1])] = int(t[2])
 
-        #
+        # on charge les monstres
+        sql = "SELECT id_x, y, id_monstre FROM regions_monstres WHERE id_region=?"
+        objs = self.server.db.requete_db(sql, (self.id_region, ))
+        for t in objs:
+            self.cases_monstres[str(t[0])+"_"+str(t[1])] = int(t[2])
 
+        #
         self.ennemis = {}
         self.pnjs = {}
 

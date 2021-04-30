@@ -9,6 +9,7 @@ class Monstre:
         self.dgt =  0
         self.position = {"x": 0, "y": 0}
         self.id_region = 1
+        self.etat = 0
         self.loot = ""
         self.load_monstre()
 
@@ -18,7 +19,7 @@ class Monstre:
         res = self.server.db.requete_db(sql, (self.id_monstre,))[0]
 
         self.nom = res[0]
-        self.pv = int(res[1])
+        self.pv = str(dict("forme": "random between", "values": [1,5] ))
         self.niveau = int(res[2])
         self.dgt = int(res[3])
         self.loot = res[4]
@@ -66,6 +67,6 @@ class Monstre:
             pass
 
 
-#if __name__ = "__name__":
+##if __name__ = "__name__":
     #m = Monstre()
 
