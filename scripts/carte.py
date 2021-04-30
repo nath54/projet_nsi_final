@@ -65,7 +65,8 @@ class Region:
             id_monstre = self.carte.type_monstres_spawns[id_monstre_spawn]
             lst = pos.split("_")
             position = {"x":int(lst[0]), "y":int(lst[1])}
-            monstre = Monstre(self.server, id_monstre, self.id_region, position)
+            monstre = Monstre(self.server,id_monstre_spawn, id_monstre, self.id_region, position)
+            self.ennemis[id_monstre_spawn]
 
 class Carte:
     """Gère toutes les régions, les collisions..."""

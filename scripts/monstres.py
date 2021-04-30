@@ -3,8 +3,9 @@ import random # pour les pv et les attaques
 import time # pour les temps des etats
 
 class Monstre:
-    def __init__(self, server, id_monstre, id_region, pos):
+    def __init__(self, server, id_monstre_spawn, id_monstre, id_region, pos):
         self.server = server
+        self.id_monstre_spawn = id_monstre_spawn
         self.id_monstre = id_monstre
         self.nom = "" # changer les valeurs depuis la bdd lors du chargement du monstre
         self.pv = {}
