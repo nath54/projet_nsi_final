@@ -1,4 +1,5 @@
 from calcul_formel import *
+import random
 
 class Monstre:
     def __init__(self, server, id_monstre):
@@ -19,9 +20,10 @@ class Monstre:
         res = self.server.db.requete_db(sql, (self.id_monstre,))[0]
 
         self.nom = res[0]
-        for self.
-        if "forme" == "random between":
-            pass
+
+        for self.pv :
+            if "forme" == "random between":
+                "forme" = str(randint("values"))
 
         self.niveau = int(res[2])
         self.dgt = int(res[3])
