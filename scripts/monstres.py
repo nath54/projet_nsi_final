@@ -1,6 +1,7 @@
 from calcul_formel import * # pour les pv et les attaques
 import random # pour les pv et les attaques
 import time # pour les temps des etats
+import json # pour les formes
 
 class Monstre:
     def __init__(self, server, id_monstre_spawn, id_monstre, id_region, pos):
@@ -32,8 +33,8 @@ class Monstre:
         #TODO : envoyer la nouvelle position aux joueurs
 
     def load_monstre(self, id_region, position): ## On charge le monstre en lui attribuant ses capacités à partir de la BDD
-        sql = """" SELECT nom_monstre, pv, niveau, dgt, etat, loot FROM monstre WHERE id_monstre =?"""
-        res = self.server.db.requete_db(sql, (self.id_monstre,))[0]
+        sql = "SELECT nom, pv, niveau, dgt, loot FROM monstre WHERE id_monstre = ?;"
+        res = self.server.db.requete_db(sql, args = tuple([self.id_monstre]))[0]
 
         self.nom = res[0]
 
@@ -45,8 +46,8 @@ class Monstre:
         self.dgt = json.loads(res[3])
         # on va guarder les dégats sous la forme de dictionnaire
 
-        self.etat= str(res[4])
-        self.loot = res[5]
+        self.etat= "vivant"
+        self.loot = res[4]
         #
 
         self.position = position

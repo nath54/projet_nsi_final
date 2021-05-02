@@ -21,12 +21,18 @@ var personnage = {
     "xp": 100,
     "xp_tot": 100,
     "region_actu": 1
-}
+};
 
 // Dict autre_joueurs :
 // key : id_utilisateur
 // value : dictionnaire personnage
-var autres_joueurs = {}
+var autres_joueurs = {};
+
+// Dict ennemis :
+// key : id_ennemi_spawn
+// value : dictionnaire ennemi
+var ennemis = {};
+var test_var = null;
 
 /**
  *
@@ -49,7 +55,6 @@ function aff() {
         var apx = ap.x * tc;
         var apy = ap.y * tc;
         var p = document.getElementById("player_" + ap.id_perso);
-        console.log(ap.id_perso, " x : ", apx, " y : ", apy);
         if (p == undefined || p == null) {
             let newSvg = document.getElementById("player").cloneNode(true)
             newSvg.id = "player_" + ap.id_perso
@@ -100,6 +105,53 @@ function aff() {
             svgInfos.setAttribute("y", apy - 20);
         }
     }
+    // On va afficher les ennemis
+    // On affiche aussi tous les autres joueurs
+    for (en of Object.values(ennemis)) {
+        // var ap = autres_joueurs[k];
+        var enx = en.x * tc;
+        var eny = en.y * tc;
+        var p = document.getElementById("ennemi_" + en.id_monstre_spawn);
+        if (p == undefined || p == null) {
+            let newSvg = document.getElementById("monstre_template").cloneNode(true);
+            newSvg.id = "ennemi_" + en.id_monstre_spawn;
+            newSvg.setAttribute("x", enx);
+            newSvg.setAttribute("y", eny);
+            newSvg.setAttribute("style", "display:initial;");
+            //
+            var ime = "../imgs/ennemis/" + ennemis_data[en.id_monstre]["img"];
+            newSvg.firstChild.setAttribute("xlink:href", ime);
+            // on ajoute
+            document.getElementById("svg_ennemis").appendChild(newSvg);
+            // Les infos
+            var svgInfos = document.createElementNS(svgns, "svg");
+            svgInfos.setAttribute("id", "infos_ennemi_" + en.id_monstre_spawn);
+            svgInfos.setAttribute("x", enx);
+            svgInfos.setAttribute("y", eny - 15);
+            // nom
+            let text = document.createElementNS(svgns, "text");
+            text.innerHTML = en.vie;
+            text.setAttribute("id", "pv_ennemi_" + en.id_monstre_spawn);
+            text.setAttribute("x", 20);
+            text.setAttribute("y", 30);
+            svgInfos.appendChild(text);
+            // Nom
+            let text2 = document.createElementNS(svgns, "text");
+            text2.innerHTML = en.nom;
+            text2.setAttribute("x", 10);
+            text2.setAttribute("y", 15);
+            svgInfos.appendChild(text2);
+            // on ajoute
+            document.getElementById("svg_infos_ennemis").appendChild(svgInfos);
+        } else {
+            p.setAttribute("x", enx);
+            p.setAttribute("y", eny);
+            document.getElementById("pv_ennemi_" + en.id_monstre_spawn).innerHTML = en.vie;
+            var svgInfos = document.getElementById("infos_ennemi_" + en.id_monstre_spawn);
+            svgInfos.setAttribute("x", enx);
+            svgInfos.setAttribute("y", eny - 15);
+        }
+    }
     // On va update les infos affichés à l'écran :
     var pv = document.getElementById("progress_vie");
     pv.value = personnage.vie;
@@ -107,11 +159,11 @@ function aff() {
     var tv = document.getElementById("text_vie");
     tv.innerHTML = "" + personnage.vie + "/" + personnage.vie_max;
     //
-    var pm = document.getElementById("progress_mana")
-    pm.value = personnage.mana
-    pm.max = personnage.mana_max
-    var tm = document.getElementById("text_mana")
-    tm.innerHTML = "" + personnage.mana + "/" + personnage.mana_max
+    var pm = document.getElementById("progress_mana");
+    pm.value = personnage.mana;
+    pm.max = personnage.mana_max;
+    var tm = document.getElementById("text_mana");
+    tm.innerHTML = "" + personnage.mana + "/" + personnage.mana_max;
 }
 
 /**
@@ -149,6 +201,14 @@ function aff() {
 // }
 
 
+//en_chargement
+
+function load_monstres(data) {
+    for (key of Object.keys(data)) {
+        ennemis[key] = data[key];
+    }
+}
+
 /**
  *
  * BOUTONS POUR CHANGER LA DIV CHAT/BAG/...
@@ -157,7 +217,7 @@ function aff() {
 
 function change_div(id_div) {
     for (i of["div_chat", "div_bag"]) {
-        aff = "none";
+        var aff = "none";
         if (id_div == i) {
             aff = "initial";
         }

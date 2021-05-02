@@ -44,7 +44,7 @@ if($res==NULL){
 foreach($res as $i=>$data){
     $cases_terrains[$i] = $data;
 }
-// On charge les données du terrain :
+// On charge les données des objets :
 $cases_objets = array();
 $res = requete_prep($db, "SELECT x, y, id_objet FROM regions_objets WHERE id_region=:idr;", array(":idr"=>$id_region));
 if($res==NULL){
@@ -70,19 +70,43 @@ foreach($r as $i=>$data){
     $terrains[$data["id_terrain"]] = array("nom"=>$nom, "img"=>$img);
 }
 
+// On va récuperer les infos sur les objets
+
 $requete = "SELECT * FROM objets;";
 $objets = array();
 $r = requete_prep($db, $requete);
 if($r==NULL){
     alert("Objet n'a pas chargé.");
 }
-// Pour chaque ligne, on stocke nom le nom et l'image dans l'Array $terrains
+// Pour chaque ligne, on stocke nom le nom et l'image dans l'Array $objets
 foreach($r as $i=>$data){
     $nom = $data["nom"];
     $img = $data["image_"];
     $objets[$data["id_objet"]] = array("nom"=>$nom, "img"=>$img, "z_index"=>$data["z_index"]);
 }
 
+// On va récuperer les infos sur les ennemis
+
+$requete = "SELECT * FROM monstre;";
+$ennemis = array();
+$r = requete_prep($db, $requete);
+if($r==NULL){
+    alert("Ennemi n'a pas chargé.");
+}
+// Pour chaque ligne, on stocke nom le nom et l'image dans l'Array $ennemis
+foreach($r as $i=>$data){
+    $nom = $data["nom"];
+    $img = $data["img_base"];
+    $ennemis[$data["id_monstre"]] = array("nom"=>$nom, "img"=>$img);
+}
+
+// On va passer les infos à js
+if(count($ennemis)>0){
+    $je = json_encode($ennemis);
+    echo "<script>var ennemis_data = JSON.parse('$je'); </script>";
+}else{
+    echo "<script>var ennemis_data = {}; </script>";
+}
 
 // On définit ici les infos relatives à l'affichage :
 
@@ -265,6 +289,19 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                     <g id="svg_autres_joueurs">
                     </g>
 
+
+                    <!-- Les ennemis -->
+                    <g id="svg_ennemis">
+
+                        <?php
+                            echo "<svg x=0 y=0 width=$tc height=$tc id=\"monstre_template\" style=\"display:none;\">";
+                            echo "<image width=$tc height=$tc xlink:href=\"../imgs/ennemis/inconu.png\"></image>";
+                            echo "</svg>";
+
+                        ?>
+
+                    </g>
+
                     <!-- Les objets de z-index 4 -->
 
                     <g>
@@ -285,7 +322,13 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                     <!-- Les infos des autres joueurs -->
 
                     <g id="svg_infos_autres_joueurs">
-                            
+
+                    </g>
+
+                    <!-- Les infos des ennemis -->
+
+                    <g id="svg_infos_ennemis">
+
                     </g>
 
                 </svg>
@@ -321,8 +364,6 @@ ty = <?php echo $ty; ?>;
 tc = <?php echo $tc; ?>;
 
 function launch(){
-    // make a simple rectangle
-
     start_websocket(ws_url);
 }
 function launch2(){

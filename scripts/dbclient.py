@@ -48,7 +48,13 @@ class dbClient:
     # region actions / requetes
 
     # effectue une requette et renvoie le resultat (ex: SELECT ...)
-    def requete_db(self, requete, args = tuple()):
+    def requete_db(self, requete, args = tuple(), debug = False):
+        if debug:
+            nba = 0
+            for l in requete:
+                if l == "?":
+                    nba += 1
+            print(f"DB DEBUG :\n - requete : {requete}\n - arguments : {args}\n - Nombre d'arguments requis : {nba}")
         self.cursor.execute(requete, args)
         data = []
         for res in self.cursor:

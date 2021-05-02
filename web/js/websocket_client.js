@@ -128,6 +128,11 @@ function on_message(event) {
             }
             break;
 
+        case 'infos_monstres':
+            load_monstres(data.infos);
+            aff();
+            break;
+
         default:
             // Il faut faire attention aux types d'actions que l'on gère
             // Et ne pas oublier les "break;" à la fin de chaque cas

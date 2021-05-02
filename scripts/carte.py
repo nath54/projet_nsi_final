@@ -2,7 +2,7 @@
 from monstres import Monstre
 
 class Region:
-    def __init__(self, server, carte, id_region, nom):
+    def __init__(self, carte, server, id_region, nom):
         self.id_region = id_region
         self.carte = carte
         self.server = server
@@ -31,11 +31,10 @@ class Region:
             self.cases_objets[str(t[0])+"_"+str(t[1])] = int(t[2])
 
         # on charge les monstres
-        sql = "SELECT id_x, y, id_monstre FROM regions_monstres WHERE id_region=?"
+        sql = "SELECT id_monstre_spawn, x, y, id_monstre FROM regions_monstres WHERE id_region=?"
         objs = self.server.db.requete_db(sql, (self.id_region, ))
         for t in objs:
-            # self.spawn_monstres[str(t[0])+"_"+str(t[1])] = int(t[2])
-            self.spawn_monstres[int(t[2])] = str(t[0])+"_"+str(t[1])
+            self.spawn_monstres[int(t[0])] = str(t[1])+"_"+str(t[2])
         #
 
     def get_case(self, x, y):
@@ -57,7 +56,7 @@ class Region:
         if i in self.monstres_pos.keys():
             return self.monstres_pos[i]
         else:
-            return 0
+            return None
 
     def launch_monstres(self):
         # les pos sont de la forme "x_y"
@@ -66,7 +65,7 @@ class Region:
             lst = pos.split("_")
             position = {"x":int(lst[0]), "y":int(lst[1])}
             monstre = Monstre(self.server,id_monstre_spawn, id_monstre, self.id_region, position)
-            self.ennemis[id_monstre_spawn]
+            self.ennemis[id_monstre_spawn] = monstre
 
 class Carte:
     """Gère toutes les régions, les collisions..."""
@@ -77,7 +76,7 @@ class Carte:
         self.terrains = {}
         self.objets = {}
         self.type_monstres_spawns = {}
-        self.load()
+        # self.load()
         #
 
     def est_case_libre(self, region,x, y):
@@ -108,7 +107,7 @@ class Carte:
                 return False
 
         # on regarde les monstres
-        monstre = self.regions[region].get_case(x,y)
+        monstre = self.regions[region].get_case_monstre(x,y)
         if monstre != None:
             if monstre.etat == "vivant":
                 return False
@@ -116,22 +115,20 @@ class Carte:
         # ca devrait être bon la
         return True
 
-    def get_infos_monstres(self):
-        infos = {}
-        for id_spawn, monstre in self.ennemis.items():
+    def get_infos_monstres(self, id_region):
+        infos = {} # id_region : ennemis
+        for id_spawn, monstre in self.regions[id_region].ennemis.items():
             infos[id_spawn] = {
+                "id_monstre_spawn": id_spawn,
                 "id_monstre": monstre.id_monstre,
+                "nom": monstre.nom,
                 "vie": monstre.pv,
-                "position": monstre.position
+                "x": monstre.position["x"],
+                "y": monstre.position["y"]
             }
         return infos
 
     def load(self):
-        # on récupère les id des régions
-        sql = "SELECT id_region,nom FROM regions";
-        regs = self.server.db.requete_db(sql)
-        for r in regs:
-            self.regions[r[0]]=Region(self, self.server, r[0], r[1])
         # on récupère les terrains (les données, pas chaque cases)
         sql = "SELECT id_terrain, nom, peut_marcher, cultivable, objet_dessus FROM terrain"
         ters = self.server.db.requete_db(sql)
@@ -152,7 +149,16 @@ class Carte:
             }
         # On va juste avoir besoin d'avoir une correspondance
         # entre id_spaw_monstre et id_monstre
-        sql = "SELECT id_mosntre_spawn,id_monstre FROM regions_monstres"
+        sql = "SELECT id_monstre_spawn,id_monstre FROM regions_monstres"
         res = self.server.db.requete_db(sql)
         for r in res:
             self.type_monstres_spawns[r[0]] = r[1]
+        # on récupère les id des régions
+        sql = "SELECT id_region,nom FROM regions";
+        regs = self.server.db.requete_db(sql)
+        for r in regs:
+            self.regions[r[0]]=Region(self, self.server, r[0], r[1])
+        # On lance les monstres
+        for r in self.regions.values():
+            r.launch_monstres()
+        #

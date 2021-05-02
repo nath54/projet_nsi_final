@@ -197,6 +197,9 @@ class ServeurWebsocket:
                 # self.send(websocket, {"action": "debug", "message": f"id {id_utilisateur}"})
                 self.server.load_perso(id_utilisateur)
                 self.send_infos_persos(websocket)
+                #
+                infos = self.server.carte.get_infos_monstres(self.server.personnages[id_utilisateur].region_actu)
+                self.send(websocket, {"action":"infos_monstres", "infos":infos})
             elif data["action"] == "deplacement":  # Un autre exemple d'action
                 # TODO : mettre des vérifs ici ou dans la fonction utilisée
                 user = self.USERS[websocket['id']]["id_utilisateur"]
@@ -209,9 +212,6 @@ class ServeurWebsocket:
 
     def nouveau_client(self, websocket, ws_server):
         self.register(websocket)
-        #
-        infos = self.carte.get_infos_monstres()
-        self.send(websocket, {"action":"infos_monstres", "infos":infos})
 
     def client_part(self, websocket, ws_server):
         print("Client(%d) disconnected" % websocket['id'])

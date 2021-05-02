@@ -1,3 +1,4 @@
+#
 #!bin/python3
 from websocket_serveur import ServeurWebsocket
 from carte import Carte
@@ -25,6 +26,7 @@ class Serveur:
         self.serveurWebsocket = ServeurWebsocket(self)
         self.db = dbClient()  # On voudrait un accès à la base de donnée
         self.carte = Carte(self)
+        self.carte.load()
         self.personnages = {}
 
     def start(self):

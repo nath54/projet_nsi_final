@@ -53,4 +53,22 @@ function script($texte){
     echo "<script>$texte</script>";
 }
 
+
+
+function array_to_str($array){
+    $txt = "{";
+    $virg = false;
+    foreach($array as $k=>$v){
+        if($virg){
+            $txt .= ", ";
+        }
+        else{
+            $virg = true;
+        }
+        $txt .= "$k : $v";
+    }
+    $txt .= "}";
+    return $txt;
+}
+
 ?>
