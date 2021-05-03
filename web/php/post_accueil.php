@@ -18,7 +18,7 @@ $db = load_db("../../includes/config.json");
         echo "$k = $v <br />";
     }
     if(!isset($_POST["pseudo"]) && !isset($_POST["mdp"])){
-        $_SESSION["error"] = "probleme lors de la connexion !";
+        $_SESSION["error"] = "Problème lors de la connexion !";
         header('Location: accueil.php');
     }
     
@@ -47,7 +47,6 @@ $db = load_db("../../includes/config.json");
         header('Location: accueil.php');
     }
     ?>
-    
-        
+
     </body>
 </html>

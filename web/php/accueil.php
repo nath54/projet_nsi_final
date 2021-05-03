@@ -35,7 +35,7 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
 		}
 		// sinon, alors la, il y a un gros problème :)
 		else {
-			$erreur = 'Probème dans la base de données : plusieurs membres ont les mêmes identifiants de connexion.';
+			$erreur = 'Problème dans la base de données : plusieurs membres ont les mêmes identifiants de connexion.';
 		}
 	}
 	else {
