@@ -366,6 +366,7 @@ CREATE TABLE comptes_administrateurs (
  - `id_arme` *INT PRIMARY KEY AUTO_INCREMENT*
  - `nom` _TEXT_ : nom de l'objet
  - `classe` _TEXT_ : classe à laquelle l'arme appartient
+ - `dgt` _INT_ : les dégats de l'arme
  - `niveau` _INT_ : niveau de l'arme
  - `style` _TEXT_ : Corps à corps ou distance
  - `portee` _INT_ : Portée d'une arme 
@@ -375,9 +376,10 @@ CREATE TABLE arme (
 	id_arme INT PRIMARY KEY AUTO_INCREMENT,
 	nom TEXT,
 	classe TEXT,
- 	niveau INT
-	 style TEXT
-	 portee TEXT);
+	dgt INT,
+ 	niveau INT, 
+	style TEXT,
+	portee TEXT);
 ```
 
 

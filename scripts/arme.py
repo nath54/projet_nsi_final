@@ -4,6 +4,7 @@ class arme:
         self.id_arme = id_arme
         self.nom = ""
         self.classe = ""
+        self.dgt = 0
         self.niveau = 0
         self.style = ""  ## cac ou distance
         self.portee = "" ## portée d'un projectile, surtout pour le style de combat a distance
@@ -13,12 +14,13 @@ class arme:
 
     def load_arme(self):
 
-        sql = """SELECT nom, classe, niveau, style, portee FROM arme WHERE id_arme=? """
+        sql = """SELECT nom, classe, dgt, niveau, style, portee FROM arme WHERE id_arme=? """
 
         res = self.server.db.requete_db(sql, (self.id_arme,))[0]
 
         self.nom = res[0]
         self.classe = res[1]
-        self.niveau = res[2] 
-        self.style = res[3]
-        self.portee = res[4]
+        self.dgt = res[2]
+        self.niveau = res[3] 
+        self.style = res[4]
+        self.portee = res[5]
