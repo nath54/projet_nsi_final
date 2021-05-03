@@ -9,7 +9,6 @@ CREATE TABLE utilisateurs (
  	mana INT DEFAULT 100,
  	armor INT DEFAULT 0,
  	classe TEXT,
- 	niveau INT DEFAULT 1,
  	argent INT DEFAULT 0,
  	experience INT DEFAULT 0,
  	experience_tot INT DEFAULT 100,
@@ -18,28 +17,18 @@ CREATE TABLE utilisateurs (
  	region_actu INT DEFAULT 1,
  	position_x INT DEFAULT 1,
  	position_y INT DEFAULT 1,
- 	id_tete INT DEFAULT 1,
- 	id_cheveux INT DEFAULT 1,
- 	id_barbe INT DEFAULT 1,
- 	id_haut INT DEFAULT 1,
- 	id_bas INT DEFAULT 1,
- 	id_pieds INT DEFAULT 1);
-
-
-CREATE TABLE personnalisation (
-			id_utilisateur INT,
-			id_tete INT,
-	     	img_tete TEXT,
-			id_cheveux INT,
-		 	img_cheveux TEXT,
-			id_barbe INT,
-		 	img_barbe TEXT,
-			id_haut INT,
-			img_haut TEXT,
-			id_bas INT,
-			img_bas TEXT,
-			id_pieds INT,
-			img_pieds TEXT);
+	img_tete TEXT,
+	id_cheveux INT,
+	img_cheveux TEXT,
+	id_barbe INT,
+	img_barbe TEXT,
+	id_haut INT,
+	img_haut TEXT,
+	id_bas INT,
+	img_bas TEXT,
+	id_pieds INT,
+	img_pieds TEXT,
+	niveau INT);;
 
 
 CREATE TABLE objet (
@@ -156,7 +145,7 @@ CREATE TABLE regions_monstres(
 	x INT NOT NULL,
 	y INT NOT NULL,
 	id_region INT NOT NULL,
-	id_monstre INT DEFAULT 0,
+	id_monstre INT DEFAULT 0
 );
 
 CREATE INDEX `index_id_region` ON `regions_monstres` (`id_region`);
