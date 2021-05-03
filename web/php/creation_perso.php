@@ -4,6 +4,7 @@
 <?php 
 session_start();
 print_r( $_SESSION['error'] ); ?>
+    <body class="column">
     <head>
         <div>
             <!-- Div des boutons -->
@@ -38,7 +39,6 @@ print_r( $_SESSION['error'] ); ?>
             <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     </head>
 
-    <body class="column">
         <!-- Header -->
 
         <div class="row">
@@ -90,7 +90,7 @@ print_r( $_SESSION['error'] ); ?>
             </div>
 
             <div id="sprite">
-                <svg viewBox="0 0 128 128" style="border:1px solid black; width:500px;" id="viewport" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 128 128" style="border:1px solid black; width:500px;" id="viewport" xmlns="file:///C:/Users/El%C3%A8ve/Downloads/sprite_test.svg">
                     <image id="tete" x=0 y=0 width=128 height=128 xlink:href="../imgs/sprites/sprite_fixe_droit.png" />
                     <image id="cheveux" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
                     <image id="barbe" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
