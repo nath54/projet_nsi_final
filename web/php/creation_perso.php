@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <!-- Entête page internet -->
 <html>
+<?php 
+session_start();
+print_r( $_SESSION['error'] ); ?>
     <head>
         <div>
             <!-- Div des boutons -->

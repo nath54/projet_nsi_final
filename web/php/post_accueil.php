@@ -22,7 +22,6 @@ $db = load_db("../../includes/config.json");
         header('Location: accueil.php');
     }
     
-    
     $res = requete_prep($db, "SELECT * FROM utilisateurs WHERE pseudo = :pseudo AND mdp = MD5(:mdp);", array(":pseudo"=>$_POST["pseudo"], ":mdp"=>$_POST["mdp"]));
     if (count($res)>0)
     // On laisse le joueur se connecter au jeu, si son mot de passe est bon
@@ -30,8 +29,9 @@ $db = load_db("../../includes/config.json");
         $_SESSION["player_id"] = $res[0]["id_utilisateur"];
         header('Location: jeu.php');
 
-        $req = requete_prep($db, "SELECT * FROM personnalisation WHERE id_utilisateur = :id_utilisateur;", array(":id_utilisateur"=>$_SESSION["player_id"]));
-        if('niveau' == 0)
+        $req = requete_prep($db, "SELECT * FROM utilisateurs WHERE id_utilisateur = :id_utilisateur;", array($_SESSION["player_id"]));
+        
+        if($req[0]['niveau'] == 0)
         {
             $_SESSION["error"]="Personnage non créé";
             header('Location: creation_perso.php');
