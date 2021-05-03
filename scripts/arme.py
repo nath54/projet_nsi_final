@@ -24,3 +24,8 @@ class arme:
         self.niveau = res[3] 
         self.style = res[4]
         self.portee = res[5]
+
+    def attaquer(self):
+        pass
+
+    

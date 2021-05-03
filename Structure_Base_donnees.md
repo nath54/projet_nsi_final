@@ -370,6 +370,7 @@ CREATE TABLE comptes_administrateurs (
  - `niveau` _INT_ : niveau de l'arme
  - `style` _TEXT_ : Corps à corps ou distance
  - `portee` _INT_ : Portée d'une arme 
+ - `img_arme` _TEXT_ : Chemin vers l'image de l'arme
 
 ```sql
 CREATE TABLE arme (
@@ -379,7 +380,8 @@ CREATE TABLE arme (
 	dgt INT,
  	niveau INT, 
 	style TEXT,
-	portee TEXT);
+	portee TEXT,
+	img_arme TEXT);
 ```
 
 
