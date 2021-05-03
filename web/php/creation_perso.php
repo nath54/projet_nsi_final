@@ -2,50 +2,47 @@
 <!-- Entête page internet -->
 <html>
     <head>
-        <!-- Nom du jeu + reliement au css -->
-        <meta charset="utf-8">
-        <title>Nom jeu - Création personnage</title>
-        <link rel="stylesheet" href="../css/style_crea_perso.css">
+        <div>
+            <!-- Div des boutons -->
+            <div id="bouton_header">
 
-        <!-- Importation des fonts -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> 
+                <!-- Bouton accueil -->
+                <div class="accueil_bouton">
+                    <a href="accueil.php"><img class="maison" src="../imgs/header/maison.png"></a>
+                </div>
 
+                <!-- Bouton compte -->
+                <div class="compte_bouton">
+                    <a href="inscription.php"><img class="login" src="../imgs/header/login.png"></a>
+                </div>
 
-
-    </head>
-    <div class="creation_perso">
-    <!-- Titre création du personnage -->
-        <h1>Creation personnage</h1>
-
-        <div id="bouton_header">
-            <div class="compte_bouton">
-                <img class="login" src="../imgs/header/login.png">
+                <!-- Bouton parametre -->
+                <div class="parametre_bouton">
+                    <img class="engrenage" src="../imgs/header/engrenage.png">
+                </div>
             </div>
-
-            <div class="parametre_bouton">
-                <img class="engrenage" src="../imgs/header/engrenage.png">
-            </div>
-        </div>
-
-        
-                 <!-- Script qui permet d'afficher le numéro suivant des vetements  -->
-                 <script>
-                    function clic(a,b){
-                        var ligne = document.getElementById("choix"+a);
-                        var n = parseInt(ligne.innerHTML);
-                        n = n+b;
-                        if (n>6){
-                            n=n-6;
-                            }
-                        if (n<=0){
-                        n = n+6;
-                        }
-                        ligne.innerHTML = n;
-                    }              
-                </script>
-
             
+            <!-- Titre création du personnage -->
+            <h1>Creation personnage</h1>
+        </div>
+            <!-- Nom du jeu + reliement au css -->
+            <meta charset="utf-8">
+            <title>Nom jeu - Création personnage</title>
+            <link rel="stylesheet" href="../css/style_crea_perso.css">
+
+            <!-- Importation des fonts -->
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    </head>
+
+    <body class="column">
+        <!-- Header -->
+
+        <div class="row">
+
+            <div class="creation_perso">
+
+
                 <!-- Menu de création -->
                 <!-- Après le choix du sexe et de la classe -->
                 <!-- &nbsp = espace -->
@@ -70,9 +67,9 @@
                     </div>
                 </div>
 
-                
-            <!-- Aperçu du sprite avec ses changements -->
-            <div class="sprite_creation">
+
+                <!-- Aperçu du sprite avec ses changements -->
+                <div class="sprite_creation">
 
                     <!-- Bouton valier, qui enregistre toutes les modifs dans la BDD -->
                     <div class="valider_creation">
@@ -85,6 +82,36 @@
                         <button class="precedent_perso_creation" href=""><a>PRECEDENT</a></button>
                     </div>
 
+                </div>
+
             </div>
+
+            <div id="sprite">
+                <svg viewBox="0 0 128 128" style="border:1px solid black; width:500px;" id="viewport" xmlns="http://www.w3.org/2000/svg">
+                    <image id="tete" x=0 y=0 width=128 height=128 xlink:href="../imgs/sprites/sprite_fixe_droit.png" />
+                    <image id="cheveux" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="barbe" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="haut" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="bas" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="pied" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                </svg>
+            </div>
+        </div>
     </body>
 </html>
+
+<!-- Script qui permet d'afficher le numéro suivant des vetements  -->
+<script>
+    function clic(a,b){
+        var ligne = document.getElementById("choix"+a);
+        var n = parseInt(ligne.innerHTML);
+        n = n+b;
+        if (n>6){
+            n=n-6;
+            }
+        if (n<=0){
+        n = n+6;
+        }
+        ligne.innerHTML = n;
+    }
+</script>

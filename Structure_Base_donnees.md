@@ -5,54 +5,54 @@
  - `pseudo` _TEXT_ : pseudo
  - `mdp` _TEXT_ : mdp du user
  - `sexe` _TEXT_ : Détermine le sexe du personnage
- - `vie` _INT_ : vie actuelle du joueur
- - `stamina` _INT_ : Stamina actuelle du joueur
- - `mana` _INT_ : Mana actuelle du joueur
- - `armor` _INT_ : Armure du joueur
+ - `vie` _INT DEFAULT 100_ : vie actuelle du joueur
+ - `stamina` _INT DEFAULT 100_ : Stamina actuelle du joueur
+ - `mana` _INT DEFAULT 100_ : Mana actuelle du joueur
+ - `armor` _INT DEFAULT 0_ : Armure du joueur
  - `classe` _TEXT_ : classe du joueur
- - `niveau` _INT_ : niveau du joueur
- - `argent` _INT_ : argent du joueur
- - `experience` _INT_ : expérience du joueur
- - `experience_tot` _INT_ : expérience a atteindre du joueur pour qu'il passe au niveau suivant
+ - `niveau` _INT DEFAULT 1_ : niveau du joueur
+ - `argent` _INT DEFAULT 0_ : argent du joueur
+ - `experience` _INT DEFAULT 0_ : expérience du joueur
+ - `experience_tot` _INT DEFAULT 100_ : expérience a atteindre du joueur pour qu'il passe au niveau suivant
  - `competence` _TEXT_ : qualité du personnage
  - `quetes` _TEXT_ : les quetes réalisée par le joueur
  - `region_actu` _INT DEFAULT 1_ : id de la région où le joueur est
- - `position_x` _INT_ : case/position x où le joueur est
- - `position_y` _INT_ : case/position y où le joueur est
- - `id_tete` _INT_ : id de la tête pour le personnalisation
- - `id_cheveux` _INT_ : id des cheveux pour la personnalisation
- - `id_barbe` _INT_ : id de la barbe pour la personnalisation
- - `id_haut` _INT_ : id du haut du corps pour la perso
- - `id_bas` _INT_ : id des jambes pour la perso
- - `id_pieds` _INT_ : id des pieds pour la perso
+ - `position_x` _INT DEFAULT 1_ : case/position x où le joueur est
+ - `position_y` _INT DEFAULT 1_ : case/position y où le joueur est
+ - `id_tete` _INT DEFAULT 1_ : id de la tête pour le personnalisation
+ - `id_cheveux` _INT DEFAULT 1_ : id des cheveux pour la personnalisation
+ - `id_barbe` _INT DEFAULT 1_ : id de la barbe pour la personnalisation
+ - `id_haut` _INT DEFAULT 1_ : id du haut du corps pour la perso
+ - `id_bas` _INT DEFAULT 1_ : id des jambes pour la perso
+ - `id_pieds` _INT DEFAULT 1_ : id des pieds pour la perso
 
 
 ```sql
 CREATE TABLE utilisateurs (
- id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
- pseudo TEXT,
- mdp TEXT,
- sexe TEXT,
- vie INT,
- stamina INT,
- mana INT,
- armor INT,
- classe TEXT,
- niveau INT,
- argent INT,
- experience INT,
- experience_tot INT,
- competence TEXT,
- quetes TEXT,
- region_actu INT DEFAULT 1,
- position_x INT,
- position_y INT,
- id_tete INT,
- id_cheveux INT,
- id_barbe INT,
- id_haut INT,
- id_bas INT,
- id_pieds INT);
+	id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
+	pseudo TEXT,
+	mdp TEXT,
+ 	sexe TEXT,
+ 	vie INT DEFAULT 100,
+ 	stamina INT DEFAULT 100,
+ 	mana INT DEFAULT 100,
+ 	armor INT DEFAULT 0,
+ 	classe TEXT,
+ 	niveau INT DEFAULT 1,
+ 	argent INT DEFAULT 0,
+ 	experience INT DEFAULT 0,
+ 	experience_tot INT DEFAULT 100,
+ 	competence TEXT,
+ 	quetes TEXT,
+ 	region_actu INT DEFAULT 1,
+ 	position_x INT DEFAULT 1,
+ 	position_y INT DEFAULT 1,
+ 	id_tete INT DEFAULT 1,
+ 	id_cheveux INT DEFAULT 1,
+ 	id_barbe INT DEFAULT 1,
+ 	id_haut INT DEFAULT 1,
+ 	id_bas INT DEFAULT 1,
+ 	id_pieds INT DEFAULT 1);
 ```
 ## TABLE 'personnalisation':
  - `id_tete` _INT_ : id de la tête pour le personnalisation
@@ -69,7 +69,8 @@ CREATE TABLE utilisateurs (
  - `img_pieds` _TEXT_ : image des pieds
 
  ```sql
- CREATE TABLE personnalisation (
+CREATE TABLE personnalisation (
+			id_utilisateur INT,
 			id_tete INT,
 	     	img_tete TEXT,
 			id_cheveux INT,
@@ -83,9 +84,6 @@ CREATE TABLE utilisateurs (
 			id_pieds INT,
 			img_pieds TEXT);
 ```
-
-
-
 
 ## TABLE `objet`:
  - `id_objet` *INT PRIMARY KEY AUTO_INCREMENT* : id objet dans le jeu
@@ -111,11 +109,11 @@ CREATE TABLE utilisateurs (
 
 ```sql
 CREATE TABLE objet (
-			id_objet INT PRIMARY KEY AUTO_INCREMENT,
-	     	nom_objet TEXT,
-		 	description_ TEXT,
-		 	image_ TEXT,
-			effet TEXT);
+	id_objet INT PRIMARY KEY AUTO_INCREMENT,
+ 	nom_objet TEXT,
+ 	description_ TEXT,
+ 	image_ TEXT,
+	effet TEXT);
 ```
 
 
@@ -126,9 +124,9 @@ CREATE TABLE objet (
 
 ```sql
 CREATE TABLE inventaire (
-			id_objet  INT PRIMARY KEY AUTO_INCREMENT,
-	     	id_utilisateur INT,
-	     	quantite INT);
+	id_objet  INT PRIMARY KEY AUTO_INCREMENT,
+	id_utilisateur INT,
+ 	quantite INT);
 ```
 
 
@@ -140,10 +138,10 @@ CREATE TABLE inventaire (
 
 ```sql
 CREATE TABLE monde (
-			id_monde INT PRIMARY KEY AUTO_INCREMENT,
-			ville TEXT,
-	     	region TEXT,
-		 	niveau INT);
+	id_monde INT PRIMARY KEY AUTO_INCREMENT,
+	ville TEXT,
+	region TEXT,
+ 	niveau INT);
 ```
 
 
@@ -175,35 +173,36 @@ CREATE TABLE quete
 
 ```sql
 CREATE TABLE pnj (
-			id_pnj INT PRIMARY KEY AUTO_INCREMENT,
-	     	nom_pnj TEXT,
-	     	role_ TEXT);
+	id_pnj INT PRIMARY KEY AUTO_INCREMENT,
+ 	nom_pnj TEXT,
+ 	role_ TEXT);
 ```
 
 
 ## TABLE `monstre`:
- - `id_monstre` *INT PRIMARY KEY AUTO_INCREMENT* : id d'un monstre
- - `nom_monstre` _TEXT_ : nom du monstre
- - `niveau` _INT_ : niveau du monstre
- - `pv` _INT_ : pv du monstre
- - `armure` _INT_ : armure du monstre
- - `dgt` _INT_ : dégats infligés par le monstre
- - `loot` _TEXT_ : ce que va lacher le monstre en mourrant
- - `id_region` _INT_ : région dans laquelle le monstre se situe
- - `position_x` _INT_ : case x où le monstre est
- - `position_y` _INT_ : case y où le monstre est
+ - `id_monstre` *INT PRIMARY KEY* : id d'un monstre, il n'est pas en auto-increment parce que comme ca, ce sera plus simple de controller
+ - `nom` _TEXT_ : nom du monstre
+ - `niveau` _INT_ : niveau du monstre (le plus simple sera de faire plusieurs mêmes monstres de niveaux différents)
+ - `pv` _TEXT_ : dict json décrivant les pv du monstre
+				 exemple : {"forme": "random between", "values": [1,5]}
+				 exemple : {"forme": "random expr between", "expr":"5x", "values": [1,5]}
+				 exemple : {"forme": "value", "value": 1}
+ - `dgt` _TEXT_ : dict json dégats infligés par le monstre
+				 exemple : {"forme": "random between", "values": [1,5]}
+				 exemple : {"forme": "random expr between", "expr":"5x", "values": [1,5]}
+				 exemple : {"forme": "value", "value": 1}
+ - `loot` _TEXT_ : liste json ce que va lacher le monstre en mourrant
+ - `img_base` _TEXT_ : chemin vers l'image de base du monstre
 
 ```sql
-CREATE TABLE monstre (id_monstre  INT PRIMARY KEY AUTO_INCREMENT,
-	     nom_monstre TEXT,
-		 niveau INT,
-	     pv INT,
-		 armure INT,
-		 dgt INT,
-		 loot TEXT,
-		 id_region INT,
-		 position_x INT,
-		 position_y INT);
+CREATE TABLE monstre (
+	id_monstre  INT PRIMARY KEY,
+	nom TEXT,
+	niveau INT NOT NULL,
+	pv TEXT NOT NULL,
+	dgt TEXT NOT NULL,
+	loot TEXT,
+	img_base TEXT NOT NULL);
 ```
 
 
@@ -216,11 +215,11 @@ CREATE TABLE monstre (id_monstre  INT PRIMARY KEY AUTO_INCREMENT,
 
 ```sql
 CREATE TABLE classe (
-			id_classe  INT PRIMARY KEY AUTO_INCREMENT,
-	     	nom_classe TEXT,
-	     	force_ INT,
-		 	armure INT,
-		 	dgt INT);
+	id_classe  INT PRIMARY KEY AUTO_INCREMENT,
+ 	nom_classe TEXT,
+ 	force_ INT,
+ 	armure INT,
+ 	dgt INT);
 ```
 
 
@@ -234,12 +233,12 @@ CREATE TABLE classe (
 
 ```sql
 CREATE TABLE terrain (
-			id_terrain INT PRIMARY KEY,
-		 	image_ TEXT,
-		 	nom  TEXT,
-	     	peut_marcher BOOLEAN,
-		 	cultivable BOOLEAN,
-		 	objet_dessus BOOLEAN);
+	id_terrain INT PRIMARY KEY,
+ 	image_ TEXT,
+ 	nom  TEXT,
+ 	peut_marcher BOOLEAN,
+ 	cultivable BOOLEAN,
+ 	objet_dessus BOOLEAN);
 ```
 
 
@@ -257,11 +256,11 @@ CREATE TABLE terrain (
 
 ```sql
 CREATE TABLE objets (
-			id_objet INT PRIMARY KEY,
-		 	nom  TEXT,
-		 	image_ TEXT,
-			z_index INT,
-		 	collision BOOLEAN);
+	id_objet INT PRIMARY KEY,
+ 	nom  TEXT,
+ 	image_ TEXT,
+	z_index INT,
+ 	collision BOOLEAN);
 ```
 
 ## TABLE `regions`
@@ -301,6 +300,9 @@ CREATE TABLE regions_terrains(
 	id_terrain INT DEFAULT 0,
 	CONSTRAINT comp_key_x_y PRIMARY KEY (x, y, id_region)
 );
+
+CREATE INDEX `index_id_region` ON `regions_terrains` (`id_region`);
+
 ```
 
 
@@ -319,7 +321,67 @@ CREATE TABLE regions_objets(
 	id_objet INT DEFAULT 0,
 	CONSTRAINT comp_key_x_y PRIMARY KEY (x, y, id_region)
 );
+
+CREATE INDEX `index_id_region` ON `regions_objets` (`id_region`);
+
 ```
+
+## TABLE `regions_monstres`
+- `id_monstre_spawn` *INT PRIMARY KEY AUTO_INCREMENT* : id du monstre
+- `id_region` _INT_ : id de la region
+- `x` _INT NOT NULL_ : clé composée x_y
+- `y` _INT NOT NULL_ : clé composée x_y
+- `id_objet` _INT DEFAULT 0_ :
+
+
+```sql
+CREATE TABLE regions_monstres(
+	id_monstre_spawn INT PRIMARY KEY AUTO_INCREMENT,
+	x INT NOT NULL,
+	y INT NOT NULL,
+	id_region INT NOT NULL,
+	id_monstre INT DEFAULT 0,
+);
+
+CREATE INDEX `index_id_region` ON `regions_monstres` (`id_region`);
+```
+
+
+## TABLE `comptes_administrateurs`
+- `id_admin` _INT PRIMARY KEY AUTO_INCREMENT_ : id de l'admin
+- `pseudo` _TEXT NOT NULL_
+- `mdp` _TEXT NOT NULL_
+
+```sql
+
+CREATE TABLE comptes_administrateurs (
+	id_admin INT PRIMARY KEY AUTO_INCREMENT,
+	pseudo TEXT NOT NULL,
+	mdp TEXT NOT NULL
+);
+
+```
+
+## TABLE `arme`:
+ - `id_arme` *INT PRIMARY KEY AUTO_INCREMENT*
+ - `nom` _TEXT_ : nom de l'objet
+ - `classe` _TEXT_ : classe à laquelle l'arme appartient
+ - `dgt` _INT_ : les dégats de l'arme
+ - `niveau` _INT_ : niveau de l'arme
+ - `style` _TEXT_ : Corps à corps ou distance
+ - `portee` _INT_ : Portée d'une arme 
+
+```sql
+CREATE TABLE arme (
+	id_arme INT PRIMARY KEY AUTO_INCREMENT,
+	nom TEXT,
+	classe TEXT,
+	dgt INT,
+ 	niveau INT, 
+	style TEXT,
+	portee TEXT);
+```
+
 
 ```sql
 -- A laisser, sinon, il manquera la derniere partie sql pour le programme python

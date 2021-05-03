@@ -1,3 +1,5 @@
+#
+#!bin/python3
 from websocket_serveur import ServeurWebsocket
 from carte import Carte
 from dbclient import dbClient
@@ -24,6 +26,7 @@ class Serveur:
         self.serveurWebsocket = ServeurWebsocket(self)
         self.db = dbClient()  # On voudrait un accès à la base de donnée
         self.carte = Carte(self)
+        self.carte.load()
         self.personnages = {}
 
     def start(self):
@@ -35,7 +38,7 @@ class Serveur:
 
     # \=~=~=~=~=~=~=~=~= WEBSOCKET =~=~=~=~=~=~=~=~=/
 
-    async def send_to_user(self, id_utilisateur, message):
+    def send_to_user(self, id_utilisateur, message):
         """Envoie un message à un utilisateur avec son id
 
         Arguments:
@@ -52,13 +55,13 @@ class Serveur:
         """
         ws_u = None
         print(id_utilisateur, self.serveurWebsocket.USERS.items())
-        for ws, data in self.serveurWebsocket.USERS.items():
+        for id_ws, data in self.serveurWebsocket.USERS.items():
             if data["id_utilisateur"] == id_utilisateur:
-                ws_u = ws
+                ws_u = self.serveurWebsocket.get_ws(id_ws)
                 break
         if ws_u is None:
             raise UserWarning("L'ID de l'utilisateur n'est pas dans data")
-        await self.serveurWebsocket.send(ws_u, message)
+        self.serveurWebsocket.send(ws_u, message)
 
     # \=~=~=~=~=~=~=~=~=  PERSONNAGES =~=~=~=~=~=~=~=~=/
 
@@ -71,19 +74,45 @@ class Serveur:
         """
         perso = Personnage(self, id_utilisateur)
         self.personnages[id_utilisateur] = perso
+        # on envoie a tout le monde les infos du joueur
+        infos = {"action": "joueur",
+                 "id_perso": id_utilisateur,
+                 "nom": perso.nom,
+                 "x": perso.position["x"],
+                 "y": perso.position["y"],
+                 "vie": perso.vie,
+                 "vie_max": perso.vie_max,
+                 "mana": perso.mana,
+                 "mana_max": perso.mana_max,
+                 "xp": perso.xp,
+                 "xp_tot": perso.xp_tot,
+                 "region_actu": perso.region_actu}
+        print(id_utilisateur)
+        self.serveurWebsocket.send_all(infos, [id_utilisateur])
+        ws_base = self.serveurWebsocket.wsFromId(id_utilisateur)
+        #on va récuperer toutes les infos des autres joueurs
+        for ws_id, data in self.serveurWebsocket.USERS.items():
+            if id_utilisateur != data["id_utilisateur"]:
+                print("aaaa", id_utilisateur, data["id_utilisateur"])
+                id_perso = data["id_utilisateur"]
+                p = self.personnages[id_perso]
+                infos = {"action": "joueur",
+                         "id_perso": id_perso,
+                         "nom": p.nom,
+                         "x": p.position["x"],
+                         "y": p.position["y"],
+                         "vie": p.vie,
+                         "vie_max": p.vie_max,
+                         "mana": p.mana,
+                         "mana_max": p.mana_max,
+                         "xp": p.xp,
+                         "xp_tot": p.xp_tot,
+                         "region_actu": p.region_actu}
+                self.serveurWebsocket.send(ws_base, infos)
 
-    async def bouger_perso(self, id_utilisateur, deplacement):
-        await self.personnages[id_utilisateur].bouger(deplacement)
 
-    # \=~=~=~=~=~=~=~=~= MONSTRE =~=~=~=~=~=~=~=~=/
-
-    """
-    def load_monstre(self, id_monstre):
-        res = self.db.requete_db("SELECT * FROM monstre WHERE id_monstre=?",\
-                (id_monstre,))
-        monstre = Monstre(self, id_monstre)
-        self.monstres[id_monstre] = monstre
-    """
+    def bouger_perso(self, id_utilisateur, deplacement):
+        self.personnages[id_utilisateur].bouger(deplacement)
 
 
 if __name__ == '__main__':

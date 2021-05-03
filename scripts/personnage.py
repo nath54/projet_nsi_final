@@ -110,14 +110,11 @@ class Personnage:
         self.position = {"x": int(res[14]), "y": int(res[15])}
         # TODO: faire que si un perso est deja sur la case, on le décale
 
-    async def bouger(self, dep):
+    def bouger(self, dep):
         """S'assure que le personnage peut se déplacer et le déplace
 
         Parameters:
             dep(tuple<int, int>): Déplacement du personnage sous forme (x, y)
-
-        TODO: Ajouter tests de collision
-
         """
         assert (isinstance(dep, tuple) or isinstance(dep, list)) and len(dep)==2, "Le déplacement n'est pas un tuple."
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
@@ -128,8 +125,9 @@ class Personnage:
         if self.server.carte.est_case_libre(self.region_actu, npx, npy):
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
-            await self.server.send_to_user(self.id_utilisateur, {"action": "position_perso", "x":self.position["x"], "y":self.position["y"]})
-            await self.server.serveurWebsocket.send_all({"action": "j_pos", "id":self.id_utilisateur, "x":self.position["x"], "y":self.position["y"], "region":self.region_actu}, [self.id_utilisateur])
+            print("perso ",self.id_utilisateur)
+            self.server.send_to_user(self.id_utilisateur, {"action": "position_perso", "x":self.position["x"], "y":self.position["y"]})
+            self.server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":self.id_utilisateur, "x":self.position["x"], "y":self.position["y"], "region":self.region_actu}, [self.id_utilisateur])
 
     def emplacement(self):
         """Renvoie la position du personnage"""
@@ -148,7 +146,7 @@ class Personnage:
     def attaquer(self):
         pass
 
-    def interagir(self, touche):
+    def interagir(self):
         pass
 
     def gagner_xp(self, xp, niv_monstre, vie_monstre):
@@ -207,6 +205,14 @@ class Personnage:
             pass
         elif self.vie > self.vie_max:
             self.vie = self.vie_max
+
+    def changement_region(self):
+        if not self.server.carte.cases_terrains :  # si le joueur marche sur une case noir ou un élément qui va trigger le passage
+            self.region_actu = self.server.Region.id_region
+            self.server.carte.load()
+            # TODO : définir une nouvelle position à la suite du changement
+            self.load_perso()
+        pass
 
 
 # if __name__ == "__main__":

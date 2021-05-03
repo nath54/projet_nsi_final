@@ -14,6 +14,6 @@ if (!isset($_SESSION['pseudo'])) {
 <body>
 Bienvenue <?php echo htmlentities(trim($_SESSION['pseudo'])); ?> !<br />
 <a href="creation_perso.php">Création du personnage</a> <br /> 
-<a href="Accueil.php">Retour à l'accueil</a>
+<a href="accueil.php">Retour à l'accueil</a>
 </body>
 </html>

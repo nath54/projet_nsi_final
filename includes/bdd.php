@@ -50,11 +50,13 @@ function load_db($path="../includes/config.json"){
     return $db;
 }
 
-// function requete($db, $requested){
-//     $reponse = $db->query($requested);
-//     $tab = $reponse->fetchAll(PDO::FETCH_ASSOC);
-//     return $tab;
-// }
+/*
+function requete($db, $requested){
+    $reponse = $db->query($requested);
+    $tab = $reponse->fetchAll(PDO::FETCH_ASSOC);
+    return $tab;
+}
+*/
 
 
 /**
@@ -63,9 +65,11 @@ function load_db($path="../includes/config.json"){
  * @param PDO $db
  *      Instance de la base de données
  * @param string $requested
- *      Requête SQL. Passer les arguments comme `?`
+ *      Requête SQL. Passer les arguments comme `?` ou `:arg`
  * @param array $vars
  *      Variables à passer dans la requête.
+ *      Si les arguments sont passés comme `:arg`, alors format
+ *      Array(":arg" => $_POST["pseudo"])
  *
  * @return Array
  *      Résultats de la requête

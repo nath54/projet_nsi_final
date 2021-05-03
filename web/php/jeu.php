@@ -6,7 +6,9 @@ include_once "../../includes/bdd.php";
 $db = load_db("../../includes/config.json");
 
 if(!isset($_SESSION["player_id"])){
-    $_SESSION["player_id"] = 1;
+    $_SESSION["error"] = "Vous n'êtes pas connecté !";
+    header("Location: accueil.php");
+    die();
 }
 $id_player = $_SESSION["player_id"];
 
@@ -42,11 +44,11 @@ if($res==NULL){
 foreach($res as $i=>$data){
     $cases_terrains[$i] = $data;
 }
-// On charge les données du terrain :
+// On charge les données des objets :
 $cases_objets = array();
 $res = requete_prep($db, "SELECT x, y, id_objet FROM regions_objets WHERE id_region=:idr;", array(":idr"=>$id_region));
 if($res==NULL){
-    echo("L'obket n'a pas pu charger");
+    echo("L'objet n'a pas pu charger");
     die();
 }
 foreach($res as $i=>$data){
@@ -68,19 +70,43 @@ foreach($r as $i=>$data){
     $terrains[$data["id_terrain"]] = array("nom"=>$nom, "img"=>$img);
 }
 
+// On va récuperer les infos sur les objets
+
 $requete = "SELECT * FROM objets;";
 $objets = array();
 $r = requete_prep($db, $requete);
 if($r==NULL){
     alert("Objet n'a pas chargé.");
 }
-// Pour chaque ligne, on stocke nom le nom et l'image dans l'Array $terrains
+// Pour chaque ligne, on stocke nom le nom et l'image dans l'Array $objets
 foreach($r as $i=>$data){
     $nom = $data["nom"];
     $img = $data["image_"];
     $objets[$data["id_objet"]] = array("nom"=>$nom, "img"=>$img, "z_index"=>$data["z_index"]);
 }
 
+// On va récuperer les infos sur les ennemis
+
+$requete = "SELECT * FROM monstre;";
+$ennemis = array();
+$r = requete_prep($db, $requete);
+if($r==NULL){
+    alert("Ennemi n'a pas chargé.");
+}
+// Pour chaque ligne, on stocke nom le nom et l'image dans l'Array $ennemis
+foreach($r as $i=>$data){
+    $nom = $data["nom"];
+    $img = $data["img_base"];
+    $ennemis[$data["id_monstre"]] = array("nom"=>$nom, "img"=>$img);
+}
+
+// On va passer les infos à js
+if(count($ennemis)>0){
+    $je = json_encode($ennemis);
+    echo "<script>var ennemis_data = JSON.parse('$je'); </script>";
+}else{
+    echo "<script>var ennemis_data = {}; </script>";
+}
 
 // On définit ici les infos relatives à l'affichage :
 
@@ -111,8 +137,36 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
     <body onload="launch();">
 
         <div>
-
             <div id="ui">
+                <!-- Menu Princ -->
+                <div id="menu_princ" class="ui_box" style="display:none;">
+                    <button onclick="set_menu('');" class="bt_x">X</button>
+                    <div class="row">
+                        <button onclick="window.location.href='accueil.php'">Quitter</button>
+                        <button onclick="set_menu('menu_stats');">Stats</button>
+                        <button onclick="set_menu('menu_inv');">Inventaire</button>
+                    </div>
+                </div>
+                <!-- Menu inventaire -->
+                <div id="menu_inv" class="ui_box" style="display:none;">
+                    <button onclick="set_menu('');" class="bt_x">X</button>
+                </div>
+                <!-- Menu stats -->
+                <div id="menu_stats" class="ui_box" style="display:none;">
+                    <button onclick="set_menu('');" class="bt_x">X</button>
+                    <div class="row">
+                        <div class="column" style="width:50%">
+                            <div class="row">
+                                <b>Nom : </b>
+                                <span id="player_name"></span>
+                            </div>
+                        </div>
+                        <div class="column" style="width:50%">
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Menu base -->
                 <div class="box full">
                     <div class="row_center">
 
@@ -224,7 +278,7 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
                     <?php
                         $img_p = "../imgs/sprites/sprite_fixe_droit.png";
-                        echo "<svg z-index=\"2\" x=$px y=$py width=$tc height=$tc id=\"player\">";
+                        echo "<svg x=$px y=$py width=$tc height=$tc id=\"player\">";
                         echo "<image width=$tc height=$tc xlink:href=\"$img_p\"></image>";
                         echo "</svg>";
 
@@ -232,9 +286,21 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
                     <!-- Les autres joueurs -->
 
-                    <?php
+                    <g id="svg_autres_joueurs">
+                    </g>
 
-                    ?>
+
+                    <!-- Les ennemis -->
+                    <g id="svg_ennemis">
+
+                        <?php
+                            echo "<svg x=0 y=0 width=$tc height=$tc id=\"monstre_template\" style=\"display:none;\">";
+                            echo "<image width=$tc height=$tc xlink:href=\"../imgs/ennemis/inconu.png\"></image>";
+                            echo "</svg>";
+
+                        ?>
+
+                    </g>
 
                     <!-- Les objets de z-index 4 -->
 
@@ -253,8 +319,31 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                         ?>
                     </g>
 
+                    <!-- Les infos des autres joueurs -->
+
+                    <g id="svg_infos_autres_joueurs">
+
+                    </g>
+
+                    <!-- Les infos des ennemis -->
+
+                    <g id="svg_infos_ennemis">
+
+                    </g>
+
                 </svg>
 
+
+        </div>
+
+
+        <div id="loading" style="background-color:black; z-index:10;  text-align: center;">
+
+            <h2 style="color: white; text-align: center; margin-top:100px;">Loading ...</h2>
+
+            <div class=" text-align: center;">
+                <img src="../imgs/loading.gif" width=200px height=200px style=" text-align: center;" />
+            </div>
 
         </div>
 
@@ -272,14 +361,17 @@ var ws_url = "<?php echo $url_ws; ?>";
 var en_chargement = true;
 tx = <?php echo $tx; ?>;
 ty = <?php echo $ty; ?>;
+tc = <?php echo $tc; ?>;
 
 function launch(){
     start_websocket(ws_url);
 }
 function launch2(){
+    // alert("id : "+<?php echo $id_player; ?>);
     // Websocket is ready
-    ws_send({"action":"connection", "id_utilisateur":<?php echo $id_player;?>});
+    ws_send({"action":"connection", "id_utilisateur":parseInt(<?php echo $id_player;?>)});
 }
+
 
     </script>
 </html>

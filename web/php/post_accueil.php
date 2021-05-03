@@ -12,13 +12,13 @@ $db = load_db("../../includes/config.json");
     </head>
     <body>
     
-        <?php
+    <?php
         
     foreach($_POST as $k=>$v){
         echo "$k = $v <br />";
     }
     if(!isset($_POST["pseudo"]) && !isset($_POST["mdp"])){
-        $_SESSION["error"] = "probleme lors de la connexion !";
+        $_SESSION["error"] = "Problème lors de la connexion !";
         header('Location: accueil.php');
     }
     
@@ -30,14 +30,23 @@ $db = load_db("../../includes/config.json");
         $_SESSION["player_id"] = $res[0]["id_utilisateur"];
         header('Location: jeu.php');
 
+        $req = requete_prep($db, "SELECT * FROM personnalisation WHERE id_utilisateur = :id_utilisateur;", array(":id_utilisateur"=>$_SESSION["player_id"]));
+        if('niveau' == 0)
+        {
+            $_SESSION["error"]="Personnage non créé";
+            header('Location: creation_perso.php');
+        }
+        else
+        {
+            header('Location: jeu.php');
+        }
     }
     else // Sinon on ne laisse pas le joueur se connecter
     {
-        $_SESSION["error"]="Probleme de connexion";
+        $_SESSION["error"]="Pseudo ou mot de passe incorrect";
         header('Location: accueil.php');
     }
     ?>
-    
-        
+
     </body>
 </html>

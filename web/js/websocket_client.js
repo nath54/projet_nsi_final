@@ -29,6 +29,7 @@ function start_websocket(ws_url) {
         // On affiche un message d'erreur
         alert("There was an error during connection");
         // On peut aussi renvoyer vers la page d'accueil
+        window.location.href = "accueil.php";
     };
 
     // On relie le websocket a notre fonction qui gere les messages recus
@@ -63,17 +64,22 @@ function on_message(event) {
      */
     // On recoit les informations
     data = JSON.parse(event.data);
-    console.log("get on websocket : ", data);
+    // console.log("get on websocket : ", data);
     // On traite les informations
     switch (data.action) {
 
+        case 'prob_connection':
+            alert("QQun avec le meme id est déjà connecté !");
+            window.location.href = "accueil.php";
+            break;
+
         case 'infos_perso':
-            for (cle of["x", "y", "vie", "vie_max", "mana", "mana_max", "exp", "exp_max", "region_actu"]) {
-                personnage[cle] = data[cle];
-            }
+            delete data['action']
+            personnage = data;
 
             if (en_chargement) {
                 en_chargement = false;
+                document.getElementById("loading").style.display = "none";
                 aff();
             }
             break;
@@ -81,6 +87,49 @@ function on_message(event) {
         case 'position_perso':
             personnage.x = data.x;
             personnage.y = data.y;
+            aff();
+            break;
+
+        case 'debug':
+            alert(data.message);
+            break;
+
+        case 'joueur':
+            var id_j = parseInt(data.id_perso);
+            if (id_j != personnage.id_perso) {
+                delete data['action']
+                autres_joueurs[id_j] = data;
+                aff();
+            }
+            break;
+
+        case 'j_leave':
+            delete autres_joueurs[parseInt(data.id_perso)];
+            var d = document.getElementById("player_" + ap.id_perso);
+            if (d != undefined) {
+                d.parentNode.removeChild(d);
+            }
+            var dd = document.getElementById("infos_player_" + ap.id_perso);
+            if (dd != undefined) {
+                dd.parentNode.removeChild(dd);
+            }
+            aff();
+            break;
+
+        case 'j_pos':
+            var id_j = parseInt(data.id_perso);
+            console.log("id_j ", id_j);
+            console.log("autres joueurs : ", autres_joueurs);
+            console.log(autres_joueurs[id_j]);
+            if (autres_joueurs[id_j]) {
+                autres_joueurs[id_j].x = data.x;
+                autres_joueurs[id_j].y = data.y;
+                aff();
+            }
+            break;
+
+        case 'infos_monstres':
+            load_monstres(data.infos);
             aff();
             break;
 
