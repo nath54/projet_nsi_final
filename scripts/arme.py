@@ -19,6 +19,6 @@ class arme:
 
         self.nom = res[0]
         self.classe = res[1]
-        self.niveau = res[2]
+        self.niveau = res[2] 
         self.style = res[3]
         self.portee = res[4]
