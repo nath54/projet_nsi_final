@@ -169,8 +169,8 @@ body{
 .mem .bouton{
     width: 1000px;
     height: 60px;
-    padding-top: 13px;
-    padding-bottom: 13px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     border-radius: 25px;
     margin-left: 160px;
     background-color: rgb(44, 44, 44);
@@ -184,8 +184,8 @@ body{
 .mem .bouton2{
     width: 1000px;
     height: 60px;
-    padding-top: 13px;
-    padding-bottom: 13px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     border-radius: 25px;
     margin-left: 220px;
     background-color: rgb(44, 44, 44);
