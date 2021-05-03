@@ -371,11 +371,13 @@ CREATE TABLE comptes_administrateurs (
  - `portee` _INT_ : Portée d'une arme 
 
 ```sql
-CREATE TABLE monde (
-	id_monde INT PRIMARY KEY AUTO_INCREMENT,
-	ville TEXT,
-	region TEXT,
- 	niveau INT);
+CREATE TABLE arme (
+	id_arme INT PRIMARY KEY AUTO_INCREMENT,
+	nom TEXT,
+	classe TEXT,
+ 	niveau INT
+	 style TEXT
+	 portee TEXT);
 ```
 
 
