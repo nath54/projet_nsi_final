@@ -135,3 +135,63 @@ body{
 }
 
 
+.mem {
+    width: 1000px;
+    height: 500px;
+    overflow: hidden;
+    background: #000000;
+    border-radius: 150px;
+    margin: 70px auto;
+    box-shadow: 0px 0px 10000px rgba(117, 0, 0, 0.8);
+    -ms-flex-align: center;
+    font-family: 'PressStart2P-Regular', 'Times New Roman', Times, serif;
+}
+
+.mem .titre{
+    width: 1000px;
+    height: 45px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    font-size: 30px;
+    text-align: center;
+    color: #bfbfbf;
+    text-shadow: rgb(255, 0, 0) 1px 0 8px;
+    font-weight: bold;
+    background: #121212;
+    border: #2d2d2d solid 1px;
+    margin-bottom: 30px;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+    -ms-flex-align: center;
+    font-family: 'PressStart2P-Regular', 'Times New Roman', Times, serif;
+}
+
+.mem .bouton{
+    width: 1000px;
+    height: 60px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border-radius: 25px;
+    margin-left: 160px;
+    background-color: rgb(44, 44, 44);
+    font-size: 30px;
+    text-align: center;
+    -ms-flex-align: center;
+    color:rgb(236, 232, 232);
+    font-family: 'PressStart2P-Regular', 'Times New Roman', Times, serif;
+}
+
+.mem .bouton2{
+    width: 1000px;
+    height: 60px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border-radius: 25px;
+    margin-left: 220px;
+    background-color: rgb(44, 44, 44);
+    font-size: 30px;
+    text-align: center;
+    -ms-flex-align: center;
+    color:rgb(236, 232, 232);
+    font-family: 'PressStart2P-Regular', 'Times New Roman', Times, serif;
+}
