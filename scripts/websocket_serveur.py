@@ -27,7 +27,7 @@ class ServeurWebsocket:
 
     # \=~=~=~=~=~=~=~=~=~=~=~=~= INITIALISATION =~=~=~=~=~=~=~=~=~=~=~=~=/
 
-    def __init__(self, server):
+    def __init__(self, server, debug = False):
         """Constructeur de la classe ServeurWebsocket
 
         Author : Nathan
@@ -40,7 +40,7 @@ class ServeurWebsocket:
         self.USERS = dict()
         self.WEBSOCKETS = {}
         self.server = server
-        self.DEBUG = True
+        self.DEBUG = debug
         self.ws_server = None
 
     def load_config(self, path):
@@ -240,7 +240,6 @@ class ServeurWebsocket:
         Author: Nathan
         """
         print("Server starting...")
-        print(f"aaaaaaaa '{self.IP}'")
 
         self.ws_server = ws.WebsocketServer(self.PORT, host=self.IP)
         self.ws_server.set_fn_new_client(self.nouveau_client)

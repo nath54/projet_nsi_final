@@ -22,14 +22,15 @@ class Serveur:
                 key   -> ID du compte de l'utilisateur
                 value -> Instance de la classe perso reliée à l'utilisateur
     """
-    def __init__(self):
+    def __init__(self, debug=False):
         # TODO : init du serveur
-        self.serveurWebsocket = ServeurWebsocket(self)
+        self.serveurWebsocket = ServeurWebsocket(self, debug)
         self.db = dbClient()  # On voudrait un accès à la base de donnée
         self.carte = Carte(self)
         self.carte.load()
         self.personnages = {} # clé : id_utilisateur, value : Personnage()
         self.running = False
+        self.debug = debug
 
     def start(self):
         """Lance le serveur et tous les éléments utiles"""
@@ -60,7 +61,7 @@ class Serveur:
                 Si data['id_utilisateur'] ne contient pas id_utilisateur
         """
         ws_u = None
-        print(id_utilisateur, self.serveurWebsocket.USERS.items())
+        # print(id_utilisateur, self.serveurWebsocket.USERS.items())
         for id_ws, data in self.serveurWebsocket.USERS.items():
             if data["id_utilisateur"] == id_utilisateur:
                 ws_u = self.serveurWebsocket.get_ws(id_ws)
@@ -93,13 +94,11 @@ class Serveur:
                  "xp": perso.xp,
                  "xp_tot": perso.xp_tot,
                  "region_actu": perso.region_actu}
-        print(id_utilisateur)
         self.serveurWebsocket.send_all(infos, [id_utilisateur])
         ws_base = self.serveurWebsocket.wsFromId(id_utilisateur)
         #on va récuperer toutes les infos des autres joueurs
         for ws_id, data in self.serveurWebsocket.USERS.items():
             if id_utilisateur != data["id_utilisateur"]:
-                print("aaaa", id_utilisateur, data["id_utilisateur"])
                 id_perso = data["id_utilisateur"]
                 p = self.personnages[id_perso]
                 infos = {"action": "joueur",
@@ -122,6 +121,8 @@ class Serveur:
 
 
 if __name__ == '__main__':
+    import sys
+    debug = "-d" in sys.argv or "--debug" in sys.argv
     # On lance le serveur ici
-    server = Serveur()
+    server = Serveur(debug)
     server.start()
