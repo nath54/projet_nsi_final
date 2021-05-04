@@ -218,6 +218,10 @@ class ServeurWebsocket:
         id_perso = self.USERS[websocket['id']]["id_utilisateur"]
         if id_perso is not None:
             p = self.server.personnages[id_perso]
+            # On vérifie si un monstre l'avait détecté
+            for monstre in self.server.carte.regions[p.region_actu].ennemis.values():
+                if monstre.joueur_detecte == p:
+                    monstre.joueur_detecte = None
             # on va enregistrer sa derniere position dans la bdd
             self.server.db.action_db("UPDATE utilisateurs SET position_x = ?, position_y = ? WHERE id_utilisateur = ?;", ( p.position["x"], p.position["y"], id_perso))
             #

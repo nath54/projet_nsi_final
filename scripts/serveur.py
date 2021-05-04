@@ -4,7 +4,8 @@ from websocket_serveur import ServeurWebsocket
 from carte import Carte
 from dbclient import dbClient
 from personnage import Personnage
-
+from gere_ennemis import gere_ennemis
+from _thread import start_new_thread as start_nt
 
 class Serveur:
     """Serveur du jeu
@@ -27,11 +28,16 @@ class Serveur:
         self.db = dbClient()  # On voudrait un accès à la base de donnée
         self.carte = Carte(self)
         self.carte.load()
-        self.personnages = {}
+        self.personnages = {} # clé : id_utilisateur, value : Personnage()
+        self.running = False
 
     def start(self):
         """Lance le serveur et tous les éléments utiles"""
         # TODO : lancer les autres éléments serveur
+        self.running = True
+
+        # On lance le script qui gere les ennemis
+        start_nt(gere_ennemis, (self,))
 
         # Maintenant, on peut gérer les websockets
         self.serveurWebsocket.start()

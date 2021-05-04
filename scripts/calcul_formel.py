@@ -270,12 +270,12 @@ class Div(Operation):
             f"Le dénominateur de la fraction n'est pas un entier : {denom}"
 
         if self.num % self.denom == 0:
-                return Expr(self.num // self.denom)
-            else:
-                commun_diviseur = gcd(self.num, self.denom)
-                self.num = self.num // commun_diviseur
-                self.denom = self.denom // commun_diviseur
-                return Expr(Div(self.num, self.denom))
+            return Expr(self.num // self.denom)
+        else:
+            commun_diviseur = gcd(self.num, self.denom)
+            self.num = self.num // commun_diviseur
+            self.denom = self.denom // commun_diviseur
+            return Expr(Div(self.num, self.denom))
 
 
     def __str__(self):
