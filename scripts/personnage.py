@@ -138,12 +138,12 @@ class Personnage:
         TODO: Revoir format de la fonction
 
         """
-        self.server.carte.get_case_obj(x, y)
+        #objet = self.server.carte.cases_objets
         est_ramassable = True
 
         if est_ramassable:
             
-            sql = """ INSERT INTO inventaire('id_objet', 'id_utilisateur', 'quantite') VALUES ('id_objet', self.id_utilisateur, 'quantite')"""
+            sql = """ INSERT INTO inventaire('id_objet', 'id_utilisateur', 'quantite') VALUES ('id_objet', 'id_utilisateur' = ?, 'quantite')"""
             res = self.server.db.action_db(sql, (self.id_utilisateur,))[0]
 
         else:
