@@ -110,8 +110,7 @@ class Monstre:
         self.pv = fct(self.pv, valeur_modif)
         est_lootable = False
 
-        if self.pv > 0 :
-            # Le monstre est positif
+        if self.pv > 0 : # Le monstre est positif
             pass
 
         if self.pv == 0 :
@@ -122,8 +121,7 @@ class Monstre:
 
             pass
 
-        if self.pv < 0 :
-            # Le monstre devient négatif, pensez a ajouter des changements de stats etc
+        if self.pv < 0 : # Le monstre devient négatif, pensez a ajouter des changements de stats etc
             pass
 
 
