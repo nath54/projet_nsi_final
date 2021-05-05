@@ -90,7 +90,7 @@ print_r( $_SESSION['error'] ); ?>
 
                     <!-- Bouton precedent, qui revient au formulaire d'inscription -->
                     <div class="precedent_creation">
-                        <button class="precedent_perso_creation" href=""><a>PRECEDENT</a></button>
+                        <button class="precedent_perso_creation" href="accueil.php"><a>PRECEDENT</a></button>
                     </div>
 
                 </div>
