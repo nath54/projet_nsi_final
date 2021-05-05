@@ -89,9 +89,9 @@ class Sum(Operation):
             vars_facto = []
             # S'il y a une division
             elt = [elt for elt in reste if isinstance(elt, Div)]
-            if len(elt) != 0:
-                for terme in reste:
-                    if isinstance
+            # if len(elt) != 0:
+            #     for terme in reste:
+            #         if isinstance
             for terme in reste:
                 # Dans le cas où le terme est un str, donc une variable
                 if isinstance(terme, str):
