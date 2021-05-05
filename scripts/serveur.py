@@ -35,6 +35,8 @@ class Serveur:
         self.active_console = act_console
         self.t_console = None
         self.t_gere_ennemis = None
+        #
+        self.nb_t_actifs = 0
 
     def start(self):
         """Lance le serveur et tous les éléments utiles"""
@@ -43,6 +45,7 @@ class Serveur:
 
         # On lance le script qui gere les ennemis
         self.t_gere_ennemis = start_nt(gere_ennemis, (self,))
+        print(f"Thread gere ennemis : {self.t_gere_ennemis}")
 
         # On lance la console de dev
         if self.active_console:
@@ -55,10 +58,9 @@ class Serveur:
         # On pourrait sauvegarder des données
         #TODO
         self.running = False
-        # On quitte les autres threads
-        self.t_gere_ennemis.exit()
-        if self.t_console != None:
-            self.t_console.exit()
+        # On attends que les autres thread finissent
+        while self.nb_t_actifs > 1:
+            pass
         # On quitte le thread websocket
         self.serveurWebsocket.finish()
 
