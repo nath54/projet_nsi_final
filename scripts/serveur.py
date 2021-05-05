@@ -138,8 +138,8 @@ class Serveur:
                 self.serveurWebsocket.send(ws_base, infos)
 
 
-    def bouger_perso(self, id_utilisateur, deplacement):
-        self.personnages[id_utilisateur].bouger(deplacement)
+    def bouger_perso(self, id_utilisateur, deplacement, cooldown=False):
+        self.personnages[id_utilisateur].bouger(deplacement, cooldown)
 
 
 if __name__ == '__main__':

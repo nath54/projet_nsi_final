@@ -64,7 +64,10 @@ def gere_ennemis(server):
                 if monstre.etat != "vivant":
                     continue
                 # on les bouge toutes les secondes
-                if time.time() - monstre.dernier_bouger < monstre.tp_bouger:
+                tpb = monstre.tp_bouger
+                if monstre.joueur_detecte:
+                    tpb *= 0.75
+                if time.time() - monstre.dernier_bouger < tpb:
                     continue
                 #
                 monstre.dernier_bouger = time.time()
@@ -95,9 +98,6 @@ def gere_ennemis(server):
                         res_dep = rech_chemin_simple(server, id_region, m_pos, j_pos)
                         if res_dep != None:
                             monstre.bouger(res_dep)
-                            # On vérifie s'il est retourné a sa case d'origine
-                            if monstre.position == monstre.position_base:
-                                monstre.compteur_deplacements_retour = 0
                         else:
                             monstre.nb_bloque += 1
                             if monstre.nb_bloque >= monstre.patiente_bloque:
@@ -106,9 +106,7 @@ def gere_ennemis(server):
                                 res_dep = rech_dep_alea(server, id_region, position)
                                 if res_dep == None:
                                     monstre.bouger(res_dep)
-                                    # On vérifie s'il est retourné a sa case d'origine
-                                    if monstre.position == monstre.position_base:
-                                        monstre.compteur_deplacements_retour = 0
+
                         #
                         monstre.compteur_deplacements_retour += 1
                 elif monstre.compteur_deplacements_retour < monstre.max_compteur_deplacement_retour:
@@ -119,9 +117,6 @@ def gere_ennemis(server):
                     if res_dep != None:
                         # On a notre deplacement
                         monstre.bouger(res_dep)
-                        # On vérifie s'il est retourné a sa case d'origine
-                        if monstre.position == monstre.position_base:
-                            monstre.compteur_deplacements_retour = 0
                     #
                 else:
                     # Il doit revenir a sa place
@@ -131,13 +126,10 @@ def gere_ennemis(server):
                     if res_dep != None:
                         # On a notre deplacement
                         monstre.bouger(res_dep)
-                        # On vérifie s'il est retourné a sa case d'origine
-                        if monstre.position == monstre.position_base:
-                            monstre.compteur_deplacements_retour = 0
 
 
         # on attends un peu
-        #time.sleep(0.5)
+        # time.sleep(0.5)
 
     # Fin du thread
     print("Fin de l'ennemi")

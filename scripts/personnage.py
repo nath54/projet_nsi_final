@@ -1,5 +1,6 @@
 # region Imports :
 import json
+import time
 
 # endregion
 
@@ -108,9 +109,11 @@ class Personnage:
         self.quetes = res[12]
         self.region_actu = int(res[13])
         self.position = {"x": int(res[14]), "y": int(res[15])}
+        self.tp_bouger = 0.1
+        self.dernier_bouger = 0
         # TODO: faire que si un perso est deja sur la case, on le décale
 
-    def bouger(self, dep):
+    def bouger(self, dep, cooldown=False):
         """S'assure que le personnage peut se déplacer et le déplace
 
         Parameters:
@@ -119,6 +122,11 @@ class Personnage:
         assert (isinstance(dep, tuple) or isinstance(dep, list)) and len(dep)==2, "Le déplacement n'est pas un tuple."
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
             "Les positions ne sont pas des entiers."
+
+        if cooldown:
+            if time.time() - self.dernier_bouger < self.tp_bouger:
+                return
+            self.dernier_bouger = time.time()
 
         npx, npy = self.position["x"]+dep[0], self.position["y"]+dep[1]
 
@@ -142,7 +150,6 @@ class Personnage:
         est_ramassable = True
 
         if est_ramassable:
-            
             sql = """ INSERT INTO inventaire('id_objet', 'id_utilisateur', 'quantite') VALUES ('id_objet', 'id_utilisateur' = ?, 'quantite')"""
             res = self.server.db.action_db(sql, (self.id_utilisateur,))[0]
 
