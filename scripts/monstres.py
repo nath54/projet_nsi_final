@@ -79,6 +79,9 @@ class Monstre:
 
     def bouger(self, dep, test_est_libre_fait=None):  # Le serveur s'occupera des déplacements
 
+        if not isinstance(dep, tuple):
+            return
+
         assert (isinstance(dep, tuple) or isinstance(dep, list)) and len(dep)==2, "Le déplacement n'est pas un tuple."
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
             "Les positions ne sont pas des entiers."
