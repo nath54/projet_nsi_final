@@ -98,6 +98,17 @@ def gere_ennemis(server):
                             # On vérifie s'il est retourné a sa case d'origine
                             if monstre.position == monstre.position_base:
                                 monstre.compteur_deplacements_retour = 0
+                        else:
+                            monstre.nb_bloque += 1
+                            if monstre.nb_bloque >= monstre.patiente_bloque:
+                                monstre.nb_bloque = 0
+                                position = (monstre.position["x"], monstre.position["y"])
+                                res_dep = rech_dep_alea(server, id_region, position)
+                                if res_dep == None:
+                                    monstre.bouger(res_dep)
+                                    # On vérifie s'il est retourné a sa case d'origine
+                                    if monstre.position == monstre.position_base:
+                                        monstre.compteur_deplacements_retour = 0
                         #
                         monstre.compteur_deplacements_retour += 1
                 elif monstre.compteur_deplacements_retour < monstre.max_compteur_deplacement_retour:
