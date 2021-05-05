@@ -115,8 +115,8 @@ class Monstre:
 
         if self.pv == 0 :
             # TODO: Monstre doit mourir et loot un item
-            #self.remove()
-            #return self.loot
+            #self.etat = "mort"
+
             pass
 
         if self.pv < 0 :
