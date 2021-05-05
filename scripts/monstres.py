@@ -108,6 +108,7 @@ class Monstre:
 
     def modif_vie(self ,valeur_modif , fct=Sum):
         self.pv = fct(self.pv, valeur_modif)
+        est_lootable = False
 
         if self.pv > 0 :
             # Le monstre est positif
@@ -115,7 +116,9 @@ class Monstre:
 
         if self.pv == 0 :
             # TODO: Monstre doit mourir et loot un item
-            #self.etat = "mort"
+            self.etat = "mort"
+            if not est_lootable:
+                self.server.objet.load_objet()
 
             pass
 
