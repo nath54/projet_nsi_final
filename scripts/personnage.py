@@ -138,9 +138,16 @@ class Personnage:
         TODO: Revoir format de la fonction
 
         """
+        #objet = self.server.carte.cases_objets
         est_ramassable = True
+
         if est_ramassable:
-            self.inventaire.append(self.inventaire)
+            
+            sql = """ INSERT INTO inventaire('id_objet', 'id_utilisateur', 'quantite') VALUES ('id_objet', 'id_utilisateur' = ?, 'quantite')"""
+            res = self.server.db.action_db(sql, (self.id_utilisateur,))[0]
+
+        else:
+            pass
 
     def attaquer(self):
         pass

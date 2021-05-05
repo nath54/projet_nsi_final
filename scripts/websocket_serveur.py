@@ -251,3 +251,7 @@ class ServeurWebsocket:
         self.ws_server.run_forever()
         # Le serveur tourne tant qu'on ne l'arrête pas
         # Utiliser Ctrl+C pour l'arrêter
+
+    def finish(self):
+        print("Fin du serveur websocket")
+        self.ws_server.shutdown()

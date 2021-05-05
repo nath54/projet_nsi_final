@@ -12,8 +12,8 @@ class Region:
                                  # comme ca, on y accede ca[f"{x}_{y}"] => le type de l'objet
         self.spawn_monstres = {} # key id_monstre_spawn
                                  # value : "x_y"
-        self.monstres_pos = {}   # key : "x_y"
-                                 # value : id_monstre_spawn
+        self.monstres_pos = {}   # key : id_monstre_spawn
+                                 # value : "x_y"
         self.ennemis = {}  # key id_monstre_spawn
                             # value : Ennemi
         self.pnjs = {}
@@ -53,8 +53,9 @@ class Region:
 
     def get_case_monstre(self, x, y):
         i = f"{x}_{y}"
-        if i in self.monstres_pos.keys():
-            return self.monstres_pos[i]
+        if i in self.monstres_pos.values():
+            for monstre, case in self.monstres_pos.items():
+                return monstre
         else:
             return None
 

@@ -8,7 +8,7 @@ $db = load_db("../../includes/config.json");
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>Bienvenue sur Maths Quest !</title>
+        <title>Bienvenue sur Mathopia !</title>
     </head>
     <body>
     

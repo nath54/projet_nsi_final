@@ -29,7 +29,7 @@ class Monstre:
 
     def set_position(self):
         k = str(self.position["x"])+"_"+str(self.position["y"])
-        self.server.carte.regions[self.id_region].monstres_pos[k] = self
+        self.server.carte.regions[self.id_region].monstres_pos[self] = k
         #TODO : envoyer la nouvelle position aux joueurs
         self.server.serveurWebsocket.send_all({"action":"new_monstre_pos", "id_spawn":self.id_monstre_spawn, "x": self.position["x"], "y": self.position["y"]})
 
@@ -59,10 +59,14 @@ class Monstre:
         #
         self.joueur_detecte = None
         self.detection_joueur = 3 # Rayon de détection des joueurs proches
+        self.perte_joueur = 5 # Si le joueur s'éloigne trop, le monstre le perd
+        self.portee_attaque = 1 # La portée d'attaque du monstre
 
         # Compteurs déplacements
         self.dernier_bouger = 0
         self.tp_bouger = 1
+        self.nb_bloque = 0
+        self.patiente_bloque = 5
 
         # Compteur deplacements retours
         self.position_base = self.position
@@ -79,7 +83,6 @@ class Monstre:
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
             "Les positions ne sont pas des entiers."
 
-
         est_libre = test_est_libre_fait
         if est_libre == None:
             npx, npy = self.position["x"]+dep[0], self.position["y"]+dep[1]
@@ -93,7 +96,6 @@ class Monstre:
             self.set_position()
 
         """
-
         position_ini = self.position
 
         if self.server.personnage.region_actu == self.id_region :   #Faire en sorte que le monstre suive le personnage
@@ -108,6 +110,7 @@ class Monstre:
 
     def modif_vie(self ,valeur_modif , fct=Sum):
         self.pv = fct(self.pv, valeur_modif)
+        est_lootable = False
 
         if self.pv > 0 :
             # Le monstre est positif
@@ -115,8 +118,10 @@ class Monstre:
 
         if self.pv == 0 :
             # TODO: Monstre doit mourir et loot un item
-            #self.remove()
-            #return self.loot
+            self.etat = "mort"
+            if not est_lootable:
+                self.server.objet.load_objet()
+
             pass
 
         if self.pv < 0 :

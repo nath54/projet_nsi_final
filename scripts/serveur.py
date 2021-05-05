@@ -5,6 +5,7 @@ from carte import Carte
 from dbclient import dbClient
 from personnage import Personnage
 from gere_ennemis import gere_ennemis
+from console_debug import console
 from _thread import start_new_thread as start_nt
 
 class Serveur:
@@ -22,7 +23,7 @@ class Serveur:
                 key   -> ID du compte de l'utilisateur
                 value -> Instance de la classe perso reliée à l'utilisateur
     """
-    def __init__(self, debug=False):
+    def __init__(self, debug=False, act_console=False):
         # TODO : init du serveur
         self.serveurWebsocket = ServeurWebsocket(self, debug)
         self.db = dbClient()  # On voudrait un accès à la base de donnée
@@ -31,6 +32,11 @@ class Serveur:
         self.personnages = {} # clé : id_utilisateur, value : Personnage()
         self.running = False
         self.debug = debug
+        self.active_console = act_console
+        self.t_console = None
+        self.t_gere_ennemis = None
+        #
+        self.nb_t_actifs = 0
 
     def start(self):
         """Lance le serveur et tous les éléments utiles"""
@@ -38,10 +44,26 @@ class Serveur:
         self.running = True
 
         # On lance le script qui gere les ennemis
-        start_nt(gere_ennemis, (self,))
+        self.t_gere_ennemis = start_nt(gere_ennemis, (self,))
+        print(f"Thread gere ennemis : {self.t_gere_ennemis}")
+
+        # On lance la console de dev
+        if self.active_console:
+            self.t_console = start_nt(console, (self,))
 
         # Maintenant, on peut gérer les websockets
         self.serveurWebsocket.start()
+
+    def exit(self):
+        # On pourrait sauvegarder des données
+        #TODO
+        self.running = False
+        # On attends que les autres thread finissent
+        while self.nb_t_actifs > 1:
+            pass
+        # On quitte le thread websocket
+        self.serveurWebsocket.finish()
+
 
     # \=~=~=~=~=~=~=~=~= WEBSOCKET =~=~=~=~=~=~=~=~=/
 
@@ -123,6 +145,7 @@ class Serveur:
 if __name__ == '__main__':
     import sys
     debug = "-d" in sys.argv or "--debug" in sys.argv
+    act_console = "-c" in sys.argv or "--console" in sys.argv
     # On lance le serveur ici
-    server = Serveur(debug)
+    server = Serveur(debug, act_console)
     server.start()
