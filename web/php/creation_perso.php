@@ -76,7 +76,15 @@ print_r( $_SESSION['error'] ); ?>
 
                     <!-- Bouton valier, qui enregistre toutes les modifs dans la BDD -->
                     <div class="valider_creation">
-                        <button class="validation_perso_creation" href=""><a>VALIDER</a></button>
+                        <form method="POST" action="post_creation.php">
+                            <input id="reponse_1" name="tete" type="hidden" value="1">
+                            <input id="reponse_2" name="cheveux" type="hidden" value="1">
+                            <input id="reponse_3" name="barbe" type="hidden" value="1">
+                            <input id="reponse_4" name="haut" type="hidden" value="1">
+                            <input id="reponse_5" name="bas" type="hidden" value="1">
+                            <input id="reponse_6" name="pied" type="hidden" value="1">
+                            <button class="validation_perso_creation" onclick="submit()"><a>VALIDER</a></button>
+                        </form>
                     </div>
 
 
@@ -86,7 +94,6 @@ print_r( $_SESSION['error'] ); ?>
                     </div>
 
                 </div>
-
             </div>
 
             <div id="sprite">
@@ -107,6 +114,7 @@ print_r( $_SESSION['error'] ); ?>
 <script>
     function clic(a,b){
         var ligne = document.getElementById("choix"+a);
+        var champ = document.getElementById("reponse_"+a);
         var n = parseInt(ligne.innerHTML);
         n = n+b;
         if (n>6){
@@ -116,5 +124,6 @@ print_r( $_SESSION['error'] ); ?>
         n = n+6;
         }
         ligne.innerHTML = n;
+        champ.value = n;
     }
 </script>
