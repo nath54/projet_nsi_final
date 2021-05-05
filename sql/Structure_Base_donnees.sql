@@ -17,6 +17,7 @@ CREATE TABLE utilisateurs (
  	region_actu INT DEFAULT 1,
  	position_x INT DEFAULT 1,
  	position_y INT DEFAULT 1,
+	id_tete INT,
 	img_tete TEXT,
 	id_cheveux INT,
 	img_cheveux TEXT,
@@ -28,7 +29,7 @@ CREATE TABLE utilisateurs (
 	img_bas TEXT,
 	id_pieds INT,
 	img_pieds TEXT,
-	niveau INT);;
+	niveau INT);
 
 
 CREATE TABLE objet (

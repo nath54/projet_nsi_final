@@ -16,7 +16,7 @@ def sum_vec(a,b):
 # Petit algo de recherche de chemin simple pour l'instant
 def rech_chemin_simple(server, id_region, depart, arrivee, lst_deps=[(0,1),(0,-1),(1,0),(-1,0)]):
     ppt = None
-    dist = None
+    dist = dist_vec(depart, arrivee)
     for deplacement in lst_deps:
         new_pos = sum_vec(depart, deplacement)
         # On vérifie les collisions de la case
@@ -48,6 +48,7 @@ def rech_dep_alea(server, id_region, position, lst_deps=[(0,1),(0,-1),(1,0),(-1,
 
 # Fonction qui va gérer tous les ennemis
 def gere_ennemis(server):
+    server.nb_t_actifs += 1
     while server.running:
 
         # On s'occupe des monstres
@@ -68,7 +69,7 @@ def gere_ennemis(server):
                 #
                 monstre.dernier_bouger = time.time()
                 # monstre
-                if not monstre.joueur_detecte:
+                if monstre.joueur_detecte is None:
                     for joueur in server.personnages.values():
                         if joueur.region_actu == id_region:
                             m_pos = (monstre.position["x"], monstre.position["y"])
@@ -76,10 +77,16 @@ def gere_ennemis(server):
                             if dist_vec(m_pos, j_pos) < monstre.detection_joueur:
                                 monstre.joueur_detecte = joueur
                 #
-                if monstre.joueur_detecte:
+                if monstre.joueur_detecte is not None:
                     m_pos = (monstre.position["x"], monstre.position["y"])
                     j_pos = (monstre.joueur_detecte.position["x"], monstre.joueur_detecte.position["y"])
-                    if dist_vec(m_pos, j_pos) <= 1:
+                    if dist_vec(m_pos, j_pos) >= monstre.perte_joueur:
+                        monstre.joueur_detecte = None
+                if monstre.joueur_detecte is not None:
+                    #
+                    # m_pos = (monstre.position["x"], monstre.position["y"])
+                    # j_pos = (monstre.joueur_detecte.position["x"], monstre.joueur_detecte.position["y"])
+                    if dist_vec(m_pos, j_pos) <= monstre.portee_attaque:
                         # On attaque
                         #TODO
                         pass
@@ -119,5 +126,8 @@ def gere_ennemis(server):
 
 
         # on attends un peu
-        time.sleep(0.5)
+        #time.sleep(0.5)
 
+    # Fin du thread
+    print("Fin de l'ennemi")
+    server.nb_t_actifs -= 1
