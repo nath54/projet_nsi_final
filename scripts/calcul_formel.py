@@ -87,6 +87,11 @@ class Sum(Operation):
                      if type(terme.value()) not in [int, float]]
             variables = {}
             vars_facto = []
+            # S'il y a une division
+            elt = [elt for elt in reste if isinstance(elt, Div)]
+            if len(elt) != 0:
+                for terme in reste:
+                    if isinstance
             for terme in reste:
                 # Dans le cas où le terme est un str, donc une variable
                 if isinstance(terme, str):
@@ -97,18 +102,17 @@ class Sum(Operation):
                 # Dans le cas où le terme est une Multiplication
                 if isinstance(terme, Mul):
                     coeff = [const.value() for const in terme.components
-                             if type(const.value()) in [int, float]][0]
+                             if type(const.value()) in [int, float]]
+                    if len(coeff) == 0:
+                        coeff = 1
+                    else:
+                        coeff = coeff[0]
                     var = [variable.value() for variable in terme.components
                            if isinstance(variable.value(), str)][0]
                     if var in variables:
                         variables[var] += coeff
                     else:
                         variables[var] = coeff
-                # Dans le cas où le terme est une Division
-                if isinstance(terme, Div):
-                    num = terme.num
-                    denom = terme.denom
-                    pass  # TODO
             for var in variables:
                 if variables[var] == 0:
                     continue
@@ -136,47 +140,6 @@ class Sum(Operation):
 
     def __print__(self):
         return str(self)
-
-
-def test_somme():
-    print("DEBUT DU TEST : Sum")
-
-    # TEST SIMPLIFICATION DE CONSTANTES
-    var = str(Sum(18, 24, 22).value())
-    assert var == "64", f"Mauvaise valeur : {var} au lieu de '64'"
-
-    # TEST SIMPLIFICATION DE CONSTANTES AVEC VARIABLE (1 VAR)
-    var = str(Sum(18, 24, 22, "a").value())
-    assert var == "64 + a", f"Mauvaise valeur : {var} au lieu de '64 + a'"
-
-    # TEST SIMPLIFICATION DE CONSTANTES AVEC VARIABLES (PLUSIEURS VARS)
-    var = str(Sum(1, 5, Sum("a", "b")).value())
-    assert var == "6 + a + b",\
-        f"Mauvaise valeur : {var} au lieu de '6 + a + b'"
-
-    # FACTORISATION D'UNE SOMME AVEC PLUSIEURS ITÉRATIONS DE VARIABLES (1 VAR)
-    var = str(Sum(1, 5, "a", "a").value())
-    assert var == "6 + 2 × a",\
-        f"Mauvaise valeur : {var} au lieu de '6 + 2 × a'"
-
-    # FACTORISATION D'UNE SOMME AVEC PLUSIEURS ITÉRATIONS DE VARIABLES (PLUSIEURS VARS)
-    var = str(Sum(1, 5, "a", "a", "a", "b", "b", "b").value())
-    assert var == "6 + 3 × a + 3 × b",\
-        f"Mauvaise valeur : {var} au lieu de '6 + 3 × a + 3 × b'"
-
-    # FACTORISATION D'UNE SOMME AVEC UN COMPOSANT DE MULTIPLICATION (1 VAR)
-    var = str(Sum("a", Mul(3, "a").value()).value())
-    assert var == "4 × a", f"{var}"
-
-    # FACTORISATION D'UNE SOMME AVEC UN COMPOSANT DE MULTIPLICATION (PLUSIEURS VARS)
-    var = str(Sum("a", Mul(3, "a").value(), "b", "b", Mul(40, "b").value()).value())
-    assert var == "4 × a + 42 × b", f"{var}"
-
-    # FACTORISATION D'UNE SOMME AVEC UN COMPOSANT DE DIVISION (1 VAR)
-    var = str(Sum(Div("a", 4).value(), "a").value())
-    assert var == "(5 / 4) × a", f"{var}"
-
-    print("FIN DU TEST : Sum")
 # endregion
 
 
@@ -207,7 +170,7 @@ class Mul(Operation):
     def __str__(self):
         expressions = []
         for terme in self.components:
-            if type(terme.value()) in [int, float, str]:
+            if type(terme.value()) in [int, str, Div]:
                 expressions.append(str(terme))
             else:
                 expressions.append(f"({str(terme)})")
@@ -237,19 +200,41 @@ class Div(Operation):
             return self.__simplifie_ints(num, denom)
 
         # Si le numérateur et le dénominateur sont des `Opération`
-        elif isinstance(num, Operation) and\
-                isinstance(denom, Operation):
+        elif not isinstance(num, str) and\
+                not isinstance(denom, str):
             # S'ils sont simplifiables en tant qu'`int`
             try:
-                num_int = int(num.value())
-                denom_int = int(denom.value())
+                if isinstance(num, Operation):
+                    num_int = int(num.value())
+                else:
+                    num_int = int(num)
+
+                if isinstance(denom, Operation):
+                    denom_int = int(denom.value())
+                else:
+                    denom_int = int(denom)
                 return self.__simplifie_ints(num_int, denom_int)
             # S'ils ne sont pas simplifiables en `int`
             except (ValueError, TypeError):
                 # TODO: S'ils ne sont pas simplifiables en `int`
-                pass
+                return self.__simplifie_vars(num, denom)
         else:
-            return Expr(self)
+            return self.__simplifie_vars(num, denom)
+
+    def __simplifie_vars(self, num, denom):
+        num = num.value()
+        if isinstance(num, str):
+            return Expr(Mul(Div(1, denom), num))
+        if isinstance(num, Sum):
+            # TODO: Insert factorisation
+            return Expr(Div(num, denom))
+        if isinstance(num, Mul):
+            variables = ""
+            for i in range(len(num.components)):
+                if isinstance(num.components[i].value(), str):
+                    variables += num.components[i].value()
+                    del num.components[i]
+            return Expr(Mul(Div(num.value(), denom).value(), variables))
 
     def __simplifie_ints(self, num, denom):
         """Simplifie une fraction avec un int au numérateur et dénominateur.
@@ -269,27 +254,16 @@ class Div(Operation):
         assert isinstance(denom, int),\
             f"Le dénominateur de la fraction n'est pas un entier : {denom}"
 
-        if self.num % self.denom == 0:
-            return Expr(self.num // self.denom)
+        if num % denom == 0:
+            return Expr(num // denom)
         else:
-            commun_diviseur = gcd(self.num, self.denom)
-            self.num = self.num // commun_diviseur
-            self.denom = self.denom // commun_diviseur
-            return Expr(Div(self.num, self.denom))
-
+            commun_diviseur = gcd(num, denom)
+            num = num // commun_diviseur
+            denom = denom // commun_diviseur
+            return Expr(Div(num, denom))
 
     def __str__(self):
-        a = self.components[0]
-        if not type(a.value()) in [int, str]:
-            aa = "(" + str(a) + ")"
-        else:
-            aa = str(a)
-        for b in self.components[:1]:
-            if not type(b.value()) in [int, str]:
-                aa += " / (" + str(b) + ")"
-            else:
-                aa += " / " + str(b)
-        return aa
+        return f"({str(self.num.value())} / {str(self.denom.value())})"
 
     def __print__(self):
         return str(self)
@@ -312,6 +286,9 @@ class Expr:
             except (TypeError, ValueError):
                 value = self.components[0]
             return value
+
+    def __int__(self):
+        return int(self.components[0])
 
     def __add__(self, other):
         if type(other) in [int, float]:
@@ -383,9 +360,50 @@ def substituer_expr(expression, variable, remplacement):
             liste_terme[terme_indice] = Mul(*mult).value()
     return Sum(*liste_terme).value()
 
+# region Tests
+def test_somme():
+    print("DEBUT DU TEST : Sum")
+
+    # TEST SIMPLIFICATION DE CONSTANTES
+    var = str(Sum(18, 24, 22).value())
+    assert var == "64", f"Mauvaise valeur : {var} au lieu de '64'"
+
+    # TEST SIMPLIFICATION DE CONSTANTES AVEC VARIABLE (1 VAR)
+    var = str(Sum(18, 24, 22, "a").value())
+    assert var == "64 + a", f"Mauvaise valeur : {var} au lieu de '64 + a'"
+
+    # TEST SIMPLIFICATION DE CONSTANTES AVEC VARIABLES (PLUSIEURS VARS)
+    var = str(Sum(1, 5, Sum("a", "b")).value())
+    assert var == "6 + a + b",\
+        f"Mauvaise valeur : {var} au lieu de '6 + a + b'"
+
+    # FACTORISATION D'UNE SOMME AVEC PLUSIEURS ITÉRATIONS DE VARIABLES (1 VAR)
+    var = str(Sum(1, 5, "a", "a").value())
+    assert var == "6 + 2 × a",\
+        f"Mauvaise valeur : {var} au lieu de '6 + 2 × a'"
+
+    # FACTORISATION D'UNE SOMME AVEC PLUSIEURS ITÉRATIONS DE VARIABLES (PLUSIEURS VARS)
+    var = str(Sum(1, 5, "a", "a", "a", "b", "b", "b").value())
+    assert var == "6 + 3 × a + 3 × b",\
+        f"Mauvaise valeur : {var} au lieu de '6 + 3 × a + 3 × b'"
+
+    # FACTORISATION D'UNE SOMME AVEC UN COMPOSANT DE MULTIPLICATION (1 VAR)
+    var = str(Sum("a", Mul(3, "a").value()).value())
+    assert var == "4 × a", f"{var}"
+
+    # FACTORISATION D'UNE SOMME AVEC UN COMPOSANT DE MULTIPLICATION (PLUSIEURS VARS)
+    var = str(Sum("a", Mul(3, "a").value(), "b", "b", Mul(40, "b").value()).value())
+    assert var == "4 × a + 42 × b", f"{var}"
+
+    # FACTORISATION D'UNE SOMME AVEC UN COMPOSANT DE DIVISION (1 VAR)
+    var = str(Sum(Div("a", 4).value(), "a").value())
+    assert var == "(5 / 4) × a", f"{var}"
+
+    print("FIN DU TEST : Sum")
+
 
 def test_str_to_expr():
-    print("Début du test : substituer_expr")
+    print("Début du test : Fonction substituer_expr")
 
     assert substituer_expr("5+2*x", "x", 4) == 13
     assert substituer_expr("11037+53*x", "x", 12) == 11673
@@ -393,6 +411,34 @@ def test_str_to_expr():
     print("Fin du test : substituer_expr")
 
 
+def test_div():
+    print("Début du test : Classe Div")
+
+    # Fraction irréductible
+    d = Div(4, 3).value()
+    assert d == "(4 / 3)", f"{d}"
+
+    # Simplification de fraction
+    d = Div(8, 4).value()
+    assert d == 2, f"{d}"
+
+    # Extraction de variable
+    d = Div("a", 4).value()
+    assert d == "(1 / 4) × a", f"{d}"
+
+    # Extraction de variable ET simplification
+    d = Div(Mul(2, "a"), 4).value()
+    assert d == "(1 / 2) × a", f"{d}"
+
+    # Extraction de variable ET simplification (transformation en Mul)
+    d = Div(Mul(4, "a"), 2).value()
+    assert d == "2 × a", f"{d}"
+
+    print("Fin du test : Classe Div")
+# endregion
+
+
 if __name__ == "__main__":
+    test_div()
     test_str_to_expr()
     test_somme()
