@@ -28,4 +28,7 @@ class arme:
     def attaquer(self):
         pass
 
+    def munition(self):
+        pass
+
     
