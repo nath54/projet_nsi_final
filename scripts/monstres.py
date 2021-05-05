@@ -65,6 +65,8 @@ class Monstre:
         # Compteurs déplacements
         self.dernier_bouger = 0
         self.tp_bouger = 1
+        self.nb_bloque = 0
+        self.patiente_bloque = 5
 
         # Compteur deplacements retours
         self.position_base = self.position
