@@ -28,7 +28,7 @@ CREATE TABLE utilisateurs (
 	img_bas TEXT,
 	id_pieds INT,
 	img_pieds TEXT,
-	niveau INT);;
+	niveau INT);
 
 
 CREATE TABLE objet (

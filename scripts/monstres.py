@@ -31,6 +31,7 @@ class Monstre:
         k = str(self.position["x"])+"_"+str(self.position["y"])
         self.server.carte.regions[self.id_region].monstres_pos[k] = self
         #TODO : envoyer la nouvelle position aux joueurs
+        self.server.serveurWebsocket.send_all({"action":"new_monstre_pos", "id_spawn":self.id_monstre_spawn, "x": self.position["x"], "y": self.position["y"]})
 
     def load_monstre(self, id_region, position): ## On charge le monstre en lui attribuant ses capacités à partir de la BDD
         sql = "SELECT nom, pv, niveau, dgt, loot FROM monstre WHERE id_monstre = ?;"
@@ -55,20 +56,43 @@ class Monstre:
         # on update la position dans la region
         self.set_position()
 
+        #
+        self.joueur_detecte = None
+        self.detection_joueur = 3 # Rayon de détection des joueurs proches
+
+        # Compteurs déplacements
+        self.dernier_bouger = 0
+        self.tp_bouger = 1
+
+        # Compteur deplacements retours
+        self.position_base = self.position
+        self.compteur_deplacements_retour = 0
+        self.max_compteur_deplacement_retour = 5
+
+
     def emplacement(self): ## Retourne la position du monstre
         return self.position
 
-    def bouger(self, dep):  # Le serveur s'occupera des déplacements
+    def bouger(self, dep, test_est_libre_fait=None):  # Le serveur s'occupera des déplacements
 
         assert (isinstance(dep, tuple) or isinstance(dep, list)) and len(dep)==2, "Le déplacement n'est pas un tuple."
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
             "Les positions ne sont pas des entiers."
 
-        npx, npy = self.position["x"]+dep[0], self.position["y"]+dep[1]
 
-        if self.server.carte.est_case_libre(self.id_region, npx, npy):
+        est_libre = test_est_libre_fait
+        if est_libre == None:
+            npx, npy = self.position["x"]+dep[0], self.position["y"]+dep[1]
+            est_libre = self.server.carte.est_case_libre(self.id_region, npx, npy)
+
+        if est_libre:
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
+
+            # on update la position dans la region
+            self.set_position()
+
+        """
 
         position_ini = self.position
 
@@ -79,9 +103,8 @@ class Monstre:
                     self.position["y"] += dep[1]
                     if self.position["x"] == self.position["x"] + 6 and self.position["y"] == self.position["y"] + 6 :
                         self.position = position_ini  # Limite la distance que parcourt le monstre en suivant le joueur, le fait retourner à sa position initiale
+        """
 
-        # on update la position dans la region
-        self.set_position()
 
     def modif_vie(self ,valeur_modif , fct=Sum):
         self.pv = fct(self.pv, valeur_modif)
@@ -92,8 +115,8 @@ class Monstre:
 
         if self.pv == 0 :
             # TODO: Monstre doit mourir et loot un item
-            #self.remove()
-            #return self.loot
+            #self.etat = "mort"
+
             pass
 
         if self.pv < 0 :

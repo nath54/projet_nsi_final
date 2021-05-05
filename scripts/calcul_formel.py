@@ -1,3 +1,5 @@
+from math import gcd
+
 """Module de calcul formel
 
 Classes:
@@ -35,8 +37,13 @@ def trie(components):
     return groups
 
 
+class Operation:
+    def value(self):
+        pass
+
+
 # region Somme
-class Sum:
+class Sum(Operation):
     """Classe d'un monstre de type somme.
 
     Attributes:
@@ -74,9 +81,9 @@ class Sum:
             return Expr(r)
         # Sinon, on simplifie au maximum
         else:
-            total_constantes = sum([terme.value() for terme in self.components\
+            total_constantes = sum([terme.value() for terme in self.components
                                     if type(terme.value()) in [int, float]])
-            reste = [terme.value() for terme in self.components\
+            reste = [terme.value() for terme in self.components
                      if type(terme.value()) not in [int, float]]
             variables = {}
             vars_facto = []
@@ -89,9 +96,9 @@ class Sum:
                         variables[terme] = 1
                 # Dans le cas où le terme est une Multiplication
                 if isinstance(terme, Mul):
-                    coeff = [const.value() for const in terme.components\
+                    coeff = [const.value() for const in terme.components
                              if type(const.value()) in [int, float]][0]
-                    var = [variable.value() for variable in terme.components\
+                    var = [variable.value() for variable in terme.components
                            if isinstance(variable.value(), str)][0]
                     if var in variables:
                         variables[var] += coeff
@@ -99,7 +106,8 @@ class Sum:
                         variables[var] = coeff
                 # Dans le cas où le terme est une Division
                 if isinstance(terme, Div):
-                    # But : séparer les variables des constantes
+                    num = terme.num
+                    denom = terme.denom
                     pass  # TODO
             for var in variables:
                 if variables[var] == 0:
@@ -173,7 +181,7 @@ def test_somme():
 
 
 # region multiplication
-class Mul:
+class Mul(Operation):
     def __init__(self, *args):
         self.components = []
         for arg in args:
@@ -211,31 +219,73 @@ class Mul:
 
 
 # region division
-class Div:
+class Div(Operation):
     def __init__(self, numerateur, denominateur):
+        assert numerateur is not None, "Le numérateur ne devrait pas être None"
+        assert denominateur is not None,\
+            "Le dénominateur ne devrait pas être None"
+        assert denominateur != 0, "Diviser par zéro : 2U"
+
         self.num = Expr(numerateur)
         self.denom = Expr(denominateur)
-        assert self.denom != 0,\
-            "Diviser par 0 : 2U"
 
     def value(self):
-        if isinstance(self.num, int) and isinstance(self.denom, int):
-            if self.num % self.denom == 0:
-                return Expr(self.num // self.denom)
-            else:
-                # TODO: Insérer simplification ici
-                return Expr(Div(self.num, self.denom))
+        num = self.num
+        denom = self.denom
+        # D'abord, on regarde si le numérateur et le dénominateur sont entiers
+        if isinstance(num, int) and isinstance(denom, int):
+            return self.__simplifie_ints(num, denom)
+
+        # Si le numérateur et le dénominateur sont des `Opération`
+        elif isinstance(num, Operation) and\
+                isinstance(denom, Operation):
+            # S'ils sont simplifiables en tant qu'`int`
+            try:
+                num_int = int(num.value())
+                denom_int = int(denom.value())
+                return self.__simplifie_ints(num_int, denom_int)
+            # S'ils ne sont pas simplifiables en `int`
+            except (ValueError, TypeError):
+                # TODO: S'ils ne sont pas simplifiables en `int`
+                pass
         else:
             return Expr(self)
 
+    def __simplifie_ints(self, num, denom):
+        """Simplifie une fraction avec un int au numérateur et dénominateur.
+
+        Args:
+            num(int):
+                Numérateur de la fraction
+            denom(int):
+                Dénominateur de la fraction
+
+        Errors:
+            AssertError:
+                Si les paramètres passés ne sont pas des ints
+        """
+        assert isinstance(num, int),\
+            f"Le numérateur de la fraction n'est pas un entier : {num}"
+        assert isinstance(denom, int),\
+            f"Le dénominateur de la fraction n'est pas un entier : {denom}"
+
+        if self.num % self.denom == 0:
+            return Expr(self.num // self.denom)
+        else:
+            commun_diviseur = gcd(self.num, self.denom)
+            self.num = self.num // commun_diviseur
+            self.denom = self.denom // commun_diviseur
+            return Expr(Div(self.num, self.denom))
+
+
     def __str__(self):
         a = self.components[0]
-        if not type(a.value()) in [int, float, str]:
+        if not type(a.value()) in [int, str]:
             aa = "(" + str(a) + ")"
         else:
             aa = str(a)
         for b in self.components[:1]:
-            if not type(b.value()) in [int, float, str]:
+            if not type(b.value()) in [int, str]:
                 aa += " / (" + str(b) + ")"
             else:
                 aa += " / " + str(b)
@@ -259,7 +309,7 @@ class Expr:
             value = None
             try:
                 value = int(self.components[0])
-            except:
+            except (TypeError, ValueError):
                 value = self.components[0]
             return value
 
@@ -304,7 +354,8 @@ class Expr:
         return str(self) == str(other)
 # endregion
 
-def substituer_expr(expression,variable,remplacement):
+
+def substituer_expr(expression, variable, remplacement):
     """Prend une expression pour substituer sa variable et l'interpréter
 
     Args:
@@ -330,13 +381,18 @@ def substituer_expr(expression,variable,remplacement):
         mult = liste_terme[terme_indice].split("*")
         if len(mult) == 2:
             liste_terme[terme_indice] = Mul(*mult).value()
-            print(liste_terme[terme_indice])
     return Sum(*liste_terme).value()
 
+
 def test_str_to_expr():
+    print("Début du test : substituer_expr")
+
     assert substituer_expr("5+2*x", "x", 4) == 13
     assert substituer_expr("11037+53*x", "x", 12) == 11673
 
+    print("Fin du test : substituer_expr")
+
+
 if __name__ == "__main__":
     test_str_to_expr()
-    # test_somme()
+    test_somme()

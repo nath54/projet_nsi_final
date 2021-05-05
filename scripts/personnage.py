@@ -125,7 +125,6 @@ class Personnage:
         if self.server.carte.est_case_libre(self.region_actu, npx, npy):
             self.position["x"] += dep[0]
             self.position["y"] += dep[1]
-            print("perso ",self.id_utilisateur)
             self.server.send_to_user(self.id_utilisateur, {"action": "position_perso", "x":self.position["x"], "y":self.position["y"]})
             self.server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":self.id_utilisateur, "x":self.position["x"], "y":self.position["y"], "region":self.region_actu}, [self.id_utilisateur])
 
@@ -139,9 +138,16 @@ class Personnage:
         TODO: Revoir format de la fonction
 
         """
+        self.server.carte.get_case_obj(x, y)
         est_ramassable = True
+
         if est_ramassable:
-            self.inventaire.append(self.inventaire)
+            
+            sql = """ INSERT INTO inventaire('id_objet', 'id_utilisateur', 'quantite') VALUES ('id_objet', self.id_utilisateur, 'quantite')"""
+            res = self.server.db.action_db(sql, (self.id_utilisateur,))[0]
+
+        else:
+            pass
 
     def attaquer(self):
         pass

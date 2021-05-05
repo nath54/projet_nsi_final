@@ -133,6 +133,21 @@ function on_message(event) {
             aff();
             break;
 
+        case 'new_monstre_pos':
+            // On récupere les données
+            var id_monstre_spawn = data.id_spawn;
+            var x = data.x;
+            var y = data.y;
+            // On vérifie si on a bien le monstre
+            // Et on lui change sa positione
+            console.log(data);
+            if (ennemis[id_monstre_spawn] != undefined) {
+                ennemis[id_monstre_spawn]["x"] = x;
+                ennemis[id_monstre_spawn]["y"] = y;
+                aff();
+            }
+            break;
+
         default:
             // Il faut faire attention aux types d'actions que l'on gère
             // Et ne pas oublier les "break;" à la fin de chaque cas

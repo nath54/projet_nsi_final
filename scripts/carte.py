@@ -115,6 +115,14 @@ class Carte:
         # ca devrait être bon la
         return True
 
+    # Fonction qui compte le nombre de joueurs dans une région
+    def nb_players_in_region(self, id_region):
+        compteur = 0
+        for p in self.server.personnages.values():
+            if p.region_actu == id_region:
+                compteur += 1
+        return compteur
+
     def get_infos_monstres(self, id_region):
         infos = {} # id_region : ennemis
         for id_spawn, monstre in self.regions[id_region].ennemis.items():

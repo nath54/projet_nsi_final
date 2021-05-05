@@ -66,7 +66,7 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
         <form method="POST" action="post_accueil.php">
 
             <section class="login">
-                <div class="titre">Maths Quest</div>
+                <div class="titre">Mathopia</div>
                 <form action="accueil.php" method="post">
                     <div class="soustitre">Nom d'utilisateur: </div>
                     <input type="text" required title="Username" placeholder="Nom d'utilisateur" name="pseudo" data-icon="U" class="bouton">

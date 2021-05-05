@@ -111,10 +111,10 @@ function aff() {
         // var ap = autres_joueurs[k];
         var enx = en.x * tc;
         var eny = en.y * tc;
-        var p = document.getElementById("ennemi_" + en.id_monstre_spawn);
-        if (p == undefined || p == null) {
+        var ennemi = document.getElementById("ennemi_" + en.id_monstre_spawn);
+        if (ennemi == undefined || ennemi == null) {
             let newSvg = document.getElementById("monstre_template").cloneNode(true);
-            newSvg.id = "ennemi_" + en.id_monstre_spawn;
+            newSvg.setAttribute("id", "ennemi_" + en.id_monstre_spawn);
             newSvg.setAttribute("x", enx);
             newSvg.setAttribute("y", eny);
             newSvg.setAttribute("style", "display:initial;");
@@ -144,8 +144,8 @@ function aff() {
             // on ajoute
             document.getElementById("svg_infos_ennemis").appendChild(svgInfos);
         } else {
-            p.setAttribute("x", enx);
-            p.setAttribute("y", eny);
+            ennemi.setAttribute("x", enx);
+            ennemi.setAttribute("y", eny);
             document.getElementById("pv_ennemi_" + en.id_monstre_spawn).innerHTML = en.vie;
             var svgInfos = document.getElementById("infos_ennemi_" + en.id_monstre_spawn);
             svgInfos.setAttribute("x", enx);

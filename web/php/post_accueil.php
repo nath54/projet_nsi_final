@@ -8,7 +8,7 @@ $db = load_db("../../includes/config.json");
 <html>
     <head>
         <meta charset="utf-8" />
-        <title>Bienvenue sur Maths Quest !</title>
+        <title>Bienvenue sur Mathopia !</title>
     </head>
     <body>
     
@@ -33,7 +33,7 @@ $db = load_db("../../includes/config.json");
         
         if($req[0]['niveau'] == 0)
         {
-            $_SESSION["error"]="Personnage non créé";
+            $_SESSION["error"]=$req;
             header('Location: creation_perso.php');
         }
         else
