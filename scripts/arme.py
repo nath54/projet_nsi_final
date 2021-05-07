@@ -8,13 +8,15 @@ class arme:
         self.niveau = 0
         self.style = ""  ## cac ou distance
         self.portee = "" ## portée d'un projectile, surtout pour le style de combat a distance
+        self.munition = ""
+        self.quantite_munition = 0
         self.position = {"x" : 0 , "y" : 0}
         self.id_region = 1
         self.load_arme()
 
     def load_arme(self):
 
-        sql = """SELECT nom, classe, dgt, niveau, style, portee FROM arme WHERE id_arme=? """
+        sql = """SELECT nom, classe, dgt, niveau, style, portee, munition, quantite_mun FROM arme WHERE id_arme=? """
 
         res = self.server.db.requete_db(sql, (self.id_arme,))[0]
 
@@ -24,11 +26,17 @@ class arme:
         self.niveau = res[3] 
         self.style = res[4]
         self.portee = res[5]
+        self.munition = res[6]
+        self.quantite_munition = res[7]
 
     def attaquer(self):
         pass
 
-    def munition(self):
+    def munitions(self):
+        
+        #if self.style == "distance":
+            #if :
+                #self.quantite_mun = self.quantite_mun + 1
         pass
 
     

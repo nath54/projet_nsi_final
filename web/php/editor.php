@@ -387,7 +387,7 @@ if(
 
     /**
      * SAVE PARAMETERS
-    */
+    
     if(count($save_p)>0){
         $req = "UPDATE regions_objets (x,y,id_region, parameters) VALUES ";
         $virgule = false;
@@ -419,6 +419,7 @@ if(
             die();
         }
     }
+    */
 
 }
 
@@ -942,6 +943,10 @@ var update_e = {};
 var new_e = {};
 var delete_e = {};
 
+
+// Variables pour sauvegarder les modifs des parametres des objets
+var save_p = {};
+
 /**
  * FONCTION POUR CHANGER LA REGION SELECTIONNEE
  */
@@ -1303,8 +1308,8 @@ function save_tiles(){
 
         ["delete_ennemis", delete_e],
         ["update_ennemis", update_e],
-        ["new_ennemis", new_e]
-        ["save_parameters", {}]
+        ["new_ennemis", new_e],
+        ["save_parameters", save_p]
     ]
 
     for([nom,data] of liste_donnees){
