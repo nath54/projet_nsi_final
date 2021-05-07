@@ -1,6 +1,7 @@
-<?php 
+<?php
 include_once "../../includes/init.php";
 include_once "../../includes/bdd.php";
+session_start();
 $db = load_db("../../includes/config.json");
 ?>
 
@@ -11,7 +12,7 @@ $db = load_db("../../includes/config.json");
         <title>Vérification perso</title>
     </head>
     <body>
-    
+
     <?php
 
     if(!isset($_POST["tete"]) && !isset($_POST["cheveux"]) && !isset($_POST["barbe"]) && !isset($_POST["haut"]) && !isset($_POST["bas"]) && !isset($_POST["pied"])) {
@@ -38,7 +39,7 @@ $db = load_db("../../includes/config.json");
 
     else {
         $req = requete_prep($db, "SELECT * FROM utilisateurs WHERE id_utilisateur = :id_utilisateur;", array($_POST["tete"], $_POST["cheveux"], $_POST["barbe"], $_POST["haut"], $_POST["bas"], $_POST["pied"]));
-        header('Location : jeu.php');
+        header('Location: jeu.php');
     }
 
     ?>
