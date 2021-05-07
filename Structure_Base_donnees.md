@@ -28,31 +28,39 @@
 
 
 ```sql
+
 CREATE TABLE utilisateurs (
 	id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
-	pseudo TEXT,
-	mdp TEXT,
- 	sexe TEXT,
- 	vie INT DEFAULT 100,
- 	stamina INT DEFAULT 100,
- 	mana INT DEFAULT 100,
- 	armor INT DEFAULT 0,
- 	classe TEXT,
- 	niveau INT DEFAULT 1,
- 	argent INT DEFAULT 0,
- 	experience INT DEFAULT 0,
- 	experience_tot INT DEFAULT 100,
- 	competence TEXT,
- 	quetes TEXT,
- 	region_actu INT DEFAULT 1,
- 	position_x INT DEFAULT 1,
- 	position_y INT DEFAULT 1,
- 	id_tete INT DEFAULT 1,
- 	id_cheveux INT DEFAULT 1,
- 	id_barbe INT DEFAULT 1,
- 	id_haut INT DEFAULT 1,
- 	id_bas INT DEFAULT 1,
- 	id_pieds INT DEFAULT 1);
+	pseudo TEXT NOT NULL,
+	mdp TEXT NOT NULL,
+ 	sexe TEXT NOT NULL DEFAULT "femme",
+ 	vie INT NOT NULL DEFAULT 100,
+ 	stamina INT NOT NULL DEFAULT 100,
+ 	mana INT NOT NULL DEFAULT 100,
+ 	armor INT NOT NULL DEFAULT 0,
+ 	classe TEXT NOT NULL DEFAULT "chevalier",
+ 	argent INT NOT NULL DEFAULT 0,
+ 	experience INT NOT NULL DEFAULT 0,
+ 	experience_tot INT NOT NULL DEFAULT 100,
+ 	competence TEXT NOT NULL DEFAULT '',
+ 	quetes TEXT NOT NULL  DEFAULT '',
+ 	region_actu INT NOT NULL DEFAULT 1 ,
+ 	position_x INT NOT NULL DEFAULT 1 ,
+ 	position_y INT NOT NULL DEFAULT 1 ,
+	id_tete INT NOT NULL DEFAULT 1,
+	img_tete TEXT NOT NULL DEFAULT 1,
+	id_cheveux INT NOT NULL DEFAULT 1,
+	img_cheveux TEXT NOT NULL DEFAULT 1,
+	id_barbe INT NOT NULL DEFAULT 1,
+	img_barbe TEXT NOT NULL DEFAULT 1,
+	id_haut INT NOT NULL DEFAULT 1,
+	img_haut TEXT NOT NULL DEFAULT 1,
+	id_bas INT NOT NULL DEFAULT 1,
+	img_bas TEXT NOT NULL DEFAULT 1,
+	id_pieds INT NOT NULL DEFAULT 1,
+	img_pieds TEXT NOT NULL DEFAULT 1,
+	niveau INT NOT NULL DEFAULT 0
+);
 ```
 ## TABLE 'personnalisation':
  - `id_tete` _INT_ : id de la tête pour le personnalisation
@@ -107,7 +115,7 @@ CREATE TABLE personnalisation (
 }
 ```
 
-```sql
+```json
 CREATE TABLE objet (
 	id_objet INT PRIMARY KEY AUTO_INCREMENT,
  	nom_objet TEXT,

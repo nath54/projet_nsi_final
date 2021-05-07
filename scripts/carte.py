@@ -80,21 +80,24 @@ class Carte:
         # self.load()
         #
 
-    def est_case_libre(self, region,x, y):
-        if region not in self.regions.keys():
+    def get_case_libre_plus_proche(self, id_region, x, y):
+        pass
+
+    def est_case_libre(self, id_region,x, y):
+        if id_region not in self.regions.keys():
             raise UserWarning("Erreur ! Région inconnue")
 
         k = str(x)+"_"+str(y)
 
         # on regarde les terrains
-        tp_case = self.regions[region].get_case(x,y)
+        tp_case = self.regions[id_region].get_case(x,y)
         if tp_case not in self.terrains.keys():
             raise UserWarning("Erreur !")
         if not self.server.carte.terrains[tp_case]["peut_marcher"]: ## Si une case est occupée par un arbre ou autre,
             return False
 
         # on regarde les objets
-        tp_objet = self.regions[region].get_case_obj(x,y)
+        tp_objet = self.regions[id_region].get_case_obj(x,y)
         if tp_objet not in self.objets.keys():
             raise UserWarning("Erreur !")
         # S'il n'y a pas d'objets, on regardera les données de "rien"
@@ -108,7 +111,7 @@ class Carte:
                 return False
 
         # on regarde les monstres
-        monstre = self.regions[region].get_case_monstre(x,y)
+        monstre = self.regions[id_region].get_case_monstre(x,y)
         if monstre != None:
             if monstre.etat == "vivant":
                 return False
