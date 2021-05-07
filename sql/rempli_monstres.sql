@@ -78,3 +78,21 @@ INSERT INTO monstre SET
     dgt = "{\"forme\":\"random between\", \"values\":[4, 9]}",
     loot = "[]",
     img_base = "fantomemechant.mdp";
+
+INSERT INTO monstre SET
+    id_monstre = 9,
+    nom = "pie gentil nv.6",
+    niveau = 6,
+    pv = "{\"forme\":\"random between\", \"values\":[10, 13]}",
+    dgt = "{\"forme\":\"random between\", \"values\":[9, 12]}",
+    loot = "[]",
+    img_base = "pie.mdp";
+
+INSERT INTO monstre SET
+    id_monstre = 10,
+    nom = "pie méchant nv.8",
+    niveau = 8,
+    pv = "{\"forme\":\"random between\", \"values\":[12, 15]}",
+    dgt = "{\"forme\":\"random between\", \"values\":[11, 14]}",
+    loot = "[]",
+    img_base = "pie_mechant.mdp";
