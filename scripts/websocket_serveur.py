@@ -203,7 +203,7 @@ class ServeurWebsocket:
             elif data["action"] == "deplacement":  # Un autre exemple d'action
                 # TODO : mettre des vérifs ici ou dans la fonction utilisée
                 user = self.USERS[websocket['id']]["id_utilisateur"]
-                self.server.bouger_perso(user, data["deplacement"])
+                self.server.bouger_perso(user, data["deplacement"], cooldown=True)
             elif data["action"] == "stats_persos":  # Un autre exemple
                 self.send_infos_persos(websocket)
         else:

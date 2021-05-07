@@ -64,7 +64,7 @@ class Monstre:
 
         # Compteurs déplacements
         self.dernier_bouger = 0
-        self.tp_bouger = 1
+        self.tp_bouger = 0.8
         self.nb_bloque = 0
         self.patiente_bloque = 5
 
@@ -78,6 +78,9 @@ class Monstre:
         return self.position
 
     def bouger(self, dep, test_est_libre_fait=None):  # Le serveur s'occupera des déplacements
+
+        if not isinstance(dep, tuple):
+            return
 
         assert (isinstance(dep, tuple) or isinstance(dep, list)) and len(dep)==2, "Le déplacement n'est pas un tuple."
         assert isinstance(dep[0], int) and isinstance(dep[1], int),\
@@ -94,6 +97,10 @@ class Monstre:
 
             # on update la position dans la region
             self.set_position()
+
+            # On vérifie s'il est retourné a sa case d'origine
+            if self.position == self.position_base:
+                self.compteur_deplacements_retour = 0
 
         """
         position_ini = self.position
