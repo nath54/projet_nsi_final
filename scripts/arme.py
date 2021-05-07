@@ -27,16 +27,16 @@ class arme:
         self.style = res[4]
         self.portee = res[5]
         self.munition = res[6]
-        self.quantite_munition[7]
+        self.quantite_munition = res[7]
 
     def attaquer(self):
         pass
 
-    def munition(self):
+    def munitions(self):
         
-        if self.style == "distance":
-            while attaquer():
-                self.munition = self.munition + 1
+        #if self.style == "distance":
+            #if :
+                #self.quantite_mun = self.quantite_mun + 1
         pass
 
     
