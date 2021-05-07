@@ -370,6 +370,8 @@ CREATE TABLE comptes_administrateurs (
  - `niveau` _INT_ : niveau de l'arme
  - `style` _TEXT_ : Corps à corps ou distance
  - `portee` _INT_ : Portée d'une arme 
+ - `munition` _TEXT_ : les munitions que posséde le joueur
+ - `quantite_mun` _INT_ : Le nombre de munitions que posséde le joueur 
  - `img_arme` _TEXT_ : Chemin vers l'image de l'arme
 
 ```sql
@@ -381,6 +383,8 @@ CREATE TABLE arme (
  	niveau INT, 
 	style TEXT,
 	portee TEXT,
+	munition TEXT,
+	quantite_mun INT,
 	img_arme TEXT);
 ```
 
