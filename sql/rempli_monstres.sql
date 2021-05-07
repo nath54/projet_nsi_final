@@ -96,3 +96,12 @@ INSERT INTO monstre SET
     dgt = "{\"forme\":\"random between\", \"values\":[11, 14]}",
     loot = "[]",
     img_base = "pie_mechant.mdp";
+
+INSERT INTO monstre SET
+    id_monstre = 11,
+    nom = "plante carnivore nv.13",
+    niveau = 13,
+    pv = "{\"forme\":\"random between\", \"values\":[15, 17]}",
+    dgt = "{\"forme\":\"random between\", \"values\":[14, 16]}",
+    loot = "[]",
+    img_base = "plante_carnivore.mdp";
