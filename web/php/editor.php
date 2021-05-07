@@ -163,7 +163,9 @@ if(
   isset($_POST["new_objets"]) &&
   isset($_POST["delete_ennemis"]) &&
   isset($_POST["update_ennemis"])  &&
-  isset($_POST["new_ennemis"]) ){
+  isset($_POST["new_ennemis"])   &&
+  isset($_POST["save_parameters"])
+  ){
     $idr = $_POST["save_terrain"];
     $region_selected = $idr;
     // Pour changer si on veut passer en requetes préparée, plus de calcul, mais plus de sécurité
@@ -177,6 +179,7 @@ if(
     $new_t = json_decode($_POST["new_terrains"], true);
     $new_o = json_decode($_POST["new_objets"], true);
     $new_e = json_decode($_POST["new_ennemis"], true);
+    // $save_p = json_decode($_POST["save_parameters"], true);
     $iu_t = $new_t + $update_t;
     $iu_o = $new_o + $update_o;
     $iu_e = $new_e + $update_e;
@@ -352,6 +355,41 @@ if(
     /***************** INSERT/UPDATE NEW ENNEMIS : *******************/
     if(count($iu_e)>0){
         $req = "INSERT INTO regions_monstres (x,y,id_region,id_monstre) VALUES ";
+        $virgule = false;
+        $vars = array();
+        $compteur = 0; // Pour requete_prep:
+        foreach($iu_e as $i => $data){
+            if(!$virgule){
+                $virgule = true;
+            }
+            else{
+                $req .= ", ";
+            }
+            if($mode == 0){ // pour requete non préparée
+                $req .= "( " . $data["x"] . ", " . $data["y"] . ", " . $data["id_region"] . ", " .
+                        $data["id_monstre"] . " )";
+            }
+            else{ // Pour requete_prep:
+                $req .= "(:x_$compteur, :y_$compteur, :idr_$compteur, :ide_$compteur)";
+                $vars[":x_$compteur"] = $data["x"];
+                $vars[":y_$compteur"] = $data["y"];
+                $vars[":idr_$compteur"] = $data["id_region"];
+                $vars[":ide_$compteur"] = $data["id_monstre"];
+                $compteur += 1;
+            }
+        }
+        $req .= " ON DUPLICATE KEY UPDATE id_monstre=VALUES(id_monstre);";
+        if(!action_prep($db, $req, $vars)){
+            echo "probleme insert/update ennemis <br />";
+            die();
+        }
+    }
+
+    /**
+     * SAVE PARAMETERS
+    */
+    if(count($save_p)>0){
+        $req = "UPDATE regions_objets (x,y,id_region, parameters) VALUES ";
         $virgule = false;
         $vars = array();
         $compteur = 0; // Pour requete_prep:
@@ -786,6 +824,12 @@ body {
 
                     <div class="row">
                         <!-- BOUTONS POUR CHOISIR LE MENU DE PLACEMENT -->
+                        <button onclick="set_mode('terrains');">Terrains</button>
+                        <button onclick="set_mode('objets');">Objets</button>
+                    </div>
+
+                    <div class="row">
+                        <!-- BOUTONS POUR CHOISIR LE MENU DE PLACEMENT -->
                         <button onclick="set_selection('terrains');">Terrains</button>
                         <button onclick="set_selection('objets');">Objets</button>
                         <button onclick="set_selection('ennemis');">Ennemis</button>
@@ -806,6 +850,11 @@ body {
                                 echo "<div value=\"$nom\" id=\"liste_elt_$i\" class=\"liste_terrains liste_element $sel\" onclick=\"select_tile($i);\"><img class=\"img_liste_element\" src=\"../imgs/tuiles/$img\" /><label>$nom</label></div>";
                             }
                         ?>
+                    </div>
+
+                    <div id="objets" style="display:none;">
+                        <textarea id="object_parameters" placeholder="{}">
+                        </textarea>
                     </div>
 
                     <div id="objets" style="display:none;">
@@ -857,6 +906,8 @@ const id_region = <?php if($region_selected != ""){ echo $region_selected; } els
 // Le décalage de l'affichage
 var dcx = null;
 var dcy = null;
+
+var mode = "placer"; // Modes : placer / parametres
 
 var tile_selected = 0;
 var tp_selected = "terrains";
@@ -981,6 +1032,9 @@ function select_ennemis(id_monstre){
  */
 
 function change_case(x, y){
+    if(mode != "placer"){
+        return;
+    }
     //
     // console.log(x,y);
     //
@@ -1250,6 +1304,7 @@ function save_tiles(){
         ["delete_ennemis", delete_e],
         ["update_ennemis", update_e],
         ["new_ennemis", new_e]
+        ["save_parameters", {}]
     ]
 
     for([nom,data] of liste_donnees){
@@ -1428,7 +1483,9 @@ if(viewport != null){
     viewport.addEventListener('mousedown', e => {
         dcx, dcy = null, null;
         if(hx != null && hy != null){
-            change_case(hx, hy);
+            if(mode == "placer"){
+                change_case(hx,hy);
+            }
         }
         is_clicking = true;
     });
@@ -1436,7 +1493,9 @@ if(viewport != null){
     viewport.addEventListener('mousemove', e => {
         if (is_clicking === true && (dcx != hx || dcy != hy)) {
             if(hx != null && hy != null){
-                change_case(hx,hy);
+                if(mode == "placer"){
+                    change_case(hx,hy);
+                }
             }
         }
     });

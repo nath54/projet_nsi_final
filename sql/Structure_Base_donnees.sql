@@ -1,56 +1,50 @@
 
 CREATE TABLE utilisateurs (
 	id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
-	pseudo TEXT,
-	mdp TEXT,
- 	sexe TEXT,
- 	vie INT DEFAULT 100,
- 	stamina INT DEFAULT 100,
- 	mana INT DEFAULT 100,
- 	armor INT DEFAULT 0,
- 	classe TEXT,
- 	argent INT DEFAULT 0,
- 	experience INT DEFAULT 0,
- 	experience_tot INT DEFAULT 100,
- 	competence TEXT,
- 	quetes TEXT,
- 	region_actu INT DEFAULT 1,
- 	position_x INT DEFAULT 1,
- 	position_y INT DEFAULT 1,
-	id_tete INT,
-	img_tete TEXT,
-	id_cheveux INT,
-	img_cheveux TEXT,
-	id_barbe INT,
-	img_barbe TEXT,
-	id_haut INT,
-	img_haut TEXT,
-	id_bas INT,
-	img_bas TEXT,
-	id_pieds INT,
-	img_pieds TEXT,
-	niveau INT);
-
-
-CREATE TABLE objet (
-	id_objet INT PRIMARY KEY AUTO_INCREMENT,
- 	nom_objet TEXT,
- 	description_ TEXT,
- 	image_ TEXT,
-	effet TEXT);
-
+	pseudo TEXT NOT NULL,
+	mdp TEXT NOT NULL,
+ 	sexe TEXT NOT NULL DEFAULT "femme",
+ 	vie INT NOT NULL DEFAULT 100,
+ 	stamina INT NOT NULL DEFAULT 100,
+ 	mana INT NOT NULL DEFAULT 100,
+ 	armor INT NOT NULL DEFAULT 0,
+ 	classe TEXT NOT NULL DEFAULT "chevalier",
+ 	argent INT NOT NULL DEFAULT 0,
+ 	experience INT NOT NULL DEFAULT 0,
+ 	experience_tot INT NOT NULL DEFAULT 100,
+ 	competence TEXT NOT NULL DEFAULT '',
+ 	quetes TEXT NOT NULL  DEFAULT '',
+ 	region_actu INT NOT NULL DEFAULT 1 ,
+ 	position_x INT NOT NULL DEFAULT 1 ,
+ 	position_y INT NOT NULL DEFAULT 1 ,
+	id_tete INT NOT NULL DEFAULT 1,
+	img_tete TEXT NOT NULL DEFAULT 1,
+	id_cheveux INT NOT NULL DEFAULT 1,
+	img_cheveux TEXT NOT NULL DEFAULT 1,
+	id_barbe INT NOT NULL DEFAULT 1,
+	img_barbe TEXT NOT NULL DEFAULT 1,
+	id_haut INT NOT NULL DEFAULT 1,
+	img_haut TEXT NOT NULL DEFAULT 1,
+	id_bas INT NOT NULL DEFAULT 1,
+	img_bas TEXT NOT NULL DEFAULT 1,
+	id_pieds INT NOT NULL DEFAULT 1,
+	img_pieds TEXT NOT NULL DEFAULT 1,
+	niveau INT NOT NULL DEFAULT 0
+);
 
 CREATE TABLE inventaire (
 	id_objet  INT PRIMARY KEY AUTO_INCREMENT,
 	id_utilisateur INT,
- 	quantite INT);
+ 	quantite INT
+);
 
 
 CREATE TABLE monde (
 	id_monde INT PRIMARY KEY AUTO_INCREMENT,
 	ville TEXT,
 	region TEXT,
- 	niveau INT);
+ 	niveau INT
+);
 
 
 CREATE TABLE quete
@@ -67,7 +61,8 @@ CREATE TABLE quete
 CREATE TABLE pnj (
 	id_pnj INT PRIMARY KEY AUTO_INCREMENT,
  	nom_pnj TEXT,
- 	role_ TEXT);
+ 	role_ TEXT
+);
 
 
 CREATE TABLE monstre (
@@ -134,6 +129,7 @@ CREATE TABLE regions_objets(
 	y INT NOT NULL,
 	id_region INT NOT NULL,
 	id_objet INT DEFAULT 0,
+	parametres TEXT DEFAULT '',
 	CONSTRAINT comp_key_x_y PRIMARY KEY (x, y, id_region)
 );
 
