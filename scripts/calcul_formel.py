@@ -55,7 +55,7 @@ class Sum(Operation):
         """Créé une somme
 
         Arguments:
-            *args(tuple(int|str|Sum|Expr))
+            *args(tuple(int|str|Operation|Expr))
                 Liste des termes de la somme
         """
         self.components = []
@@ -87,11 +87,6 @@ class Sum(Operation):
                      if type(terme.value()) not in [int, float]]
             variables = {}
             vars_facto = []
-            # S'il y a une division
-            elt = [elt for elt in reste if isinstance(elt, Div)]
-            # if len(elt) != 0:
-            #     for terme in reste:
-            #         if isinstance
             for terme in reste:
                 # Dans le cas où le terme est un str, donc une variable
                 if isinstance(terme, str):
@@ -101,6 +96,26 @@ class Sum(Operation):
                         variables[terme] = 1
                 # Dans le cas où le terme est une Multiplication
                 if isinstance(terme, Mul):
+                    # S'il y a une division
+                    elt = [elt for elt in reste if isinstance(elt, Div)]
+                    for i in reste:
+                        print(i, type(i))
+                    if len(elt) != 0:
+                        print("DIVISION")
+                        divs = elt
+                        pas_divs = []
+                        for terme in reste:
+                            if terme not in divs:
+                                pas_divs.append(terme)
+                        denom = 1
+                        for terme in divs:
+                            denom *= terme.denom
+                        num_termes = 0
+                        for terme in divs:
+                            num_termes += terme.num * denom / terme.denom
+                        div = Div(num_termes, denom).value()
+                        print(div)
+                        pass
                     coeff = [const.value() for const in terme.components
                              if type(const.value()) in [int, float]]
                     if len(coeff) == 0:
@@ -359,6 +374,7 @@ def substituer_expr(expression, variable, remplacement):
         if len(mult) == 2:
             liste_terme[terme_indice] = Mul(*mult).value()
     return Sum(*liste_terme).value()
+
 
 # region Tests
 def test_somme():
