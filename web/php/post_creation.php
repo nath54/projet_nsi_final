@@ -38,12 +38,7 @@ $db = load_db("../../includes/config.json");
         }
 
         else {
-<<<<<<< Updated upstream
-            $req = requete_prep($db, "UPDATE utilisateurs SET id_tete = :id_tete , id_cheveux = :id_cheveux , id_barbe = :id_barbe ,id_haut = :id_haut ,id_bas = :id_bas , id_pied = :id_pied , niveau = 1 WHERE id_utilisateur = :player_id;", array(':id_tete' => $_POST["tete"], 'id_cheveux' => $_POST["cheveux"], ':id_barbe' => $_POST["barbe"], ':id_haut' => $_POST["haut"], 'id:bas' => $_POST["bas"], ':id_pied' => $_POST["pied"], ':player_id' => $_SESSION['player_id']));
-=======
-            $req = requete_prep($db, "UPDATE utilisateurs SET id_tete = :id_tete , id_cheveux = :id_cheveux , id_barbe = :id_barbe ,id_haut = :id_haut ,id_bas = :id_bas , id_pied = :id_pied , niveau = 1 WHERE id_utilisateur = ?;", array(':id_tete' => $_POST["tete"], 'id_cheveux' => $_POST["cheveux"], ':id_barbe' => $_POST["barbe"], ':id_haut' => $_POST["haut"], 'id:bas' => $_POST["bas"], ':id_pied' => $_POST["pied"], ':player_id' => $_SESSION['player_id']));
-            header('Location:jeu.php');
->>>>>>> Stashed changes
+            $req = requete_prep($db, "UPDATE utilisateurs SET id_tete = :id_tete , id_cheveux = :id_cheveux , id_barbe = :id_barbe ,id_haut = :id_haut ,id_bas = :id_bas , id_pied = :id_pied , niveau = 1 WHERE id_utilisateur = :player_id;", array(':id_tete' => intval ($_POST["tete"]), 'id_cheveux' => intval($_POST["cheveux"]), ':id_barbe' => intval($_POST["barbe"]), ':id_haut' => intval($_POST["haut"]), ':id_bas' => intval($_POST["bas"]), ':id_pied' => intval($_POST["pied"]), ':player_id' => intval($_SESSION['player_id'])));
         }
 
     ?>
