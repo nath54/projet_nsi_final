@@ -156,9 +156,9 @@ class Personnage:
         else:
             pass
 
-    def attaquer(self, case):
+    def attaquer(self):
 
-        npx, npy = self.position["x"]+case[0], self.position["y"]+case[1] # Permet de regarder la case qui suit (Pour voir si il y a un éventuel monstre)
+        npx, npy = self.position["x"]+1, self.position["y"]+1 # Permet de regarder la case qui suit (Pour voir si il y a un éventuel monstre)
         dgt = self.server.arme.dgt
 
         if self.server.monstre.position == {'x': npx, 'y': npy}: # Si le monstre se situe a proximité du joueur 
