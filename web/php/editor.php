@@ -825,8 +825,8 @@ body {
 
                     <div class="row">
                         <!-- BOUTONS POUR CHOISIR LE MENU DE PLACEMENT -->
-                        <button onclick="set_mode('terrains');">Terrains</button>
-                        <button onclick="set_mode('objets');">Objets</button>
+                        <button onclick="set_selection('terrains');">Cases</button>
+                        <button onclick="set_selection('objets_parametres');">Parametres des Objets</button>
                     </div>
 
                     <div class="row">
@@ -853,7 +853,7 @@ body {
                         ?>
                     </div>
 
-                    <div id="objets" style="display:none;">
+                    <div id="objets_parametres" style="display:none;">
                         <textarea id="object_parameters" placeholder="{}">
                         </textarea>
                     </div>
@@ -1330,7 +1330,7 @@ function save_tiles(){
  */
 
 function set_selection(ii){
-    for(i of ["terrains", "objets", "ennemis"]){
+    for(i of ["terrains", "objets", "ennemis", "objets_parametres"]){
         if(i == ii){
             document.getElementById(i).style.display = "initial";
         }
