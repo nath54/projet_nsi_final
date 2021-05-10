@@ -129,7 +129,7 @@ def gere_ennemis(server):
 
 
         # on attends un peu
-        # time.sleep(0.5)
+        time.sleep(0.0618)
 
     # Fin du thread
     print("Fin de l'ennemi")

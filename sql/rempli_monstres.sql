@@ -105,3 +105,39 @@ INSERT INTO monstre SET
     dgt = "{\"forme\":\"random between\", \"values\":[14, 16]}",
     loot = "[]",
     img_base = "plante_carnivore.mdp";
+
+    INSERT INTO monstre SET
+    id_monstre = 12,
+    nom = "patate nv.4",
+    niveau = 4,
+    pv = "{\"forme\":\"random between\", \"values\":[2, 5]}",
+    dgt = "{\"forme\":\"random between\", \"values\":[1, 4]}",
+    loot = "[]",
+    img_base = "patate_base.png";
+    
+    INSERT INTO monstre SET
+    id_monstre = 13,
+    nom = "gargouille nv.15",
+    niveau = 15,
+    pv = "{\"forme\":\"random between\", \"values\":[10, 20]}",
+    dgt = "{\"forme\":\"random between\", \"values\":[5, 15]}",
+    loot = "[]",
+    img_base = "gargouille_base.png";
+        
+    INSERT INTO monstre SET
+    id_monstre = 14,
+    nom = "troll nv.15",
+    niveau = 15,
+    pv = "{\"forme\":\"random between\", \"values\":[10, 20]}",
+    dgt = "{\"forme\":\"random between\", \"values\":[5, 15]}",
+    loot = "[]",
+    img_base = "troll_base.png";
+        
+    INSERT INTO monstre SET
+    id_monstre = 15,
+    nom = "démon nv.20",
+    niveau = 20,
+    pv = "{\"forme\":\"random between\", \"values\":[15, 25]}",
+    dgt = "{\"forme\":\"random between\", \"values\":[10, 20]}",
+    loot = "[]",
+    img_base = "demon_base.png";

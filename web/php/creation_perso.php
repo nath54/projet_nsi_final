@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <!-- Entête page internet -->
 <html>
-<?php 
+<?php
 session_start();
-print_r( $_SESSION['error'] ); ?>
+?>
     <body class="column">
     <head>
         <div>
@@ -25,7 +25,7 @@ print_r( $_SESSION['error'] ); ?>
                     <img class="engrenage" src="../imgs/header/engrenage.png">
                 </div>
             </div>
-            
+
             <!-- Titre création du personnage -->
             <h1>Creation personnage</h1>
         </div>

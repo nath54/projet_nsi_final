@@ -69,7 +69,7 @@ class Monstre:
         self.patiente_bloque = 5
 
         # Compteur deplacements retours
-        self.position_base = self.position
+        self.position_base = {"x":self.position["x"],  "y":self.position["y"]}
         self.compteur_deplacements_retour = 0
         self.max_compteur_deplacement_retour = 5
 
@@ -99,7 +99,7 @@ class Monstre:
             self.set_position()
 
             # On vérifie s'il est retourné a sa case d'origine
-            if self.position == self.position_base:
+            if self.position["x"] == self.position_base["x"] and self.position["y"] == self.position_base["y"]:
                 self.compteur_deplacements_retour = 0
 
         """
