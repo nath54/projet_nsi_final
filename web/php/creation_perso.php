@@ -2,7 +2,31 @@
 <!-- Entête page internet -->
 <html>
 <?php
-session_start();
+
+include_once "../../includes/init.php";
+include_once "../../includes/bdd.php";
+
+$db = load_db("../../includes/config.json");
+
+// On récupère les valeurs du joueurs
+$req = "SELECT id_tete, id_cheveux, id_barbe, id_haut, id_bas, id_pied FROM utilisateurs WHERE id_utilisateur=:id_player";
+$vars = array(":id_player"=>$_SESSION["id_player"]);
+
+$res = requete_prep($db, $req, $vars);
+if(count($res)){
+    $_SESSION["error"] = "Il y a eu une erreur lors de la création du personnage, votre compte a-t-il bien été créé ?";
+    header("Location: ../php/accueil.php");
+}
+
+echo "<script>";
+echo "var tete_selectionnee = ".$res["id_tete"];
+echo "var cheveux_selectionnee = ".$res["id_cheveux"];
+echo "var barbe_selectionnee = ".$res["id_barbe"];
+echo "var haut_selectionnee = ".$res["id_haut"];
+echo "var bas_selectionnee = ".$res["id_bas"];
+echo "var pied_selectionnee = ".$res["id_pied"];
+echo "</script>";
+
 ?>
 <script>
 
