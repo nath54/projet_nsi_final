@@ -4,6 +4,18 @@
 <?php
 session_start();
 ?>
+<script>
+
+var images = {
+    "tete": [],
+    "cheveux": [],
+    "barbe": [],
+    "haut": [],
+    "bas": [],
+    "pied": []
+};
+
+</script>
     <body class="column">
     <head>
         <div>
@@ -98,7 +110,8 @@ session_start();
 
             <div id="sprite">
                 <svg viewBox="0 0 128 128" style="border:1px solid black; width:500px;" id="viewport" xmlns="file:///C:/Users/El%C3%A8ve/Downloads/sprite_test.svg">
-                    <image id="tete" x=0 y=0 width=128 height=128 xlink:href="../imgs/sprites/sprite_fixe_droit.png" />
+                    <image id="corps" x=0 y=0 width=128 height=128 xlink:href="../imgs/sprites/sprite_fixe_droit.png" />
+                    <image id="tete" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
                     <image id="cheveux" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
                     <image id="barbe" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
                     <image id="haut" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
