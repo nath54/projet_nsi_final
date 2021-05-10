@@ -1,4 +1,4 @@
-<?php 
+<?php
 include_once "../../includes/init.php";
 include_once "../../includes/bdd.php";
 $db = load_db("../../includes/config.json");
@@ -11,9 +11,9 @@ $db = load_db("../../includes/config.json");
         <title>Bienvenue sur Mathopia !</title>
     </head>
     <body>
-    
+
     <?php
-        
+
     foreach($_POST as $k=>$v){
         echo "$k = $v <br />";
     }
@@ -21,7 +21,7 @@ $db = load_db("../../includes/config.json");
         $_SESSION["error"] = "Problème lors de la connexion !";
         header('Location: accueil.php');
     }
-    
+
     $res = requete_prep($db, "SELECT * FROM utilisateurs WHERE pseudo = :pseudo AND mdp = MD5(:mdp);", array(":pseudo"=>$_POST["pseudo"], ":mdp"=>$_POST["mdp"]));
     if (count($res)>0)
     // On laisse le joueur se connecter au jeu, si son mot de passe est bon
@@ -30,7 +30,7 @@ $db = load_db("../../includes/config.json");
         header('Location: jeu.php');
 
         $req = requete_prep($db, "SELECT * FROM utilisateurs WHERE id_utilisateur = :id_utilisateur;", array($_SESSION["player_id"]));
-        
+
         if($req[0]['niveau'] == 0)
         {
             $_SESSION["error"]=$req;

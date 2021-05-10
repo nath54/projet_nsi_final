@@ -36,7 +36,6 @@ $db = load_db("../../includes/config.json");
     else   if(! in_array($_POST["pied"],["1","2","3","4","5","6"])){
         $_SESSION["error"] = "Valeur invalide";
     }
-
     else {
         $req = requete_prep($db, "SELECT * FROM utilisateurs WHERE id_utilisateur = :id_utilisateur;", array($_POST["tete"], $_POST["cheveux"], $_POST["barbe"], $_POST["haut"], $_POST["bas"], $_POST["pied"]));
         header('Location: jeu.php');
