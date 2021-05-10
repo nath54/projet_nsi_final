@@ -10,7 +10,7 @@ $db = load_db("../../includes/config.json");
 
 // On récupère les valeurs du joueurs
 $req = "SELECT id_tete, id_cheveux, id_barbe, id_haut, id_bas, id_pied FROM utilisateurs WHERE id_utilisateur=:id_player";
-$vars = array(":id_player"=>$_SESSION["id_player"]);
+$vars = array(":id_player"=>$_SESSION["player_id"]);
 
 $res = requete_prep($db, $req, $vars);
 if(count($res)){
@@ -19,12 +19,13 @@ if(count($res)){
 }
 
 echo "<script>";
-echo "var tete_selectionnee = ".$res["id_tete"];
-echo "var cheveux_selectionnee = ".$res["id_cheveux"];
-echo "var barbe_selectionnee = ".$res["id_barbe"];
-echo "var haut_selectionnee = ".$res["id_haut"];
-echo "var bas_selectionnee = ".$res["id_bas"];
-echo "var pied_selectionnee = ".$res["id_pied"];
+echo "var selectiones = {"
+echo "'tete':".$res["id_tete"].",";
+echo "'cheveux':".$res["id_cheveux"].",";
+echo "'barbe':".$res["id_barbe"].",";
+echo "'haut':".$res["id_haut"].",";
+echo "'bas':".$res["id_bas"].",";
+echo "'pied':".$res["id_pied"];
 echo "</script>";
 
 ?>
@@ -113,12 +114,12 @@ var images_corps = {
                     <!-- Bouton valier, qui enregistre toutes les modifs dans la BDD -->
                     <div class="valider_creation">
                         <form method="POST" action="post_creation.php">
-                            <input id="reponse_tete" name="tete" type="hidden" value="1">
-                            <input id="reponse_cheveux" name="cheveux" type="hidden" value="1">
-                            <input id="reponse_barbe" name="barbe" type="hidden" value="1">
-                            <input id="reponse_haut" name="haut" type="hidden" value="1">
-                            <input id="reponse_bas" name="bas" type="hidden" value="1">
-                            <input id="reponse_pied" name="pied" type="hidden" value="1">
+                            <input id="reponse_tete" name="tete" type="hidden">
+                            <input id="reponse_cheveux" name="cheveux" type="hidden">
+                            <input id="reponse_barbe" name="barbe" type="hidden">
+                            <input id="reponse_haut" name="haut" type="hidden">
+                            <input id="reponse_bas" name="bas" type="hidden">
+                            <input id="reponse_pied" name="pied" type="hidden">
                             <button class="validation_perso_creation" onclick="submit()"><a>VALIDER</a></button>
                         </form>
                     </div>
@@ -155,6 +156,7 @@ var images_corps = {
         var n = parseInt(ligne.innerHTML);
         n = n+delta;
         var taille = images_corps[colonne].length;
+
         if (n>taille){
             n=n-taille;
         }
