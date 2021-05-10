@@ -141,3 +141,12 @@ INSERT INTO monstre SET
     dgt = "{\"forme\":\"random between\", \"values\":[10, 20]}",
     loot = "[]",
     img_base = "demon_base.png";
+
+    INSERT INTO monstre SET
+    id_monstre = 16,
+    nom = "mille pates nv.10",
+    niveau = 10,
+    pv = "{\"forme\":\"random between\", \"values\":[10, 15]}",
+    dgt = "{\"forme\":\"random between\", \"values\":[5, 10]}",
+    loot = "[]",
+    img_base = "mille_pates_base.png";
