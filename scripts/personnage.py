@@ -163,6 +163,7 @@ class Personnage:
         if self.server.monstre.position == {'x': npx, 'y': npy}:
             
             pass
+        pass
 
     def interagir(self):
         pass
