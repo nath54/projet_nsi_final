@@ -156,8 +156,13 @@ class Personnage:
         else:
             pass
 
-    def attaquer(self):
-        pass
+    def attaquer(self, case):
+
+        npx, npy = self.position["x"]+case[0], self.position["y"]+case[1] # Permet de regarder la case qui suit (Pour voir si il y a un éventuel monstre)
+
+        if self.server.monstre.position == {'x': npx, 'y': npy}:
+            
+            pass
 
     def interagir(self):
         pass
