@@ -21,7 +21,6 @@ function start_websocket(ws_url) {
     // On se connecte au websocket
     // websocket = new WebSocket("ws://" + IP + ":" + PORT + "/");
     ws_url += "/";
-    console.log(ws_url);
     window.websocket = new WebSocket(ws_url);
 
     // Quand il y a des erreurs
@@ -118,9 +117,6 @@ function on_message(event) {
 
         case 'j_pos':
             var id_j = parseInt(data.id_perso);
-            console.log("id_j ", id_j);
-            console.log("autres joueurs : ", autres_joueurs);
-            console.log(autres_joueurs[id_j]);
             if (autres_joueurs[id_j]) {
                 autres_joueurs[id_j].x = data.x;
                 autres_joueurs[id_j].y = data.y;
@@ -140,7 +136,6 @@ function on_message(event) {
             var y = data.y;
             // On vérifie si on a bien le monstre
             // Et on lui change sa positione
-            console.log(data);
             if (ennemis[id_monstre_spawn] != undefined) {
                 ennemis[id_monstre_spawn]["x"] = x;
                 ennemis[id_monstre_spawn]["y"] = y;

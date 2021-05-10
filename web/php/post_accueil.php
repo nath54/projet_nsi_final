@@ -33,7 +33,6 @@ $db = load_db("../../includes/config.json");
 
         if($req[0]['niveau'] == 0)
         {
-            $_SESSION["error"]=$req;
             header('Location: creation_perso.php');
         }
         else

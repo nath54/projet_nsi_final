@@ -9,24 +9,34 @@ include_once "../../includes/bdd.php";
 $db = load_db("../../includes/config.json");
 
 // On récupère les valeurs du joueurs
-$req = "SELECT id_tete, id_cheveux, id_barbe, id_haut, id_bas, id_pied FROM utilisateurs WHERE id_utilisateur=:id_player";
+$req = "SELECT id_tete, id_cheveux, id_barbe, id_haut, id_bas, id_pieds FROM utilisateurs WHERE id_utilisateur=:id_player";
 $vars = array(":id_player"=>$_SESSION["player_id"]);
 
-$res = requete_prep($db, $req, $vars);
-if(count($res)){
+$res = requete_prep($db, $req, $vars)[0];
+if(count($res)==0){
     $_SESSION["error"] = "Il y a eu une erreur lors de la création du personnage, votre compte a-t-il bien été créé ?";
     header("Location: ../php/accueil.php");
 }
 
-echo "<script>";
-echo "var selectiones = {"
-echo "'tete':".$res["id_tete"].",";
-echo "'cheveux':".$res["id_cheveux"].",";
-echo "'barbe':".$res["id_barbe"].",";
-echo "'haut':".$res["id_haut"].",";
-echo "'bas':".$res["id_bas"].",";
-echo "'pied':".$res["id_pied"];
-echo "</script>";
+$tete = $res['id_tete'];
+$cheveux = $res["id_cheveux"];
+$barbe = $res["id_barbe"];
+$haut = $res["id_haut"];
+$bas = $res["id_bas"];
+$pied = $res["id_pieds"];
+
+$txt = "<script>";
+$txt.="var selectionnes = {";
+$txt.="'tete':$tete,";
+$txt.="'cheveux':$cheveux,";
+$txt.="'barbe':$barbe,";
+$txt.="'haut':$haut,";
+$txt.="'bas':$bas,";
+$txt.="'pied':$pied";
+$txt.="}";
+$txt.="</script>";
+
+echo $txt;
 
 ?>
 <script>
@@ -88,22 +98,22 @@ var images_corps = {
                 <!-- &nbsp = espace -->
                 <div class="menu_creation_perso column">
                     <div class="row">
-                        <button onclick="clic('tete',-1);">&#60</button><a>&nbsp Tete <span id="choix_tete">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic('tete',+1);">&#62</button>
+                        <button onclick="clic('tete',-1);">&#60</button><a>&nbsp Tete <span id="choix_tete">1</span>/<span id="taille_tete">1</span> &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic('tete',+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic('cheveux',-1);">&#60</button><a>&nbsp Cheveux <span id="choix_cheveux">1</span>/6 &nbsp</a><button onclick="clic('cheveux',+1);">&#62</button>
+                        <button onclick="clic('cheveux',-1);">&#60</button><a>&nbsp Cheveux <span id="choix_cheveux">1</span>/<span id="taille_cheveux">1</span> &nbsp</a><button onclick="clic('cheveux',+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic('barbe',-1);">&#60</button><a>&nbsp Barbe <span id="choix_barbe">1</span>/6 &nbsp&nbsp&nbsp</a><button onclick="clic('barbe',+1);">&#62</button>
+                        <button onclick="clic('barbe',-1);">&#60</button><a>&nbsp Barbe <span id="choix_barbe">1</span>/<span id="taille_barbe">1</span> &nbsp&nbsp&nbsp</a><button onclick="clic('barbe',+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic('haut',-1);">&#60</button><a>&nbsp Haut <span id="choix_haut">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic('haut',+1);">&#62</button>
+                        <button onclick="clic('haut',-1);">&#60</button><a>&nbsp Haut <span id="choix_haut">1</span>/<span id="taille_haut">1</span> &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic('haut',+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic('bas',-1);">&#60</button><a>&nbsp Bas <span id="choix_bas">1</span>/6 &nbsp&nbsp&nbsp&nbsp&nbsp</a><button onclick="clic('bas',+1);">&#62</button>
+                        <button onclick="clic('bas',-1);">&#60</button><a>&nbsp Bas <span id="choix_bas">1</span>/<span id="taille_bas">1</span> &nbsp&nbsp&nbsp&nbsp&nbsp</a><button onclick="clic('bas',+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic('pied',-1);">&#60</button><a>&nbsp Pied <span id="choix_pied">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic('pied',+1);">&#62</button>
+                        <button onclick="clic('pied',-1);">&#60</button><a>&nbsp Pied <span id="choix_pied">1</span>/<span id="taille_pied">1</span> &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic('pied',+1);">&#62</button>
                     </div>
                 </div>
 
@@ -150,32 +160,27 @@ var images_corps = {
 
 <!-- Script qui permet d'afficher le numéro suivant des vetements  -->
 <script>
-    function clic(colonne, delta){
-        var ligne = document.getElementById("choix_"+colonne);
-        var champ = document.getElementById("reponse_"+colonne);
-        var n = parseInt(ligne.innerHTML);
-        n = n+delta;
-        var taille = images_corps[colonne].length;
-
-        if (n>taille){
-            n=n-taille;
-        }
-        if (n<=0){
-            n = n+taille;
-        }
+    function clic(cat, delta){
+        var taille = images_corps[cat].length;
+        selectionnes[cat]+=delta;
+        if(selectionnes[cat] <= 0) selectionnes[cat]=taille;
+        if(selectionnes[cat] > taille) selectionnes[cat]=1;
         //
-        var img = "../imgs/custom_perso/"+images_corps[colonne][n-1];
-        console.log(img, n);
-        document.getElementById("img_"+colonne).setAttribute("xlink:href", img)
+        var img = "../imgs/custom_perso/"+images_corps[cat][selectionnes[cat]-1];
+        document.getElementById("img_"+cat).setAttribute("xlink:href", img);
         //
-        ligne.innerHTML = n;
-        champ.value = n;
+        document.getElementById("choix_"+cat).innerHTML = selectionnes[cat];
+        document.getElementById("reponse_"+cat).value = selectionnes[cat];
     }
 
 function init_imgs(){
-    for(cat of ["tete", "cheveux", "barbe", "haut", "bas", "pied"]){
-        var img = "../imgs/custom_perso/"+images_corps[cat][0];
-        document.getElementById("img_"+cat).setAttribute("xlink:href", img)
+    for(cat of Object.keys(selectionnes)){
+        var taille = images_corps[cat].length;
+        document.getElementById("taille_"+cat).innerHTML = taille;
+        document.getElementById("choix_"+cat).innerHTML = selectionnes[cat];
+        var img = "../imgs/custom_perso/"+images_corps[cat][selectionnes[cat]-1];
+        document.getElementById("img_"+cat).setAttribute("xlink:href", img);
+        document.getElementById("reponse_"+cat).value = selectionnes[cat];
     }
 }
 
