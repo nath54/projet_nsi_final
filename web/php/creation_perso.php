@@ -6,17 +6,17 @@ session_start();
 ?>
 <script>
 
-var images = {
-    "tete": [],
-    "cheveux": [],
-    "barbe": [],
-    "haut": [],
-    "bas": [],
-    "pied": []
+var images_corps = {
+    "tete": ["casque_chevalier.png", "chapeau_sorcier.png", ""],
+    "cheveux": ["cheveux_coupe_1.png", "cheveux_coupe_2.png", ""],
+    "barbe": ["barbe_1.png", "barbe_2.png", ""],
+    "haut": ["t_shirt_bleu.png", "t_shirt_rouge.png", "tshirt_bleu.png", ""],
+    "bas": ["pantalon_bleu.png", "pantalon_noir.png", ""],
+    "pied": ["pied_noir.png", "pied_rouge.png", ""]
 };
 
 </script>
-    <body class="column">
+    <body class="column" onload="init_imgs();">
     <head>
         <div>
             <!-- Div des boutons -->
@@ -63,22 +63,22 @@ var images = {
                 <!-- &nbsp = espace -->
                 <div class="menu_creation_perso column">
                     <div class="row">
-                        <button onclick="clic(1,-1);">&#60</button><a>&nbsp Tete <span id="choix1">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(1,+1);">&#62</button>
+                        <button onclick="clic('tete',-1);">&#60</button><a>&nbsp Tete <span id="choix_tete">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic('tete',+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic(2,-1);">&#60</button><a>&nbsp Cheveux <span id="choix2">1</span>/6 &nbsp</a><button onclick="clic(2,+1);">&#62</button>
+                        <button onclick="clic('cheveux',-1);">&#60</button><a>&nbsp Cheveux <span id="choix_cheveux">1</span>/6 &nbsp</a><button onclick="clic('cheveux',+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic(3,-1);">&#60</button><a>&nbsp Barbe <span id="choix3">1</span>/6 &nbsp&nbsp&nbsp</a><button onclick="clic(3,+1);">&#62</button>
+                        <button onclick="clic('barbe',-1);">&#60</button><a>&nbsp Barbe <span id="choix_barbe">1</span>/6 &nbsp&nbsp&nbsp</a><button onclick="clic('barbe',+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic(4,-1);">&#60</button><a>&nbsp Haut <span id="choix4">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(4,+1);">&#62</button>
+                        <button onclick="clic('haut',-1);">&#60</button><a>&nbsp Haut <span id="choix_haut">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic('haut',+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic(5,-1);">&#60</button><a>&nbsp Bas <span id="choix5">1</span>/6 &nbsp&nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(5,+1);">&#62</button>
+                        <button onclick="clic('bas',-1);">&#60</button><a>&nbsp Bas <span id="choix_bas">1</span>/6 &nbsp&nbsp&nbsp&nbsp&nbsp</a><button onclick="clic('bas',+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic(6,-1);">&#60</button><a>&nbsp Pied <span id="choix6">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(6,+1);">&#62</button>
+                        <button onclick="clic('pied',-1);">&#60</button><a>&nbsp Pied <span id="choix_pied">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic('pied',+1);">&#62</button>
                     </div>
                 </div>
 
@@ -89,12 +89,12 @@ var images = {
                     <!-- Bouton valier, qui enregistre toutes les modifs dans la BDD -->
                     <div class="valider_creation">
                         <form method="POST" action="post_creation.php">
-                            <input id="reponse_1" name="tete" type="hidden" value="1">
-                            <input id="reponse_2" name="cheveux" type="hidden" value="1">
-                            <input id="reponse_3" name="barbe" type="hidden" value="1">
-                            <input id="reponse_4" name="haut" type="hidden" value="1">
-                            <input id="reponse_5" name="bas" type="hidden" value="1">
-                            <input id="reponse_6" name="pied" type="hidden" value="1">
+                            <input id="reponse_tete" name="tete" type="hidden" value="1">
+                            <input id="reponse_cheveux" name="cheveux" type="hidden" value="1">
+                            <input id="reponse_barbe" name="barbe" type="hidden" value="1">
+                            <input id="reponse_haut" name="haut" type="hidden" value="1">
+                            <input id="reponse_bas" name="bas" type="hidden" value="1">
+                            <input id="reponse_pied" name="pied" type="hidden" value="1">
                             <button class="validation_perso_creation" onclick="submit()"><a>VALIDER</a></button>
                         </form>
                     </div>
@@ -110,13 +110,13 @@ var images = {
 
             <div id="sprite">
                 <svg viewBox="0 0 128 128" style="border:1px solid black; width:500px;" id="viewport" xmlns="file:///C:/Users/El%C3%A8ve/Downloads/sprite_test.svg">
-                    <image id="corps" x=0 y=0 width=128 height=128 xlink:href="../imgs/sprites/sprite_fixe_droit.png" />
-                    <image id="tete" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
-                    <image id="cheveux" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
-                    <image id="barbe" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
-                    <image id="haut" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
-                    <image id="bas" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
-                    <image id="pied" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="img_corps" x=0 y=0 width=128 height=128 xlink:href="../imgs/sprites/sprite_fixe_droit.png" />
+                    <image id="img_haut" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="img_bas" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="img_pied" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="img_barbe" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="img_cheveux" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="img_tete" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
                 </svg>
             </div>
         </div>
@@ -125,18 +125,32 @@ var images = {
 
 <!-- Script qui permet d'afficher le numéro suivant des vetements  -->
 <script>
-    function clic(a,b){
-        var ligne = document.getElementById("choix"+a);
-        var champ = document.getElementById("reponse_"+a);
+    function clic(colonne, delta){
+        var ligne = document.getElementById("choix_"+colonne);
+        var champ = document.getElementById("reponse_"+colonne);
         var n = parseInt(ligne.innerHTML);
-        n = n+b;
-        if (n>6){
-            n=n-6;
-            }
-        if (n<=0){
-        n = n+6;
+        n = n+delta;
+        var taille = images_corps[colonne].length;
+        if (n>taille){
+            n=n-taille;
         }
+        if (n<=0){
+            n = n+taille;
+        }
+        //
+        var img = "../imgs/custom_perso/"+images_corps[colonne][n-1];
+        console.log(img, n);
+        document.getElementById("img_"+colonne).setAttribute("xlink:href", img)
+        //
         ligne.innerHTML = n;
         champ.value = n;
     }
+
+function init_imgs(){
+    for(cat of ["tete", "cheveux", "barbe", "haut", "bas", "pied"]){
+        var img = "../imgs/custom_perso/"+images_corps[cat][0];
+        document.getElementById("img_"+cat).setAttribute("xlink:href", img)
+    }
+}
+
 </script>
