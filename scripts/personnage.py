@@ -221,9 +221,27 @@ class Personnage:
             L = L + 100  ## Valeur de la limite pour augmenter de niveau à changer si besoin
             self.vie_max = self.vie_max + 50     ## Valeur de l'augmentation des stats à voir
             self.mana_max = self.mana_max + 50
-
         else:
             pass
+
+    def subit_degats(self, degats):
+        self.vie -= degats
+        if self.vie <= 0:
+            self.vie = 0
+            self.meurt()
+        else:
+            self.server.send_to_user(self.id_utilisateur, {"action":"vie", "value":self.vie, "max_v": self.vie_max})
+
+    def change_mana(self, delta):
+        self.mana += delta
+        if self.mana > self.mana_max:
+            self.mana = self.mana_max
+        if self.mana < 0:
+            self.mana = 0
+        self.server.send_to_user(self.id_utilisateur, {"action":"mana", "value":self.mana, "max_v": self.mana_max})
+
+    def meurt(self):
+        pass
 
     def modifier_vie(self, vie):
         """Modifie la vie du personnage et check s'il est mort
@@ -240,28 +258,5 @@ class Personnage:
             self.vie = self.vie_max
 
     def changement_region(self):
-        if not self.server.carte.cases_terrains :  # si le joueur marche sur une case noir ou un élément qui va trigger le passage
-            self.region_actu = self.server.Region.id_region
-            self.server.carte.load()
-            # TODO : définir une nouvelle position à la suite du changement
-            self.load_perso()
         pass
 
-
-# if __name__ == "__main__":
-#     print("début des tests")
-#     p = personnage("Lance", "mage", "homme")
-
-#     p.bouger((25, 25))
-#     pos = p.emplacement()
-#     assert pos["x"] == 25 and pos["y"] == 25, "Les positions sont fausses"
-#     p.bouger((25, 25))
-
-#     pos = p.emplacement()
-#     assert pos["x"] == 50 and pos["y"] == 50, "Positions fausses"
-
-#     p.modifier_vie(-10)
-#     assert p.vie == 10, f"Vie fausse : {p.vie} au lieu de 10"
-#     p.modifier_vie(20)
-#     assert p.vie == 20, f"Vie fausse : {p.vie} au lieu de 20"
-#     print("fin des tests")

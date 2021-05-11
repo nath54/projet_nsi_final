@@ -51,6 +51,9 @@ function aff() {
     v.setAttribute("viewBox", "" + (px - tx / 2) + " " + (py - ty / 2) + " " + tx + " " + ty);
     // On affiche aussi tous les autres joueurs
     for (ap of Object.values(autres_joueurs)) {
+        if (ap == undefined) {
+            continue;
+        }
         // var ap = autres_joueurs[k];
         var apx = ap.x * tc;
         var apy = ap.y * tc;
