@@ -8,7 +8,7 @@ include_once "../../includes/bdd.php";
 
 $db = load_db("../../includes/config.json");
 
-// On récupère les valeurs du joueurs
+// On récupère les vetements du joueurs
 $req = "SELECT id_tete, id_cheveux, id_barbe, id_haut, id_bas, id_pieds FROM utilisateurs WHERE id_utilisateur=:id_player";
 $vars = array(":id_player"=>$_SESSION["player_id"]);
 
@@ -39,18 +39,7 @@ $txt.="</script>";
 echo $txt;
 
 ?>
-<script>
-
-var images_corps = {
-    "tete": ["casque_chevalier.png", "chapeau_sorcier.png", ""],
-    "cheveux": ["cheveux_coupe_1.png", "cheveux_coupe_2.png", ""],
-    "barbe": ["barbe_1.png", "barbe_2.png", ""],
-    "haut": ["t_shirt_bleu.png", "t_shirt_rouge.png", "tshirt_bleu.png", ""],
-    "bas": ["pantalon_bleu.png", "pantalon_noir.png", ""],
-    "pied": ["pied_noir.png", "pied_rouge.png", ""]
-};
-
-</script>
+    <script src="../js/customisation_perso_data.js"></script>
     <body class="column" onload="init_imgs();">
     <head>
         <div>

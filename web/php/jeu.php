@@ -132,6 +132,7 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
         <meta charset="utf-8" />
         <title>Jeu</title>
         <link href="../css/style_jeu.css" rel="stylesheet" />
+        <script src="../js/customisation_perso_data.js"></script>
     </head>
 
     <body onload="launch();">
@@ -278,8 +279,27 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
                     <?php
                         $img_p = "../imgs/sprites/sprite_fixe_droit.png";
+                        // On récupère les vetements du joueurs
+                        $res = requete_prep($db, "SELECT id_tete, id_cheveux, id_barbe, id_haut, id_bas, id_pieds FROM utilisateurs WHERE id_utilisateur=:id_player", array(":id_player"=>$_SESSION["player_id"]));
+                        if(count($res)==0){
+                            $_SESSION["error"] = "Il y a eu une erreur lors de la création du personnage, votre compte a-t-il bien été créé ?";
+                            header("Location: ../php/accueil.php");
+                        }
+                        $img_tete = $images_corps["tete"][$res[0]['id_tete'] - 1];
+                        $img_cheveux = $images_corps["cheveux"][$res[0]["id_cheveux"] - 1];
+                        $img_barbe = $images_corps["barbe"][$res[0]["id_barbe"] - 1];
+                        $img_haut = $images_corps["haut"][$res[0]["id_haut"] - 1];
+                        $img_bas = $images_corps["bas"][$res[0]["id_bas"] - 1];
+                        $img_pied = $images_corps["pied"][$res[0]["id_pieds"] - 1];
+                        //
                         echo "<svg x=$px y=$py width=$tc height=$tc id=\"player\">";
-                        echo "<image width=$tc height=$tc xlink:href=\"$img_p\"></image>";
+                        echo "<image id='img_perso_corps' width=$tc height=$tc xlink:href=\"$img_p\"></image>";
+                        echo "<image id='img_perso_haut' width=$tc height=$tc xlink:href=\"$img_haut\"></image>";
+                        echo "<image id='img_perso_bas' width=$tc height=$tc xlink:href=\"$img_bas\"></image>";
+                        echo "<image id='img_perso_pied' width=$tc height=$tc xlink:href=\"$img_pied\"></image>";
+                        echo "<image id='img_perso_barbe' width=$tc height=$tc xlink:href=\"$img_barbe\"></image>";
+                        echo "<image id='img_perso_cheveux' width=$tc height=$tc xlink:href=\"$img_cheveux\"></image>";
+                        echo "<image id='img_perso_tete' width=$tc height=$tc xlink:href=\"$img_tete\"></image>";
                         echo "</svg>";
 
                     ?>
