@@ -285,12 +285,12 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                             $_SESSION["error"] = "Il y a eu une erreur lors de la création du personnage, votre compte a-t-il bien été créé ?";
                             header("Location: ../php/accueil.php");
                         }
-                        $img_tete = $images_corps["tete"][$res[0]['id_tete'] - 1];
-                        $img_cheveux = $images_corps["cheveux"][$res[0]["id_cheveux"] - 1];
-                        $img_barbe = $images_corps["barbe"][$res[0]["id_barbe"] - 1];
-                        $img_haut = $images_corps["haut"][$res[0]["id_haut"] - 1];
-                        $img_bas = $images_corps["bas"][$res[0]["id_bas"] - 1];
-                        $img_pied = $images_corps["pied"][$res[0]["id_pieds"] - 1];
+                        $img_tete = "../imgs/custom_perso/".$images_corps["tete"][$res[0]['id_tete'] - 1];
+                        $img_cheveux = "../imgs/custom_perso/".$images_corps["cheveux"][$res[0]["id_cheveux"] - 1];
+                        $img_barbe = "../imgs/custom_perso/".$images_corps["barbe"][$res[0]["id_barbe"] - 1];
+                        $img_haut = "../imgs/custom_perso/".$images_corps["haut"][$res[0]["id_haut"] - 1];
+                        $img_bas = "../imgs/custom_perso/".$images_corps["bas"][$res[0]["id_bas"] - 1];
+                        $img_pied = "../imgs/custom_perso/".$images_corps["pied"][$res[0]["id_pieds"] - 1];
                         //
                         echo "<svg x=$px y=$py width=$tc height=$tc id=\"player\">";
                         echo "<image id='img_perso_corps' width=$tc height=$tc xlink:href=\"$img_p\"></image>";

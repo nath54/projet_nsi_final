@@ -115,7 +115,13 @@ class Serveur:
                  "mana_max": perso.mana_max,
                  "xp": perso.xp,
                  "xp_tot": perso.xp_tot,
-                 "region_actu": perso.region_actu}
+                 "region_actu": perso.region_actu,
+                 "id_tete": perso.id_tete,
+                 "id_cheveux": perso.id_cheveux,
+                 "id_barbe": perso.id_barbe,
+                 "id_haut": perso.id_haut,
+                 "id_bas": perso.id_bas,
+                 "id_pied": perso.id_pied}
         self.serveurWebsocket.send_all(infos, [id_utilisateur])
         ws_base = self.serveurWebsocket.wsFromId(id_utilisateur)
         #on va récuperer toutes les infos des autres joueurs
@@ -134,7 +140,13 @@ class Serveur:
                          "mana_max": p.mana_max,
                          "xp": p.xp,
                          "xp_tot": p.xp_tot,
-                         "region_actu": p.region_actu}
+                         "region_actu": p.region_actu,
+                         "id_tete": p.id_tete,
+                         "id_cheveux": p.id_cheveux,
+                         "id_barbe": p.id_barbe,
+                         "id_haut": p.id_haut,
+                         "id_bas": p.id_bas,
+                         "id_pied": p.id_pied}
                 self.serveurWebsocket.send(ws_base, infos)
 
 

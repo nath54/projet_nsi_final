@@ -96,7 +96,7 @@ function on_message(event) {
         case 'joueur':
             var id_j = parseInt(data.id_perso);
             if (id_j != personnage.id_perso) {
-                delete data['action']
+                delete data['action'];
                 autres_joueurs[id_j] = data;
                 aff();
             }

@@ -73,6 +73,12 @@ class Personnage:
         self.inventaire = []
         self.quetes = {}
         self.equipements = {}
+        self.id_tete = 1
+        self.id_cheveux = 1
+        self.id_barbe = 1
+        self.id_haut = 1
+        self.id_bas = 1
+        self.id_pied = 1
         self.server = server
         self.load_perso()
 
@@ -86,7 +92,7 @@ class Personnage:
                 Instance de la base de données
 
         """
-        sql = """SELECT pseudo, sexe, classe, vie, stamina, mana, armor, niveau, argent, experience, experience_tot, competence, quetes, region_actu, position_x, position_y
+        sql = """SELECT pseudo, sexe, classe, vie, stamina, mana, armor, niveau, argent, experience, experience_tot, competence, quetes, region_actu, position_x, position_y, id_tete, id_cheveux, id_barbe, id_haut, id_bas, id_pieds
                  FROM utilisateurs
                  WHERE id_utilisateur = ?"""
         res = self.server.db.requete_db(sql, (self.id_utilisateur,))[0]
@@ -109,6 +115,13 @@ class Personnage:
         self.quetes = res[12]
         self.region_actu = int(res[13])
         self.position = {"x": int(res[14]), "y": int(res[15])}
+        self.id_tete = int(res[16])
+        self.id_cheveux = int(res[17])
+        self.id_barbe = int(res[18])
+        self.id_haut = int(res[19])
+        self.id_bas = int(res[20])
+        self.id_pied = int(res[21])
+        #
         self.tp_bouger = 0.1
         self.dernier_bouger = 0
         # TODO: faire que si un perso est deja sur la case, on le décale
