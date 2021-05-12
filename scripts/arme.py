@@ -30,6 +30,7 @@ class arme:
         self.quantite_munition = res[7]
 
     def attaquer(self):
+        
         pass
 
     def munitions(self):
