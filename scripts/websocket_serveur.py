@@ -215,7 +215,8 @@ class ServeurWebsocket:
 
     def client_part(self, websocket, ws_server):
         try:
-            print("Client(%d) disconnected" % websocket['id'])
+            wid = websocket['id']
+            print(f"Client {wid} disconnected")
             id_perso = self.USERS[websocket['id']]["id_utilisateur"]
             if id_perso is not None:
                 p = self.server.personnages[id_perso]
