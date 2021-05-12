@@ -14,7 +14,6 @@ except Exception as e:
         raise UserWarning("Il faut installer la librairie mariadb ou mysql !")
 # endregion
 
-
 class Quete:
     """Classe des quêtes
 

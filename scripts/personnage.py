@@ -172,7 +172,10 @@ class Personnage:
     def attaquer(self):
 
         npx, npy = self.position["x"]+1, self.position["y"]+1 # Permet de regarder la case qui suit (Pour voir si il y a un éventuel monstre)
-        dgt = self.server.arme.dgt
+        dgt = -1 ## Dégat de base si pas d'arme
+        
+        if self.equipements != {"arme": None}:
+            dgt = self.server.arme.dgt
 
         if self.server.monstre.position == {'x': npx, 'y': npy}: # Si le monstre se situe a proximité du joueur 
             self.server.monstre.modif_vie(dgt)
