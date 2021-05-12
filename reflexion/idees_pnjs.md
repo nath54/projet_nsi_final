@@ -7,7 +7,9 @@ chevalier:
 
 paysan:
     lieu: dans le village
-    quête: trouvé et tuer le loup qui a manger ses moutons
+    quêtes: 
+        -tuer les légumes et les fruits devenus sauvage(patate, carotte...)
+        -trouvé et tuer le loup qui a manger ses moutons
     dialogues: (a venir)
 
 
