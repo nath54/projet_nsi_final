@@ -193,3 +193,8 @@ progress {
     border-radius: 3px;
     margin: 2px;
 }
+
+.ennemi_selectionne {
+    border: 2px solid red;
+    border-radius: 20%;
+}

@@ -214,23 +214,26 @@ class ServeurWebsocket:
         self.register(websocket)
 
     def client_part(self, websocket, ws_server):
-        print("Client(%d) disconnected" % websocket['id'])
-        id_perso = self.USERS[websocket['id']]["id_utilisateur"]
-        if id_perso is not None:
-            p = self.server.personnages[id_perso]
-            # On vérifie si un monstre l'avait détecté
-            for monstre in self.server.carte.regions[p.region_actu].ennemis.values():
-                if monstre.joueur_detecte == p:
-                    monstre.joueur_detecte = None
-            # on va enregistrer sa derniere position dans la bdd
-            self.server.db.action_db("UPDATE utilisateurs SET position_x = ?, position_y = ? WHERE id_utilisateur = ?;", ( p.position["x"], p.position["y"], id_perso))
-            #
-            del self.server.personnages[id_perso]
-            mes_parti = {"action":"j_leave", "id_perso": id_perso}
-            # On supprime l'utilisateur
-            self.unregister(websocket)
-            # on dit a tt le monde que le joueur a quitté
-            self.send_all(mes_parti)
+        try:
+            print("Client(%d) disconnected" % websocket['id'])
+            id_perso = self.USERS[websocket['id']]["id_utilisateur"]
+            if id_perso is not None:
+                p = self.server.personnages[id_perso]
+                # On vérifie si un monstre l'avait détecté
+                for monstre in self.server.carte.regions[p.region_actu].ennemis.values():
+                    if monstre.joueur_detecte == p:
+                        monstre.joueur_detecte = None
+                # on va enregistrer sa derniere position dans la bdd
+                self.server.db.action_db("UPDATE utilisateurs SET position_x = ?, position_y = ? WHERE id_utilisateur = ?;", ( p.position["x"], p.position["y"], id_perso))
+                #
+                del self.server.personnages[id_perso]
+                mes_parti = {"action":"j_leave", "id_perso": id_perso}
+                # On supprime l'utilisateur
+                self.unregister(websocket)
+                # on dit a tt le monde que le joueur a quitté
+                self.send_all(mes_parti)
+        except:
+            pass
 
     # \=~=~=~=~=~=~=~=~=~=~=~=~= START SERVER =~=~=~=~=~=~=~=~=~=~=~=~=/
 

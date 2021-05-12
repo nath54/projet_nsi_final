@@ -1,4 +1,3 @@
-#
 #!bin/python3
 from websocket_serveur import ServeurWebsocket
 from carte import Carte

@@ -34,6 +34,8 @@ var autres_joueurs = {};
 var ennemis = {};
 var test_var = null;
 
+var ennemi_selectionne = null;
+
 /**
  *
  * FONCTIONS POUR AFFICHER
@@ -150,6 +152,7 @@ function aff() {
             newSvg.setAttribute("x", enx);
             newSvg.setAttribute("y", eny);
             newSvg.setAttribute("style", "display:initial;");
+            newSvg.setAttribute("onclick", "click_monstre(" + en.id_monstre_spawn + ")");
             //
             var ime = "../imgs/ennemis/" + ennemis_data[en.id_monstre]["img"];
             newSvg.firstChild.setAttribute("xlink:href", ime);
@@ -176,6 +179,13 @@ function aff() {
             // on ajoute
             document.getElementById("svg_infos_ennemis").appendChild(svgInfos);
         } else {
+            //
+            if (ennemi.classList.contains("ennemi_selectionne") && en.id_monstre_spawn != ennemi_selectionne) {
+                ennemi.classList.remove("ennemi_selectionne");
+            } else if (!ennemi.classList.contains("ennemi_selectionne") && en.id_monstre_spawn == ennemi_selectionne) {
+                ennemi.classList.add("ennemi_selectionne");
+            }
+            //
             ennemi.setAttribute("x", enx);
             ennemi.setAttribute("y", eny);
             document.getElementById("pv_ennemi_" + en.id_monstre_spawn).innerHTML = en.vie;
@@ -255,6 +265,21 @@ function change_div(id_div) {
         }
         document.getElementById(i).style.display = aff;
     }
+}
+
+/**
+ *
+ * KEY INPUTS
+ *
+ */
+
+function click_monstre(id_monstre_spawn) {
+    if (ennemi_selectionne == id_monstre_spawn) {
+        ennemi_selectionne = null;
+    } else {
+        ennemi_selectionne = id_monstre_spawn;
+    }
+    aff();
 }
 
 /**
