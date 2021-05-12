@@ -29,7 +29,8 @@ CREATE TABLE utilisateurs (
 	img_bas TEXT NOT NULL DEFAULT 1,
 	id_pieds INT NOT NULL DEFAULT 1,
 	img_pieds TEXT NOT NULL DEFAULT 1,
-	niveau INT NOT NULL DEFAULT 0
+	niveau INT NOT NULL DEFAULT 0,
+	arme TEXT NOT NULL DEFAULT 1
 );
 
 CREATE TABLE inventaire (

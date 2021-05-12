@@ -16,7 +16,7 @@ class arme:
 
     def load_arme(self):
 
-        sql = """SELECT nom, classe, dgt, niveau, style, portee, munition, quantite_mun FROM arme WHERE id_arme=? """
+        sql = """SELECT nom, classe, dgt, niveau, style, portee, munition, quantite_mun FROM arme WHERE id_arme=?"""
 
         res = self.server.db.requete_db(sql, (self.id_arme,))[0]
 
