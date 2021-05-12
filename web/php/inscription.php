@@ -32,7 +32,7 @@ else {
 	if ($data[0][0] == 0) {
 		$sql = 'INSERT INTO utilisateurs (pseudo,mdp,sexe,classe) VALUES(?, MD5(?), ?, ?)';
 		$status = action_prep($db, $sql, array($_POST["pseudo"], $_POST["mdp"], $_POST["sexe"], $_POST["classe"]),$debug);
-		$db = null;
+		$_SESSION["player_id"] = $db->lastInsertId();
 
 		if ($status){
 			$_SESSION['pseudo'] = $_POST['pseudo'];
