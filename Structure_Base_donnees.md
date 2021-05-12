@@ -274,23 +274,15 @@ CREATE TABLE objets (
 ## TABLE `regions`
  - `id_region` *INT PRIMARY KEY AUTO_INCREMENT* : id de la region
  - `nom` _TEXT_ : nom de la region
- - `tx` _INT_ : nombre de cases horizontales de la region
- - `ty` _INT_ : nombre de cases verticales de la region
- - `voisin_droite` _INT DEFAULT NULL_ : id de la region qui se situe à droite de cette région
- - `voisin_gauche` _INT DEFAULT NULL_ : id de la region qui se situe à gauche de cette région
- - `voisin_haut` _INT DEFAULT NULL_ : id de la region qui se situe à haut de cette région
- - `voisin_bas` _INT DEFAULT NULL_ : id de la region qui se situe à bas de cette région
+ - `spawn_x` _INT NOT NULL_ : spawn x
+ - `spawn_y` _INT NOT NULL_ : spawn y
 
 ```sql
 CREATE TABLE regions(
 	id_region INT PRIMARY KEY AUTO_INCREMENT,
 	nom TEXT,
-	tx INT,
-	ty INT,
-	voisin_droite INT DEFAULT NULL,
-	voisin_gauche INT DEFAULT NULL,
-	voisin_haut INT DEFAULT NULL,
-	voisin_bas INT DEFAULT NULL
+	spawn_x INT NOT NULL,
+	spawn_y INT NOT NULL
 );
 ```
 

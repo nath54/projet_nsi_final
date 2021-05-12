@@ -21,7 +21,6 @@ function start_websocket(ws_url) {
     // On se connecte au websocket
     // websocket = new WebSocket("ws://" + IP + ":" + PORT + "/");
     ws_url += "/";
-    console.log(ws_url);
     window.websocket = new WebSocket(ws_url);
 
     // Quand il y a des erreurs
@@ -97,19 +96,39 @@ function on_message(event) {
         case 'joueur':
             var id_j = parseInt(data.id_perso);
             if (id_j != personnage.id_perso) {
-                delete data['action']
+                delete data['action'];
                 autres_joueurs[id_j] = data;
                 aff();
             }
             break;
 
+        case 'vie':
+            var value = parseInt(data.value);
+            var max_v = parseInt(data.max_v);
+            personnage.vie = value;
+            personnage.vie_max = max_v;
+            document.getElementById("progress_vie").value = value;
+            document.getElementById("progress_vie").max = max_v;
+            document.getElementById("text_vie").innerHTML = "" + value + "/" + max_v;
+            break;
+
+        case 'mana':
+            var value = parseInt(data.value);
+            var max_v = parseInt(data.max_v);
+            personnage.mana = value;
+            personnage.mana_max = max_v;
+            document.getElementById("progress_mana").value = value;
+            document.getElementById("progress_mana").max = max_v;
+            document.getElementById("text_mana").innerHTML = "" + value + "/" + max_v;
+            break;
+
         case 'j_leave':
             delete autres_joueurs[parseInt(data.id_perso)];
-            var d = document.getElementById("player_" + ap.id_perso);
+            var d = document.getElementById("player_" + data.id_perso);
             if (d != undefined) {
                 d.parentNode.removeChild(d);
             }
-            var dd = document.getElementById("infos_player_" + ap.id_perso);
+            var dd = document.getElementById("infos_player_" + data.id_perso);
             if (dd != undefined) {
                 dd.parentNode.removeChild(dd);
             }
@@ -118,9 +137,6 @@ function on_message(event) {
 
         case 'j_pos':
             var id_j = parseInt(data.id_perso);
-            console.log("id_j ", id_j);
-            console.log("autres joueurs : ", autres_joueurs);
-            console.log(autres_joueurs[id_j]);
             if (autres_joueurs[id_j]) {
                 autres_joueurs[id_j].x = data.x;
                 autres_joueurs[id_j].y = data.y;
@@ -140,7 +156,6 @@ function on_message(event) {
             var y = data.y;
             // On vérifie si on a bien le monstre
             // Et on lui change sa positione
-            console.log(data);
             if (ennemis[id_monstre_spawn] != undefined) {
                 ennemis[id_monstre_spawn]["x"] = x;
                 ennemis[id_monstre_spawn]["y"] = y;

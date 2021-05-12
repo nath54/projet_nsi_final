@@ -73,6 +73,12 @@ class Personnage:
         self.inventaire = []
         self.quetes = {}
         self.equipements = {}
+        self.id_tete = 1
+        self.id_cheveux = 1
+        self.id_barbe = 1
+        self.id_haut = 1
+        self.id_bas = 1
+        self.id_pied = 1
         self.server = server
         self.load_perso()
 
@@ -86,7 +92,7 @@ class Personnage:
                 Instance de la base de données
 
         """
-        sql = """SELECT pseudo, sexe, classe, vie, stamina, mana, armor, niveau, argent, experience, experience_tot, competence, quetes, region_actu, position_x, position_y
+        sql = """SELECT pseudo, sexe, classe, vie, stamina, mana, armor, niveau, argent, experience, experience_tot, competence, quetes, region_actu, position_x, position_y, id_tete, id_cheveux, id_barbe, id_haut, id_bas, id_pieds
                  FROM utilisateurs
                  WHERE id_utilisateur = ?"""
         res = self.server.db.requete_db(sql, (self.id_utilisateur,))[0]
@@ -109,6 +115,13 @@ class Personnage:
         self.quetes = res[12]
         self.region_actu = int(res[13])
         self.position = {"x": int(res[14]), "y": int(res[15])}
+        self.id_tete = int(res[16])
+        self.id_cheveux = int(res[17])
+        self.id_barbe = int(res[18])
+        self.id_haut = int(res[19])
+        self.id_bas = int(res[20])
+        self.id_pied = int(res[21])
+        #
         self.tp_bouger = 0.1
         self.dernier_bouger = 0
         # TODO: faire que si un perso est deja sur la case, on le décale
@@ -156,11 +169,13 @@ class Personnage:
         else:
             pass
 
-    def attaquer(self, case):
+    def attaquer(self):
 
-        npx, npy = self.position["x"]+case[0], self.position["y"]+case[1] # Permet de regarder la case qui suit (Pour voir si il y a un éventuel monstre)
+        npx, npy = self.position["x"]+1, self.position["y"]+1 # Permet de regarder la case qui suit (Pour voir si il y a un éventuel monstre)
+        dgt = self.server.arme.dgt
 
         if self.server.monstre.position == {'x': npx, 'y': npy}: # Si le monstre se situe a proximité du joueur 
+            self.server.monstre.modif_vie(dgt)
             pass
         pass
 
@@ -206,9 +221,27 @@ class Personnage:
             L = L + 100  ## Valeur de la limite pour augmenter de niveau à changer si besoin
             self.vie_max = self.vie_max + 50     ## Valeur de l'augmentation des stats à voir
             self.mana_max = self.mana_max + 50
-
         else:
             pass
+
+    def subit_degats(self, degats):
+        self.vie -= degats
+        if self.vie <= 0:
+            self.vie = 0
+            self.meurt()
+        else:
+            self.server.send_to_user(self.id_utilisateur, {"action":"vie", "value":self.vie, "max_v": self.vie_max})
+
+    def change_mana(self, delta):
+        self.mana += delta
+        if self.mana > self.mana_max:
+            self.mana = self.mana_max
+        if self.mana < 0:
+            self.mana = 0
+        self.server.send_to_user(self.id_utilisateur, {"action":"mana", "value":self.mana, "max_v": self.mana_max})
+
+    def meurt(self):
+        pass
 
     def modifier_vie(self, vie):
         """Modifie la vie du personnage et check s'il est mort
@@ -225,28 +258,5 @@ class Personnage:
             self.vie = self.vie_max
 
     def changement_region(self):
-        if not self.server.carte.cases_terrains :  # si le joueur marche sur une case noir ou un élément qui va trigger le passage
-            self.region_actu = self.server.Region.id_region
-            self.server.carte.load()
-            # TODO : définir une nouvelle position à la suite du changement
-            self.load_perso()
         pass
 
-
-# if __name__ == "__main__":
-#     print("début des tests")
-#     p = personnage("Lance", "mage", "homme")
-
-#     p.bouger((25, 25))
-#     pos = p.emplacement()
-#     assert pos["x"] == 25 and pos["y"] == 25, "Les positions sont fausses"
-#     p.bouger((25, 25))
-
-#     pos = p.emplacement()
-#     assert pos["x"] == 50 and pos["y"] == 50, "Positions fausses"
-
-#     p.modifier_vie(-10)
-#     assert p.vie == 10, f"Vie fausse : {p.vie} au lieu de 10"
-#     p.modifier_vie(20)
-#     assert p.vie == 20, f"Vie fausse : {p.vie} au lieu de 20"
-#     print("fin des tests")

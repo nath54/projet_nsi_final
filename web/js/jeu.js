@@ -51,6 +51,9 @@ function aff() {
     v.setAttribute("viewBox", "" + (px - tx / 2) + " " + (py - ty / 2) + " " + tx + " " + ty);
     // On affiche aussi tous les autres joueurs
     for (ap of Object.values(autres_joueurs)) {
+        if (ap == undefined) {
+            continue;
+        }
         // var ap = autres_joueurs[k];
         var apx = ap.x * tc;
         var apy = ap.y * tc;
@@ -60,6 +63,27 @@ function aff() {
             newSvg.id = "player_" + ap.id_perso
             newSvg.setAttribute("x", apx);
             newSvg.setAttribute("y", apy);
+            //
+            for (child of newSvg.childNodes) {
+                if (child.getAttribute("id") == "img_perso_tete") {
+                    child.setAttribute("id", "img_autre_perso_tete_" + ap.id_perso);
+                }
+                if (child.getAttribute("id") == "img_perso_cheveux") {
+                    child.setAttribute("id", "img_autre_perso_cheveux_" + ap.id_perso);
+                }
+                if (child.getAttribute("id") == "img_perso_barbe") {
+                    child.setAttribute("id", "img_autre_perso_barbe_" + ap.id_perso);
+                }
+                if (child.getAttribute("id") == "img_perso_haut") {
+                    child.setAttribute("id", "img_autre_perso_haut_" + ap.id_perso);
+                }
+                if (child.getAttribute("id") == "img_perso_bas") {
+                    child.setAttribute("id", "img_autre_perso_bas_" + ap.id_perso);
+                }
+                if (child.getAttribute("id") == "img_perso_pied") {
+                    child.setAttribute("id", "img_autre_perso_pied_" + ap.id_perso);
+                }
+            }
             // on ajoute
             document.getElementById("svg_autres_joueurs").appendChild(newSvg);
             // Les infos
@@ -67,6 +91,14 @@ function aff() {
             svgInfos.setAttribute("id", "infos_player_" + ap.id_perso);
             svgInfos.setAttribute("x", apx);
             svgInfos.setAttribute("y", apy - 20);
+            // Les images
+            console.log(images_corps);
+            document.getElementById("img_autre_perso_tete_" + ap.id_perso).setAttribute("xlink:href", "../imgs/custom_perso/" + images_corps["tete"][ap.id_tete - 1]);
+            document.getElementById("img_autre_perso_cheveux_" + ap.id_perso).setAttribute("xlink:href", "../imgs/custom_perso/" + images_corps["cheveux"][ap.id_cheveux - 1]);
+            document.getElementById("img_autre_perso_barbe_" + ap.id_perso).setAttribute("xlink:href", "../imgs/custom_perso/" + images_corps["barbe"][ap.id_barbe - 1]);
+            document.getElementById("img_autre_perso_haut_" + ap.id_perso).setAttribute("xlink:href", "../imgs/custom_perso/" + images_corps["haut"][ap.id_haut - 1]);
+            document.getElementById("img_autre_perso_bas_" + ap.id_perso).setAttribute("xlink:href", "../imgs/custom_perso/" + images_corps["bas"][ap.id_bas - 1]);
+            document.getElementById("img_autre_perso_pied_" + ap.id_perso).setAttribute("xlink:href", "../imgs/custom_perso/" + images_corps["pied"][ap.id_pied - 1]);
             // pseudo
             let text = document.createElementNS(svgns, "text");
             text.innerHTML = ap.nom;

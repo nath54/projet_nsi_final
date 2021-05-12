@@ -2,21 +2,45 @@
 <!-- Entête page internet -->
 <html>
 <?php
-session_start();
+
+include_once "../../includes/init.php";
+include_once "../../includes/bdd.php";
+
+$db = load_db("../../includes/config.json");
+
+// On récupère les vetements du joueurs
+$req = "SELECT id_tete, id_cheveux, id_barbe, id_haut, id_bas, id_pieds FROM utilisateurs WHERE id_utilisateur=:id_player";
+$vars = array(":id_player"=>$_SESSION["player_id"]);
+
+$res = requete_prep($db, $req, $vars)[0];
+if(count($res)==0){
+    $_SESSION["error"] = "Il y a eu une erreur lors de la création du personnage, votre compte a-t-il bien été créé ?";
+    header("Location: ../php/accueil.php");
+}
+
+$tete = $res['id_tete'];
+$cheveux = $res["id_cheveux"];
+$barbe = $res["id_barbe"];
+$haut = $res["id_haut"];
+$bas = $res["id_bas"];
+$pied = $res["id_pieds"];
+
+$txt = "<script>";
+$txt.="var selectionnes = {";
+$txt.="'tete':$tete,";
+$txt.="'cheveux':$cheveux,";
+$txt.="'barbe':$barbe,";
+$txt.="'haut':$haut,";
+$txt.="'bas':$bas,";
+$txt.="'pied':$pied";
+$txt.="}";
+$txt.="</script>";
+
+echo $txt;
+
 ?>
-<script>
-
-var images = {
-    "tete": [],
-    "cheveux": [],
-    "barbe": [],
-    "haut": [],
-    "bas": [],
-    "pied": []
-};
-
-</script>
-    <body class="column">
+    <script src="../js/customisation_perso_data.js"></script>
+    <body class="column" onload="init_imgs();">
     <head>
         <div>
             <!-- Div des boutons -->
@@ -63,22 +87,22 @@ var images = {
                 <!-- &nbsp = espace -->
                 <div class="menu_creation_perso column">
                     <div class="row">
-                        <button onclick="clic(1,-1);">&#60</button><a>&nbsp Tete <span id="choix1">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(1,+1);">&#62</button>
+                        <button onclick="clic('tete',-1);">&#60</button><a>&nbsp Tete <span id="choix_tete">1</span>/<span id="taille_tete">1</span> &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic('tete',+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic(2,-1);">&#60</button><a>&nbsp Cheveux <span id="choix2">1</span>/6 &nbsp</a><button onclick="clic(2,+1);">&#62</button>
+                        <button onclick="clic('cheveux',-1);">&#60</button><a>&nbsp Cheveux <span id="choix_cheveux">1</span>/<span id="taille_cheveux">1</span> &nbsp</a><button onclick="clic('cheveux',+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic(3,-1);">&#60</button><a>&nbsp Barbe <span id="choix3">1</span>/6 &nbsp&nbsp&nbsp</a><button onclick="clic(3,+1);">&#62</button>
+                        <button onclick="clic('barbe',-1);">&#60</button><a>&nbsp Barbe <span id="choix_barbe">1</span>/<span id="taille_barbe">1</span> &nbsp&nbsp&nbsp</a><button onclick="clic('barbe',+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic(4,-1);">&#60</button><a>&nbsp Haut <span id="choix4">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(4,+1);">&#62</button>
+                        <button onclick="clic('haut',-1);">&#60</button><a>&nbsp Haut <span id="choix_haut">1</span>/<span id="taille_haut">1</span> &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic('haut',+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic(5,-1);">&#60</button><a>&nbsp Bas <span id="choix5">1</span>/6 &nbsp&nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(5,+1);">&#62</button>
+                        <button onclick="clic('bas',-1);">&#60</button><a>&nbsp Bas <span id="choix_bas">1</span>/<span id="taille_bas">1</span> &nbsp&nbsp&nbsp&nbsp&nbsp</a><button onclick="clic('bas',+1);">&#62</button>
                     </div>
                     <div class="row">
-                        <button onclick="clic(6,-1);">&#60</button><a>&nbsp Pied <span id="choix6">1</span>/6 &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic(6,+1);">&#62</button>
+                        <button onclick="clic('pied',-1);">&#60</button><a>&nbsp Pied <span id="choix_pied">1</span>/<span id="taille_pied">1</span> &nbsp&nbsp&nbsp&nbsp</a><button onclick="clic('pied',+1);">&#62</button>
                     </div>
                 </div>
 
@@ -89,12 +113,12 @@ var images = {
                     <!-- Bouton valier, qui enregistre toutes les modifs dans la BDD -->
                     <div class="valider_creation">
                         <form method="POST" action="post_creation.php">
-                            <input id="reponse_1" name="tete" type="hidden" value="1">
-                            <input id="reponse_2" name="cheveux" type="hidden" value="1">
-                            <input id="reponse_3" name="barbe" type="hidden" value="1">
-                            <input id="reponse_4" name="haut" type="hidden" value="1">
-                            <input id="reponse_5" name="bas" type="hidden" value="1">
-                            <input id="reponse_6" name="pied" type="hidden" value="1">
+                            <input id="reponse_tete" name="tete" type="hidden">
+                            <input id="reponse_cheveux" name="cheveux" type="hidden">
+                            <input id="reponse_barbe" name="barbe" type="hidden">
+                            <input id="reponse_haut" name="haut" type="hidden">
+                            <input id="reponse_bas" name="bas" type="hidden">
+                            <input id="reponse_pied" name="pied" type="hidden">
                             <button class="validation_perso_creation" onclick="submit()"><a>VALIDER</a></button>
                         </form>
                     </div>
@@ -110,13 +134,13 @@ var images = {
 
             <div id="sprite">
                 <svg viewBox="0 0 128 128" style="border:1px solid black; width:500px;" id="viewport" xmlns="file:///C:/Users/El%C3%A8ve/Downloads/sprite_test.svg">
-                    <image id="corps" x=0 y=0 width=128 height=128 xlink:href="../imgs/sprites/sprite_fixe_droit.png" />
-                    <image id="tete" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
-                    <image id="cheveux" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
-                    <image id="barbe" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
-                    <image id="haut" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
-                    <image id="bas" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
-                    <image id="pied" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="img_corps" x=0 y=0 width=128 height=128 xlink:href="../imgs/sprites/sprite_fixe_droit.png" />
+                    <image id="img_haut" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="img_bas" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="img_pied" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="img_barbe" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="img_cheveux" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
+                    <image id="img_tete" x=0 y=0 width=128 height=128 xlink:href="chemin-image" />
                 </svg>
             </div>
         </div>
@@ -125,18 +149,28 @@ var images = {
 
 <!-- Script qui permet d'afficher le numéro suivant des vetements  -->
 <script>
-    function clic(a,b){
-        var ligne = document.getElementById("choix"+a);
-        var champ = document.getElementById("reponse_"+a);
-        var n = parseInt(ligne.innerHTML);
-        n = n+b;
-        if (n>6){
-            n=n-6;
-            }
-        if (n<=0){
-        n = n+6;
-        }
-        ligne.innerHTML = n;
-        champ.value = n;
+    function clic(cat, delta){
+        var taille = images_corps[cat].length;
+        selectionnes[cat]+=delta;
+        if(selectionnes[cat] <= 0) selectionnes[cat]=taille;
+        if(selectionnes[cat] > taille) selectionnes[cat]=1;
+        //
+        var img = "../imgs/custom_perso/"+images_corps[cat][selectionnes[cat]-1];
+        document.getElementById("img_"+cat).setAttribute("xlink:href", img);
+        //
+        document.getElementById("choix_"+cat).innerHTML = selectionnes[cat];
+        document.getElementById("reponse_"+cat).value = selectionnes[cat];
     }
+
+function init_imgs(){
+    for(cat of Object.keys(selectionnes)){
+        var taille = images_corps[cat].length;
+        document.getElementById("taille_"+cat).innerHTML = taille;
+        document.getElementById("choix_"+cat).innerHTML = selectionnes[cat];
+        var img = "../imgs/custom_perso/"+images_corps[cat][selectionnes[cat]-1];
+        document.getElementById("img_"+cat).setAttribute("xlink:href", img);
+        document.getElementById("reponse_"+cat).value = selectionnes[cat];
+    }
+}
+
 </script>

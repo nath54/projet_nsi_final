@@ -91,8 +91,8 @@ def gere_ennemis(server):
                     # j_pos = (monstre.joueur_detecte.position["x"], monstre.joueur_detecte.position["y"])
                     if dist_vec(m_pos, j_pos) <= monstre.portee_attaque:
                         # On attaque
-                        #TODO
-                        pass
+                        att = monstre.get_value_from_formes(monstre.dgt)
+                        monstre.joueur_detecte.subit_degats(att)
                     else:
                         # On se dirige vers le joueur
                         res_dep = rech_chemin_simple(server, id_region, m_pos, j_pos)
