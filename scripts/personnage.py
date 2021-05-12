@@ -244,7 +244,14 @@ class Personnage:
         self.server.send_to_user(self.id_utilisateur, {"action":"mana", "value":self.mana, "max_v": self.mana_max})
 
     def meurt(self):
-        pass
+        self.position["x"] = 0
+        self.position["y"] = 0
+        self.vie = int(self.vie_max * 0.8)
+        self.mana = self.mana_max
+        self.server.send_to_user(self.id_utilisateur, {"action": "position_perso", "x":self.position["x"], "y":self.position["y"]})
+        self.server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":self.id_utilisateur, "x":self.position["x"], "y":self.position["y"], "region":self.region_actu}, [self.id_utilisateur])
+        self.server.send_to_user(self.id_utilisateur, {"action":"vie", "value":self.vie, "max_v": self.vie_max})
+        self.server.send_to_user(self.id_utilisateur, {"action":"mana", "value":self.mana, "max_v": self.mana_max})
 
     def modifier_vie(self, vie):
         """Modifie la vie du personnage et check s'il est mort
