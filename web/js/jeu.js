@@ -34,7 +34,7 @@ var autres_joueurs = {};
 var ennemis = {};
 var test_var = null;
 
-var ennemi_selectionne = null;
+var selectionne = null;
 
 /**
  *
@@ -152,7 +152,6 @@ function aff() {
             newSvg.setAttribute("x", enx);
             newSvg.setAttribute("y", eny);
             newSvg.setAttribute("style", "display:initial;");
-            newSvg.setAttribute("onclick", "click_monstre(" + en.id_monstre_spawn + ")");
             //
             var ime = "../imgs/ennemis/" + ennemis_data[en.id_monstre]["img"];
             newSvg.firstChild.setAttribute("xlink:href", ime);
@@ -180,11 +179,6 @@ function aff() {
             document.getElementById("svg_infos_ennemis").appendChild(svgInfos);
         } else {
             //
-            if (ennemi.classList.contains("ennemi_selectionne") && en.id_monstre_spawn != ennemi_selectionne) {
-                ennemi.classList.remove("ennemi_selectionne");
-            } else if (!ennemi.classList.contains("ennemi_selectionne") && en.id_monstre_spawn == ennemi_selectionne) {
-                ennemi.classList.add("ennemi_selectionne");
-            }
             //
             ennemi.setAttribute("x", enx);
             ennemi.setAttribute("y", eny);
@@ -269,18 +263,40 @@ function change_div(id_div) {
 
 /**
  *
- * KEY INPUTS
+ * MOUSE INPUTS
  *
  */
 
-function click_monstre(id_monstre_spawn) {
-    if (ennemi_selectionne == id_monstre_spawn) {
-        ennemi_selectionne = null;
-    } else {
-        ennemi_selectionne = id_monstre_spawn;
+document.body.addEventListener('mousedown', event => {
+    // On récupère les coordonnées du click
+    var v = document.getElementById("viewport");
+    var c_x = v.clientWidth;
+    var c_y = v.clientHeight;
+    var xx = parseInt((tx / c_x) * event.clientX / tc) + personnage.x - parseInt(tx / 2 / tc);
+    var yy = parseInt((ty / c_y) * event.clientY / tc) + personnage.y - parseInt(ty / 2 / tc);
+    // alert("(" + xx + ", " + yy + ")");
+    //
+    selec = null;
+    // On va regarder s'il y a un ennemi sur la case
+    for (en of ennemis) {
+        if (en.x == xx && en.y == yy) {
+            selec = { "type": "ennemi", "id_spawn_monstre": en.id_spawn_monstre };
+        }
     }
-    aff();
-}
+    //
+    var k = "" + xx + "_" + yy;
+    // On va regarder s'il y a un objet sur la case
+    if (Object.keys(cases_objets).includes(k)) {
+        //
+        selec = { "type": "objet", "x": xx, "y": yy };
+    }
+    // On va regarder s'il y a un terrain sur la case
+    if (Object.keys(cases_terrains).includes(k)) {
+        selec = { "type": "terrain", "x": xx, "y": yy };
+    }
+    //
+    selectionne = selec;
+});
 
 /**
  *
@@ -306,6 +322,17 @@ document.addEventListener('keydown', (event) => {
             } else {
                 set_menu("")
             }
+        } else if (nomTouche == "Alt") {
+            if (selectionne != null) {
+                if (selectionne.type == "terrain") {
+                    // document.getElementById("")
+                }
+                //
+                selectionne = null;
+            }
+            //
+            //
+
         }
     }
 }, false);

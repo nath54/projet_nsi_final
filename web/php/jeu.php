@@ -100,13 +100,19 @@ foreach($r as $i=>$data){
     $ennemis[$data["id_monstre"]] = array("nom"=>$nom, "img"=>$img);
 }
 
-// On va passer les infos à js
+// On va passer les infos des ennemis à js
 if(count($ennemis)>0){
     $je = json_encode($ennemis);
     echo "<script>var ennemis_data = JSON.parse('$je'); </script>";
 }else{
     echo "<script>var ennemis_data = {}; </script>";
 }
+
+// On va passer les infos des cases des objets et des terrains à js
+
+$jco = json_encode($cases_objets);
+$jct = json_encode($cases_terrains);
+echo "<script>var cases_objets = JSON.parse('$jco'); var cases_terrains = JSON.parse('$jct');</script>";
 
 // On définit ici les infos relatives à l'affichage :
 
