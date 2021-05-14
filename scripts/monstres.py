@@ -77,7 +77,10 @@ class Monstre:
     def emplacement(self): ## Retourne la position du monstre
         return self.position
 
-    def bouger(self, dep, test_est_libre_fait=None):  # Le serveur s'occupera des déplacements
+    # Le serveur s'occupera des déplacements
+    def bouger(self, dep, test_est_libre_fait=None):
+        if self.etat != "vie":
+            return
 
         if not isinstance(dep, tuple):
             return
@@ -116,17 +119,21 @@ class Monstre:
 
 
     def modif_vie(self ,valeur_modif , fct=Sum):
-        self.pv = fct(self.pv, valeur_modif)
+        if self.etat != "vie":
+            return
+
+        self.pv = fct(self.pv, valeur_modif).value().value()
 
         if self.pv > 0 : # Le monstre est positif
-            pass
+            self.server.serveurWebsocket.send_all({"action": "monstre_modif_vie", "vie": self.pv, "id_monstre_spawn": self.id_monstre_spawn})
 
         if self.pv == 0 :
             # TODO: Monstre doit mourir et loot un item
             self.etat = "mort"
+            self.server.serveurWebsocket.send_all({"action": "monstre_modif_etat", "etat": self.etat, "id_monstre_spawn": self.id_monstre_spawn})
 
         if self.pv < 0 : # Le monstre devient négatif, pensez a ajouter des changements de stats etc
-            pass
+            self.server.serveurWebsocket.send_all({"action": "monstre_modif_vie", "vie": self.pv, "id_monstre_spawn": self.id_monstre_spawn})
 
 
 ##if __name__ = "__name__":

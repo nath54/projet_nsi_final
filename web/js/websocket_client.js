@@ -166,6 +166,19 @@ function on_message(event) {
             }
             break;
 
+        case 'monstre_modif_vie':
+            var id_monstre_spawn = data.id_monstre_spawn;
+            var vie = data.vie;
+            ennemis[id_monstre_spawn]["vie"] = vie;
+            aff();
+            break;
+
+        case 'monstre_modif_etat':
+            var id_monstre_spawn = data.id_monstre_spawn;
+            var etat = data.etat;
+            ennemis[id_monstre_spawn]["etat"] = etat;
+            aff();
+
         default:
             // Il faut faire attention aux types d'actions que l'on gère
             // Et ne pas oublier les "break;" à la fin de chaque cas
