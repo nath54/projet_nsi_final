@@ -177,6 +177,13 @@ function on_message(event) {
             var id_monstre_spawn = data.id_monstre_spawn;
             var etat = data.etat;
             ennemis[id_monstre_spawn]["etat"] = etat;
+            var en_c = document.getElementById("ennemi_" + id_monstre_spawn).firstChild;
+            if (etat == "mort") {
+                var img_en = "../imgs/ennemis/" + ennemis_data[ennemis[id_monstre_spawn]["id_monstre"]]["img_mort"];
+            } else {
+                var img_en = "../imgs/ennemis/" + ennemis_data[ennemis[id_monstre_spawn]["id_monstre"]]["img"];
+            }
+            en_c.setAttribute("xlink:href", img_en);
             aff();
             break;
 

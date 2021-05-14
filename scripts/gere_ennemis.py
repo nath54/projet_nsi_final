@@ -65,6 +65,7 @@ def gere_ennemis(server):
 
                     # On ne bouge que les monstres vivants
                     if monstre.etat != "vivant":
+                        #TODO : respawn monstres
                         continue
                     # on les bouge toutes les secondes
                     tpb = monstre.tp_bouger

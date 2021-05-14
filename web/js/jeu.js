@@ -153,7 +153,12 @@ function aff() {
             newSvg.setAttribute("y", eny);
             newSvg.setAttribute("style", "display:initial;");
             //
-            var ime = "../imgs/ennemis/" + ennemis_data[en.id_monstre]["img"];
+
+            if (en.etat == "mort") {
+                var ime = "../imgs/ennemis/" + ennemis_data[ennemis[en.id_monstre_spawn]["id_monstre"]]["img_mort"];
+            } else {
+                var ime = "../imgs/ennemis/" + ennemis_data[ennemis[en.id_monstre_spawn]["id_monstre"]]["img"];
+            }
             newSvg.firstChild.setAttribute("xlink:href", ime);
             // on ajoute
             document.getElementById("svg_ennemis").appendChild(newSvg);
@@ -391,7 +396,7 @@ document.addEventListener('keydown', (event) => {
             } else {
                 set_menu("")
             }
-        } else if (nomTouche == "Alt") {
+        } else if (nomTouche == "Control") {
             if (selectionne != null) {
                 document.getElementById("selec_ennemi").style.display = "none";
                 document.getElementById("selec_objet").style.display = "none";

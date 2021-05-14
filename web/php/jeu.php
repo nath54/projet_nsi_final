@@ -97,7 +97,8 @@ if($r==NULL){
 foreach($r as $i=>$data){
     $nom = $data["nom"];
     $img = $data["img_base"];
-    $ennemis[$data["id_monstre"]] = array("nom"=>$nom, "img"=>$img);
+    $img_mort = $data["img_mort"];
+    $ennemis[$data["id_monstre"]] = array("nom"=>$nom, "img"=>$img, "img_mort" => $img_mort);
 }
 
 // On va passer les infos des ennemis à js
@@ -312,6 +313,19 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                         ?>
                     </g>
 
+
+                    <!-- Les ennemis -->
+                    <g id="svg_ennemis">
+
+                        <?php
+                            echo "<svg x=0 y=0 width=$tc height=$tc id=\"monstre_template\" style=\"display:none;\">";
+                            echo "<image width=$tc height=$tc xlink:href=\"../imgs/ennemis/inconu.png\"></image>";
+                            echo "</svg>";
+
+                        ?>
+
+                    </g>
+
                     <!-- Le perso -->
 
                     <?php
@@ -347,17 +361,6 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                     </g>
 
 
-                    <!-- Les ennemis -->
-                    <g id="svg_ennemis">
-
-                        <?php
-                            echo "<svg x=0 y=0 width=$tc height=$tc id=\"monstre_template\" style=\"display:none;\">";
-                            echo "<image width=$tc height=$tc xlink:href=\"../imgs/ennemis/inconu.png\"></image>";
-                            echo "</svg>";
-
-                        ?>
-
-                    </g>
 
                     <!-- Les objets de z-index 4 -->
 
