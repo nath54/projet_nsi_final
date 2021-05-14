@@ -15,8 +15,13 @@ def gere_competences(ws_serv, websocket, data, id_user):
     #
     if data_comp["nom"] == "moins_un":
         id_monstre_spawn = data["id_monstre_spawn"]
-        monstre = server.carte.regions[perso_joueur.region_actu].monstres[id_monstre_spawn]
-        print(monstre)
+        ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
+        #
+        ennemi.modif_vie(-1)
+    elif data_comp["nom"] == "premiers_secours":
+        pass
+    elif data_comp["nom"] == "teleportation":
+        pass
 
 
 
