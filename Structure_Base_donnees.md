@@ -369,9 +369,9 @@ CREATE TABLE comptes_administrateurs (
  - `dgt` _INT_ : les dégats de l'arme
  - `niveau` _INT_ : niveau de l'arme
  - `style` _TEXT_ : Corps à corps ou distance
- - `portee` _INT_ : Portée d'une arme 
+ - `portee` _INT_ : Portée d'une arme
  - `munition` _TEXT_ : les munitions que posséde le joueur
- - `quantite_mun` _INT_ : Le nombre de munitions que posséde le joueur 
+ - `quantite_mun` _INT_ : Le nombre de munitions que posséde le joueur
  - `img_arme` _TEXT_ : Chemin vers l'image de l'arme
 
 ```sql
@@ -380,13 +380,37 @@ CREATE TABLE arme (
 	nom TEXT,
 	classe TEXT,
 	dgt INT,
- 	niveau INT, 
+ 	niveau INT,
 	style TEXT,
 	portee TEXT,
 	munition TEXT,
 	quantite_mun INT,
 	img_arme TEXT);
 ```
+
+## TABLE competences
+ - `id_competence` _INT PRIMARY KEY_ : id de la compétence
+ - `nom` _TEXT NOT NULL_ : nom de la compétence
+ - `description` _TEXT_ : description de la compétence
+ - `type_cible` _TEXT NOT NULL_ : le type de la cible (`ennemi`,`objet`,`terrain`)
+ - `cout_mana` _INT NOT NULL_ : le coût en mana de la compétence
+ - `tp_recharge` _FLOAT NOT NULL_ : le temps de recharge en secondes de la compétence
+ - `img_icon` _TEXT NOT NULL_ : Le nom du fichier de l'icone de la compétence
+
+Les effets de la compétence seront codés directement dans le serveur
+
+```sql
+CREATE TABLE competences (
+	id_competence INT PRIMARY KEY,
+	nom TEXT NOT NULL,
+	description_ TEXT,
+	type_cible TEXT,
+	cout_mana INT NOT NULL,
+	tp_recharge FLOAT NOT NULL,
+	img_icon TEXT NOT NULL
+);
+```
+
 
 
 ```sql

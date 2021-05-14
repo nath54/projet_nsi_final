@@ -157,3 +157,12 @@ CREATE TABLE comptes_administrateurs (
 );
 
 
+CREATE TABLE competences (
+	id_competence INT PRIMARY KEY,
+	nom TEXT NOT NULL,
+	description_ TEXT,
+	type_cible TEXT,
+	cout_mana INT NOT NULL,
+	tp_recharge FLOAT NOT NULL,
+	img_icon TEXT NOT NULL
+);

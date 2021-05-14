@@ -30,8 +30,8 @@ else {
 	$data = requete_prep($db, $sql, array($_POST["pseudo"]));
 	print_r($data);
 	if ($data[0][0] == 0) {
-		$sql = 'INSERT INTO utilisateurs (pseudo,mdp,sexe,classe) VALUES(?, MD5(?), ?, ?)';
-		$status = action_prep($db, $sql, array($_POST["pseudo"], $_POST["mdp"], $_POST["sexe"], $_POST["classe"]),$debug);
+		$sql = 'INSERT INTO utilisateurs (pseudo,mdp,sexe,classe,competence) VALUES(:pseudo, MD5(:mdp), :sexe, :classe, :comp)';
+		$status = action_prep($db, $sql, array(":pseudo" => $_POST["pseudo"], ":mdp" => $_POST["mdp"], ":sece" => $_POST["sexe"], ":classe" => $_POST["classe"], ":comp" => "{1:1, 2:2, 3:3, 4:null}"),$debug);
 		$_SESSION["player_id"] = $db->lastInsertId();
 
 		if ($status){

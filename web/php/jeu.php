@@ -130,6 +130,19 @@ $jco = json_encode($cases_objets_trait);
 $jct = json_encode($cases_terrains_trait);
 echo "<script>var cases_objets = JSON.parse('$jco'); var cases_terrains = JSON.parse('$jct');</script>";
 
+// On prépare les data des compétences et on les envoie au js
+
+$competences = array();
+
+$req = "SELECT * FROM competences;";
+$res = requete_prep($db, $req);
+foreach($res as $i=>$data){
+    $competences[$data["id_competence"]] = $data;
+}
+
+$jc = json_encode($competences);
+echo "<script>var competences = JSON.parse(`$jc`);</script>";
+
 // On définit ici les infos relatives à l'affichage :
 
 // $tx = 1280; // La taille horizontale du viewport
