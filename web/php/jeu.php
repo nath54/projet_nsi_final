@@ -110,8 +110,24 @@ if(count($ennemis)>0){
 
 // On va passer les infos des cases des objets et des terrains à js
 
-$jco = json_encode($cases_objets);
-$jct = json_encode($cases_terrains);
+// On va préparer les cases_objets
+$cases_objets_trait = array();
+$cases_terrains_trait = array();
+foreach($cases_objets as $i=>$data){
+    $x = $data["x"];
+    $y = $data["y"];
+    $tp = $data["id_objet"];
+    $cases_objets_trait[$x."_".$y] = $tp;
+}
+
+foreach($cases_terrains as $i=>$data){
+    $x = $data["x"];
+    $y = $data["y"];
+    $tp = $data["id_terrain"];
+    $cases_terrains_trait[$x."_".$y] = $tp;
+}
+$jco = json_encode($cases_objets_trait);
+$jct = json_encode($cases_terrains_trait);
 echo "<script>var cases_objets = JSON.parse('$jco'); var cases_terrains = JSON.parse('$jct');</script>";
 
 // On définit ici les infos relatives à l'affichage :
@@ -259,7 +275,8 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                                 $y = $data["y"] * $tc;
                                 $img = $terrains[$data["id_terrain"]]["img"];
                                 $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
-                                echo "<image z-index=\"1\" x=$x y=$y width=$ct height=$ct xlink:href=\"../imgs/tuiles/$img\" class=\"case\"></image>";
+                                $k = $x."_".$y;
+                                echo "<image id='t$k' x=$x y=$y width=$ct height=$ct xlink:href=\"../imgs/tuiles/$img\" class=\"case\"></image>";
                             }
                         ?>
                     </g>
@@ -275,7 +292,8 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                                 $zindex = $objets[$data["id_objet"]]["z_index"];
                                 $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
                                 if($zindex==1){
-                                    echo "<image x=$x y=$y width=$ct height=$ct xlink:href=\"../imgs/objets/$img\" class=\"case\"></image>";
+                                    $k = $x."_".$y;
+                                    echo "<image id='o$k' x=$x y=$y width=$ct height=$ct xlink:href=\"../imgs/objets/$img\" class=\"case\"></image>";
                                 }
                             }
                         ?>
@@ -339,7 +357,8 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                                 $zindex = $objets[$data["id_objet"]]["z_index"];
                                 $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
                                 if($zindex==3){
-                                    echo "<image x=$x y=$y width=$ct height=$ct xlink:href=\"../imgs/objets/$img\" class=\"case\"></image>";
+                                    $k = $x."_".$y;
+                                    echo "<image id='o$k' x=$x y=$y width=$ct height=$ct xlink:href=\"../imgs/objets/$img\" class=\"case\"></image>";
                                 }
                             }
                         ?>
@@ -355,6 +374,17 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
                     <g id="svg_infos_ennemis">
 
+                    </g>
+
+                    <!-- Les selecteurs -->
+
+                    <g id="selecteurs">
+                        <rect id="selec_terrain" x=0 y=0 width=0 height=0 fill="rgba(0,0,255,0.1)" style="display:none;">
+                        </rect>
+                        <rect id="selec_objet" x=0 y=0 width=0 height=0 fill="rgba(0,255,0,0.1)" style="display:none;">
+                        </rect>
+                        <rect id="selec_ennemi" x=0 y=0 width=0 height=0 fill="rgba(255,0,0,0.1)" style="display:none;">
+                        </rect>
                     </g>
 
                 </svg>

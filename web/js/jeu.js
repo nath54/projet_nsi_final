@@ -182,6 +182,13 @@ function aff() {
             //
             ennemi.setAttribute("x", enx);
             ennemi.setAttribute("y", eny);
+            //
+            if (selectionne != null && selectionne.type == "ennemi" && selectionne.id_monstre_spawn == en.id_monstre_spawn) {
+                var sel = document.getElementById("selec_ennemi");
+                sel.setAttribute("x", en.x * tc);
+                sel.setAttribute("y", en.y * tc);
+            }
+            //
             document.getElementById("pv_ennemi_" + en.id_monstre_spawn).innerHTML = en.vie;
             var svgInfos = document.getElementById("infos_ennemi_" + en.id_monstre_spawn);
             svgInfos.setAttribute("x", enx);
@@ -275,12 +282,24 @@ document.body.addEventListener('mousedown', event => {
     var xx = parseInt((tx / c_x) * event.clientX / tc) + personnage.x - parseInt(tx / 2 / tc);
     var yy = parseInt((ty / c_y) * event.clientY / tc) + personnage.y - parseInt(ty / 2 / tc);
     // alert("(" + xx + ", " + yy + ")");
+    // ON VA ENLEVER L'ANCIEN SELECTIONNé
+    if (selectionne != null) {
+        document.getElementById("selec_ennemi").style.display = "none";
+        document.getElementById("selec_objet").style.display = "none";
+        document.getElementById("selec_terrain").style.display = "none";
+    }
     //
     selec = null;
     // On va regarder s'il y a un ennemi sur la case
-    for (en of ennemis) {
+    for (en of Object.values(ennemis)) {
         if (en.x == xx && en.y == yy) {
-            selec = { "type": "ennemi", "id_spawn_monstre": en.id_spawn_monstre };
+            selec = { "type": "ennemi", "id_monstre_spawn": en.id_monstre_spawn };
+            var sel = document.getElementById("selec_ennemi");
+            sel.setAttribute("x", xx * tc);
+            sel.setAttribute("y", yy * tc);
+            sel.setAttribute("width", tc);
+            sel.setAttribute("height", tc);
+            sel.style.display = "initial";
         }
     }
     //
@@ -289,10 +308,23 @@ document.body.addEventListener('mousedown', event => {
     if (Object.keys(cases_objets).includes(k)) {
         //
         selec = { "type": "objet", "x": xx, "y": yy };
+        //
+        var sel = document.getElementById("selec_objet");
+        sel.setAttribute("x", xx * tc);
+        sel.setAttribute("y", yy * tc);
+        sel.setAttribute("width", tc);
+        sel.setAttribute("height", tc);
+        sel.style.display = "initial";
     }
     // On va regarder s'il y a un terrain sur la case
     if (Object.keys(cases_terrains).includes(k)) {
         selec = { "type": "terrain", "x": xx, "y": yy };
+        var sel = document.getElementById("selec_terrain");
+        sel.setAttribute("x", xx * tc);
+        sel.setAttribute("y", yy * tc);
+        sel.setAttribute("width", tc);
+        sel.setAttribute("height", tc);
+        sel.style.display = "initial";
     }
     //
     selectionne = selec;
@@ -324,15 +356,13 @@ document.addEventListener('keydown', (event) => {
             }
         } else if (nomTouche == "Alt") {
             if (selectionne != null) {
-                if (selectionne.type == "terrain") {
-                    // document.getElementById("")
-                }
+                document.getElementById("selec_ennemi").style.display = "none";
+                document.getElementById("selec_objet").style.display = "none";
+                document.getElementById("selec_terrain").style.display = "none";
                 //
                 selectionne = null;
             }
             //
-            //
-
         }
     }
 }, false);
