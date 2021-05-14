@@ -200,7 +200,8 @@ CREATE TABLE pnj (
 				 exemple : {"forme": "random expr between", "expr":"5x", "values": [1,5]}
 				 exemple : {"forme": "value", "value": 1}
  - `loot` _TEXT_ : liste json ce que va lacher le monstre en mourrant
- - `img_base` _TEXT_ : chemin vers l'image de base du monstre
+ - `img_base` _TEXT NOT NULL_ : chemin vers l'image de base du monstre
+ - `img_mort` _TEXT NOT NULL DEFAULT "tombe.png"_ : chemin vers l'image de mort du monstre
 
 ```sql
 CREATE TABLE monstre (
@@ -210,7 +211,8 @@ CREATE TABLE monstre (
 	pv TEXT NOT NULL,
 	dgt TEXT NOT NULL,
 	loot TEXT,
-	img_base TEXT NOT NULL);
+	img_base TEXT NOT NULL,
+	img_mort TEXT NOT NULL DEFAULT "tombe.png");
 ```
 
 

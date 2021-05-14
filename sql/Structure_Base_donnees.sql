@@ -73,7 +73,8 @@ CREATE TABLE monstre (
 	pv TEXT NOT NULL,
 	dgt TEXT NOT NULL,
 	loot TEXT,
-	img_base TEXT NOT NULL);
+	img_base TEXT NOT NULL,
+	img_mort TEXT NOT NULL DEFAULT "tombe.png");
 
 
 CREATE TABLE classe (
