@@ -184,7 +184,6 @@ class Personnage:
         if self.server.monstre.position == {'x': npx, 'y': npy}: # Si le monstre se situe a proximité du joueur
             self.server.monstre.modif_vie(dgt)
             pass
-        pass
 
     def interagir(self):
         pass
@@ -238,6 +237,7 @@ class Personnage:
             self.meurt()
         else:
             self.server.send_to_user(self.id_utilisateur, {"action":"vie", "value":self.vie, "max_v": self.vie_max})
+            self.server.serveurWebsocket.send_all({"action": "vie_joueur", "id_joueur":self.id_utilisateur, "value":self.vie, "max_v": self.vie_max}, [self.id_utilisateur])
 
     def change_mana(self, delta):
         self.mana += delta
@@ -246,6 +246,7 @@ class Personnage:
         if self.mana < 0:
             self.mana = 0
         self.server.send_to_user(self.id_utilisateur, {"action":"mana", "value":self.mana, "max_v": self.mana_max})
+        self.server.serveurWebsocket.send_all({"action": "mana_joueur", "id_joueur":self.id_utilisateur, "value":self.mana, "max_v": self.mana_max}, [self.id_utilisateur])
 
     def meurt(self):
         self.position["x"] = 0
@@ -255,21 +256,9 @@ class Personnage:
         self.server.send_to_user(self.id_utilisateur, {"action": "position_perso", "x":self.position["x"], "y":self.position["y"]})
         self.server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":self.id_utilisateur, "x":self.position["x"], "y":self.position["y"], "region":self.region_actu}, [self.id_utilisateur])
         self.server.send_to_user(self.id_utilisateur, {"action":"vie", "value":self.vie, "max_v": self.vie_max})
+        self.server.serveurWebsocket.send_all({"action": "vie_joueur", "id_joueur":self.id_utilisateur, "value":self.vie, "max_v": self.vie_max}, [self.id_utilisateur])
         self.server.send_to_user(self.id_utilisateur, {"action":"mana", "value":self.mana, "max_v": self.mana_max})
-
-    def modifier_vie(self, vie):
-        """Modifie la vie du personnage et check s'il est mort
-
-        Parameters:
-            vie(int):
-                Vie à ajouter/enlever
-        """
-        self.vie += vie
-        if self.vie <= 0:
-            # TODO: Perso doit mourir
-            pass
-        elif self.vie > self.vie_max:
-            self.vie = self.vie_max
+        self.server.serveurWebsocket.send_all({"action": "mana_joueur", "id_joueur":self.id_utilisateur, "value":self.mana, "max_v": self.mana_max}, [self.id_utilisateur])
 
     def changement_region(self):
         pass

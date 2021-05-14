@@ -178,6 +178,27 @@ function on_message(event) {
             var etat = data.etat;
             ennemis[id_monstre_spawn]["etat"] = etat;
             aff();
+            break;
+
+        case 'vie_joueur':
+            var id_joueur = data.id_joueur;
+            var value = data.value;
+            var max_v = data.max_v;
+            if (Object.keys(autres_joueurs).includes(id_joueur)) {
+                autres_joueurs[id_joueur].vie = value;
+                autres_joueurs[id_joueur].vie_max = max_v;
+            }
+            break;
+
+        case 'mana_joueur':
+            var id_joueur = data.id_joueur;
+            var value = data.value;
+            var max_v = data.max_v;
+            if (Object.keys(autres_joueurs).includes(id_joueur)) {
+                autres_joueurs[id_joueur].mana = value;
+                autres_joueurs[id_joueur].mana_max = max_v;
+            }
+            break;
 
         default:
             // Il faut faire attention aux types d'actions que l'on gère

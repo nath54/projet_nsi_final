@@ -79,7 +79,7 @@ class Monstre:
 
     # Le serveur s'occupera des déplacements
     def bouger(self, dep, test_est_libre_fait=None):
-        if self.etat != "vie":
+        if self.etat != "vivant":
             return
 
         if not isinstance(dep, tuple):
@@ -119,7 +119,7 @@ class Monstre:
 
 
     def modif_vie(self ,valeur_modif , fct=Sum):
-        if self.etat != "vie":
+        if self.etat != "vivant":
             return
 
         self.pv = fct(self.pv, valeur_modif).value().value()
