@@ -75,12 +75,15 @@ function on_message(event) {
         case 'infos_perso':
             delete data['action']
             personnage = data;
+            personnage.competences = JSON.parse(personnage.competences);
 
             if (en_chargement) {
                 en_chargement = false;
                 document.getElementById("loading").style.display = "none";
                 aff();
             }
+
+            update_competence();
             break;
 
         case 'position_perso':

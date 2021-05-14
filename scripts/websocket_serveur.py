@@ -170,7 +170,8 @@ class ServeurWebsocket:
                  "mana_max": p.mana_max,
                  "xp": p.xp,
                  "xp_tot": p.xp_tot,
-                 "region_actu": p.region_actu}
+                 "region_actu": p.region_actu,
+                 "competences": json.dumps(p.competences)}
         self.send(websocket, infos)
 
     def gere_messages(self, websocket, ws_server, message):

@@ -71,6 +71,7 @@ class Personnage:
         self.armor = 0
         self.argent = 0
         self.inventaire = []
+        self.competences = {}
         self.quetes = {}
         self.equipements = {}
         self.id_tete = 1
@@ -111,7 +112,7 @@ class Personnage:
         self.argent = int(res[8])
         self.xp = int(res[9])
         self.xp_tot = int(res[10])
-        self.competence = res[11]
+        self.competences = json.loads(res[11])
         self.quetes = res[12]
         self.region_actu = int(res[13])
         self.position = {"x": int(res[14]), "y": int(res[15])}
@@ -173,11 +174,11 @@ class Personnage:
 
         npx, npy = self.position["x"]+1, self.position["y"]+1 # Permet de regarder la case qui suit (Pour voir si il y a un éventuel monstre)
         dgt = -1 ## Dégat de base si pas d'arme
-        
+
         if self.equipements != {"arme": None}:
             dgt = self.server.arme.dgt
 
-        if self.server.monstre.position == {'x': npx, 'y': npy}: # Si le monstre se situe a proximité du joueur 
+        if self.server.monstre.position == {'x': npx, 'y': npy}: # Si le monstre se situe a proximité du joueur
             self.server.monstre.modif_vie(dgt)
             pass
         pass

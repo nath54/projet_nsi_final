@@ -228,10 +228,10 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                             <div>
                                 <table>
                                     <tr>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
+                                        <td class="bt_1" id="bt_comp_1"></td>
+                                        <td class="bt_1" id="bt_comp_2"></td>
+                                        <td class="bt_1" id="bt_comp_3"></td>
+                                        <td class="bt_1" id="bt_comp_4"></td>
                                     </tr>
                                 </table>
                             </div>
@@ -242,10 +242,10 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                             <div>
                                 <table>
                                     <tr>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
+                                        <td class="bt_1" id="bt_arme_1"></td>
+                                        <td class="bt_1" id="bt_arme_2"></td>
+                                        <td class="bt_1" id="bt_arme_3"></td>
+                                        <td class="bt_1" id="bt_arme_4"></td>
                                     </tr>
                                 </table>
                             </div>
@@ -255,10 +255,10 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                             <div>
                                 <table>
                                     <tr>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
+                                        <td class="bt_1" id="bt_munition_1"></td>
+                                        <td class="bt_1" id="bt_munition_2"></td>
+                                        <td class="bt_1" id="bt_munition_3"></td>
+                                        <td class="bt_1" id="bt_munition_4"></td>
                                     </tr>
                                 </table>
                             </div>

@@ -215,33 +215,27 @@ function aff() {
  *
  */
 
+function update_competence() {
+    var comp = personnage.competences;
+    for (ic of Object.keys(comp)) {
+        var c = comp[ic];
+        if (ic < 1 || ic > 4) {
+            continue;
+        }
 
-// function update_life(vie, vie_tot) {
-//     document.getElementById("vie_value").innerHTML = "" + vie + "/" + vie_tot;
-//     document.getElementById("progress_vie").value = vie / vie_tot * 100.0;
-// }
-
-// function update_mana(mana, mana_tot) {
-//     document.getElementById("mana_value").innerHTML = "" + mana + "/" + mana_tot;
-//     document.getElementById("progress_mana").value = mana / mana_tot * 100.0;
-// }
-
-// function update_xp(xp, xp_tot) {
-//     document.getElementById("exp_value").innerHTML = "" + xp + "/" + xp_tot;
-//     document.getElementById("progress_exp").value = xp / xp_tot * 100.0;
-// }
-
-// function update_niveau(niv) {
-//     document.getElementById("niveau_profil").value = niv;
-// }
-
-// function update_region_name(name) {
-//     document.getElementById("region_name").value = name;
-// }
-
-// function update_region_count(num) {
-//     document.getElementById("region_player_number").value = num;
-// }
+        var b = document.getElementById("bt_comp_" + ic);
+        //
+        for (enfant of b.children) {
+            b.removeChild(enfant);
+        }
+        //
+        if (c != null) {
+            var img = document.createElement("image");
+            img.setAttribute("src", "../imgs/icones_ui/" + competences[c.id_competence]["img_icon"]);
+            b.appendChild(img);
+        }
+    }
+}
 
 
 //en_chargement
