@@ -385,6 +385,7 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                         </rect>
                         <rect id="selec_ennemi" x=0 y=0 width=0 height=0 fill="rgba(255,0,0,0.1)" style="display:none;">
                         </rect>
+                        <circle id="test_cursor" x=0 y=0 r=5 fill="red"></circle>
                     </g>
 
                 </svg>

@@ -279,8 +279,18 @@ document.body.addEventListener('mousedown', event => {
     var v = document.getElementById("viewport");
     var c_x = v.clientWidth;
     var c_y = v.clientHeight;
-    var xx = parseInt((tx / c_x) * event.clientX / tc) + personnage.x - parseInt(tx / 2 / tc);
-    var yy = parseInt((ty / c_y) * event.clientY / tc) + personnage.y - parseInt(ty / 2 / tc);
+    const vb = v.viewBox.baseVal;
+    const vx = vb.x;
+    const vy = vb.y;
+    const vtx = vb.width;
+    const vty = vb.height;
+    //
+    var cursor = document.getElementById("test_cursor");
+    cursor.setAttribute("x", vx + event.clientX);
+    cursor.setAttribute("y", vy + event.clientY);
+    //
+    var xx = parseInt((vtx / c_x) * event.clientX / tc) + personnage.x - parseInt(vtx / 2 / tc);
+    var yy = parseInt((vty / c_y) * event.clientY / tc) + personnage.y - parseInt(vty / 2 / tc);
     // alert("(" + xx + ", " + yy + ")");
     // ON VA ENLEVER L'ANCIEN SELECTIONNé
     if (selectionne != null) {
@@ -305,7 +315,7 @@ document.body.addEventListener('mousedown', event => {
     //
     var k = "" + xx + "_" + yy;
     // On va regarder s'il y a un objet sur la case
-    if (Object.keys(cases_objets).includes(k)) {
+    if (selec == null && Object.keys(cases_objets).includes(k)) {
         //
         selec = { "type": "objet", "x": xx, "y": yy };
         //
@@ -317,7 +327,7 @@ document.body.addEventListener('mousedown', event => {
         sel.style.display = "initial";
     }
     // On va regarder s'il y a un terrain sur la case
-    if (Object.keys(cases_terrains).includes(k)) {
+    if (selec == null && Object.keys(cases_terrains).includes(k)) {
         selec = { "type": "terrain", "x": xx, "y": yy };
         var sel = document.getElementById("selec_terrain");
         sel.setAttribute("x", xx * tc);
