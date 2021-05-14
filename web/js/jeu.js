@@ -285,10 +285,6 @@ document.body.addEventListener('mousedown', event => {
     const vtx = vb.width;
     const vty = vb.height;
     //
-    var cursor = document.getElementById("test_cursor");
-    cursor.setAttribute("x", vx + event.clientX);
-    cursor.setAttribute("y", vy + event.clientY);
-    //
     var xx = parseInt((vtx / c_x) * event.clientX / tc) + personnage.x - parseInt(vtx / 2 / tc);
     var yy = parseInt((vty / c_y) * event.clientY / tc) + personnage.y - parseInt(vty / 2 / tc);
     // alert("(" + xx + ", " + yy + ")");

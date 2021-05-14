@@ -60,7 +60,7 @@ def gere_ennemis(server):
 
             # Une double boucle, ce n'est pas très beau, mais on fait simple pour l'instant
             for monstre in region.ennemis.values():
-                
+
                 try:
 
                     # On ne bouge que les monstres vivants

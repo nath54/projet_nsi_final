@@ -63,7 +63,7 @@ class Monstre:
         self.portee_attaque = 1 # La portée d'attaque du monstre
 
         # Compteurs déplacements
-        self.dernier_bouger = 0
+        self.dernier_bouger = time.time() + float(random.randint(-100,  100) / 10.0)
         self.tp_bouger = 0.8
         self.nb_bloque = 0
         self.patiente_bloque = 5

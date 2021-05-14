@@ -194,6 +194,15 @@ progress {
     margin: 2px;
 }
 
+.bt_1:hover {
+    background-color: rgba(157, 96, 55, 0.7);
+}
+
+.bt_1:active {
+    background-color: rgba(157, 96, 55, 0.5);
+    border-radius: 8px;
+}
+
 .selectionne_ennemi {
     fill: rgba(255, 0, 0, 0.2);
 }
