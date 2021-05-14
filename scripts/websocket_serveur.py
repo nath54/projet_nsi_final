@@ -5,6 +5,8 @@ import wss as ws
 import json
 import random
 from datetime import datetime
+#
+from lib_comp import gere_competences
 
 
 class ServeurWebsocket:
@@ -207,6 +209,9 @@ class ServeurWebsocket:
                 self.server.bouger_perso(user, data["deplacement"], cooldown=True)
             elif data["action"] == "stats_persos":  # Un autre exemple
                 self.send_infos_persos(websocket)
+            elif data["action"] == "competence":  # Un autre exemple
+                user = self.USERS[websocket['id']]["id_utilisateur"]
+                gere_competences(self, websocket, data, user)
         else:
             # Il faudra faire attention aux types d'event
             print("Unsupported event : ", data)

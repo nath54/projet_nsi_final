@@ -239,7 +239,7 @@ function update_competence() {
 }
 
 function lance_competence(num_comp) {
-    var data_comp = competence[personnage.competences[num_comp]];
+    var data_comp = competences[personnage.competences[num_comp]];
     // Messages d'erreur
     if (data_comp.type_cible == "ennemi" && (selectionne == null || selectionne["type"] != "ennemi")) {
         alert("Vous devez selectionner un ennemi !");
@@ -250,24 +250,24 @@ function lance_competence(num_comp) {
     } else if (data_comp.type_cible == "objet" && (selectionne == null || selectionne["type"] != "objet")) {
         alert("Vous devez selectionner un objet !");
         return;
-    } else if (data_comp.type_cible == "joueur" && comp.nom != "premiers_secours" && (selectionne == null || selectionne["type"] != "joueur")) {
+    } else if (data_comp.type_cible == "joueur" && data_comp.nom != "premiers_secours" && (selectionne == null || selectionne["type"] != "joueur")) {
         alert("Vous devez selectionner un joueur !");
         return;
     }
     //
     if (data_comp.nom == "premiers_secours") {
         if (selectionne == null) {
-            var mes = { "action": "competence", "id_competence": comp.id_competence };
+            var mes = { "action": "competence", "id_competence": parseInt(data_comp.id_competence) };
             ws_send(mes);
         } else if (selectionne.type == "joueur") {
-            var mes = { "action": "competence", "id_competence": comp.id_competence, "joueur_cible": selectionne.id_joueur };
+            var mes = { "action": "competence", "id_competence": parseInt(data_comp.id_competence), "joueur_cible": selectionne.id_joueur };
             ws_send(mes);
         }
     } else if (data_comp.type_cible == "ennemi") {
-        var mes = { "action": "competence", "id_competence": comp.id_competence, "id_monstre_spawn": selectionne.id_monstre_spawn };
+        var mes = { "action": "competence", "id_competence": parseInt(data_comp.id_competence), "id_monstre_spawn": selectionne.id_monstre_spawn };
         ws_send(mes);
     } else if (data_comp.type_cible == "terrain" || data_comp.type_cible == "objet") {
-        var mes = { "action": "competence", "id_competence": comp.id_competence, "x": selectionne.x, "y": selectionne.y };
+        var mes = { "action": "competence", "id_competence": parseInt(data_comp.id_competence), "x": selectionne.x, "y": selectionne.y };
         ws_send(mes);
     }
 }
@@ -312,6 +312,9 @@ document.body.addEventListener('mousedown', event => {
     const vy = vb.y;
     const vtx = vb.width;
     const vty = vb.height;
+    if (event.clientY / c_y >= 0.85) {
+        return
+    }
     //
     var xx = parseInt((vtx / c_x) * event.clientX / tc) + personnage.x - parseInt(vtx / 2 / tc);
     var yy = parseInt((vty / c_y) * event.clientY / tc) + personnage.y - parseInt(vty / 2 / tc);
