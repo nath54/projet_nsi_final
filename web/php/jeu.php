@@ -228,10 +228,10 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                             <div>
                                 <table>
                                     <tr>
-                                        <td class="bt_1" id="bt_comp_1"></td>
-                                        <td class="bt_1" id="bt_comp_2"></td>
-                                        <td class="bt_1" id="bt_comp_3"></td>
-                                        <td class="bt_1" id="bt_comp_4"></td>
+                                        <td class="bt_1" id="bt_comp_1" onclick="lance_competence(1);"></td>
+                                        <td class="bt_1" id="bt_comp_2" onclick="lance_competence(2);"></td>
+                                        <td class="bt_1" id="bt_comp_3" onclick="lance_competence(3);"></td>
+                                        <td class="bt_1" id="bt_comp_4" onclick="lance_competence(4);"></td>
                                     </tr>
                                 </table>
                             </div>

@@ -230,13 +230,47 @@ function update_competence() {
         }
         //
         if (c != null) {
-            var img = document.createElement("image");
-            img.setAttribute("src", "../imgs/icones_ui/" + competences[c.id_competence]["img_icon"]);
+            var img = document.createElement("img");
+            img.setAttribute("src", "../imgs/icones_ui/" + competences[c]["img_icon"]);
+            img.classList.add("img_comp");
             b.appendChild(img);
         }
     }
 }
 
+function lance_competence(num_comp) {
+    var data_comp = competence[personnage.competences[num_comp]];
+    // Messages d'erreur
+    if (data_comp.type_cible == "ennemi" && (selectionne == null || selectionne["type"] != "ennemi")) {
+        alert("Vous devez selectionner un ennemi !");
+        return;
+    } else if (data_comp.type_cible == "terrain" && (selectionne == null || selectionne["type"] != "terrain")) {
+        alert("Vous devez selectionner un terrain !");
+        return;
+    } else if (data_comp.type_cible == "objet" && (selectionne == null || selectionne["type"] != "objet")) {
+        alert("Vous devez selectionner un objet !");
+        return;
+    } else if (data_comp.type_cible == "joueur" && comp.nom != "premiers_secours" && (selectionne == null || selectionne["type"] != "joueur")) {
+        alert("Vous devez selectionner un joueur !");
+        return;
+    }
+    //
+    if (data_comp.nom == "premiers_secours") {
+        if (selectionne == null) {
+            var mes = { "action": "competence", "id_competence": comp.id_competence };
+            ws_send(mes);
+        } else if (selectionne.type == "joueur") {
+            var mes = { "action": "competence", "id_competence": comp.id_competence, "joueur_cible": selectionne.id_joueur };
+            ws_send(mes);
+        }
+    } else if (data_comp.type_cible == "ennemi") {
+        var mes = { "action": "competence", "id_competence": comp.id_competence, "id_monstre_spawn": selectionne.id_monstre_spawn };
+        ws_send(mes);
+    } else if (data_comp.type_cible == "terrain" || data_comp.type_cible == "objet") {
+        var mes = { "action": "competence", "id_competence": comp.id_competence, "x": selectionne.x, "y": selectionne.y };
+        ws_send(mes);
+    }
+}
 
 //en_chargement
 

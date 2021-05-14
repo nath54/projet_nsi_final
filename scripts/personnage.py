@@ -112,7 +112,10 @@ class Personnage:
         self.argent = int(res[8])
         self.xp = int(res[9])
         self.xp_tot = int(res[10])
-        self.competences = json.loads(res[11])
+        comp = json.loads(res[11])
+        self.competences = {}
+        for k,v in comp.items():
+            self.competences[int(k)] = v;
         self.quetes = res[12]
         self.region_actu = int(res[13])
         self.position = {"x": int(res[14]), "y": int(res[15])}

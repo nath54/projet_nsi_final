@@ -31,7 +31,7 @@ else {
 	print_r($data);
 	if ($data[0][0] == 0) {
 		$sql = 'INSERT INTO utilisateurs (pseudo,mdp,sexe,classe,competence) VALUES(:pseudo, MD5(:mdp), :sexe, :classe, :comp)';
-		$status = action_prep($db, $sql, $vars = array(":pseudo" => $_POST["pseudo"], ":mdp" => $_POST["mdp"], ":sexe" => $_POST["sexe"], ":classe" => $_POST["classe"], ":comp" => "{1:1, 2:2, 3:3, 4:null}"),$debug);
+		$status = action_prep($db, $sql, $vars = array(":pseudo" => $_POST["pseudo"], ":mdp" => $_POST["mdp"], ":sexe" => $_POST["sexe"], ":classe" => $_POST["classe"], ":comp" => "{\"1\":1, \"2\":2, \"3\":3, \"4\":null}"),$debug);
 		$_SESSION["player_id"] = $db->lastInsertId();
 
 		if ($status){
