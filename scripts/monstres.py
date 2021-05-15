@@ -39,8 +39,9 @@ class Monstre:
 
         self.nom = res[0]
 
-        self.pv = json.loads(res[1])
-        self.pv = self.get_value_from_formes(self.pv)
+
+        self.pv_forme = json.loads(res[1])
+        self.pv = self.get_value_from_formes(self.pv_forme)
 
         self.niveau = int(res[2])
 
@@ -130,6 +131,8 @@ class Monstre:
         if self.pv == 0 :
             # TODO: Monstre doit mourir et loot un item
             self.etat = "mort"
+            self.joueur_detecte = None
+            self.dernier_etat = time.time()
             self.server.serveurWebsocket.send_all({"action": "monstre_modif_etat", "etat": self.etat, "id_monstre_spawn": self.id_monstre_spawn})
 
         if self.pv < 0 : # Le monstre devient négatif, pensez a ajouter des changements de stats etc

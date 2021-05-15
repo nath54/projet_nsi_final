@@ -65,7 +65,14 @@ def gere_ennemis(server):
 
                     # On ne bouge que les monstres vivants
                     if monstre.etat != "vivant":
-                        #TODO : respawn monstres
+                        if time.time() - monstre.dernier_etat >= 5:
+                            monstre.pv = monstre.get_value_from_formes(monstre.pv_forme)
+                            monstre.position = {"x": monstre.position_base["x"], "y": monstre.position_base["y"]}
+                            monstre.set_position()
+                            monstre.etat = "vivant"
+                            monstre.dernier_etat = time.time()
+                            server.serveurWebsocket.send_all({"action": "monstre_modif_etat", "etat": monstre.etat, "id_monstre_spawn": monstre.id_monstre_spawn})
+                            server.serveurWebsocket.send_all({"action": "monstre_modif_vie", "vie": monstre.pv, "id_monstre_spawn": monstre.id_monstre_spawn})
                         continue
                     # on les bouge toutes les secondes
                     tpb = monstre.tp_bouger
