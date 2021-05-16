@@ -131,7 +131,7 @@ CREATE TABLE regions_objets(
 	y INT NOT NULL,
 	id_region INT NOT NULL,
 	id_objet INT DEFAULT 0,
-	parametres TEXT DEFAULT '',
+	parametres TEXT NOT NULL DEFAULT '{}',
 	CONSTRAINT comp_key_x_y PRIMARY KEY (x, y, id_region)
 );
 

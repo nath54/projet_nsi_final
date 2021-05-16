@@ -104,7 +104,7 @@ foreach($r as $i=>$data){
 // On va passer les infos des ennemis à js
 if(count($ennemis)>0){
     $je = json_encode($ennemis);
-    echo "<script>var ennemis_data = JSON.parse('$je'); </script>";
+    echo "<script>var ennemis_data = JSON.parse(`$je`); </script>";
 }else{
     echo "<script>var ennemis_data = {}; </script>";
 }
@@ -129,7 +129,7 @@ foreach($cases_terrains as $i=>$data){
 }
 $jco = json_encode($cases_objets_trait);
 $jct = json_encode($cases_terrains_trait);
-echo "<script>var cases_objets = JSON.parse('$jco'); var cases_terrains = JSON.parse('$jct');</script>";
+echo "<script>var cases_objets = JSON.parse(`$jco`); var cases_terrains = JSON.parse(`$jct`);</script>";
 
 // On prépare les data des compétences et on les envoie au js
 
@@ -149,8 +149,10 @@ echo "<script>var competences = JSON.parse(`$jc`);</script>";
 // $tx = 1280; // La taille horizontale du viewport
 // $ty = 640; // La taille verticale du viewport
 $tc = 64; // tc pour taille cases
-$tx = 18 * $tc;
-$ty = 10 * $tc;
+// $tx = 18 * $tc;
+// $ty = 10 * $tc;
+$tx = 1280;
+$ty = 840;
 // Il y aura donc une grille de 10x5 affichée à l'écran
 $px = $infos_players["position_x"] * $tc;
 $py = $infos_players["position_y"] * $tc;
@@ -431,8 +433,8 @@ $url_ws = $data["url_websocket"];
 var ws_url = "<?php echo $url_ws; ?>";
 
 var en_chargement = true;
-tx = <?php echo $tx; ?>;
-ty = <?php echo $ty; ?>;
+tx = document.getElementById("viewport").clientWidth;
+ty = document.getElementById("viewport").clientHeight;
 tc = <?php echo $tc; ?>;
 
 function launch(){

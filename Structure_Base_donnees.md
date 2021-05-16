@@ -313,6 +313,7 @@ CREATE INDEX `index_id_region` ON `regions_terrains` (`id_region`);
 - `x` _INT NOT NULL_ : clé composée x_y
 - `y` _INT NOT NULL_ : clé composée x_y
 - `id_objet` _INT DEFAULT 0_ :
+- `parametres` _TEXT NOT NULL DEFAULT '{}'_ : les parametres d'un objet sous la forme d'un dictionnaire json
 
 
 ```sql
@@ -321,6 +322,7 @@ CREATE TABLE regions_objets(
 	y INT NOT NULL,
 	id_region INT NOT NULL,
 	id_objet INT DEFAULT 0,
+	parametres TEXT NOT NULL DEFAULT '{}',
 	CONSTRAINT comp_key_x_y PRIMARY KEY (x, y, id_region)
 );
 
