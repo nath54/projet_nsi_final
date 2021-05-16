@@ -201,6 +201,11 @@ function aff() {
             var svgInfos = document.getElementById("infos_ennemi_" + en.id_monstre_spawn);
             svgInfos.setAttribute("x", enx);
             svgInfos.setAttribute("y", eny - 15);
+            if (en.etat != "vivant") {
+                svgInfos.style.display = "none";
+            } else {
+                svgInfos.style.display = "initial";
+            }
         }
     }
     // On va update les infos affichés à l'écran :
