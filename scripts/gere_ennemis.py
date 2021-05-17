@@ -60,72 +60,85 @@ def gere_ennemis(server):
 
             # Une double boucle, ce n'est pas très beau, mais on fait simple pour l'instant
             for monstre in region.ennemis.values():
-                # On ne bouge que les monstres vivants
-                if monstre.etat != "vivant":
-                    continue
-                # on les bouge toutes les secondes
-                tpb = monstre.tp_bouger
-                if monstre.joueur_detecte:
-                    tpb *= 0.75
-                if time.time() - monstre.dernier_bouger < tpb:
-                    continue
-                #
-                monstre.dernier_bouger = time.time()
-                # monstre
-                if monstre.joueur_detecte is None:
-                    for joueur in server.personnages.values():
-                        if joueur.region_actu == id_region:
-                            m_pos = (monstre.position["x"], monstre.position["y"])
-                            j_pos = (joueur.position["x"], joueur.position["y"])
-                            if dist_vec(m_pos, j_pos) < monstre.detection_joueur:
-                                monstre.joueur_detecte = joueur
-                #
-                if monstre.joueur_detecte is not None:
-                    m_pos = (monstre.position["x"], monstre.position["y"])
-                    j_pos = (monstre.joueur_detecte.position["x"], monstre.joueur_detecte.position["y"])
-                    if dist_vec(m_pos, j_pos) >= monstre.perte_joueur:
-                        monstre.joueur_detecte = None
-                if monstre.joueur_detecte is not None:
-                    #
-                    # m_pos = (monstre.position["x"], monstre.position["y"])
-                    # j_pos = (monstre.joueur_detecte.position["x"], monstre.joueur_detecte.position["y"])
-                    if dist_vec(m_pos, j_pos) <= monstre.portee_attaque:
-                        # On attaque
-                        att = monstre.get_value_from_formes(monstre.dgt)
-                        monstre.joueur_detecte.subit_degats(att)
-                    else:
-                        # On se dirige vers le joueur
-                        res_dep = rech_chemin_simple(server, id_region, m_pos, j_pos)
-                        if res_dep != None:
-                            monstre.bouger(res_dep)
-                        else:
-                            monstre.nb_bloque += 1
-                            if monstre.nb_bloque >= monstre.patiente_bloque:
-                                monstre.nb_bloque = 0
-                                position = (monstre.position["x"], monstre.position["y"])
-                                res_dep = rech_dep_alea(server, id_region, position)
-                                if res_dep == None:
-                                    monstre.bouger(res_dep)
 
+                try:
+
+                    # On ne bouge que les monstres vivants
+                    if monstre.etat != "vivant":
+                        if time.time() - monstre.dernier_etat >= 5:
+                            monstre.pv = monstre.get_value_from_formes(monstre.pv_forme)
+                            monstre.position = {"x": monstre.position_base["x"], "y": monstre.position_base["y"]}
+                            monstre.set_position()
+                            monstre.etat = "vivant"
+                            monstre.dernier_etat = time.time()
+                            server.serveurWebsocket.send_all({"action": "monstre_modif_etat", "etat": monstre.etat, "id_monstre_spawn": monstre.id_monstre_spawn})
+                            server.serveurWebsocket.send_all({"action": "monstre_modif_vie", "vie": monstre.pv, "id_monstre_spawn": monstre.id_monstre_spawn})
+                        continue
+                    # on les bouge toutes les secondes
+                    tpb = monstre.tp_bouger
+                    if monstre.joueur_detecte:
+                        tpb *= 0.75
+                    if time.time() - monstre.dernier_bouger < tpb:
+                        continue
+                    #
+                    monstre.dernier_bouger = time.time()
+                    # monstre
+                    if monstre.joueur_detecte is None:
+                        for joueur in server.personnages.values():
+                            if joueur.region_actu == id_region:
+                                m_pos = (monstre.position["x"], monstre.position["y"])
+                                j_pos = (joueur.position["x"], joueur.position["y"])
+                                if dist_vec(m_pos, j_pos) < monstre.detection_joueur:
+                                    monstre.joueur_detecte = joueur
+                    #
+                    if monstre.joueur_detecte is not None:
+                        m_pos = (monstre.position["x"], monstre.position["y"])
+                        j_pos = (monstre.joueur_detecte.position["x"], monstre.joueur_detecte.position["y"])
+                        if dist_vec(m_pos, j_pos) >= monstre.perte_joueur:
+                            monstre.joueur_detecte = None
+                    if monstre.joueur_detecte is not None:
                         #
-                        monstre.compteur_deplacements_retour += 1
-                elif monstre.compteur_deplacements_retour < monstre.max_compteur_deplacement_retour:
-                    # On peut le bouger aléatoirement
-                    position = (monstre.position["x"], monstre.position["y"])
-                    res_dep = rech_dep_alea(server, id_region, position)
-                    #
-                    if res_dep != None:
-                        # On a notre deplacement
-                        monstre.bouger(res_dep)
-                    #
-                else:
-                    # Il doit revenir a sa place
-                    depart = (monstre.position["x"], monstre.position["y"])
-                    arrivee = (monstre.position_base["x"], monstre.position_base["y"])
-                    res_dep = rech_chemin_simple(server, id_region, depart , arrivee)
-                    if res_dep != None:
-                        # On a notre deplacement
-                        monstre.bouger(res_dep)
+                        # m_pos = (monstre.position["x"], monstre.position["y"])
+                        # j_pos = (monstre.joueur_detecte.position["x"], monstre.joueur_detecte.position["y"])
+                        if dist_vec(m_pos, j_pos) <= monstre.portee_attaque:
+                            # On attaque
+                            att = monstre.get_value_from_formes(monstre.dgt)
+                            monstre.joueur_detecte.subit_degats(att)
+                        else:
+                            # On se dirige vers le joueur
+                            res_dep = rech_chemin_simple(server, id_region, m_pos, j_pos)
+                            if res_dep != None:
+                                monstre.bouger(res_dep)
+                            else:
+                                monstre.nb_bloque += 1
+                                if monstre.nb_bloque >= monstre.patiente_bloque:
+                                    monstre.nb_bloque = 0
+                                    position = (monstre.position["x"], monstre.position["y"])
+                                    res_dep = rech_dep_alea(server, id_region, position)
+                                    if res_dep == None:
+                                        monstre.bouger(res_dep)
+
+                            #
+                            monstre.compteur_deplacements_retour += 1
+                    elif monstre.compteur_deplacements_retour < monstre.max_compteur_deplacement_retour:
+                        # On peut le bouger aléatoirement
+                        position = (monstre.position["x"], monstre.position["y"])
+                        res_dep = rech_dep_alea(server, id_region, position)
+                        #
+                        if res_dep != None:
+                            # On a notre deplacement
+                            monstre.bouger(res_dep)
+                        #
+                    else:
+                        # Il doit revenir a sa place
+                        depart = (monstre.position["x"], monstre.position["y"])
+                        arrivee = (monstre.position_base["x"], monstre.position_base["y"])
+                        res_dep = rech_chemin_simple(server, id_region, depart , arrivee)
+                        if res_dep != None:
+                            # On a notre deplacement
+                            monstre.bouger(res_dep)
+                except Exception as e:
+                    print("Erreur (mais, hehehe, j'ai pas planté) : ", e)
 
 
         # on attends un peu

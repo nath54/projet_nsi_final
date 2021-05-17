@@ -30,9 +30,9 @@ else {
 	$data = requete_prep($db, $sql, array($_POST["pseudo"]));
 	print_r($data);
 	if ($data[0][0] == 0) {
-		$sql = 'INSERT INTO utilisateurs (pseudo,mdp,sexe,classe) VALUES(?, MD5(?), ?, ?)';
-		$status = action_prep($db, $sql, array($_POST["pseudo"], $_POST["mdp"], $_POST["sexe"], $_POST["classe"]),$debug);
-		$db = null;
+		$sql = 'INSERT INTO utilisateurs (pseudo,mdp,sexe,classe,competence) VALUES(:pseudo, MD5(:mdp), :sexe, :classe, :comp)';
+		$status = action_prep($db, $sql, $vars = array(":pseudo" => $_POST["pseudo"], ":mdp" => $_POST["mdp"], ":sexe" => $_POST["sexe"], ":classe" => $_POST["classe"], ":comp" => "{\"1\":1, \"2\":2, \"3\":3, \"4\":null}"),$debug);
+		$_SESSION["player_id"] = $db->lastInsertId();
 
 		if ($status){
 			$_SESSION['pseudo'] = $_POST['pseudo'];
@@ -65,8 +65,8 @@ else {
 			<?php echo $erreur ?>
 			</section>
 			<form action="inscription.php" method="post">
-			
-			<div class="bouton"> 
+
+			<div class="bouton">
 				<label for="pseudo"> Pseudo :</label> <input type="text" name="pseudo" value="<?php if (isset($_POST['pseudo'])) echo htmlentities(trim($_POST['pseudo'])); ?>"> </br>
 				</br>
 				<label for="mdp"> Mot de passe :</label> <input type="password" name="mdp" value="<?php if (isset($_POST['mdp'])) echo htmlentities(trim($_POST['mdp'])); ?>"> </br>

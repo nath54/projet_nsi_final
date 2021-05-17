@@ -183,6 +183,11 @@ progress {
  *
  */
 
+.img_comp {
+    width: 50px;
+    height: 50px;
+}
+
 .bt_1 {
     background-color: rgba(107, 56, 15, 0.9);
     background-size: 100% 100%;
@@ -192,4 +197,25 @@ progress {
     border: 1px solid black;
     border-radius: 3px;
     margin: 2px;
+}
+
+.bt_1:hover {
+    background-color: rgba(157, 96, 55, 0.7);
+}
+
+.bt_1:active {
+    background-color: rgba(157, 96, 55, 0.5);
+    border-radius: 8px;
+}
+
+.selectionne_ennemi {
+    fill: rgba(255, 0, 0, 0.2);
+}
+
+.selectionne_objet {
+    fill: rgba(0, 255, 0, 0.2);
+}
+
+.selectionne_terrain {
+    fill: rgba(0, 0, 255, 0.2);
 }

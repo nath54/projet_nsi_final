@@ -114,7 +114,7 @@ INSERT INTO monstre SET
     dgt = "{\"forme\":\"random between\", \"values\":[1, 4]}",
     loot = "[]",
     img_base = "patate_base.png";
-    
+
     INSERT INTO monstre SET
     id_monstre = 13,
     nom = "gargouille nv.15",
@@ -123,7 +123,7 @@ INSERT INTO monstre SET
     dgt = "{\"forme\":\"random between\", \"values\":[5, 15]}",
     loot = "[]",
     img_base = "gargouille_base.png";
-        
+
     INSERT INTO monstre SET
     id_monstre = 14,
     nom = "troll nv.15",
@@ -132,7 +132,7 @@ INSERT INTO monstre SET
     dgt = "{\"forme\":\"random between\", \"values\":[5, 15]}",
     loot = "[]",
     img_base = "troll_base.png";
-        
+
     INSERT INTO monstre SET
     id_monstre = 15,
     nom = "démon nv.20",

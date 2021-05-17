@@ -34,6 +34,8 @@ var autres_joueurs = {};
 var ennemis = {};
 var test_var = null;
 
+var selectionne = null;
+
 /**
  *
  * FONCTIONS POUR AFFICHER
@@ -41,6 +43,9 @@ var test_var = null;
  */
 
 function aff() {
+    tx = document.getElementById("viewport").clientWidth;
+    ty = document.getElementById("viewport").clientHeight;
+    //
     var player = document.getElementById("player");
     var px = personnage.x * player.getAttribute("width");
     var py = personnage.y * player.getAttribute("height");
@@ -151,7 +156,12 @@ function aff() {
             newSvg.setAttribute("y", eny);
             newSvg.setAttribute("style", "display:initial;");
             //
-            var ime = "../imgs/ennemis/" + ennemis_data[en.id_monstre]["img"];
+
+            if (en.etat == "mort") {
+                var ime = "../imgs/ennemis/" + ennemis_data[ennemis[en.id_monstre_spawn]["id_monstre"]]["img_mort"];
+            } else {
+                var ime = "../imgs/ennemis/" + ennemis_data[ennemis[en.id_monstre_spawn]["id_monstre"]]["img"];
+            }
             newSvg.firstChild.setAttribute("xlink:href", ime);
             // on ajoute
             document.getElementById("svg_ennemis").appendChild(newSvg);
@@ -176,12 +186,26 @@ function aff() {
             // on ajoute
             document.getElementById("svg_infos_ennemis").appendChild(svgInfos);
         } else {
+            //
+            //
             ennemi.setAttribute("x", enx);
             ennemi.setAttribute("y", eny);
+            //
+            if (selectionne != null && selectionne.type == "ennemi" && selectionne.id_monstre_spawn == en.id_monstre_spawn) {
+                var sel = document.getElementById("selec_ennemi");
+                sel.setAttribute("x", en.x * tc);
+                sel.setAttribute("y", en.y * tc);
+            }
+            //
             document.getElementById("pv_ennemi_" + en.id_monstre_spawn).innerHTML = en.vie;
             var svgInfos = document.getElementById("infos_ennemi_" + en.id_monstre_spawn);
             svgInfos.setAttribute("x", enx);
             svgInfos.setAttribute("y", eny - 15);
+            if (en.etat != "vivant") {
+                svgInfos.style.display = "none";
+            } else {
+                svgInfos.style.display = "initial";
+            }
         }
     }
     // On va update les infos affichés à l'écran :
@@ -204,34 +228,62 @@ function aff() {
  *
  */
 
+function update_competence() {
+    var comp = personnage.competences;
+    for (ic of Object.keys(comp)) {
+        var c = comp[ic];
+        if (ic < 1 || ic > 4) {
+            continue;
+        }
 
-// function update_life(vie, vie_tot) {
-//     document.getElementById("vie_value").innerHTML = "" + vie + "/" + vie_tot;
-//     document.getElementById("progress_vie").value = vie / vie_tot * 100.0;
-// }
+        var b = document.getElementById("bt_comp_" + ic);
+        //
+        for (enfant of b.children) {
+            b.removeChild(enfant);
+        }
+        //
+        if (c != null) {
+            var img = document.createElement("img");
+            img.setAttribute("src", "../imgs/icones_ui/" + competences[c]["img_icon"]);
+            img.classList.add("img_comp");
+            b.appendChild(img);
+        }
+    }
+}
 
-// function update_mana(mana, mana_tot) {
-//     document.getElementById("mana_value").innerHTML = "" + mana + "/" + mana_tot;
-//     document.getElementById("progress_mana").value = mana / mana_tot * 100.0;
-// }
-
-// function update_xp(xp, xp_tot) {
-//     document.getElementById("exp_value").innerHTML = "" + xp + "/" + xp_tot;
-//     document.getElementById("progress_exp").value = xp / xp_tot * 100.0;
-// }
-
-// function update_niveau(niv) {
-//     document.getElementById("niveau_profil").value = niv;
-// }
-
-// function update_region_name(name) {
-//     document.getElementById("region_name").value = name;
-// }
-
-// function update_region_count(num) {
-//     document.getElementById("region_player_number").value = num;
-// }
-
+function lance_competence(num_comp) {
+    var data_comp = competences[personnage.competences[num_comp]];
+    // Messages d'erreur
+    if (data_comp.type_cible == "ennemi" && (selectionne == null || selectionne["type"] != "ennemi")) {
+        alert("Vous devez selectionner un ennemi !");
+        return;
+    } else if (data_comp.type_cible == "terrain" && (selectionne == null || selectionne["type"] != "terrain")) {
+        alert("Vous devez selectionner un terrain !");
+        return;
+    } else if (data_comp.type_cible == "objet" && (selectionne == null || selectionne["type"] != "objet")) {
+        alert("Vous devez selectionner un objet !");
+        return;
+    } else if (data_comp.type_cible == "joueur" && data_comp.nom != "premiers_secours" && (selectionne == null || selectionne["type"] != "joueur")) {
+        alert("Vous devez selectionner un joueur !");
+        return;
+    }
+    //
+    if (data_comp.nom == "premiers_secours") {
+        if (selectionne == null) {
+            var mes = { "action": "competence", "id_competence": parseInt(data_comp.id_competence) };
+            ws_send(mes);
+        } else if (selectionne.type == "joueur") {
+            var mes = { "action": "competence", "id_competence": parseInt(data_comp.id_competence), "joueur_cible": selectionne.id_joueur };
+            ws_send(mes);
+        }
+    } else if (data_comp.type_cible == "ennemi") {
+        var mes = { "action": "competence", "id_competence": parseInt(data_comp.id_competence), "id_monstre_spawn": selectionne.id_monstre_spawn };
+        ws_send(mes);
+    } else if (data_comp.type_cible == "terrain" || data_comp.type_cible == "objet") {
+        var mes = { "action": "competence", "id_competence": parseInt(data_comp.id_competence), "x": selectionne.x, "y": selectionne.y };
+        ws_send(mes);
+    }
+}
 
 //en_chargement
 
@@ -259,6 +311,76 @@ function change_div(id_div) {
 
 /**
  *
+ * MOUSE INPUTS
+ *
+ */
+
+document.body.addEventListener('mousedown', event => {
+    // On récupère les coordonnées du click
+    var v = document.getElementById("viewport");
+    const vb = v.viewBox.baseVal;
+    const cam_x = vb.x;
+    const cam_y = vb.y;
+    //
+    if (event.clientY >= v.clientHeight - 65) {
+        return
+    }
+    //
+    // La souris est sur le viewport car il englobe tout le body
+    //
+    const xx = Math.floor((cam_x + event.clientX) / tc);
+    const yy = Math.floor((cam_y + event.clientY) / tc);
+    //
+    // ON VA ENLEVER L'ANCIEN SELECTIONNé
+    if (selectionne != null) {
+        document.getElementById("selec_ennemi").style.display = "none";
+        document.getElementById("selec_objet").style.display = "none";
+        document.getElementById("selec_terrain").style.display = "none";
+    }
+    //
+    selec = null;
+    // On va regarder s'il y a un ennemi sur la case
+    for (en of Object.values(ennemis)) {
+        if (en.x == xx && en.y == yy) {
+            selec = { "type": "ennemi", "id_monstre_spawn": en.id_monstre_spawn };
+            var sel = document.getElementById("selec_ennemi");
+            sel.setAttribute("x", xx * tc);
+            sel.setAttribute("y", yy * tc);
+            sel.setAttribute("width", tc);
+            sel.setAttribute("height", tc);
+            sel.style.display = "initial";
+        }
+    }
+    //
+    var k = "" + xx + "_" + yy;
+    // On va regarder s'il y a un objet sur la case
+    if (selec == null && Object.keys(cases_objets).includes(k)) {
+        //
+        selec = { "type": "objet", "x": xx, "y": yy };
+        //
+        var sel = document.getElementById("selec_objet");
+        sel.setAttribute("x", xx * tc);
+        sel.setAttribute("y", yy * tc);
+        sel.setAttribute("width", tc);
+        sel.setAttribute("height", tc);
+        sel.style.display = "initial";
+    }
+    // On va regarder s'il y a un terrain sur la case
+    if (selec == null && Object.keys(cases_terrains).includes(k)) {
+        selec = { "type": "terrain", "x": xx, "y": yy };
+        var sel = document.getElementById("selec_terrain");
+        sel.setAttribute("x", xx * tc);
+        sel.setAttribute("y", yy * tc);
+        sel.setAttribute("width", tc);
+        sel.setAttribute("height", tc);
+        sel.style.display = "initial";
+    }
+    //
+    selectionne = selec;
+});
+
+/**
+ *
  * KEY INPUTS
  *
  */
@@ -281,6 +403,15 @@ document.addEventListener('keydown', (event) => {
             } else {
                 set_menu("")
             }
+        } else if (nomTouche == "Control") {
+            if (selectionne != null) {
+                document.getElementById("selec_ennemi").style.display = "none";
+                document.getElementById("selec_objet").style.display = "none";
+                document.getElementById("selec_terrain").style.display = "none";
+                //
+                selectionne = null;
+            }
+            //
         }
     }
 }, false);

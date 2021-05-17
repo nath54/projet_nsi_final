@@ -50,7 +50,7 @@ foreach($r as $i => $data){
 
 
 /**
- * ON CHARGE LES INFOS DES OBJETS
+ * ON CHARGE LES INFOS DES MONSTRES
  */
 
 $requete = "SELECT * FROM monstre;";
@@ -387,7 +387,7 @@ if(
 
     /**
      * SAVE PARAMETERS
-    
+
     if(count($save_p)>0){
         $req = "UPDATE regions_objets (x,y,id_region, parameters) VALUES ";
         $virgule = false;
@@ -589,7 +589,8 @@ if($region_selected != ""){
         $x = $data["x"];
         $y = $data["y"];
         $ido = $data["id_objet"];
-        $cases_objets["$x-$y"] = array("x" => $x, "y" =>$y , "id_objet" => $ido);
+        $params = $data["parametres"];
+        $cases_objets["$x-$y"] = array("x" => $x, "y" =>$y , "id_objet" => $ido, "parametres" => $params);
     }
     // LES ENNEMIS
     $requested = "SELECT * FROM regions_monstres WHERE id_region=:idr";
@@ -614,20 +615,20 @@ else{
 
 // Les données du terrain
 $jsone = json_encode($terrains);
-script("var terrains = JSON.parse('$jsone');");
+script("var terrains = JSON.parse(`$jsone`);");
 
 // Les données des objets
 $jsone = json_encode($objets);
-script("var objets = JSON.parse('$jsone');");
+script("var objets = JSON.parse(`$jsone`);");
 
 // Les données des ennemis
 $jsone = json_encode($ennemis);
-script("var ennemis = JSON.parse('$jsone');");
+script("var ennemis = JSON.parse(`$jsone`);");
 
 // Les données des cases de terrain
 if(count($cases_terrains) > 0){
     $jsone = json_encode($cases_terrains);
-    script("var cases_terrains = JSON.parse('$jsone');");
+    script("var cases_terrains = JSON.parse(`$jsone`);");
 }
 else{
     script("var cases_terrains = {};");
@@ -636,7 +637,7 @@ else{
 // Les données des cases des objets
 if(count($cases_objets) > 0){
     $jsone = json_encode($cases_objets);
-    script("var cases_objets = JSON.parse('$jsone');");
+    script("var cases_objets = JSON.parse(`$jsone`);");
 }
 else{
     script("var cases_objets = {};");
@@ -645,7 +646,7 @@ else{
 // Les données des cases des ennemis
 if(count($cases_ennemis) > 0){
     $jsone = json_encode($cases_ennemis);
-    script("var cases_ennemis = JSON.parse('$jsone');");
+    script("var cases_ennemis = JSON.parse(`$jsone`);");
 }
 else{
     script("var cases_ennemis = {};");

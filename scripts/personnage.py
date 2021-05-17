@@ -71,6 +71,7 @@ class Personnage:
         self.armor = 0
         self.argent = 0
         self.inventaire = []
+        self.competences = {}
         self.quetes = {}
         self.equipements = {}
         self.id_tete = 1
@@ -111,7 +112,10 @@ class Personnage:
         self.argent = int(res[8])
         self.xp = int(res[9])
         self.xp_tot = int(res[10])
-        self.competence = res[11]
+        comp = json.loads(res[11])
+        self.competences = {}
+        for k,v in comp.items():
+            self.competences[int(k)] = v;
         self.quetes = res[12]
         self.region_actu = int(res[13])
         self.position = {"x": int(res[14]), "y": int(res[15])}
@@ -173,14 +177,13 @@ class Personnage:
 
         npx, npy = self.position["x"]+1, self.position["y"]+1 # Permet de regarder la case qui suit (Pour voir si il y a un éventuel monstre)
         dgt = -1 ## Dégat de base si pas d'arme
-        
+
         if self.equipements != {"arme": None}:
             dgt = self.server.arme.dgt
 
-        if self.server.monstre.position == {'x': npx, 'y': npy}: # Si le monstre se situe a proximité du joueur 
+        if self.server.monstre.position == {'x': npx, 'y': npy}: # Si le monstre se situe a proximité du joueur
             self.server.monstre.modif_vie(dgt)
             pass
-        pass
 
     def interagir(self):
         pass
@@ -234,6 +237,7 @@ class Personnage:
             self.meurt()
         else:
             self.server.send_to_user(self.id_utilisateur, {"action":"vie", "value":self.vie, "max_v": self.vie_max})
+            self.server.serveurWebsocket.send_all({"action": "vie_joueur", "id_joueur":self.id_utilisateur, "value":self.vie, "max_v": self.vie_max}, [self.id_utilisateur])
 
     def change_mana(self, delta):
         self.mana += delta
@@ -242,6 +246,7 @@ class Personnage:
         if self.mana < 0:
             self.mana = 0
         self.server.send_to_user(self.id_utilisateur, {"action":"mana", "value":self.mana, "max_v": self.mana_max})
+        self.server.serveurWebsocket.send_all({"action": "mana_joueur", "id_joueur":self.id_utilisateur, "value":self.mana, "max_v": self.mana_max}, [self.id_utilisateur])
 
     def meurt(self):
         self.position["x"] = 0
@@ -251,21 +256,9 @@ class Personnage:
         self.server.send_to_user(self.id_utilisateur, {"action": "position_perso", "x":self.position["x"], "y":self.position["y"]})
         self.server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":self.id_utilisateur, "x":self.position["x"], "y":self.position["y"], "region":self.region_actu}, [self.id_utilisateur])
         self.server.send_to_user(self.id_utilisateur, {"action":"vie", "value":self.vie, "max_v": self.vie_max})
+        self.server.serveurWebsocket.send_all({"action": "vie_joueur", "id_joueur":self.id_utilisateur, "value":self.vie, "max_v": self.vie_max}, [self.id_utilisateur])
         self.server.send_to_user(self.id_utilisateur, {"action":"mana", "value":self.mana, "max_v": self.mana_max})
-
-    def modifier_vie(self, vie):
-        """Modifie la vie du personnage et check s'il est mort
-
-        Parameters:
-            vie(int):
-                Vie à ajouter/enlever
-        """
-        self.vie += vie
-        if self.vie <= 0:
-            # TODO: Perso doit mourir
-            pass
-        elif self.vie > self.vie_max:
-            self.vie = self.vie_max
+        self.server.serveurWebsocket.send_all({"action": "mana_joueur", "id_joueur":self.id_utilisateur, "value":self.mana, "max_v": self.mana_max}, [self.id_utilisateur])
 
     def changement_region(self):
         pass
