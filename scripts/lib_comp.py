@@ -47,7 +47,4 @@ def gere_competences(ws_serv, websocket, data, id_user):
                 ennemi = server.carte.regions[perso_joueur.id_utilisateur].get_case_monstre(dx, dy)
                 if ennemi != None:
                     ennemi.modif_vie(-1)
-        
-    elif data_comp[]
-
 
