@@ -18,6 +18,7 @@ def gere_competences(ws_serv, websocket, data, id_user):
         ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
         #
         ennemi.modif_vie(-1)
+    
     elif data_comp["nom"] == "premiers_secours":
         if "id_joueur" in data.keys():
             p = server.personnages[data["id_joueur"]]
@@ -36,5 +37,14 @@ def gere_competences(ws_serv, websocket, data, id_user):
         dy = data["y"] - perso_joueur.position["y"]
         perso_joueur.bouger((dx,dy))
 
-
+    elif data_comp["nom"] == "moins_un_zone":
+        id_monstre_spawn = data["id_monstre_spawn"]
+        ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
+        rayon = 1
+        for x in range(-rayon,rayon+1):
+            for y in range(-rayon,rayon):
+                dx,dy = perso_joueur.position["x"]+x, perso_joueur.position["y"]+y
+                ennemi = server.carte.regions[perso_joueur.id_utilisateur].get_case_monstre(dx, dy)
+                if ennemi != None:
+                    ennemi.modif_vie(-1)
 
