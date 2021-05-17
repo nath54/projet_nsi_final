@@ -1,4 +1,5 @@
 from gere_ennemis import dist_vec
+import time
 
 
 def gere_competences(ws_serv, websocket, data, id_user):
@@ -33,14 +34,17 @@ def gere_competences(ws_serv, websocket, data, id_user):
 
     elif data_comp["nom"] == "teleportation":
         rayon = 5
+        cooldown = 30
         if dist_vec((perso_joueur.position["x"], perso_joueur.position["y"]), (data["x"], data["y"]) < rayon:
-            x = data["x"]
-            y = data["y"]
-            dx = data["x"] - perso_joueur.position["x"]
-            dy = data["y"] - perso_joueur.position["y"]
-            perso_joueur.bouger((dx,dy))
-            serveur.server.send_to_user(p.id_utilisateur, {"action": "position_perso", "x":p.position["x"], "y":p.position["y"]})
-            serveur.server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":p.id_utilisateur, "x":p.position["x"], "y":p.position["y"], "region":p.region_actu}, [p.id_utilisateur])
+            if "dernier_teleportation" not in perso_joueur.divers.keys() or time.time()-perso_joueur.divers["dernier_teleportation"]>cooldown:
+                perso_joueur.divers["dernier_teleportation"] = time.time()
+                x = data["x"]
+                y = data["y"]
+                dx = data["x"] - perso_joueur.position["x"]
+                dy = data["y"] - perso_joueur.position["y"]
+                perso_joueur.bouger((dx,dy))
+                serveur.server.send_to_user(p.id_utilisateur, {"action": "position_perso", "x":p.position["x"], "y":p.position["y"]})
+                serveur.server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":p.id_utilisateur, "x":p.position["x"], "y":p.position["y"], "region":p.region_actu}, [p.id_utilisateur])
 
 
     elif data_comp["nom"] == "moins_un_zone":
