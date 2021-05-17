@@ -48,3 +48,9 @@ def gere_competences(ws_serv, websocket, data, id_user):
                 if ennemi != None:
                     ennemi.modif_vie(-1)
 
+    elif data_comp["nom"] == "manger":
+        p = server.personnages[id_user]
+        p.vie += p.vie_max*0.1
+        if p.vie > p.vie_max:
+            p.vie = p.vie_max
+        server.send_to_user(p.id_utilisateur, {"action":"vie", "value":p.vie, "max_v": p.vie_max})
