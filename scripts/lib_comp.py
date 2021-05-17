@@ -32,11 +32,16 @@ def gere_competences(ws_serv, websocket, data, id_user):
         ws_serv.send_all({"action":"vie_joueur", "value":p.vie, "max_v": p.vie_max, "id_joueur": p.id_utilisateur}, [p.id_utilisateur])
 
     elif data_comp["nom"] == "teleportation":
-        x = data["x"]
-        y = data["y"]
-        dx = data["x"] - perso_joueur.position["x"]
-        dy = data["y"] - perso_joueur.position["y"]
-        perso_joueur.bouger((dx,dy))
+        rayon = 5
+        if dist_vec((perso_joueur.position["x"], perso_joueur.position["y"]), (data["x"], data["y"]) < rayon:
+            x = data["x"]
+            y = data["y"]
+            dx = data["x"] - perso_joueur.position["x"]
+            dy = data["y"] - perso_joueur.position["y"]
+            perso_joueur.bouger((dx,dy))
+            serveur.server.send_to_user(p.id_utilisateur, {"action": "position_perso", "x":p.position["x"], "y":p.position["y"]})
+            serveur.server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":p.id_utilisateur, "x":p.position["x"], "y":p.position["y"], "region":p.region_actu}, [p.id_utilisateur])
+
 
     elif data_comp["nom"] == "moins_un_zone":
         id_monstre_spawn = data["id_monstre_spawn"]
