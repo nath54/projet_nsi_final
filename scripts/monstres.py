@@ -59,9 +59,9 @@ class Monstre:
 
         #
         self.joueur_detecte = None
-        self.detection_joueur = 3 # Rayon de détection des joueurs proches
-        self.perte_joueur = 5 # Si le joueur s'éloigne trop, le monstre le perd
-        self.portee_attaque = 1 # La portée d'attaque du monstre
+        self.detection_joueur = 3  # Rayon de détection des joueurs proches
+        self.perte_joueur = 6  # Si le joueur s'éloigne, le monstre le perd
+        self.portee_attaque = 1  # La portée d'attaque du monstre
 
         # Compteurs déplacements
         self.dernier_bouger = time.time() + float(random.randint(-100,  100) / 10.0)
@@ -70,12 +70,12 @@ class Monstre:
         self.patiente_bloque = 5
 
         # Compteur deplacements retours
-        self.position_base = {"x":self.position["x"],  "y":self.position["y"]}
+        self.position_base = {"x": self.position["x"], "y": self.position["y"]}
         self.compteur_deplacements_retour = 0
         self.max_compteur_deplacement_retour = 5
 
-
-    def emplacement(self): ## Retourne la position du monstre
+    def emplacement(self):
+        """Renvoie la position du monstre"""
         return self.position
 
     # Le serveur s'occupera des déplacements
@@ -118,24 +118,23 @@ class Monstre:
                         self.position = position_ini  # Limite la distance que parcourt le monstre en suivant le joueur, le fait retourner à sa position initiale
         """
 
-
-    def modif_vie(self ,valeur_modif , fct=Sum):
+    def modif_vie(self, valeur_modif, fct=Sum):
         if self.etat != "vivant":
             return
 
         self.pv = fct(self.pv, valeur_modif).value().value()
 
-        if self.pv > 0 : # Le monstre est positif
+        if self.pv > 0:  # Le monstre est positif
             self.server.serveurWebsocket.send_all({"action": "monstre_modif_vie", "vie": self.pv, "id_monstre_spawn": self.id_monstre_spawn})
 
-        if self.pv == 0 :
+        if self.pv == 0:
             # TODO: Monstre doit mourir et loot un item
             self.etat = "mort"
             self.joueur_detecte = None
             self.dernier_etat = time.time()
             self.server.serveurWebsocket.send_all({"action": "monstre_modif_etat", "etat": self.etat, "id_monstre_spawn": self.id_monstre_spawn})
 
-        if self.pv < 0 : # Le monstre devient négatif, pensez a ajouter des changements de stats etc
+        if self.pv < 0:  # Le monstre devient négatif, pensez a ajouter des changements de stats etc
             self.server.serveurWebsocket.send_all({"action": "monstre_modif_vie", "vie": self.pv, "id_monstre_spawn": self.id_monstre_spawn})
 
 
