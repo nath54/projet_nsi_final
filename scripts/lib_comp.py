@@ -55,6 +55,7 @@ def gere_competences(ws_serv, websocket, data, id_user):
                     ennemi.modif_vie(-1)
 
     elif data_comp["nom"] == "manger":
+        ## Ajouter Cooldown + possibilité de l'utiliser que hors combat
         p = server.personnages[id_user]
         p.vie += p.vie_max*0.1
         if p.vie > p.vie_max:
