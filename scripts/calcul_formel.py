@@ -17,6 +17,7 @@ def lcm(*liste):
         lcm *= i//gcd(lcm, i)
     return lcm
 
+
 def trie(components):
     groups = {
         "nbs": [],  # Quand il n'y a pas de variables

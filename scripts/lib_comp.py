@@ -1,3 +1,4 @@
+from gere_ennemis import dist_vec
 
 
 def gere_competences(ws_serv, websocket, data, id_user):
@@ -55,3 +56,12 @@ def gere_competences(ws_serv, websocket, data, id_user):
             p.vie = p.vie_max
         server.send_to_user(p.id_utilisateur, {"action":"vie", "value":p.vie, "max_v": p.vie_max})
 
+    elif data_comp["nom"] == "provocation" and\
+            perso_joueur.classe == "chevalier":
+        """Permet d'attirer un ennemi vers le joueur dans un rayon de 5"""
+        monstres = server.carte.regions[perso_joueur.region_actu].ennemis
+        perso_pos = (perso_joueur.position[x], perso_joueur.position[y])
+        for ennemi in monstres:
+            ennemi_pos = (ennemi.position[x], ennemi.position[y])
+            if distance(ennemi_pos, perso_pos) <= 5:
+                ennemi.joueur_detecte(perso_joueur)
