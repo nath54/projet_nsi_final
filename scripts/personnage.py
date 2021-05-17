@@ -231,6 +231,17 @@ class Personnage:
             pass
 
     def subit_degats(self, degats):
+        if "bouclier" in self.divers.keys():
+            if self.divers["bouclier"] >= degats:
+                self.divers["bouclier"] -= degats
+                degats = 0
+            else:
+                self.divers["bouclier"] = 0
+                degats -= self.divers["bouclier"]
+            #TODO: envoyer self.divers au client
+            
+
+
         self.vie -= degats
         if self.vie <= 0:
             self.vie = 0
