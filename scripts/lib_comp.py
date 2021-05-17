@@ -30,11 +30,16 @@ def gere_competences(ws_serv, websocket, data, id_user):
         ws_serv.send_all({"action":"vie_joueur", "value":p.vie, "max_v": p.vie_max, "id_joueur": p.id_utilisateur}, [p.id_utilisateur])
 
     elif data_comp["nom"] == "teleportation":
-        x = data["x"]
-        y = data["y"]
-        dx = data["x"] - perso_joueur.position["x"]
-        dy = data["y"] - perso_joueur.position["y"]
-        perso_joueur.bouger((dx,dy))
+        rayon = 5
+        if dist_vec((perso_joueur.position["x"], perso_joueur.position["y"]), (data["x"], data["y"]) < rayon:
+            x = data["x"]
+            y = data["y"]
+            dx = data["x"] - perso_joueur.position["x"]
+            dy = data["y"] - perso_joueur.position["y"]
+            perso_joueur.bouger((dx,dy))
+            serveur.server.send_to_user(p.id_utilisateur, {"action": "position_perso", "x":p.position["x"], "y":p.position["y"]})
+            serveur.server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":p.id_utilisateur, "x":p.position["x"], "y":p.position["y"], "region":p.region_actu}, [p.id_utilisateur])
+
 
     elif data_comp["nom"] == "manger": 
         p = server.personnages[id_user]
@@ -42,4 +47,13 @@ def gere_competences(ws_serv, websocket, data, id_user):
         if p.vie > p.vie_max:
             p.vie = p.vie_max
         server.send_to_user(p.id_utilisateur, {"action":"vie", "value":p.vie, "max_v": p.vie_max})
-        
+
+    elif data_comp["nom"] == "provocation" and\
+            perso_joueur.classe == "chevalier":
+        """Permet d'attirer un ennemi vers le joueur dans un rayon de 5"""
+        monstres = server.carte.regions[perso_joueur.region_actu].ennemis
+        perso_pos = (perso_joueur.position[x], perso_joueur.position[y])
+        for ennemi in monstres:
+            ennemi_pos = (ennemi.position[x], ennemi.position[y])
+            if distance(ennemi_pos, perso_pos) <= 5:
+                ennemi.joueur_detecte = perso_joueur
