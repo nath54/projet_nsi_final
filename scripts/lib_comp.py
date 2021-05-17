@@ -1,6 +1,6 @@
 
 
-def gere_competences(ws_serv, websocket, data, id_user):
+def gere_competences(ws_serv, websocket, data, id_user, self):
     #print("Compétence ! ",data)
     server = ws_serv.server
     #
@@ -38,15 +38,16 @@ def gere_competences(ws_serv, websocket, data, id_user):
         perso_joueur.bouger((dx,dy))
 
     elif data_comp["nom"] == "moins_un_zone":
-        id_monstre_spawn = data["id_monstre_spawn"]
-        ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
-        rayon = 1
-        for x in range(-rayon,rayon+1):
-            for y in range(-rayon,rayon):
-                dx,dy = perso_joueur.position["x"]+x, perso_joueur.position["y"]+y
-                ennemi = server.carte.regions[perso_joueur.id_utilisateur].get_case_monstre(dx, dy)
-                if ennemi != None:
-                    ennemi.modif_vie(-1)
+        if self.classe == "Chevalier":
+            id_monstre_spawn = data["id_monstre_spawn"]
+            ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
+            rayon = 1
+            for x in range(-rayon,rayon+1):
+                for y in range(-rayon,rayon):
+                    dx,dy = perso_joueur.position["x"]+x, perso_joueur.position["y"]+y
+                    ennemi = server.carte.regions[perso_joueur.id_utilisateur].get_case_monstre(dx, dy)
+                    if ennemi != None:
+                        ennemi.modif_vie(-1)    
 
     elif data_comp["nom"] == "manger":
         p = server.personnages[id_user]
@@ -54,3 +55,6 @@ def gere_competences(ws_serv, websocket, data, id_user):
         if p.vie > p.vie_max:
             p.vie = p.vie_max
         server.send_to_user(p.id_utilisateur, {"action":"vie", "value":p.vie, "max_v": p.vie_max})
+        self.divers["last manger"] = time.time()
+        if time.time()-30 > self.divers["last manger"]:
+            
