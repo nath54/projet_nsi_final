@@ -384,12 +384,11 @@ def substituer_expr(expression, variable, remplacement):
 
     expression = expression.replace(variable, str(remplacement))
     liste_terme = expression.split("+")
-    print(liste_terme)
     for terme_indice in range(len(liste_terme)):
         mult = liste_terme[terme_indice].split("*")
         if len(mult) == 2:
             liste_terme[terme_indice] = Mul(*mult).value()
-    return Sum(*liste_terme).value()
+    return sum([int(i) for i in liste_terme])
 
 
 # region Tests
@@ -446,6 +445,7 @@ def test_str_to_expr():
     print("Début du test : Fonction substituer_expr")
 
     var = substituer_expr("5+2*x", "x", 4)
+    print(var)
     assert var == 13, f"{var}"
     var = substituer_expr("11037+53*x", "x", 12)
     assert var == 11673, f"{var}"
