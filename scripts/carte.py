@@ -54,8 +54,9 @@ class Region:
     def get_case_monstre(self, x, y):
         i = f"{x}_{y}"
         if i in self.monstres_pos.values():
-            for monstre, case in self.monstres_pos.items():
-                return monstre
+            for (monstre, case) in self.monstres_pos.items():
+                if case == i:
+                    return monstre
         else:
             return None
 
@@ -136,7 +137,8 @@ class Carte:
                 "nom": monstre.nom,
                 "vie": monstre.pv,
                 "x": monstre.position["x"],
-                "y": monstre.position["y"]
+                "y": monstre.position["y"],
+                "etat": monstre.etat
             }
         return infos
 

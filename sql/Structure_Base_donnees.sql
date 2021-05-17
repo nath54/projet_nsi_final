@@ -73,7 +73,8 @@ CREATE TABLE monstre (
 	pv TEXT NOT NULL,
 	dgt TEXT NOT NULL,
 	loot TEXT,
-	img_base TEXT NOT NULL);
+	img_base TEXT NOT NULL,
+	img_mort TEXT NOT NULL DEFAULT "tombe.png");
 
 
 CREATE TABLE classe (
@@ -130,7 +131,7 @@ CREATE TABLE regions_objets(
 	y INT NOT NULL,
 	id_region INT NOT NULL,
 	id_objet INT DEFAULT 0,
-	parametres TEXT DEFAULT '',
+	parametres TEXT NOT NULL DEFAULT '{}',
 	CONSTRAINT comp_key_x_y PRIMARY KEY (x, y, id_region)
 );
 
@@ -157,3 +158,12 @@ CREATE TABLE comptes_administrateurs (
 );
 
 
+CREATE TABLE competences (
+	id_competence INT PRIMARY KEY,
+	nom TEXT NOT NULL,
+	description_ TEXT,
+	type_cible TEXT,
+	cout_mana INT NOT NULL,
+	tp_recharge FLOAT NOT NULL,
+	img_icon TEXT NOT NULL
+);

@@ -75,12 +75,15 @@ function on_message(event) {
         case 'infos_perso':
             delete data['action']
             personnage = data;
+            personnage.competences = JSON.parse(personnage.competences);
 
             if (en_chargement) {
                 en_chargement = false;
                 document.getElementById("loading").style.display = "none";
                 aff();
             }
+
+            update_competence();
             break;
 
         case 'position_perso':
@@ -160,6 +163,47 @@ function on_message(event) {
                 ennemis[id_monstre_spawn]["x"] = x;
                 ennemis[id_monstre_spawn]["y"] = y;
                 aff();
+            }
+            break;
+
+        case 'monstre_modif_vie':
+            var id_monstre_spawn = data.id_monstre_spawn;
+            var vie = data.vie;
+            ennemis[id_monstre_spawn]["vie"] = vie;
+            aff();
+            break;
+
+        case 'monstre_modif_etat':
+            var id_monstre_spawn = data.id_monstre_spawn;
+            var etat = data.etat;
+            ennemis[id_monstre_spawn]["etat"] = etat;
+            var en_c = document.getElementById("ennemi_" + id_monstre_spawn).firstChild;
+            if (etat == "mort") {
+                var img_en = "../imgs/ennemis/" + ennemis_data[ennemis[id_monstre_spawn]["id_monstre"]]["img_mort"];
+            } else {
+                var img_en = "../imgs/ennemis/" + ennemis_data[ennemis[id_monstre_spawn]["id_monstre"]]["img"];
+            }
+            en_c.setAttribute("xlink:href", img_en);
+            aff();
+            break;
+
+        case 'vie_joueur':
+            var id_joueur = data.id_joueur;
+            var value = data.value;
+            var max_v = data.max_v;
+            if (Object.keys(autres_joueurs).includes(id_joueur)) {
+                autres_joueurs[id_joueur].vie = value;
+                autres_joueurs[id_joueur].vie_max = max_v;
+            }
+            break;
+
+        case 'mana_joueur':
+            var id_joueur = data.id_joueur;
+            var value = data.value;
+            var max_v = data.max_v;
+            if (Object.keys(autres_joueurs).includes(id_joueur)) {
+                autres_joueurs[id_joueur].mana = value;
+                autres_joueurs[id_joueur].mana_max = max_v;
             }
             break;
 

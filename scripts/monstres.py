@@ -39,8 +39,9 @@ class Monstre:
 
         self.nom = res[0]
 
-        self.pv = json.loads(res[1])
-        self.pv = self.get_value_from_formes(self.pv)
+
+        self.pv_forme = json.loads(res[1])
+        self.pv = self.get_value_from_formes(self.pv_forme)
 
         self.niveau = int(res[2])
 
@@ -63,7 +64,7 @@ class Monstre:
         self.portee_attaque = 1 # La portée d'attaque du monstre
 
         # Compteurs déplacements
-        self.dernier_bouger = 0
+        self.dernier_bouger = time.time() + float(random.randint(-100,  100) / 10.0)
         self.tp_bouger = 0.8
         self.nb_bloque = 0
         self.patiente_bloque = 5
@@ -77,7 +78,10 @@ class Monstre:
     def emplacement(self): ## Retourne la position du monstre
         return self.position
 
-    def bouger(self, dep, test_est_libre_fait=None):  # Le serveur s'occupera des déplacements
+    # Le serveur s'occupera des déplacements
+    def bouger(self, dep, test_est_libre_fait=None):
+        if self.etat != "vivant":
+            return
 
         if not isinstance(dep, tuple):
             return
@@ -116,22 +120,23 @@ class Monstre:
 
 
     def modif_vie(self ,valeur_modif , fct=Sum):
-        self.pv = fct(self.pv, valeur_modif)
-        est_lootable = False
+        if self.etat != "vivant":
+            return
+
+        self.pv = fct(self.pv, valeur_modif).value().value()
 
         if self.pv > 0 : # Le monstre est positif
-            pass
+            self.server.serveurWebsocket.send_all({"action": "monstre_modif_vie", "vie": self.pv, "id_monstre_spawn": self.id_monstre_spawn})
 
         if self.pv == 0 :
             # TODO: Monstre doit mourir et loot un item
             self.etat = "mort"
-            if not est_lootable:
-                self.server.objet.load_objet()
-
-            pass
+            self.joueur_detecte = None
+            self.dernier_etat = time.time()
+            self.server.serveurWebsocket.send_all({"action": "monstre_modif_etat", "etat": self.etat, "id_monstre_spawn": self.id_monstre_spawn})
 
         if self.pv < 0 : # Le monstre devient négatif, pensez a ajouter des changements de stats etc
-            pass
+            self.server.serveurWebsocket.send_all({"action": "monstre_modif_vie", "vie": self.pv, "id_monstre_spawn": self.id_monstre_spawn})
 
 
 ##if __name__ = "__name__":

@@ -25,7 +25,7 @@ class Serveur:
     def __init__(self, debug=False, act_console=False):
         # TODO : init du serveur
         self.serveurWebsocket = ServeurWebsocket(self, debug)
-        self.db = dbClient()  # On voudrait un accès à la base de donnée
+        self.db = dbClient()  # Pour avoir un accès à la base de donnée
         self.carte = Carte(self)
         self.carte.load()
         self.personnages = {} # clé : id_utilisateur, value : Personnage()
@@ -36,6 +36,9 @@ class Serveur:
         self.t_gere_ennemis = None
         #
         self.nb_t_actifs = 0
+        #
+        self.data_competences = {}
+        self.load_competences()
 
     def start(self):
         """Lance le serveur et tous les éléments utiles"""
@@ -151,6 +154,20 @@ class Serveur:
 
     def bouger_perso(self, id_utilisateur, deplacement, cooldown=False):
         self.personnages[id_utilisateur].bouger(deplacement, cooldown)
+
+
+    def load_competences(self):
+        req = "SELECT id_competence, nom, description_, type_cible, cout_mana, tp_recharge FROM competences;"
+        res = self.db.requete_db(req)
+        for data in res:
+            self.data_competences[data[0]] = {
+                "id_competence": data[0],
+                "nom": data[1],
+                "description": data[2],
+                "type_cible": data[3],
+                "cout_mana": data[4],
+                "tp_recharge": data[5]
+            }
 
 
 if __name__ == '__main__':

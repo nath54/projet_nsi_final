@@ -97,24 +97,62 @@ if($r==NULL){
 foreach($r as $i=>$data){
     $nom = $data["nom"];
     $img = $data["img_base"];
-    $ennemis[$data["id_monstre"]] = array("nom"=>$nom, "img"=>$img);
+    $img_mort = $data["img_mort"];
+    $ennemis[$data["id_monstre"]] = array("nom"=>$nom, "img"=>$img, "img_mort" => $img_mort);
 }
 
-// On va passer les infos à js
+// On va passer les infos des ennemis à js
 if(count($ennemis)>0){
     $je = json_encode($ennemis);
-    echo "<script>var ennemis_data = JSON.parse('$je'); </script>";
+    echo "<script>var ennemis_data = JSON.parse(`$je`); </script>";
 }else{
     echo "<script>var ennemis_data = {}; </script>";
 }
+
+// On va passer les infos des cases des objets et des terrains à js
+
+// On va préparer les cases_objets
+$cases_objets_trait = array();
+$cases_terrains_trait = array();
+foreach($cases_objets as $i=>$data){
+    $x = $data["x"];
+    $y = $data["y"];
+    $tp = $data["id_objet"];
+    $cases_objets_trait[$x."_".$y] = $tp;
+}
+
+foreach($cases_terrains as $i=>$data){
+    $x = $data["x"];
+    $y = $data["y"];
+    $tp = $data["id_terrain"];
+    $cases_terrains_trait[$x."_".$y] = $tp;
+}
+$jco = json_encode($cases_objets_trait);
+$jct = json_encode($cases_terrains_trait);
+echo "<script>var cases_objets = JSON.parse(`$jco`); var cases_terrains = JSON.parse(`$jct`);</script>";
+
+// On prépare les data des compétences et on les envoie au js
+
+$competences = array();
+
+$req = "SELECT * FROM competences;";
+$res = requete_prep($db, $req);
+foreach($res as $i=>$data){
+    $competences[$data["id_competence"]] = $data;
+}
+
+$jc = json_encode($competences);
+echo "<script>var competences = JSON.parse(`$jc`);</script>";
 
 // On définit ici les infos relatives à l'affichage :
 
 // $tx = 1280; // La taille horizontale du viewport
 // $ty = 640; // La taille verticale du viewport
 $tc = 64; // tc pour taille cases
-$tx = 18 * $tc;
-$ty = 10 * $tc;
+// $tx = 18 * $tc;
+// $ty = 10 * $tc;
+$tx = 1280;
+$ty = 840;
 // Il y aura donc une grille de 10x5 affichée à l'écran
 $px = $infos_players["position_x"] * $tc;
 $py = $infos_players["position_y"] * $tc;
@@ -193,10 +231,10 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                             <div>
                                 <table>
                                     <tr>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
+                                        <td class="bt_1" id="bt_comp_1" onclick="lance_competence(1);"></td>
+                                        <td class="bt_1" id="bt_comp_2" onclick="lance_competence(2);"></td>
+                                        <td class="bt_1" id="bt_comp_3" onclick="lance_competence(3);"></td>
+                                        <td class="bt_1" id="bt_comp_4" onclick="lance_competence(4);"></td>
                                     </tr>
                                 </table>
                             </div>
@@ -207,10 +245,10 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                             <div>
                                 <table>
                                     <tr>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
+                                        <td class="bt_1" id="bt_arme_1"></td>
+                                        <td class="bt_1" id="bt_arme_2"></td>
+                                        <td class="bt_1" id="bt_arme_3"></td>
+                                        <td class="bt_1" id="bt_arme_4"></td>
                                     </tr>
                                 </table>
                             </div>
@@ -220,10 +258,10 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                             <div>
                                 <table>
                                     <tr>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
-                                        <td class="bt_1"></td>
+                                        <td class="bt_1" id="bt_munition_1"></td>
+                                        <td class="bt_1" id="bt_munition_2"></td>
+                                        <td class="bt_1" id="bt_munition_3"></td>
+                                        <td class="bt_1" id="bt_munition_4"></td>
                                     </tr>
                                 </table>
                             </div>
@@ -253,7 +291,8 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                                 $y = $data["y"] * $tc;
                                 $img = $terrains[$data["id_terrain"]]["img"];
                                 $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
-                                echo "<image z-index=\"1\" x=$x y=$y width=$ct height=$ct xlink:href=\"../imgs/tuiles/$img\" class=\"case\"></image>";
+                                $k = $x."_".$y;
+                                echo "<image id='t$k' x=$x y=$y width=$ct height=$ct xlink:href=\"../imgs/tuiles/$img\" class=\"case\"></image>";
                             }
                         ?>
                     </g>
@@ -269,10 +308,24 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                                 $zindex = $objets[$data["id_objet"]]["z_index"];
                                 $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
                                 if($zindex==1){
-                                    echo "<image x=$x y=$y width=$ct height=$ct xlink:href=\"../imgs/objets/$img\" class=\"case\"></image>";
+                                    $k = $x."_".$y;
+                                    echo "<image id='o$k' x=$x y=$y width=$ct height=$ct xlink:href=\"../imgs/objets/$img\" class=\"case\"></image>";
                                 }
                             }
                         ?>
+                    </g>
+
+
+                    <!-- Les ennemis -->
+                    <g id="svg_ennemis">
+
+                        <?php
+                            echo "<svg x=0 y=0 width=$tc height=$tc id=\"monstre_template\" style=\"display:none;\">";
+                            echo "<image width=$tc height=$tc xlink:href=\"../imgs/ennemis/inconu.png\"></image>";
+                            echo "</svg>";
+
+                        ?>
+
                     </g>
 
                     <!-- Le perso -->
@@ -310,17 +363,6 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                     </g>
 
 
-                    <!-- Les ennemis -->
-                    <g id="svg_ennemis">
-
-                        <?php
-                            echo "<svg x=0 y=0 width=$tc height=$tc id=\"monstre_template\" style=\"display:none;\">";
-                            echo "<image width=$tc height=$tc xlink:href=\"../imgs/ennemis/inconu.png\"></image>";
-                            echo "</svg>";
-
-                        ?>
-
-                    </g>
 
                     <!-- Les objets de z-index 4 -->
 
@@ -333,7 +375,8 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                                 $zindex = $objets[$data["id_objet"]]["z_index"];
                                 $ct = $tc + 1; // On essaie d'enlever les lignes noires entre les tiles
                                 if($zindex==3){
-                                    echo "<image x=$x y=$y width=$ct height=$ct xlink:href=\"../imgs/objets/$img\" class=\"case\"></image>";
+                                    $k = $x."_".$y;
+                                    echo "<image id='o$k' x=$x y=$y width=$ct height=$ct xlink:href=\"../imgs/objets/$img\" class=\"case\"></image>";
                                 }
                             }
                         ?>
@@ -349,6 +392,17 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
                     <g id="svg_infos_ennemis">
 
+                    </g>
+
+                    <!-- Les selecteurs -->
+
+                    <g id="selecteurs">
+                        <rect id="selec_terrain" x=0 y=0 width=0 height=0 fill="rgba(0,0,255,0.1)" style="display:none;">
+                        </rect>
+                        <rect id="selec_objet" x=0 y=0 width=0 height=0 fill="rgba(0,255,0,0.1)" style="display:none;">
+                        </rect>
+                        <rect id="selec_ennemi" x=0 y=0 width=0 height=0 fill="rgba(255,0,0,0.1)" style="display:none;">
+                        </rect>
                     </g>
 
                 </svg>
@@ -379,8 +433,8 @@ $url_ws = $data["url_websocket"];
 var ws_url = "<?php echo $url_ws; ?>";
 
 var en_chargement = true;
-tx = <?php echo $tx; ?>;
-ty = <?php echo $ty; ?>;
+tx = document.getElementById("viewport").clientWidth;
+ty = document.getElementById("viewport").clientHeight;
 tc = <?php echo $tc; ?>;
 
 function launch(){
