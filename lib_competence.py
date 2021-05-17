@@ -29,3 +29,9 @@ def sort_teleportation(data,serveur,ws,id_joueur):
         p.position["y"] = data['y']
         serveur.server.send_to_user(p.id_utilisateur, {"action": "position_perso", "x":p.position["x"], "y":p.position["y"]})
         serveur.server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":p.id_utilisateur, "x":p.position["x"], "y":p.position["y"], "region":p.region_actu}, [p.id_utilisateur])
+
+def sort_Foudre_celeste(data,serveur,ws,id_joueur):
+    p = serveur.server.personnages[id_joueur]
+    m = serveur.server.monstres[id_monstre]
+    if self.server.monstre.position == {'x': npx, 'y': npy}:
+            self.server.monstre.modif_vie(dgt)
