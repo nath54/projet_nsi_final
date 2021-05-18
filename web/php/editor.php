@@ -652,6 +652,9 @@ else{
     script("var cases_ennemis = {};");
 }
 
+
+$tc = 5; // LARGEUR DES CASES
+
 ?>
 <html>
     <style>
@@ -743,7 +746,6 @@ body {
 
                     $tx = 20; // NOMBRE DE CASES HORIZONTABLES QUE L'ECRAN AFFICHE
                     $ty = 16; // NOMBRE DE CASES VERTICALES QUE L'ECRAN AFFICHE
-                    $tc = 5; // LARGEUR DES CASES
                     $dx = 0; // VARIABLE DE DEPLACEMENT X DANS LA MAP
                     $dy = 0; // VARIABLE DE DEPLACEMENT Y DANS LA MAP
                     // terrains
@@ -794,6 +796,9 @@ body {
                             echo "<image z_index=0 id=\"e_$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$ct\" height=\"$ct\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
                         }
                     }
+                    // On va créer l'indice de selection pour les parametres
+                    echo "<rect id=\"selection_params\" x=0 y=0 width=$tc height=$tc style=\"stroke: green; stroke-width: 0.2; fill:none; display:none;\"></rect>";
+                    //
                     echo "</svg>";
                 }
                 else{
@@ -857,6 +862,7 @@ body {
                     <div id="objets_parametres" style="display:none;">
                         <textarea id="object_parameters" placeholder="{}">
                         </textarea>
+                        <button onclick="">Update</button>
                     </div>
 
                     <div id="objets" style="display:none;">
@@ -900,6 +906,9 @@ body {
         </div>
     </body>
 </html>
+<?php
+echo "<script>const tc = $tc;</script>"
+?>
 <script>
 
 // L'id de la region que l'on a chargée dans l'editeur
@@ -1339,6 +1348,13 @@ function set_selection(ii){
             document.getElementById(i).style.display = "none";
         }
     }
+    //
+    if(ii == "objets_parametres"){
+        mode = "parametres";
+    }
+    else{
+        mode = "placer";
+    }
 }
 
 /**
@@ -1492,6 +1508,26 @@ if(viewport != null){
             if(mode == "placer"){
                 change_case(hx,hy);
             }
+            //
+            console.log("aaaaa");
+            //
+            if(mode == "parametres"){
+                var xx = hx;
+                var yy = hy;
+                console.log(xx,yy);
+                //
+                var k = ""+xx+"-"+yy;
+                if(Object.keys(cases_objets).includes(k)){
+                    document.getElementById("selection_params").style.display = "initial";
+                    document.getElementById("selection_params").setAttribute("x", xx * tc);
+                    document.getElementById("selection_params").setAttribute("y", yy * tc);
+                    document.getElementById("object_parameters").value = cases_objets[k]["parametres"];
+                }
+            }
+            else{
+                document.getElementById("object_parameters").value = "";
+                document.getElementById("selection_params").style.display = "none";
+            }
         }
         is_clicking = true;
     });
@@ -1507,12 +1543,15 @@ if(viewport != null){
     });
 
     viewport.addEventListener('mouseup', e => {
+        //
+        
         if (is_clicking === true) {
             is_clicking = false;
         }
     });
-
 }
+
+
 function mo(cx,cy){
     hx = cx;
     hy = cy;
