@@ -745,6 +745,9 @@ body {
                     $ty = 16; // NOMBRE DE CASES VERTICALES QUE L'ECRAN AFFICHE
                     $dx = 0; // VARIABLE DE DEPLACEMENT X DANS LA MAP
                     $dy = 0; // VARIABLE DE DEPLACEMENT Y DANS LA MAP
+                    // case de tests
+                    $ct = $tc + 0.15;
+                    echo "<image id=\"case_test\" style=\"display:none;\" x=\"0\" y=\"0\" width=\"$ct\" height=\"$ct\" class=\"case\"></image>";
                     // terrains
                     // ON CREE LA GRILLE POUR LES TERRAINS
                     for($x = 0; $x < $tx; $x++){
@@ -757,7 +760,6 @@ body {
                                 $img = $terrains[$cases_terrains[$idd]["id_terrain"]]["img"];
                                 $src = "../imgs/tuiles/$img";
                             }
-                            $ct = $tc + 0.15;
                             echo "<image z_index=0 id=\"$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$ct\" height=\"$ct\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
                         }
                     }
@@ -1564,7 +1566,6 @@ if(viewport != null){
                 var yy = hy;
                 selected_x = xx;
                 selected_y = yy;
-                console.log(xx,yy);
                 //
                 var k = ""+xx+"-"+yy;
                 if(Object.keys(cases_objets).includes(k)){
