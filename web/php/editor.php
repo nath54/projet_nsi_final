@@ -1,3 +1,18 @@
+<style>
+
+.bta{
+    text-decoration: none;
+    color: black;
+    background-color: rgb(250,250,250);
+    border:1px solid black;
+    padding: 5px;
+}.bta:hover{
+    background-color: rgb(240,240,240);
+}.bta:active{
+    background-color: rgb(200,200,200);
+}
+
+</style>
 <?php
 include_once "../../includes/init.php";
 include_once "../../includes/bdd.php";
@@ -91,6 +106,23 @@ if(isset($_POST["region_selected"])){
     }
 }
 
+/**
+ * ON REGARDE SI LA REQUETE EST DE TYPE UPDATE PARAMETERS
+ */
+
+if(isset($_POST["update_parameters"])){
+    $new_params = $_POST["update_parameters"];
+    $id_region = $_POST["id_region"];
+    $x = $_POST["x"];
+    $y = $_POST["y"];
+    //
+    $req = "UPDATE regions_objets SET parametres=:params WHERE x=:x AND y=:y AND id_region=:idr";
+    $vars = array(":params"=>$new_params, ":x"=>$x, ":y"=>$y, ":idr"=>$id_region);
+    $succes = action_prep($db, $req, $vars);
+    if(!$succes){
+        alert("Il y a eu une erreur lors de l'update des parametres !");
+    }
+}
 
 /**
  * ON REGARDE SI LA REQUETE EST DE TYPE SUPPRIMER UNE REGION
@@ -163,8 +195,7 @@ if(
   isset($_POST["new_objets"]) &&
   isset($_POST["delete_ennemis"]) &&
   isset($_POST["update_ennemis"])  &&
-  isset($_POST["new_ennemis"])   &&
-  isset($_POST["save_parameters"])
+  isset($_POST["new_ennemis"])
   ){
     $idr = $_POST["save_terrain"];
     $region_selected = $idr;
@@ -179,7 +210,6 @@ if(
     $new_t = json_decode($_POST["new_terrains"], true);
     $new_o = json_decode($_POST["new_objets"], true);
     $new_e = json_decode($_POST["new_ennemis"], true);
-    // $save_p = json_decode($_POST["save_parameters"], true);
     $iu_t = $new_t + $update_t;
     $iu_o = $new_o + $update_o;
     $iu_e = $new_e + $update_e;
@@ -385,42 +415,6 @@ if(
         }
     }
 
-    /**
-     * SAVE PARAMETERS
-
-    if(count($save_p)>0){
-        $req = "UPDATE regions_objets (x,y,id_region, parameters) VALUES ";
-        $virgule = false;
-        $vars = array();
-        $compteur = 0; // Pour requete_prep:
-        foreach($iu_e as $i => $data){
-            if(!$virgule){
-                $virgule = true;
-            }
-            else{
-                $req .= ", ";
-            }
-            if($mode == 0){ // pour requete non préparée
-                $req .= "( " . $data["x"] . ", " . $data["y"] . ", " . $data["id_region"] . ", " .
-                        $data["id_monstre"] . " )";
-            }
-            else{ // Pour requete_prep:
-                $req .= "(:x_$compteur, :y_$compteur, :idr_$compteur, :ide_$compteur)";
-                $vars[":x_$compteur"] = $data["x"];
-                $vars[":y_$compteur"] = $data["y"];
-                $vars[":idr_$compteur"] = $data["id_region"];
-                $vars[":ide_$compteur"] = $data["id_monstre"];
-                $compteur += 1;
-            }
-        }
-        $req .= " ON DUPLICATE KEY UPDATE id_monstre=VALUES(id_monstre);";
-        if(!action_prep($db, $req, $vars)){
-            echo "probleme insert/update ennemis <br />";
-            die();
-        }
-    }
-    */
-
 }
 
 if(isset($_POST["import_data"]) && isset($_POST["import_region"])){
@@ -612,6 +606,9 @@ else{
  * ON TRANSFERE LES DONNES VERS JS GRACE A JSON
  */
 
+
+//
+script("var region_selected = $region_selected;");
 
 // Les données du terrain
 $jsone = json_encode($terrains);
@@ -836,10 +833,15 @@ body {
                     </div>
 
                     <div class="row">
-                        <!-- BOUTONS POUR CHOISIR LE MENU DE PLACEMENT -->
-                        <button onclick="set_selection('terrains');">Terrains</button>
-                        <button onclick="set_selection('objets');">Objets</button>
-                        <button onclick="set_selection('ennemis');">Ennemis</button>
+                        <div id="bts_placer">
+                            <!-- BOUTONS POUR CHOISIR LE MENU DE PLACEMENT -->
+                            <button onclick="set_selection('terrains');">Terrains</button>
+                            <button onclick="set_selection('objets');">Objets</button>
+                            <button onclick="set_selection('ennemis');">Ennemis</button>
+                        </div>
+                        <div id="bts_params" style="display:none;">
+                            <button onclick="save_parameters();">Update parameter</button>
+                        </div>
                     </div>
 
                     <div id="terrains">
@@ -859,10 +861,11 @@ body {
                         ?>
                     </div>
 
-                    <div id="objets_parametres" style="display:none;">
+                    <div id="objets_parametres" style="display:none; padding: 25px;">
                         <textarea id="object_parameters" placeholder="{}">
                         </textarea>
-                        <button onclick="">Update</button>
+                        <br />
+                        <b style="color:red;">Attention ! Veuillez d'abords sauvegarder les autres changements avant de modifier les parametres des objets, sinon, vous allez perdre des modifications !</b>
                     </div>
 
                     <div id="objets" style="display:none;">
@@ -929,6 +932,9 @@ var is_clicking = false;
 var hx=null;
 var hy=null;
 
+var selected_x = null;
+var selected_y = null;
+
 if(document.getElementById("viewport")){
     var viewport = document.getElementById("viewport");
 }
@@ -952,10 +958,6 @@ var delete_o = {};
 var update_e = {};
 var new_e = {};
 var delete_e = {};
-
-
-// Variables pour sauvegarder les modifs des parametres des objets
-var save_p = {};
 
 /**
  * FONCTION POUR CHANGER LA REGION SELECTIONNEE
@@ -1319,7 +1321,6 @@ function save_tiles(){
         ["delete_ennemis", delete_e],
         ["update_ennemis", update_e],
         ["new_ennemis", new_e],
-        ["save_parameters", save_p]
     ]
 
     for([nom,data] of liste_donnees){
@@ -1351,9 +1352,13 @@ function set_selection(ii){
     //
     if(ii == "objets_parametres"){
         mode = "parametres";
+        document.getElementById("bts_placer").style.display="none";
+        document.getElementById("bts_params").style.display="initial";
     }
     else{
         mode = "placer";
+        document.getElementById("bts_placer").style.display="initial";
+        document.getElementById("bts_params").style.display="none";
     }
 }
 
@@ -1420,6 +1425,51 @@ function onFileLoaded (e) {
         f.submit();
     }
 
+}
+
+function save_parameters(){
+    if(selected_x == null || selected_y == null){
+        alert("Error, nothing is selected !");
+        return;
+    }
+    var new_parameters = document.getElementById("object_parameters").value;
+    var x = selected_x;
+    var y = selected_y;
+    //
+    var f = document.createElement("form");
+    f.setAttribute("method", "POST");
+    f.setAttribute("action", "editor.php");
+    f.style.display = "none";
+    //
+    var i = document.createElement("input");
+    i.setAttribute("name", "update_parameters");
+    i.setAttribute("value", new_parameters);
+    f.appendChild(i);
+    //
+    var ii = document.createElement("input");
+    ii.setAttribute("name", "id_region");
+    ii.setAttribute("value", id_region);
+    f.appendChild(ii);
+    //
+    var ii = document.createElement("input");
+    ii.setAttribute("name", "region_selected");
+    ii.setAttribute("value", region_selected);
+    f.appendChild(ii);
+    //
+    var i = document.createElement("input");
+    i.setAttribute("name", "x");
+    i.setAttribute("value", x);
+    f.appendChild(i);
+    //
+    var i = document.createElement("input");
+    i.setAttribute("name", "y");
+    i.setAttribute("value", y);
+    f.appendChild(i);
+    //
+    
+    //
+    document.body.appendChild(f);
+    f.submit();
 }
 
 var fi = document.getElementById("file_import");
@@ -1509,11 +1559,11 @@ if(viewport != null){
                 change_case(hx,hy);
             }
             //
-            console.log("aaaaa");
-            //
             if(mode == "parametres"){
                 var xx = hx;
                 var yy = hy;
+                selected_x = xx;
+                selected_y = yy;
                 console.log(xx,yy);
                 //
                 var k = ""+xx+"-"+yy;
@@ -1525,6 +1575,8 @@ if(viewport != null){
                 }
             }
             else{
+                selected_x = null;
+                selected_y = null;
                 document.getElementById("object_parameters").value = "";
                 document.getElementById("selection_params").style.display = "none";
             }
