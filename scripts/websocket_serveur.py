@@ -191,7 +191,28 @@ class ServeurWebsocket:
         self.debug("get from ", websocket, " : ", data)
         if "action" in data.keys():
             if data["action"] == "connection":  # Un exemple d'action possible
+
+                if "id_utilisateur" not in data.keys() or\
+                    "token" not in data.keys():
+                    self.send(websocket, {"action":"prob_connection", "message":"Vous avez essayé de tricher lors de la connection !"})
+                    self.client_part(websocket, ws_server)
+                    return
+
                 id_utilisateur = int(data["id_utilisateur"])
+                token = data["token"]
+
+                res = self.server.db.requete_db("SELECT token FROM tokens WHERE id_utilisateur = ?;", (id_utilisateur,))
+                
+                if len(res) == 0 or res[0][0] != token:
+                    self.send(websocket, {"action":"prob_connection", "message":"Vous avez essayé de tricher lors de la connection !"})
+                    self.client_part(websocket, ws_server)
+                    return
+
+                # Normalement, il a le bon token
+
+                # on supprime le token
+                self.server.db.action_db("DELETE FROM tokens WHERE id_utilisateur = ?;", (id_utilisateur,))
+
                 for _, donnees in self.USERS.items():
                     if id_utilisateur == donnees["id_utilisateur"]:
                         self.send(websocket, {"action":"prob_connection", "message":"qqun a déjà le meme id connecté"})
