@@ -41,11 +41,13 @@ def gere_competences(ws_serv, websocket, data, id_user, self):
 
     elif data_comp["nom"] == "manger":
         ## Ajouter Cooldown + possibilité de l'utiliser que hors combat
-        p = server.personnages[id_user]
-        p.vie += p.vie_max*0.1
-        if p.vie > p.vie_max:
-            p.vie = p.vie_max
-        server.send_to_user(p.id_utilisateur, {"action":"vie", "value":p.vie, "max_v": p.vie_max})
+        if self.server.personnage.classe == "Chevalier" or self.server.personnage.classe == "Chasseur":
+            cooldown = 20
+            p = server.personnages[id_user]
+            p.vie += p.vie_max*0.1
+            if p.vie > p.vie_max:
+                p.vie = p.vie_max
+            server.send_to_user(p.id_utilisateur, {"action":"vie", "value":p.vie, "max_v": p.vie_max})
     
 
     elif data_comp["nom"] == "provocation" and\
