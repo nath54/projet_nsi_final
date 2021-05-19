@@ -40,11 +40,11 @@ def gere_competences(ws_serv, websocket, data, id_user):
             dy = data["y"] - perso_joueur.position["y"]
             perso_joueur.bouger((dx,dy))
             server.send_to_user(perso_joueur.id_utilisateur, {"action": "position_perso", "x":perso_joueur.position["x"], "y":perso_joueur.position["y"]})
-            server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":perso_joueur.id_utilisateur, "x":perso_joueur.position["x"], "y":p.position["y"], "region":perso_joueur.region_actu}, [perso_joueur.id_utilisateur])
+            server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":perso_joueur.id_utilisateur, "x":perso_joueur.position["x"], "y":perso_joueur.position["y"], "region":perso_joueur.region_actu}, [perso_joueur.id_utilisateur])
 
     elif data_comp["nom"] == "manger":
         ## Ajouter Cooldown + possibilité de l'utiliser que hors combat
-        if server.personnage.classe == "Chevalier" or server.personnage.classe == "Chasseur":
+        if self.server.personnage.classe == "Chevalier" or self.server.personnage.classe == "Chasseur":
             cooldown = 20
             if time.time() >= cooldown :
                 if self.server.monstre.joueur_detecte == True :
@@ -74,7 +74,7 @@ def gere_competences(ws_serv, websocket, data, id_user):
         perso_joueur.bouger((dx,dy))
 
     elif data_comp["nom"] == "moins_un_zone":
-        if perso_joueur.classe == "Chevalier":
+        if self.classe == "Chevalier":
             id_monstre_spawn = data["id_monstre_spawn"]
             ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
             rayon = 1
@@ -84,3 +84,4 @@ def gere_competences(ws_serv, websocket, data, id_user):
                     ennemi = server.carte.regions[perso_joueur.id_utilisateur].get_case_monstre(dx, dy)
                     if ennemi != None:
                         ennemi.modif_vie(-1)
+
