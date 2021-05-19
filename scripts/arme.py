@@ -11,7 +11,7 @@ class arme:
         self.munition = ""
         self.quantite_munition = 0
         self.position = {"x" : 0 , "y" : 0}
-        self.id_region = 1
+        self.id_region = 1 
         self.load_arme()
 
     def load_arme(self):
