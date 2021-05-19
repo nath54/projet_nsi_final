@@ -26,3 +26,11 @@ INSERT INTO competences SET
     tp_recharge = 10,
     img_icon = "premiers_secours.png";
 
+INSERT INTO competences SET
+    id_competence = 4,
+    nom = "bouclier",
+    description_ = "se protége de toutes attaques tout autours du joueur",
+    type_cible = "ennemi",
+    cout_mana = 15,
+    tp_recharge = 20,
+    img_icon = "bouclier.png";
