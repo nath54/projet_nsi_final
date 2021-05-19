@@ -282,7 +282,7 @@ INSERT INTO objets SET
 
 
 INSERT INTO objets SET
-    id_objet = 8,
+    id_objet = 9,
     nom = "Arbre_chene_haut",
     image_ = "Arbre_chene_haut.png",
     z_index = 3,
