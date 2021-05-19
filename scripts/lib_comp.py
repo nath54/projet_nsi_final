@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 from gere_ennemis import dist_vec
 import time
-=======
->>>>>>> 3e26b853a6a4dc9b52e4ca1c097a4bf56f883a34
 
 
 def gere_competences(ws_serv, websocket, data, id_user):
