@@ -1,8 +1,6 @@
-from gere_ennemis import dist_vec
-import time
 
 
-def gere_competences(ws_serv, websocket, data, id_user):
+def gere_competences(ws_serv, websocket, data, id_user, self):
     #print("Compétence ! ",data)
     server = ws_serv.server
     #
@@ -34,17 +32,14 @@ def gere_competences(ws_serv, websocket, data, id_user):
 
     elif data_comp["nom"] == "teleportation":
         rayon = 5
-        cooldown = 30
         if dist_vec((perso_joueur.position["x"], perso_joueur.position["y"]), (data["x"], data["y"])) < rayon:
-            if "dernier_teleportation" not in perso_joueur.divers.keys() or time.time()-perso_joueur.divers["dernier_teleportation"]>cooldown:
-                perso_joueur.divers["dernier_teleportation"] = time.time()
-                x = data["x"]
-                y = data["y"]
-                dx = data["x"] - perso_joueur.position["x"]
-                dy = data["y"] - perso_joueur.position["y"]
-                perso_joueur.bouger((dx,dy))
-                server.send_to_user(perso_joueur.id_utilisateur, {"action": "position_perso", "x":perso_joueur.position["x"], "y":perso_joueur.position["y"]})
-                server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":perso_joueur.id_utilisateur, "x":perso_joueur.position["x"], "y":perso_joueur.position["y"], "region":perso_joueur.region_actu}, [perso_joueur.id_utilisateur])
+            x = data["x"]
+            y = data["y"]
+            dx = data["x"] - perso_joueur.position["x"]
+            dy = data["y"] - perso_joueur.position["y"]
+            perso_joueur.bouger((dx,dy))
+            server.send_to_user(perso_joueur.id_utilisateur, {"action": "position_perso", "x":perso_joueur.position["x"], "y":perso_joueur.position["y"]})
+            server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":perso_joueur.id_utilisateur, "x":perso_joueur.position["x"], "y":p.position["y"], "region":perso_joueur.region_actu}, [perso_joueur.id_utilisateur])
 
 
     elif data_comp["nom"] == "moins_un_zone":
@@ -65,6 +60,7 @@ def gere_competences(ws_serv, websocket, data, id_user):
         if p.vie > p.vie_max:
             p.vie = p.vie_max
         server.send_to_user(p.id_utilisateur, {"action":"vie", "value":p.vie, "max_v": p.vie_max})
+    
 
     elif data_comp["nom"] == "provocation" and\
             perso_joueur.classe == "chevalier":
@@ -75,3 +71,21 @@ def gere_competences(ws_serv, websocket, data, id_user):
             ennemi_pos = (ennemi.position[x], ennemi.position[y])
             if distance(ennemi_pos, perso_pos) <= 5:
                 ennemi.joueur_detecte = perso_joueur
+
+        x = data["x"]
+        y = data["y"]
+        dx = data["x"] - perso_joueur.position["x"]
+        dy = data["y"] - perso_joueur.position["y"]
+        perso_joueur.bouger((dx,dy))
+
+    elif data_comp["nom"] == "moins_un_zone":
+        if self.classe == "Chevalier":
+            id_monstre_spawn = data["id_monstre_spawn"]
+            ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
+            rayon = 1
+            for x in range(-rayon,rayon+1):
+                for y in range(-rayon,rayon):
+                    dx,dy = perso_joueur.position["x"]+x, perso_joueur.position["y"]+y
+                    ennemi = server.carte.regions[perso_joueur.id_utilisateur].get_case_monstre(dx, dy)
+                    if ennemi != None:
+                        ennemi.modif_vie(-1)
