@@ -50,7 +50,7 @@ INSERT INTO monstre SET
     pv = "{\"forme\":\"random between\", \"values\":[2, 5]}",
     dgt = "{\"forme\":\"random between\", \"values\":[1, 2]}",
     loot = "[]",
-    img_base = "champignon.mdp";
+    img_base = "champignon.png";
 
 INSERT INTO monstre SET
     id_monstre = 6,
@@ -59,7 +59,7 @@ INSERT INTO monstre SET
     pv = "{\"forme\":\"random between\", \"values\":[5, 8]}",
     dgt = "{\"forme\":\"random between\", \"values\":[2, 4]}",
     loot = "[]",
-    img_base = "blob.mdp";
+    img_base = "blob.png";
 
 INSERT INTO monstre SET
     id_monstre = 7,
@@ -68,7 +68,7 @@ INSERT INTO monstre SET
     pv = "{\"forme\":\"random between\", \"values\":[4, 7]}",
     dgt = "{\"forme\":\"random between\", \"values\":[3, 8]}",
     loot = "[]",
-    img_base = "fantomegentil.mdp";
+    img_base = "fantomegentil.png";
 
 INSERT INTO monstre SET
     id_monstre = 8,
@@ -77,7 +77,7 @@ INSERT INTO monstre SET
     pv = "{\"forme\":\"random between\", \"values\":[5, 8]}",
     dgt = "{\"forme\":\"random between\", \"values\":[4, 9]}",
     loot = "[]",
-    img_base = "fantomemechant.mdp";
+    img_base = "fantomemechant.png";
 
 INSERT INTO monstre SET
     id_monstre = 9,
@@ -86,7 +86,7 @@ INSERT INTO monstre SET
     pv = "{\"forme\":\"random between\", \"values\":[10, 13]}",
     dgt = "{\"forme\":\"random between\", \"values\":[9, 12]}",
     loot = "[]",
-    img_base = "pie.mdp";
+    img_base = "pie.png";
 
 INSERT INTO monstre SET
     id_monstre = 10,
@@ -95,7 +95,7 @@ INSERT INTO monstre SET
     pv = "{\"forme\":\"random between\", \"values\":[12, 15]}",
     dgt = "{\"forme\":\"random between\", \"values\":[11, 14]}",
     loot = "[]",
-    img_base = "pie_mechant.mdp";
+    img_base = "pie_mechant.png";
 
 INSERT INTO monstre SET
     id_monstre = 11,
@@ -104,7 +104,7 @@ INSERT INTO monstre SET
     pv = "{\"forme\":\"random between\", \"values\":[15, 17]}",
     dgt = "{\"forme\":\"random between\", \"values\":[14, 16]}",
     loot = "[]",
-    img_base = "plante_carnivore.mdp";
+    img_base = "plante_carnivore.png";
 
     INSERT INTO monstre SET
     id_monstre = 12,
