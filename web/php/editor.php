@@ -170,9 +170,10 @@ if(isset($_POST["delete_region"])){
  */
 if(isset($_POST["new_region"])){
     if($_POST["new_region"]!="" && !in_array($_POST["new_region"], array_values($liste_regions))){
-        $query = "INSERT INTO regions SET nom=:nom, tx=100, ty=100;";
+        $query = "INSERT INTO regions SET nom=:nom";
         $vars = array(":nom"=>$_POST["new_region"]);
         if(!action_prep($db, $query, $vars)){
+            die();
             alert("Il y a eu une erreur lors de la création de la région !");
         }
         else{

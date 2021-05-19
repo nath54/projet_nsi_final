@@ -35,12 +35,10 @@ CREATE TABLE utilisateurs (
 );
 
 
-
 CREATE TABLE tokens (
 	id_utilisateur INT PRIMARY KEY,
 	token TEXT NOT NULL
 );
-
 
 
 CREATE TABLE personnalisation (
@@ -100,11 +98,11 @@ CREATE TABLE monstre (
 	niveau INT NOT NULL,
 	pv TEXT NOT NULL,
 	dgt TEXT NOT NULL,
-	loot TEXT,
-	img_base TEXT NOT NULL,
+	loot TEXT DEFAULT "[]",
+	img_base TEXT NOT NULL DEFAULT "",
 	img_mort TEXT NOT NULL DEFAULT "tombe.png",
-	img_negatif TEXT NOT NULL,
-	img_en_combat TEXT NOT NULL
+	img_negatif TEXT NOT NULL DEFAULT "",
+	img_en_combat TEXT NOT NULL DEFAULT ""
 );
 
 

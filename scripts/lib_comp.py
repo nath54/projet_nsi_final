@@ -1,4 +1,7 @@
-def gere_competences(ws_serv, websocket, data, id_user, self):
+from gere_ennemis import dist_vec
+import time
+
+def gere_competences(ws_serv, websocket, data, id_user):
     #print("CompÃ©tence ! ",data)
     server = ws_serv.server
     #
@@ -41,7 +44,7 @@ def gere_competences(ws_serv, websocket, data, id_user, self):
 
     elif data_comp["nom"] == "manger":
         ## Ajouter Cooldown + possibilité de l'utiliser que hors combat
-        if self.server.personnage.classe == "Chevalier" or self.server.personnage.classe == "Chasseur":
+        if server.personnage.classe == "Chevalier" or server.personnage.classe == "Chasseur":
             cooldown = 20
             p = server.personnages[id_user]
             p.vie += p.vie_max*0.1
@@ -67,7 +70,7 @@ def gere_competences(ws_serv, websocket, data, id_user, self):
         perso_joueur.bouger((dx,dy))
 
     elif data_comp["nom"] == "moins_un_zone":
-        if self.classe == "Chevalier":
+        if perso_joueur.classe == "Chevalier":
             id_monstre_spawn = data["id_monstre_spawn"]
             ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
             rayon = 1
