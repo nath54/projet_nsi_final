@@ -1,7 +1,5 @@
-
-
 def gere_competences(ws_serv, websocket, data, id_user, self):
-    #print("Compétence ! ",data)
+    #print("CompÃ©tence ! ",data)
     server = ws_serv.server
     #
     perso_joueur = server.personnages[id_user]
