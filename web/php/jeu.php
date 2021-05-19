@@ -429,6 +429,10 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 <?php
 $data = open_json("../../includes/config.json");
 $url_ws = $data["url_websocket"];
+
+$token = random_bytes(50);
+alert($token);
+
 ?>
 var ws_url = "<?php echo $url_ws; ?>";
 
