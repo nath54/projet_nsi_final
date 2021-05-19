@@ -431,7 +431,7 @@ $data = open_json("../../includes/config.json");
 $url_ws = $data["url_websocket"];
 
 $token = random_bytes(50);
-alert($token);
+echo "";
 
 ?>
 var ws_url = "<?php echo $url_ws; ?>";
