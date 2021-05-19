@@ -59,9 +59,22 @@ CREATE TABLE utilisateurs (
 	img_bas TEXT NOT NULL DEFAULT 1,
 	id_pieds INT NOT NULL DEFAULT 1,
 	img_pieds TEXT NOT NULL DEFAULT 1,
-	niveau INT NOT NULL DEFAULT 0
+	niveau INT NOT NULL DEFAULT 0,
+	arme INT DEFAULT NULL
 );
 ```
+
+## TABLE `tokens`:
+ - `id_utilisateur` _INT PRIMARY KEY_
+ - `token` _TEXT NOT NULL_
+
+```sql
+CREATE TABLE tokens (
+	id_utilisateur INT PRIMARY KEY,
+	token TEXT NOT NULL
+);
+```
+
 ## TABLE 'personnalisation':
  - `id_tete` _INT_ : id de la tête pour le personnalisation
  - `img_tete` _TEXT_ : image de la tete
@@ -78,19 +91,20 @@ CREATE TABLE utilisateurs (
 
  ```sql
 CREATE TABLE personnalisation (
-			id_utilisateur INT,
-			id_tete INT,
-	     	img_tete TEXT,
-			id_cheveux INT,
-		 	img_cheveux TEXT,
-			id_barbe INT,
-		 	img_barbe TEXT,
-			id_haut INT,
-			img_haut TEXT,
-			id_bas INT,
-			img_bas TEXT,
-			id_pieds INT,
-			img_pieds TEXT);
+	id_utilisateur INT,
+	id_tete INT,
+	img_tete TEXT,
+	id_cheveux INT,
+	img_cheveux TEXT,
+	id_barbe INT,
+	img_barbe TEXT,
+	id_haut INT,
+	img_haut TEXT,
+	id_bas INT,
+	img_bas TEXT,
+	id_pieds INT,
+	img_pieds TEXT
+);
 ```
 
 ## TABLE `objet`:
@@ -121,7 +135,8 @@ CREATE TABLE objet (
  	nom_objet TEXT,
  	description_ TEXT,
  	image_ TEXT,
-	effet TEXT);
+	effet TEXT
+);
 ```
 
 
@@ -132,9 +147,11 @@ CREATE TABLE objet (
 
 ```sql
 CREATE TABLE inventaire (
-	id_objet  INT PRIMARY KEY AUTO_INCREMENT,
-	id_utilisateur INT,
- 	quantite INT);
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	id_objet INT NOT NULL,
+	id_utilisateur INT NOT NULL,
+ 	quantite INT NOT NULL DEFAULT 1
+);
 ```
 
 
@@ -149,7 +166,8 @@ CREATE TABLE monde (
 	id_monde INT PRIMARY KEY AUTO_INCREMENT,
 	ville TEXT,
 	region TEXT,
- 	niveau INT);
+ 	niveau INT
+);
 ```
 
 
@@ -183,7 +201,8 @@ CREATE TABLE quete
 CREATE TABLE pnj (
 	id_pnj INT PRIMARY KEY AUTO_INCREMENT,
  	nom_pnj TEXT,
- 	role_ TEXT);
+ 	role_ TEXT
+);
 ```
 
 
@@ -212,7 +231,10 @@ CREATE TABLE monstre (
 	dgt TEXT NOT NULL,
 	loot TEXT,
 	img_base TEXT NOT NULL,
-	img_mort TEXT NOT NULL DEFAULT "tombe.png");
+	img_mort TEXT NOT NULL DEFAULT "tombe.png",
+	img_negatif TEXT NOT NULL,
+	img_en_combat TEXT NOT NULL
+);
 ```
 
 
@@ -229,7 +251,8 @@ CREATE TABLE classe (
  	nom_classe TEXT,
  	force_ INT,
  	armure INT,
- 	dgt INT);
+ 	dgt INT
+);
 ```
 
 
@@ -248,7 +271,8 @@ CREATE TABLE terrain (
  	nom  TEXT,
  	peut_marcher BOOLEAN,
  	cultivable BOOLEAN,
- 	objet_dessus BOOLEAN);
+ 	objet_dessus BOOLEAN
+);
 ```
 
 
@@ -270,21 +294,20 @@ CREATE TABLE objets (
  	nom  TEXT,
  	image_ TEXT,
 	z_index INT,
- 	collision BOOLEAN);
+ 	collision BOOLEAN
+);
 ```
 
 ## TABLE `regions`
  - `id_region` *INT PRIMARY KEY AUTO_INCREMENT* : id de la region
  - `nom` _TEXT_ : nom de la region
- - `spawn_x` _INT NOT NULL_ : spawn x
- - `spawn_y` _INT NOT NULL_ : spawn y
+ - `description_` _TEXT_ : une petite description de la région
 
 ```sql
 CREATE TABLE regions(
 	id_region INT PRIMARY KEY AUTO_INCREMENT,
-	nom TEXT,
-	spawn_x INT NOT NULL,
-	spawn_y INT NOT NULL
+	nom TEXT NOT NULL,
+	description_ TEXT
 );
 ```
 
@@ -344,7 +367,7 @@ CREATE TABLE regions_monstres(
 	x INT NOT NULL,
 	y INT NOT NULL,
 	id_region INT NOT NULL,
-	id_monstre INT DEFAULT 0,
+	id_monstre INT DEFAULT 0
 );
 
 CREATE INDEX `index_id_region` ON `regions_monstres` (`id_region`);
@@ -389,7 +412,8 @@ CREATE TABLE arme (
 	portee TEXT,
 	munition TEXT,
 	quantite_mun INT,
-	img_arme TEXT);
+	img_arme TEXT
+);
 ```
 
 ## TABLE competences
