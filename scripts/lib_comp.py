@@ -1,3 +1,6 @@
+from gere_ennemis import dist_vec
+import time
+
 def gere_competences(ws_serv, websocket, data, id_user):
     #print("CompÃ©tence ! ",data)
     server = ws_serv.server
