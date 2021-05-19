@@ -47,14 +47,4 @@ def gere_competences(ws_serv, websocket, data, id_user, self):
                     dx,dy = perso_joueur.position["x"]+x, perso_joueur.position["y"]+y
                     ennemi = server.carte.regions[perso_joueur.id_utilisateur].get_case_monstre(dx, dy)
                     if ennemi != None:
-                        ennemi.modif_vie(-1)    
-
-    elif data_comp["nom"] == "manger":
-        p = server.personnages[id_user]
-        p.vie += p.vie_max*0.1
-        if p.vie > p.vie_max:
-            p.vie = p.vie_max
-        server.send_to_user(p.id_utilisateur, {"action":"vie", "value":p.vie, "max_v": p.vie_max})
-        self.divers["last manger"] = time.time()
-        if time.time()-30 > self.divers["last manger"]:
-            
+                        ennemi.modif_vie(-1)

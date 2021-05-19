@@ -24,8 +24,17 @@ def fait_competence(data,serveur,ws,id_joueur):
 
 def sort_teleportation(data,serveur,ws,id_joueur):
     p = serveur.server.personnages[id_joueur]
-    if server.server.carte.est_case_libre(p.region_actu, data['x'], data['y']):
-        p.position["x"] = data['x'] 
-        p.position["y"] = data['y']
-        serveur.server.send_to_user(p.id_utilisateur, {"action": "position_perso", "x":p.position["x"], "y":p.position["y"]})
-        serveur.server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":p.id_utilisateur, "x":p.position["x"], "y":p.position["y"], "region":p.region_actu}, [p.id_utilisateur])
+    rayon = 5
+    if server.carte.est_case_libre(p.region_actu, data['x'], data['y']):
+        if dist_vec((p.position["x"], p.position["y"]), (data["x"], data["y"]) < rayon:
+            p.position["x"] = data['x'] 
+            p.position["y"] = data['y']
+            serveur.server.send_to_user(p.id_utilisateur, {"action": "position_perso", "x":p.position["x"], "y":p.position["y"]})
+            serveur.server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":p.id_utilisateur, "x":p.position["x"], "y":p.position["y"], "region":p.region_actu}, [p.id_utilisateur])
+
+def sort_Foudre_celeste(data,serveur,ws,id_joueur):
+    p = serveur.server.personnages[id_joueur]
+    m = serveur.server.monstres[id_monstre]
+    if self.server.monstre.position == {'x': npx, 'y': npy}:
+            self.server.monstre.modif_vie(dgt)
+
