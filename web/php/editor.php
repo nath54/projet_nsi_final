@@ -1,3 +1,18 @@
+<style>
+
+.bta{
+    text-decoration: none;
+    color: black;
+    background-color: rgb(250,250,250);
+    border:1px solid black;
+    padding: 5px;
+}.bta:hover{
+    background-color: rgb(240,240,240);
+}.bta:active{
+    background-color: rgb(200,200,200);
+}
+
+</style>
 <?php
 include_once "../../includes/init.php";
 include_once "../../includes/bdd.php";
@@ -14,6 +29,9 @@ if(!isset($_SESSION["id_admin"])){
     die();
 }
 
+
+$dec_x = 0;
+$dec_y = 0;
 
 /**
  * ON CHARGE LES INFOS DES TERRAINS
@@ -79,6 +97,16 @@ foreach(requete_prep($db, "SELECT * FROM regions") as $i=>$data){
 
 
 /**
+ * ON REGARDE SI LA REQUETE CONTIENT LE DECALAGE
+ */
+
+if(isset($_POST["dec_x"]) && isset($_POST["dec_y"])){
+    $dec_x = $_POST["dec_x"];
+    $dec_y = $_POST["dec_y"];
+}
+
+
+/**
  * ON REGARDE SI LA REQUETE EST DE TYPE SELECTIONNER UNE REGION
  */
 
@@ -91,6 +119,23 @@ if(isset($_POST["region_selected"])){
     }
 }
 
+/**
+ * ON REGARDE SI LA REQUETE EST DE TYPE UPDATE PARAMETERS
+ */
+
+if(isset($_POST["update_parameters"])){
+    $new_params = $_POST["update_parameters"];
+    $id_region = $_POST["id_region"];
+    $x = $_POST["x"];
+    $y = $_POST["y"];
+    //
+    $req = "UPDATE regions_objets SET parametres=:params WHERE x=:x AND y=:y AND id_region=:idr";
+    $vars = array(":params"=>$new_params, ":x"=>$x, ":y"=>$y, ":idr"=>$id_region);
+    $succes = action_prep($db, $req, $vars);
+    if(!$succes){
+        alert("Il y a eu une erreur lors de l'update des parametres !");
+    }
+}
 
 /**
  * ON REGARDE SI LA REQUETE EST DE TYPE SUPPRIMER UNE REGION
@@ -163,8 +208,7 @@ if(
   isset($_POST["new_objets"]) &&
   isset($_POST["delete_ennemis"]) &&
   isset($_POST["update_ennemis"])  &&
-  isset($_POST["new_ennemis"])   &&
-  isset($_POST["save_parameters"])
+  isset($_POST["new_ennemis"])
   ){
     $idr = $_POST["save_terrain"];
     $region_selected = $idr;
@@ -179,7 +223,6 @@ if(
     $new_t = json_decode($_POST["new_terrains"], true);
     $new_o = json_decode($_POST["new_objets"], true);
     $new_e = json_decode($_POST["new_ennemis"], true);
-    // $save_p = json_decode($_POST["save_parameters"], true);
     $iu_t = $new_t + $update_t;
     $iu_o = $new_o + $update_o;
     $iu_e = $new_e + $update_e;
@@ -385,42 +428,6 @@ if(
         }
     }
 
-    /**
-     * SAVE PARAMETERS
-
-    if(count($save_p)>0){
-        $req = "UPDATE regions_objets (x,y,id_region, parameters) VALUES ";
-        $virgule = false;
-        $vars = array();
-        $compteur = 0; // Pour requete_prep:
-        foreach($iu_e as $i => $data){
-            if(!$virgule){
-                $virgule = true;
-            }
-            else{
-                $req .= ", ";
-            }
-            if($mode == 0){ // pour requete non préparée
-                $req .= "( " . $data["x"] . ", " . $data["y"] . ", " . $data["id_region"] . ", " .
-                        $data["id_monstre"] . " )";
-            }
-            else{ // Pour requete_prep:
-                $req .= "(:x_$compteur, :y_$compteur, :idr_$compteur, :ide_$compteur)";
-                $vars[":x_$compteur"] = $data["x"];
-                $vars[":y_$compteur"] = $data["y"];
-                $vars[":idr_$compteur"] = $data["id_region"];
-                $vars[":ide_$compteur"] = $data["id_monstre"];
-                $compteur += 1;
-            }
-        }
-        $req .= " ON DUPLICATE KEY UPDATE id_monstre=VALUES(id_monstre);";
-        if(!action_prep($db, $req, $vars)){
-            echo "probleme insert/update ennemis <br />";
-            die();
-        }
-    }
-    */
-
 }
 
 if(isset($_POST["import_data"]) && isset($_POST["import_region"])){
@@ -613,6 +620,9 @@ else{
  */
 
 
+//
+script("var region_selected = $region_selected;");
+
 // Les données du terrain
 $jsone = json_encode($terrains);
 script("var terrains = JSON.parse(`$jsone`);");
@@ -652,6 +662,9 @@ else{
     script("var cases_ennemis = {};");
 }
 
+
+$tc = 5; // LARGEUR DES CASES
+
 ?>
 <html>
     <style>
@@ -665,7 +678,7 @@ body {
         <title>Editeur de map</title>
         <link href="../css/editor.css" rel="stylesheet" />
     </head>
-    <body>
+    <body onload="aff();">
         <!-- header -->
         <div>
 
@@ -743,9 +756,11 @@ body {
 
                     $tx = 20; // NOMBRE DE CASES HORIZONTABLES QUE L'ECRAN AFFICHE
                     $ty = 16; // NOMBRE DE CASES VERTICALES QUE L'ECRAN AFFICHE
-                    $tc = 5; // LARGEUR DES CASES
                     $dx = 0; // VARIABLE DE DEPLACEMENT X DANS LA MAP
                     $dy = 0; // VARIABLE DE DEPLACEMENT Y DANS LA MAP
+                    // case de tests
+                    $ct = $tc + 0.15;
+                    echo "<image id=\"case_test\" style=\"display:none;\" x=\"0\" y=\"0\" width=\"$ct\" height=\"$ct\" class=\"case\"></image>";
                     // terrains
                     // ON CREE LA GRILLE POUR LES TERRAINS
                     for($x = 0; $x < $tx; $x++){
@@ -758,7 +773,6 @@ body {
                                 $img = $terrains[$cases_terrains[$idd]["id_terrain"]]["img"];
                                 $src = "../imgs/tuiles/$img";
                             }
-                            $ct = $tc + 0.15;
                             echo "<image z_index=0 id=\"$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$ct\" height=\"$ct\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
                         }
                     }
@@ -794,6 +808,9 @@ body {
                             echo "<image z_index=0 id=\"e_$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$ct\" height=\"$ct\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
                         }
                     }
+                    // On va créer l'indice de selection pour les parametres
+                    echo "<rect id=\"selection_params\" x=0 y=0 width=$tc height=$tc style=\"stroke: green; stroke-width: 0.2; fill:none; display:none;\"></rect>";
+                    //
                     echo "</svg>";
                 }
                 else{
@@ -831,10 +848,15 @@ body {
                     </div>
 
                     <div class="row">
-                        <!-- BOUTONS POUR CHOISIR LE MENU DE PLACEMENT -->
-                        <button onclick="set_selection('terrains');">Terrains</button>
-                        <button onclick="set_selection('objets');">Objets</button>
-                        <button onclick="set_selection('ennemis');">Ennemis</button>
+                        <div id="bts_placer">
+                            <!-- BOUTONS POUR CHOISIR LE MENU DE PLACEMENT -->
+                            <button onclick="set_selection('terrains');">Terrains</button>
+                            <button onclick="set_selection('objets');">Objets</button>
+                            <button onclick="set_selection('ennemis');">Ennemis</button>
+                        </div>
+                        <div id="bts_params" style="display:none;">
+                            <button onclick="save_parameters();">Update parameter</button>
+                        </div>
                     </div>
 
                     <div id="terrains">
@@ -854,9 +876,11 @@ body {
                         ?>
                     </div>
 
-                    <div id="objets_parametres" style="display:none;">
+                    <div id="objets_parametres" style="display:none; padding: 25px;">
                         <textarea id="object_parameters" placeholder="{}">
                         </textarea>
+                        <br />
+                        <b style="color:red;">Attention ! Veuillez d'abords sauvegarder les autres changements avant de modifier les parametres des objets, sinon, vous allez perdre des modifications !</b>
                     </div>
 
                     <div id="objets" style="display:none;">
@@ -900,6 +924,9 @@ body {
         </div>
     </body>
 </html>
+<?php
+echo "<script>const tc = $tc;</script>"
+?>
 <script>
 
 // L'id de la region que l'on a chargée dans l'editeur
@@ -913,12 +940,15 @@ var mode = "placer"; // Modes : placer / parametres
 
 var tile_selected = 0;
 var tp_selected = "terrains";
-var dec_x = 0;
-var dec_y = 0;
+var dec_x = <?php echo $dec_x; ?>;
+var dec_y = <?php echo $dec_y; ?>;
 
 var is_clicking = false;
 var hx=null;
 var hy=null;
+
+var selected_x = null;
+var selected_y = null;
 
 if(document.getElementById("viewport")){
     var viewport = document.getElementById("viewport");
@@ -943,10 +973,6 @@ var delete_o = {};
 var update_e = {};
 var new_e = {};
 var delete_e = {};
-
-
-// Variables pour sauvegarder les modifs des parametres des objets
-var save_p = {};
 
 /**
  * FONCTION POUR CHANGER LA REGION SELECTIONNEE
@@ -1297,6 +1323,14 @@ function save_tiles(){
     i.setAttribute("name", "save_terrain");
     i.setAttribute("value", idr);
     f.appendChild(i);
+    var i = document.createElement("input");
+    i.setAttribute("name", "dec_x");
+    i.setAttribute("value", dec_x);
+    f.appendChild(i);
+    var i = document.createElement("input");
+    i.setAttribute("name", "dec_y");
+    i.setAttribute("value", dec_y);
+    f.appendChild(i);
 
     var liste_donnees = [
         ["delete_terrains", delete_t],
@@ -1310,7 +1344,6 @@ function save_tiles(){
         ["delete_ennemis", delete_e],
         ["update_ennemis", update_e],
         ["new_ennemis", new_e],
-        ["save_parameters", save_p]
     ]
 
     for([nom,data] of liste_donnees){
@@ -1338,6 +1371,17 @@ function set_selection(ii){
         else{
             document.getElementById(i).style.display = "none";
         }
+    }
+    //
+    if(ii == "objets_parametres"){
+        mode = "parametres";
+        document.getElementById("bts_placer").style.display="none";
+        document.getElementById("bts_params").style.display="initial";
+    }
+    else{
+        mode = "placer";
+        document.getElementById("bts_placer").style.display="initial";
+        document.getElementById("bts_params").style.display="none";
     }
 }
 
@@ -1404,6 +1448,60 @@ function onFileLoaded (e) {
         f.submit();
     }
 
+}
+
+function save_parameters(){
+    if(selected_x == null || selected_y == null){
+        alert("Error, nothing is selected !");
+        return;
+    }
+    var new_parameters = document.getElementById("object_parameters").value;
+    var x = selected_x;
+    var y = selected_y;
+    //
+    var f = document.createElement("form");
+    f.setAttribute("method", "POST");
+    f.setAttribute("action", "editor.php");
+    f.style.display = "none";
+    //
+    var i = document.createElement("input");
+    i.setAttribute("name", "update_parameters");
+    i.setAttribute("value", new_parameters);
+    f.appendChild(i);
+    //
+    var ii = document.createElement("input");
+    ii.setAttribute("name", "id_region");
+    ii.setAttribute("value", id_region);
+    f.appendChild(ii);
+    //
+    var ii = document.createElement("input");
+    ii.setAttribute("name", "region_selected");
+    ii.setAttribute("value", region_selected);
+    f.appendChild(ii);
+    //
+    var i = document.createElement("input");
+    i.setAttribute("name", "x");
+    i.setAttribute("value", x);
+    f.appendChild(i);
+    //
+    var i = document.createElement("input");
+    i.setAttribute("name", "y");
+    i.setAttribute("value", y);
+    f.appendChild(i);
+    // decalage
+    var i = document.createElement("input");
+    i.setAttribute("name", "dec_x");
+    i.setAttribute("value", dec_x);
+    f.appendChild(i);
+    var i = document.createElement("input");
+    i.setAttribute("name", "dec_y");
+    i.setAttribute("value", dec_y);
+    f.appendChild(i);
+    //
+    
+    //
+    document.body.appendChild(f);
+    f.submit();
 }
 
 var fi = document.getElementById("file_import");
@@ -1492,6 +1590,27 @@ if(viewport != null){
             if(mode == "placer"){
                 change_case(hx,hy);
             }
+            //
+            if(mode == "parametres"){
+                var xx = hx;
+                var yy = hy;
+                selected_x = xx;
+                selected_y = yy;
+                //
+                var k = ""+xx+"-"+yy;
+                if(Object.keys(cases_objets).includes(k)){
+                    document.getElementById("selection_params").style.display = "initial";
+                    document.getElementById("selection_params").setAttribute("x", xx * tc);
+                    document.getElementById("selection_params").setAttribute("y", yy * tc);
+                    document.getElementById("object_parameters").value = cases_objets[k]["parametres"];
+                }
+            }
+            else{
+                selected_x = null;
+                selected_y = null;
+                document.getElementById("object_parameters").value = "";
+                document.getElementById("selection_params").style.display = "none";
+            }
         }
         is_clicking = true;
     });
@@ -1507,12 +1626,15 @@ if(viewport != null){
     });
 
     viewport.addEventListener('mouseup', e => {
+        //
+        
         if (is_clicking === true) {
             is_clicking = false;
         }
     });
-
 }
+
+
 function mo(cx,cy){
     hx = cx;
     hy = cy;

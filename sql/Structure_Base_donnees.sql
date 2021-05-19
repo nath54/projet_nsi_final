@@ -1,4 +1,5 @@
 
+
 CREATE TABLE utilisateurs (
 	id_utilisateur INT PRIMARY KEY AUTO_INCREMENT,
 	pseudo TEXT NOT NULL,
@@ -30,13 +31,32 @@ CREATE TABLE utilisateurs (
 	id_pieds INT NOT NULL DEFAULT 1,
 	img_pieds TEXT NOT NULL DEFAULT 1,
 	niveau INT NOT NULL DEFAULT 0,
-	arme TEXT NOT NULL DEFAULT 1
+	arme INT DEFAULT NULL
 );
 
-CREATE TABLE inventaire (
-	id_objet  INT PRIMARY KEY AUTO_INCREMENT,
+
+CREATE TABLE personnalisation (
 	id_utilisateur INT,
- 	quantite INT
+	id_tete INT,
+	img_tete TEXT,
+	id_cheveux INT,
+	img_cheveux TEXT,
+	id_barbe INT,
+	img_barbe TEXT,
+	id_haut INT,
+	img_haut TEXT,
+	id_bas INT,
+	img_bas TEXT,
+	id_pieds INT,
+	img_pieds TEXT
+);
+
+
+CREATE TABLE inventaire (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	id_objet INT NOT NULL,
+	id_utilisateur INT NOT NULL,
+ 	quantite INT NOT NULL DEFAULT 1
 );
 
 
@@ -74,7 +94,10 @@ CREATE TABLE monstre (
 	dgt TEXT NOT NULL,
 	loot TEXT,
 	img_base TEXT NOT NULL,
-	img_mort TEXT NOT NULL DEFAULT "tombe.png");
+	img_mort TEXT NOT NULL DEFAULT "tombe.png",
+	img_negatif TEXT NOT NULL,
+	img_en_combat TEXT NOT NULL
+);
 
 
 CREATE TABLE classe (
@@ -82,7 +105,8 @@ CREATE TABLE classe (
  	nom_classe TEXT,
  	force_ INT,
  	armure INT,
- 	dgt INT);
+ 	dgt INT
+);
 
 
 CREATE TABLE terrain (
@@ -91,7 +115,8 @@ CREATE TABLE terrain (
  	nom  TEXT,
  	peut_marcher BOOLEAN,
  	cultivable BOOLEAN,
- 	objet_dessus BOOLEAN);
+ 	objet_dessus BOOLEAN
+);
 
 
 CREATE TABLE objets (
@@ -99,18 +124,14 @@ CREATE TABLE objets (
  	nom  TEXT,
  	image_ TEXT,
 	z_index INT,
- 	collision BOOLEAN);
+ 	collision BOOLEAN
+);
 
 
 CREATE TABLE regions(
 	id_region INT PRIMARY KEY AUTO_INCREMENT,
-	nom TEXT,
-	tx INT,
-	ty INT,
-	voisin_droite INT DEFAULT NULL,
-	voisin_gauche INT DEFAULT NULL,
-	voisin_haut INT DEFAULT NULL,
-	voisin_bas INT DEFAULT NULL
+	nom TEXT NOT NULL,
+	description_ TEXT
 );
 
 
@@ -158,6 +179,21 @@ CREATE TABLE comptes_administrateurs (
 );
 
 
+
+CREATE TABLE arme (
+	id_arme INT PRIMARY KEY AUTO_INCREMENT,
+	nom TEXT,
+	classe TEXT,
+	dgt INT,
+ 	niveau INT,
+	style TEXT,
+	portee TEXT,
+	munition TEXT,
+	quantite_mun INT,
+	img_arme TEXT
+);
+
+
 CREATE TABLE competences (
 	id_competence INT PRIMARY KEY,
 	nom TEXT NOT NULL,
@@ -167,3 +203,4 @@ CREATE TABLE competences (
 	tp_recharge FLOAT NOT NULL,
 	img_icon TEXT NOT NULL
 );
+
