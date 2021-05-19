@@ -63,6 +63,18 @@ CREATE TABLE utilisateurs (
 	arme INT DEFAULT NULL
 );
 ```
+
+## TABLE `tokens`:
+ - `id_utilisateur` _INT PRIMARY KEY_
+ - `token` _TEXT NOT NULL_
+
+```sql
+CREATE TABLE tokens (
+	id_utilisateur INT PRIMARY KEY,
+	token TEXT NOT NULL
+);
+```
+
 ## TABLE 'personnalisation':
  - `id_tete` _INT_ : id de la tête pour le personnalisation
  - `img_tete` _TEXT_ : image de la tete
