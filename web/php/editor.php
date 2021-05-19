@@ -30,6 +30,9 @@ if(!isset($_SESSION["id_admin"])){
 }
 
 
+$dec_x = 0;
+$dec_y = 0;
+
 /**
  * ON CHARGE LES INFOS DES TERRAINS
  */
@@ -90,6 +93,16 @@ foreach($r as $i => $data){
 $liste_regions = array();
 foreach(requete_prep($db, "SELECT * FROM regions") as $i=>$data){
     $liste_regions[$data["id_region"]]=$data["nom"];
+}
+
+
+/**
+ * ON REGARDE SI LA REQUETE CONTIENT LE DECALAGE
+ */
+
+if(isset($_POST["dec_x"]) && isset($_POST["dec_y"])){
+    $dec_x = $_POST["dec_x"];
+    $dec_y = $_POST["dec_y"];
 }
 
 
@@ -665,7 +678,7 @@ body {
         <title>Editeur de map</title>
         <link href="../css/editor.css" rel="stylesheet" />
     </head>
-    <body>
+    <body onload="aff();">
         <!-- header -->
         <div>
 
@@ -927,8 +940,8 @@ var mode = "placer"; // Modes : placer / parametres
 
 var tile_selected = 0;
 var tp_selected = "terrains";
-var dec_x = 0;
-var dec_y = 0;
+var dec_x = <?php echo $dec_x; ?>;
+var dec_y = <?php echo $dec_y; ?>;
 
 var is_clicking = false;
 var hx=null;
@@ -1310,6 +1323,14 @@ function save_tiles(){
     i.setAttribute("name", "save_terrain");
     i.setAttribute("value", idr);
     f.appendChild(i);
+    var i = document.createElement("input");
+    i.setAttribute("name", "dec_x");
+    i.setAttribute("value", dec_x);
+    f.appendChild(i);
+    var i = document.createElement("input");
+    i.setAttribute("name", "dec_y");
+    i.setAttribute("value", dec_y);
+    f.appendChild(i);
 
     var liste_donnees = [
         ["delete_terrains", delete_t],
@@ -1466,6 +1487,15 @@ function save_parameters(){
     var i = document.createElement("input");
     i.setAttribute("name", "y");
     i.setAttribute("value", y);
+    f.appendChild(i);
+    // decalage
+    var i = document.createElement("input");
+    i.setAttribute("name", "dec_x");
+    i.setAttribute("value", dec_x);
+    f.appendChild(i);
+    var i = document.createElement("input");
+    i.setAttribute("name", "dec_y");
+    i.setAttribute("value", dec_y);
     f.appendChild(i);
     //
     
