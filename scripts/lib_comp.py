@@ -1,4 +1,7 @@
-def gere_competences(ws_serv, websocket, data, id_user, self):
+from gere_ennemis import dist_vec
+import time
+
+def gere_competences(ws_serv, websocket, data, id_user):
     #print("CompÃ©tence ! ",data)
     server = ws_serv.server
     #
@@ -37,18 +40,19 @@ def gere_competences(ws_serv, websocket, data, id_user, self):
             dy = data["y"] - perso_joueur.position["y"]
             perso_joueur.bouger((dx,dy))
             server.send_to_user(perso_joueur.id_utilisateur, {"action": "position_perso", "x":perso_joueur.position["x"], "y":perso_joueur.position["y"]})
-            server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":perso_joueur.id_utilisateur, "x":perso_joueur.position["x"], "y":p.position["y"], "region":perso_joueur.region_actu}, [perso_joueur.id_utilisateur])
+            server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":perso_joueur.id_utilisateur, "x":perso_joueur.position["x"], "y":perso_joueur.position["y"], "region":perso_joueur.region_actu}, [perso_joueur.id_utilisateur])
 
     elif data_comp["nom"] == "manger":
         ## Ajouter Cooldown + possibilité de l'utiliser que hors combat
-        if self.server.personnage.classe == "Chevalier" or self.server.personnage.classe == "Chasseur":
+        if server.personnage.classe == "Chevalier" or server.personnage.classe == "Chasseur":
             cooldown = 20
-            p = server.personnages[id_user]
-            p.vie += p.vie_max*0.1
-            if p.vie > p.vie_max:
-                p.vie = p.vie_max
-            server.send_to_user(p.id_utilisateur, {"action":"vie", "value":p.vie, "max_v": p.vie_max})
-    
+            if time.time() >= cooldown :
+                if server.monstre.joueur_detecte == True :
+                    p = server.personnages[id_user]
+                    p.vie += p.vie_max*0.1
+                    if p.vie > p.vie_max:
+                        p.vie = p.vie_max
+                    server.send_to_user(p.id_utilisateur, {"action":"vie", "value":p.vie, "max_v": p.vie_max})
 
     elif data_comp["nom"] == "provocation" and\
             perso_joueur.classe == "chevalier":
@@ -67,7 +71,7 @@ def gere_competences(ws_serv, websocket, data, id_user, self):
         perso_joueur.bouger((dx,dy))
 
     elif data_comp["nom"] == "moins_un_zone":
-        if self.classe == "Chevalier":
+        if server.personnage.classe == "Chevalier":
             id_monstre_spawn = data["id_monstre_spawn"]
             ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
             rayon = 1
@@ -77,3 +81,4 @@ def gere_competences(ws_serv, websocket, data, id_user, self):
                     ennemi = server.carte.regions[perso_joueur.id_utilisateur].get_case_monstre(dx, dy)
                     if ennemi != None:
                         ennemi.modif_vie(-1)
+

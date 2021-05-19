@@ -1,4 +1,4 @@
-#!bin/python3
+#!/usr/bin/python3
 from websocket_serveur import ServeurWebsocket
 from carte import Carte
 from dbclient import dbClient

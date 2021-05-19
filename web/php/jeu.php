@@ -429,6 +429,40 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 <?php
 $data = open_json("../../includes/config.json");
 $url_ws = $data["url_websocket"];
+
+$token = random_str(50);
+
+// On test s'il y a déjà une clé
+$req = "SELECT token FROM tokens WHERE id_utilisateur = :id_user;";
+$vars = array(":id_user" => $_SESSION["player_id"]);
+$res = requete_prep($db, $req, $vars);
+if(count($res)>0){
+    // Il y a déjà une clé
+    $req = "UPDATE tokens SET token = :token WHERE id_utilisateur = :id_user;";
+    $vars = array(":id_user" => $_SESSION["player_id"], ":token" => $token);
+    //
+    $succeed = action_prep($db, $req, $vars);
+    if(!$succeed){
+        alert("Erreur !");
+        die();
+    }
+}
+else{
+    // Il n'y a pas de clé
+    $req = "INSERT INTO tokens SET token = :token, id_utilisateur = :id_user;";
+    $vars = array(":id_user" => $_SESSION["player_id"], ":token" => $token);
+    //
+    $succeed = action_prep($db, $req, $vars, true);
+    if(!$succeed){
+        alert("Erreur !");
+        die();
+    }
+}
+
+// echo "alert(`$token`);";
+
+echo "var token = `$token`;"
+
 ?>
 var ws_url = "<?php echo $url_ws; ?>";
 
@@ -443,7 +477,7 @@ function launch(){
 function launch2(){
     // alert("id : "+<?php echo $id_player; ?>);
     // Websocket is ready
-    ws_send({"action":"connection", "id_utilisateur":parseInt(<?php echo $id_player;?>)});
+    ws_send({"action":"connection", "id_utilisateur":parseInt(<?php echo $id_player;?>), "token": token});
 }
 
 
