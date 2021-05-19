@@ -35,6 +35,14 @@ CREATE TABLE utilisateurs (
 );
 
 
+
+CREATE TABLE tokens (
+	id_utilisateur INT PRIMARY KEY,
+	token TEXT NOT NULL
+);
+
+
+
 CREATE TABLE personnalisation (
 	id_utilisateur INT,
 	id_tete INT,
