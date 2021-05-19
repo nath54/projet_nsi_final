@@ -81,6 +81,7 @@ class Personnage:
         self.id_bas = 1
         self.id_pied = 1
         self.server = server
+        self.divers = {}
         self.load_perso()
 
     def load_perso(self):

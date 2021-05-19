@@ -34,7 +34,7 @@ def gere_competences(ws_serv, websocket, data, id_user):
     elif data_comp["nom"] == "teleportation":
         rayon = 5
         cooldown = 30
-        if dist_vec((perso_joueur.position["x"], perso_joueur.position["y"]), (data["x"], data["y"]) < rayon:
+        if dist_vec((perso_joueur.position["x"], perso_joueur.position["y"]), (data["x"], data["y"])) < rayon:
             if "dernier_teleportation" not in perso_joueur.divers.keys() or time.time()-perso_joueur.divers["dernier_teleportation"]>cooldown:
                 perso_joueur.divers["dernier_teleportation"] = time.time()
                 x = data["x"]
@@ -42,8 +42,8 @@ def gere_competences(ws_serv, websocket, data, id_user):
                 dx = data["x"] - perso_joueur.position["x"]
                 dy = data["y"] - perso_joueur.position["y"]
                 perso_joueur.bouger((dx,dy))
-                serveur.server.send_to_user(p.id_utilisateur, {"action": "position_perso", "x":p.position["x"], "y":p.position["y"]})
-                serveur.server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":p.id_utilisateur, "x":p.position["x"], "y":p.position["y"], "region":p.region_actu}, [p.id_utilisateur])
+                server.send_to_user(perso_joueur.id_utilisateur, {"action": "position_perso", "x":perso_joueur.position["x"], "y":perso_joueur.position["y"]})
+                server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":perso_joueur.id_utilisateur, "x":perso_joueur.position["x"], "y":perso_joueur.position["y"], "region":perso_joueur.region_actu}, [perso_joueur.id_utilisateur])
 
 
     elif data_comp["nom"] == "manger": 
