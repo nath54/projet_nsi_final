@@ -71,7 +71,7 @@ foreach($r as $i => $data){
  * ON CHARGE LES INFOS DES MONSTRES
  */
 
-$requete = "SELECT * FROM monstre;";
+$requete = "SELECT * FROM monstre ORDER BY id_monstre;";
 $ennemis = array();
 $r = requete_prep($db, $requete);
 if($r == NULL){
@@ -648,6 +648,7 @@ else{
 // Les données des cases des objets
 if(count($cases_objets) > 0){
     $jsone = json_encode($cases_objets);
+    clog($jsone);
     script("var cases_objets = JSON.parse(`$jsone`);");
 }
 else{
