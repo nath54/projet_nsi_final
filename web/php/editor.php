@@ -1619,13 +1619,15 @@ if(viewport != null){
 function mclick(cx,cy){
     //
     if(mode == "parametres"){
-        var xx = dec_cx;
-        var yy = dec_cy;
+        var xx = dec_x + cy;
+        var yy = dec_y + cx;
         selected_x = xx;
         selected_y = yy;
         //
         var k = ""+xx+"-"+yy;
-        if(Object.keys(cases_objets).includes(k)){
+        //
+        if(Object.keys(cases_objets).includes(k)){    
+            alert(k);
             document.getElementById("selection_params").style.display = "initial";
             document.getElementById("selection_params").setAttribute("x", xx * tc);
             document.getElementById("selection_params").setAttribute("y", yy * tc);
