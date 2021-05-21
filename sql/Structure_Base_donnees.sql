@@ -206,7 +206,7 @@ CREATE TABLE competences (
 	description_ TEXT,
 	type_cible TEXT,
 	cout_mana INT NOT NULL,
-	tp_recharge FLOAT NOT NULL,
+	tp_recharge FLOAT NOT NULL DEFAULT 10,
 	img_icon TEXT NOT NULL
 );
 
