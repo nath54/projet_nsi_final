@@ -240,7 +240,9 @@ class Personnage:
                 self.divers["bouclier"] = 0
                 degats -= self.divers["bouclier"]
             #TODO: envoyer self.divers au client
-            
+            self.server.send_to_user(self.id_utilisateur, {"action":"divers", "value":self.divers})
+            self.server.serveurWebsocket.send_all({"action": "divers_joueur", "id_joueur":self.id_utilisateur, "value":self.divers_joueur}, [self.id_utilisateur])
+
 
 
         self.vie -= degats

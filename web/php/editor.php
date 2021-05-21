@@ -775,7 +775,7 @@ body {
                                 $img = $terrains[$cases_terrains[$idd]["id_terrain"]]["img"];
                                 $src = "../imgs/tuiles/$img";
                             }
-                            echo "<image z_index=0 id=\"$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$ct\" height=\"$ct\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
+                            echo "<image z_index=0 id=\"$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$ct\" height=\"$ct\" onclick=\"mclick($x,$y);\"  onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
                         }
                     }
                     // objets
@@ -791,7 +791,7 @@ body {
                                 $src = "../imgs/objets/$img";
                             }
                             $ct = $tc + 0.15;
-                            echo "<image z_index=0 id=\"o_$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$ct\" height=\"$ct\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
+                            echo "<image z_index=0 id=\"o_$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$ct\" height=\"$ct\" onclick=\"mclick($x,$y);\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
                         }
                     }
                     // ennemis
@@ -807,7 +807,7 @@ body {
                                 $src = "../imgs/ennemis/$img";
                             }
                             $ct = $tc + 0.15;
-                            echo "<image z_index=0 id=\"e_$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$ct\" height=\"$ct\" onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
+                            echo "<image z_index=0 id=\"e_$x-$y\" xlink:href=\"$src\" x=\"$cx\" y=\"$cy\" width=\"$ct\" height=\"$ct\" onclick=\"mclick($x,$y);\"  onmouseover=\"mo($x,$y);\" onmouseout=\"ml($x,$y);\" class=\"case\"></image>";
                         }
                     }
                     // On va créer l'indice de selection pour les parametres
@@ -1592,27 +1592,7 @@ if(viewport != null){
             if(mode == "placer"){
                 change_case(hx,hy);
             }
-            //
-            if(mode == "parametres"){
-                var xx = hx;
-                var yy = hy;
-                selected_x = xx;
-                selected_y = yy;
-                //
-                var k = ""+xx+"-"+yy;
-                if(Object.keys(cases_objets).includes(k)){
-                    document.getElementById("selection_params").style.display = "initial";
-                    document.getElementById("selection_params").setAttribute("x", xx * tc);
-                    document.getElementById("selection_params").setAttribute("y", yy * tc);
-                    document.getElementById("object_parameters").value = cases_objets[k]["parametres"];
-                }
-            }
-            else{
-                selected_x = null;
-                selected_y = null;
-                document.getElementById("object_parameters").value = "";
-                document.getElementById("selection_params").style.display = "none";
-            }
+            
         }
         is_clicking = true;
     });
@@ -1636,6 +1616,29 @@ if(viewport != null){
     });
 }
 
+function mclick(cx,cy){
+    //
+    if(mode == "parametres"){
+        var xx = dec_cx;
+        var yy = dec_cy;
+        selected_x = xx;
+        selected_y = yy;
+        //
+        var k = ""+xx+"-"+yy;
+        if(Object.keys(cases_objets).includes(k)){
+            document.getElementById("selection_params").style.display = "initial";
+            document.getElementById("selection_params").setAttribute("x", xx * tc);
+            document.getElementById("selection_params").setAttribute("y", yy * tc);
+            document.getElementById("object_parameters").value = cases_objets[k]["parametres"];
+        }
+    }
+    else{
+        selected_x = null;
+        selected_y = null;
+        document.getElementById("object_parameters").value = "";
+        document.getElementById("selection_params").style.display = "none";
+    }
+}
 
 function mo(cx,cy){
     hx = cx;

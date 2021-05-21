@@ -163,7 +163,7 @@ $vx2 = $vx+$tx;
 $vy2 = $vy+$ty;
 clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
-?>
+?><!DOCTYPE HTML>
 <html>
 
     <head>
@@ -172,6 +172,19 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
         <link href="../css/style_jeu.css" rel="stylesheet" />
         <script src="../js/customisation_perso_data.js"></script>
     </head>
+
+    <script>    
+
+function launch(){
+    start_websocket(ws_url);
+}
+function launch2(){
+    // alert("id : "+<?php echo $id_player; ?>);
+    // Websocket is ready
+    ws_send({"action":"connection", "id_utilisateur":parseInt(<?php echo $id_player;?>), "token": token});
+}
+
+    </script>
 
     <body onload="launch();">
 
@@ -466,20 +479,9 @@ echo "var token = `$token`;"
 ?>
 var ws_url = "<?php echo $url_ws; ?>";
 
-var en_chargement = true;
 tx = document.getElementById("viewport").clientWidth;
 ty = document.getElementById("viewport").clientHeight;
 tc = <?php echo $tc; ?>;
-
-function launch(){
-    start_websocket(ws_url);
-}
-function launch2(){
-    // alert("id : "+<?php echo $id_player; ?>);
-    // Websocket is ready
-    ws_send({"action":"connection", "id_utilisateur":parseInt(<?php echo $id_player;?>), "token": token});
-}
-
 
     </script>
 </html>

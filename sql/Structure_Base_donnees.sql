@@ -102,7 +102,13 @@ CREATE TABLE monstre (
 	img_base TEXT NOT NULL DEFAULT "",
 	img_mort TEXT NOT NULL DEFAULT "tombe.png",
 	img_negatif TEXT NOT NULL DEFAULT "",
-	img_en_combat TEXT NOT NULL DEFAULT ""
+	img_en_combat TEXT NOT NULL DEFAULT "",
+	temps_bouger INT NOT NULL DEFAULT 0.8,
+	rayon_detect INT NOT NULL DEFAULT 3,
+	rayon_perdu INT NOT NULL DEFAULT 6,
+	portee_attaque INT NULL DEFAULT 1,
+	agressif BOOLEAN NOT NULL DEFAULT 1,
+	pacifique BOOLEAN NOT NULL DEFAULT 0
 );
 
 
