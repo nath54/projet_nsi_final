@@ -160,23 +160,6 @@ INSERT INTO terrain SET
 	cultivable=0,
 	objet_dessus=1;
 
-INSERT INTO terrain SET
-    id_terrain = 20,
-    image_="sable_1.png",
-    nom="sable 1",
-    peut_marcher=1,
-	cultivable=0,
-	objet_dessus=1;
-
-
-INSERT INTO terrain SET
-    id_terrain = 20,
-    image_="eau_1.png",
-    nom="eau 1",
-    peut_marcher=1,
-	cultivable=0,
-	objet_dessus=1;
-
 
 
 -- OBJETS :
@@ -289,6 +272,48 @@ INSERT INTO objets SET
     id_objet = 14,
     nom = "bloc1",
     image_ = "bloc1.png",
+    z_index = 3,
+    collision = 1;
+
+INSERT INTO objets SET
+    id_objet = 15,
+    nom = "brique_jaune_1",
+    image_ = "brique_jaune_1.png",
+    z_index = 3,
+    collision = 1;
+
+INSERT INTO objets SET
+    id_objet = 16,
+    nom = "brique_1",
+    image_ = "brique_1.png",
+    z_index = 3,
+    collision = 1;
+
+INSERT INTO objets SET
+    id_objet = 17,
+    nom = "brique_fenetre_1",
+    image_ = "brique_fenetre_1.png",
+    z_index = 3,
+    collision = 1;
+
+INSERT INTO objets SET
+    id_objet = 18,
+    nom = "brique_porte_1",
+    image_ = "brique_porte_1.png",
+    z_index = 3,
+    collision = 1;
+
+INSERT INTO objets SET
+    id_objet = 19,
+    nom = "mur_pierre_1",
+    image_ = "mur_pierre_1.png",
+    z_index = 3,
+    collision = 1;    
+
+INSERT INTO objets SET
+    id_objet = 20,
+    nom = "mur_colore",
+    image_ = "mur_colore.png",
     z_index = 3,
     collision = 1;
 
