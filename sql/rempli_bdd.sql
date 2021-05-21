@@ -160,23 +160,6 @@ INSERT INTO terrain SET
 	cultivable=0,
 	objet_dessus=1;
 
-INSERT INTO terrain SET
-    id_terrain = 20,
-    image_="sable_1.png",
-    nom="sable 1",
-    peut_marcher=1,
-	cultivable=0,
-	objet_dessus=1;
-
-
-INSERT INTO terrain SET
-    id_terrain = 20,
-    image_="eau_1.png",
-    nom="eau 1",
-    peut_marcher=1,
-	cultivable=0,
-	objet_dessus=1;
-
 
 
 -- OBJETS :
