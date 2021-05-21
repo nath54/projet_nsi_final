@@ -12,7 +12,8 @@ INSERT INTO monstre SET
     rayon_detect = 0,
     rayon_perdu = 0,
     portee_attaque = 0,
-    agressif = 0;
+    agressif = 0
+    pacifique = 0;
 
 INSERT INTO monstre SET
     id_monstre = 1,
@@ -28,7 +29,8 @@ INSERT INTO monstre SET
     rayon_detect = 3,
     rayon_perdu = 6,
     portee_attaque = 1,
-    agressif = 0;
+    agressif = 0
+    pacifique = 0;
 
 INSERT INTO monstre SET
     id_monstre = 2,
@@ -44,7 +46,8 @@ INSERT INTO monstre SET
     rayon_detect = 4,
     rayon_perdu = 6,
     portee_attaque = 1,
-    agressif = 0;
+    agressif = 0
+    pacifique = 0;
 
 INSERT INTO monstre SET
     id_monstre = 3,
@@ -60,7 +63,8 @@ INSERT INTO monstre SET
     rayon_detect = 3,
     rayon_perdu = 5,
     portee_attaque = 1,
-    agressif = 1;
+    agressif = 1
+    pacifique = 0;
 
 INSERT INTO monstre SET
     id_monstre = 4,
@@ -76,7 +80,8 @@ INSERT INTO monstre SET
     rayon_detect = 3,
     rayon_perdu = 3,
     portee_attaque = 1,
-    agressif = 1;
+    agressif = 1
+    pacifique = 0;
 
 INSERT INTO monstre SET
     id_monstre = 5,
@@ -92,7 +97,8 @@ INSERT INTO monstre SET
     rayon_detect = 3,
     rayon_perdu = 3,
     portee_attaque = 1,
-    agressif = 0;
+    agressif = 0
+    pacifique = 0;
 
 INSERT INTO monstre SET
     id_monstre = 6,
@@ -108,7 +114,8 @@ INSERT INTO monstre SET
     rayon_detect = 2,
     rayon_perdu = 8,
     portee_attaque = 2,
-    agressif = 1;
+    agressif = 1
+    pacifique = 0;
 
 INSERT INTO monstre SET
     id_monstre = 7,
@@ -124,7 +131,8 @@ INSERT INTO monstre SET
     rayon_detect = 3,
     rayon_perdu = 5,
     portee_attaque = 1,
-    agressif = 0;
+    agressif = 0
+    pacifique = 0;
 
 INSERT INTO monstre SET
     id_monstre = 8,
@@ -140,7 +148,8 @@ INSERT INTO monstre SET
     rayon_detect = 4,
     rayon_perdu = 6,
     portee_attaque = 1,
-    agressif = 1;
+    agressif = 1
+    pacifique = 0;
 
 INSERT INTO monstre SET
     id_monstre = 9,
@@ -156,7 +165,8 @@ INSERT INTO monstre SET
     rayon_detect = 4,
     rayon_perdu = 7,
     portee_attaque = 3,
-    agressif = 0;
+    agressif = 0
+    pacifique = 0;
 
 INSERT INTO monstre SET
     id_monstre = 10,
@@ -172,7 +182,8 @@ INSERT INTO monstre SET
     rayon_detect = 5,
     rayon_perdu = 8,
     portee_attaque = 4,
-    agressif = 1;
+    agressif = 1
+    pacifique = 0;
 
 INSERT INTO monstre SET
     id_monstre = 11,
@@ -188,7 +199,8 @@ INSERT INTO monstre SET
     rayon_detect = 2,
     rayon_perdu = 4,
     portee_attaque = 2,
-    agressif = 1;
+    agressif = 1
+    pacifique = 0;
 
     INSERT INTO monstre SET
     id_monstre = 12,
@@ -204,7 +216,8 @@ INSERT INTO monstre SET
     rayon_detect = 2,
     rayon_perdu = 4,
     portee_attaque = 1,
-    agressif = 0;
+    agressif = 1
+    pacifique = 0;
 
     INSERT INTO monstre SET
     id_monstre = 13,
@@ -220,7 +233,8 @@ INSERT INTO monstre SET
     rayon_detect = 8,
     rayon_perdu = 9,
     portee_attaque = 2,
-    agressif = 1;
+    agressif = 1
+    pacifique = 0;
 
     INSERT INTO monstre SET
     id_monstre = 14,
@@ -236,7 +250,8 @@ INSERT INTO monstre SET
     rayon_detect = 2,
     rayon_perdu = 3,
     portee_attaque = 1,
-    agressif = 1;
+    agressif = 1
+    pacifique = 0;
 
     INSERT INTO monstre SET
     id_monstre = 15,
@@ -252,7 +267,8 @@ INSERT INTO monstre SET
     rayon_detect = 10,
     rayon_perdu = 9,
     portee_attaque = 3,
-    agressif = 1;
+    agressif = 1
+    pacifique = 0;
 
     INSERT INTO monstre SET
     id_monstre = 16,
@@ -268,4 +284,5 @@ INSERT INTO monstre SET
     rayon_detect = 3,
     rayon_perdu = 4,
     portee_attaque = 1,
-    agressif = 0;
+    agressif = 0
+    pacifique = 0;
