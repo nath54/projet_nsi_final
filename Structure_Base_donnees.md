@@ -221,6 +221,10 @@ CREATE TABLE pnj (
  - `loot` _TEXT_ : liste json ce que va lacher le monstre en mourrant
  - `img_base` _TEXT NOT NULL_ : chemin vers l'image de base du monstre
  - `img_mort` _TEXT NOT NULL DEFAULT "tombe.png"_ : chemin vers l'image de mort du monstre
+ - `temps_bouger` _INT NOT NULL DEFAULT 0.8_ : 
+ - `rayon_detect` _INT NOT NULL DEFAULT 3
+ - `rayon_perdu` _INT NOT NULL DEFAULT 6
+ - `portee_attaque` _INT NOT NULL DEFAULT 1_
 
 ```sql
 CREATE TABLE monstre (
