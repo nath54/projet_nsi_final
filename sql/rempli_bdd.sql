@@ -16,38 +16,6 @@ INSERT INTO terrain SET
 	objet_dessus=0;
 
 INSERT INTO terrain SET
-    id_terrain = 2,
-    image_="bois_1.png",
-    nom="bois",
-    peut_marcher=0,
-	cultivable=0,
-	objet_dessus=0;
-
-INSERT INTO terrain SET
-    id_terrain = 3,
-    image_="bois_fenetre_1.png",
-    nom="bois_fenetre",
-    peut_marcher=0,
-	cultivable=0,
-	objet_dessus=0;
-
-INSERT INTO terrain SET
-    id_terrain = 4,
-    image_="bois_porte_1.png",
-    nom="bois_porte",
-    peut_marcher=0,
-	cultivable=0,
-	objet_dessus=0;
-
-INSERT INTO terrain SET
-    id_terrain = 5,
-    image_="brique_1.png",
-    nom="brique",
-    peut_marcher=0,
-	cultivable=0,
-	objet_dessus=0;
-
-INSERT INTO terrain SET
     id_terrain = 6,
     image_="caillou_1.png",
     nom="caillou_vert",
@@ -124,14 +92,6 @@ INSERT INTO terrain SET
     id_terrain = 15,
     image_="lava_1.gif",
     nom="lava_1",
-    peut_marcher=0,
-	cultivable=0,
-	objet_dessus=0;
-
-INSERT INTO terrain SET
-    id_terrain = 16,
-    image_="mur_1.png",
-    nom="mur",
     peut_marcher=0,
 	cultivable=0,
 	objet_dessus=0;
@@ -285,6 +245,34 @@ INSERT INTO objets SET
     id_objet = 9,
     nom = "Arbre_chene_haut",
     image_ = "Arbre_chene_haut.png",
+    z_index = 3,
+    collision = 1;
+
+INSERT INTO objets SET
+    id_objet = 10,
+    nom = "bois_1",
+    image_ = "bois_1.png",
+    z_index = 3,
+    collision = 1;
+
+INSERT INTO objets SET
+    id_objet = 11,
+    nom = "bois_fenetre_1",
+    image_ = "bois_fenetre_1.png",
+    z_index = 3,
+    collision = 1;
+
+INSERT INTO objets SET
+    id_objet = 12,
+    nom = "bois_porte_1",
+    image_ = "bois_porte_1.png",
+    z_index = 3,
+    collision = 1;
+
+INSERT INTO objets SET
+    id_objet = 13,
+    nom = "mur_1",
+    image_ = "mur_1.png",
     z_index = 3,
     collision = 1;
 
