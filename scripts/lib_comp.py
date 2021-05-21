@@ -33,7 +33,12 @@ def gere_competences(ws_serv, websocket, data, id_user):
 
     elif data_comp["nom"] == "teleportation":
         rayon = 5
-        if dist_vec((perso_joueur.position["x"], perso_joueur.position["y"]), (data["x"], data["y"])) < rayon:
+        heure = time.time()
+        if not ('heure_last_teleport' not in perso_joueur.divers.keys() or heure-data_comp['tp_recharge']>=perso_joueur.divers['heure_last_teleport']):
+            # cd pas fini
+            # a rendre plus propre
+            return
+        elif dist_vec((perso_joueur.position["x"], perso_joueur.position["y"]), (data["x"], data["y"])) < rayon:
             x = data["x"]
             y = data["y"]
             dx = data["x"] - perso_joueur.position["x"]
@@ -41,6 +46,12 @@ def gere_competences(ws_serv, websocket, data, id_user):
             perso_joueur.bouger((dx,dy))
             server.send_to_user(perso_joueur.id_utilisateur, {"action": "position_perso", "x":perso_joueur.position["x"], "y":perso_joueur.position["y"]})
             server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":perso_joueur.id_utilisateur, "x":perso_joueur.position["x"], "y":perso_joueur.position["y"], "region":perso_joueur.region_actu}, [perso_joueur.id_utilisateur])
+            cout_mana = data_comp["cout_mana"]
+            if server.personnage.mana >= cout_mana:
+                server.personnage.mana_max - cout_mana
+            if server.personnage.mana < cout_mana:
+                return
+            perso_joueur.divers['heure_last_teleport'] = time.time()
 
     elif data_comp["nom"] == "manger": ## Comp qui ne sera dispo que pour le chevalier et chasseur
         ## TODO : Dès que l'inventaire est dispo, faire en sorte de passer par l'inventaire pour manger 
