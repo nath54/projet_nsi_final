@@ -134,7 +134,10 @@ class ServeurWebsocket:
         message = json.dumps(message)  # On convertit en json
         if self.DEBUG:
             self.debug("send to ", websocket, " message : ", message)
-        self.ws_server.send_message(websocket, message)
+        try:
+            self.ws_server.send_message(websocket, message)
+        except Exception as e:
+            print("Il y a eu une erreur ! ", e)
 
     def send_all(self, message, excepts_ids=[]):
         """Envoie un message à tous les clients
