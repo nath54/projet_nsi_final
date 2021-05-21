@@ -142,7 +142,11 @@ INSERT INTO monstre SET
     loot = "[]",
     img_base = "pie.png",
     img_negatif = "pie.png",
-    img_en_combat = "pie.png";
+    img_en_combat = "pie.png",
+    temps_bouger = 0.75,
+    rayon_detect = 4,
+    rayon_perdu = 7,
+    portee_attaque = 3;
 
 INSERT INTO monstre SET
     id_monstre = 10,
@@ -153,7 +157,11 @@ INSERT INTO monstre SET
     loot = "[]",
     img_base = "pie_mechant.png",
     img_negatif = "pie_mechant.png",
-    img_en_combat = "pie_mechant.png";
+    img_en_combat = "pie_mechant.png",
+    temps_bouger = 0.5,
+    rayon_detect = 5,
+    rayon_perdu = 8,
+    portee_attaque = 4;
 
 INSERT INTO monstre SET
     id_monstre = 11,
@@ -164,7 +172,11 @@ INSERT INTO monstre SET
     loot = "[]",
     img_base = "plante_carnivore.png",
     img_negatif = "plante_carnivore.png",
-    img_en_combat = "plante_carnivore.png";
+    img_en_combat = "plante_carnivore.png",
+    temps_bouger = 1.5,
+    rayon_detect = 2,
+    rayon_perdu = 4,
+    portee_attaque = 2;
 
     INSERT INTO monstre SET
     id_monstre = 12,
@@ -175,7 +187,11 @@ INSERT INTO monstre SET
     loot = "[]",
     img_base = "patate_base.png",
     img_negatif = "patate_base.png",
-    img_en_combat = "patate_base.png";
+    img_en_combat = "patate_base.png",
+    temps_bouger = 1,
+    rayon_detect = 2,
+    rayon_perdu = 4,
+    portee_attaque = 1;
 
     INSERT INTO monstre SET
     id_monstre = 13,
@@ -186,7 +202,11 @@ INSERT INTO monstre SET
     loot = "[]",
     img_base = "gargouille_base.png",
     img_negatif = "gargouille_base.png",
-    img_en_combat = "gargouille_base.png";
+    img_en_combat = "gargouille_base.png",
+    temps_bouger = 4,
+    rayon_detect = 8,
+    rayon_perdu = 9,
+    portee_attaque = 2;
 
     INSERT INTO monstre SET
     id_monstre = 14,
@@ -197,7 +217,11 @@ INSERT INTO monstre SET
     loot = "[]",
     img_base = "troll_base.png",
     img_negatif = "troll_base.png",
-    img_en_combat = "troll_base.png";
+    img_en_combat = "troll_base.png",
+    temps_bouger = 2,
+    rayon_detect = 2,
+    rayon_perdu = 3,
+    portee_attaque = 1;
 
     INSERT INTO monstre SET
     id_monstre = 15,
@@ -208,7 +232,11 @@ INSERT INTO monstre SET
     loot = "[]",
     img_base = "demon_base.png",
     img_negatif = "demon_base.png",
-    img_en_combat = "demon_base.png";
+    img_en_combat = "demon_base.png",
+    temps_bouger = 0.5,
+    rayon_detect = 10,
+    rayon_perdu = 9,
+    portee_attaque = 3;
 
     INSERT INTO monstre SET
     id_monstre = 16,
@@ -219,4 +247,8 @@ INSERT INTO monstre SET
     loot = "[]",
     img_base = "mille_pates_base.png",
     img_negatif = "mille_pates_base.png",
-    img_en_combat = "mille_pates_base.png";
+    img_en_combat = "mille_pates_base.png",
+    temps_bouger = 0.5,
+    rayon_detect = 3,
+    rayon_perdu = 4,
+    portee_attaque = 1;
