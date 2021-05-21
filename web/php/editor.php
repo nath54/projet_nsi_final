@@ -1226,6 +1226,12 @@ function aff(){
     var tx = 20;
     var ty = 16;
     var tc = 5;
+    //
+    if(selected_x != null && selected_y != null){
+        document.getElementById("selection_params").setAttribute("x", (selected_x - dec_x) * tc);
+        document.getElementById("selection_params").setAttribute("y", (selected_y - dec_y) * tc);
+    }
+    //
     for(x = 0; x < tx; x++){
         for(y = 0; y < ty; y++){
             //
