@@ -46,7 +46,7 @@ foreach($res as $i=>$data){
 }
 // On charge les données des objets :
 $cases_objets = array();
-$res = requete_prep($db, "SELECT x, y, id_objet, parameters FROM regions_objets WHERE id_region=:idr;", array(":idr"=>$id_region));
+$res = requete_prep($db, "SELECT x, y, id_objet, parametres FROM regions_objets WHERE id_region=:idr;", array(":idr"=>$id_region));
 if($res==NULL){
     echo("L'objet n'a pas pu charger");
     die();
