@@ -27,7 +27,7 @@ class Region:
             self.cases_terrains[str(t[0])+"_"+str(t[1])] = int(t[2])
 
         # on charge les objets
-        sql = "SELECT x , y, id_objet, parameters FROM regions_objets WHERE id_region=?"
+        sql = "SELECT x , y, id_objet, parametres FROM regions_objets WHERE id_region=?"
         objs = self.server.db.requete_db(sql, (self.id_region, ))
         for t in objs:
             self.cases_objets[str(t[0])+"_"+str(t[1])] = int(t[2])
