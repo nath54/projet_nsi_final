@@ -173,18 +173,7 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
         <script src="../js/customisation_perso_data.js"></script>
     </head>
 
-    <script>    
-
-function launch(){
-    start_websocket(ws_url);
-}
-function launch2(){
-    // alert("id : "+<?php echo $id_player; ?>);
-    // Websocket is ready
-    ws_send({"action":"connection", "id_utilisateur":parseInt(<?php echo $id_player;?>), "token": token});
-}
-
-    </script>
+    
 
     <body onload="launch();">
 
@@ -437,7 +426,6 @@ function launch2(){
     </body>
     <script src="../js/websocket_client.js"></script>
     <script src="../js/jeu.js"></script>
-    <script>
 
 <?php
 $data = open_json("../../includes/config.json");
@@ -465,7 +453,7 @@ else{
     $req = "INSERT INTO tokens SET token = :token, id_utilisateur = :id_user;";
     $vars = array(":id_user" => $_SESSION["player_id"], ":token" => $token);
     //
-    $succeed = action_prep($db, $req, $vars, true);
+    $succeed = action_prep($db, $req, $vars);
     if(!$succeed){
         alert("Erreur !");
         die();
@@ -474,14 +462,31 @@ else{
 
 // echo "alert(`$token`);";
 
-echo "var token = `$token`;"
+script("var token = `$token`;");
 
 ?>
+
+<script>
+
+var en_chargement = true;
 var ws_url = "<?php echo $url_ws; ?>";
 
 tx = document.getElementById("viewport").clientWidth;
 ty = document.getElementById("viewport").clientHeight;
 tc = <?php echo $tc; ?>;
+
+    </script>
+
+<script>    
+
+function launch(){
+    start_websocket(ws_url);
+}
+function launch2(){
+    // alert("id : "+<?php echo $id_player; ?>);
+    // Websocket is ready
+    ws_send({"action":"connection", "id_utilisateur":parseInt(<?php echo $id_player;?>), "token": token});
+}
 
     </script>
 </html>
