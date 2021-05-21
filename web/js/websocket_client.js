@@ -93,6 +93,7 @@ function on_message(event) {
             break;
 
         case 'debug':
+        case 'alert':
             alert(data.message);
             break;
 
