@@ -34,3 +34,5 @@ INSERT INTO competences SET
     cout_mana = 15,
     tp_recharge = 20,
     img_icon = "bouclier.png";
+
+    
