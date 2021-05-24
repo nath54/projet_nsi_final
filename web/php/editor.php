@@ -648,12 +648,14 @@ else{
 // Les données des cases des objets
 if(count($cases_objets) > 0){
     $jsone = json_encode($cases_objets);
-    clog($jsone);
+    // $jsone = str_replace("'", "_", $jsone);
+    $jsone = str_replace("\\\"", "'", $jsone);    
     script("var cases_objets = JSON.parse(`$jsone`);");
 }
 else{
     script("var cases_objets = {};");
 }
+
 
 // Les données des cases des ennemis
 if(count($cases_ennemis) > 0){
@@ -880,11 +882,13 @@ body {
 
                     <div id="objets_parametres" style="display:none; padding: 25px;">
                         <p id="texte_objets"></p>
-                        </br>
+                        <br />
                         <textarea id="object_parameters" placeholder="{}" value="" >
                         </textarea>
                         <br />
                         <b style="color:red;">Attention ! Veuillez d'abords sauvegarder les autres changements avant de modifier les parametres des objets, sinon, vous allez perdre des modifications !</b>
+                        <br />
+                        <b style="color:blue;">Encore Attention ! Pour les chaines de caractères utilisez '' au lieu de "", et ne mettez pas d'apostrophes dans vos chaines de caractères !</b>
                     </div>
 
                     <div id="objets" style="display:none;">
