@@ -112,13 +112,16 @@ if(count($ennemis)>0){
 // On va passer les infos des cases des objets et des terrains à js
 
 // On va préparer les cases_objets
+$cases_objets_parametres = array();
 $cases_objets_trait = array();
 $cases_terrains_trait = array();
 foreach($cases_objets as $i=>$data){
     $x = $data["x"];
     $y = $data["y"];
     $tp = $data["id_objet"];
+    $parametres = json_decode($data["parametres"]);
     $cases_objets_trait[$x."_".$y] = $tp;
+    $cases_objets_parametres[$x."_".$y] = $parametres;
 }
 
 foreach($cases_terrains as $i=>$data){
@@ -129,7 +132,9 @@ foreach($cases_terrains as $i=>$data){
 }
 $jco = json_encode($cases_objets_trait);
 $jct = json_encode($cases_terrains_trait);
+$jpo = json_encode($cases_objets_parametres);
 echo "<script>var cases_objets = JSON.parse(`$jco`); var cases_terrains = JSON.parse(`$jct`);</script>";
+script("var cases_objets_parametres = JSON.parse(`$jpo`);");
 
 // On prépare les data des compétences et on les envoie au js
 

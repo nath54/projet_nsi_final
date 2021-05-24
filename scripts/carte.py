@@ -1,5 +1,6 @@
 
 from monstres import Monstre
+import json
 
 class Region:
     def __init__(self, carte, server, id_region, nom):
@@ -31,7 +32,7 @@ class Region:
         objs = self.server.db.requete_db(sql, (self.id_region, ))
         for t in objs:
             self.cases_objets[str(t[0])+"_"+str(t[1])] = int(t[2])
-            self.cases_objets_parameters[str(t[0])+"_"+str(t[1])] = t[3]
+            self.cases_objets_parameters[str(t[0])+"_"+str(t[1])] = json.loads(t[3].replace("'",'"'))
 
         # on charge les monstres
         sql = "SELECT id_monstre_spawn, x, y, id_monstre FROM regions_monstres WHERE id_region=?"
