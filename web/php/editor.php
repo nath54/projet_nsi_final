@@ -879,7 +879,9 @@ body {
                     </div>
 
                     <div id="objets_parametres" style="display:none; padding: 25px;">
-                        <textarea id="object_parameters" placeholder="{}">
+                        <p id="texte_objets"></p>
+                        </br>
+                        <textarea id="object_parameters" placeholder="{}" value="" >
                         </textarea>
                         <br />
                         <b style="color:red;">Attention ! Veuillez d'abords sauvegarder les autres changements avant de modifier les parametres des objets, sinon, vous allez perdre des modifications !</b>
@@ -951,6 +953,9 @@ var hy=null;
 
 var selected_x = null;
 var selected_y = null;
+var selec_dec_x = 0;
+var selec_dec_y = 0;
+
 
 if(document.getElementById("viewport")){
     var viewport = document.getElementById("viewport");
@@ -1228,8 +1233,8 @@ function aff(){
     var tc = 5;
     //
     if(selected_x != null && selected_y != null){
-        document.getElementById("selection_params").setAttribute("x", (selected_x - dec_x) * tc);
-        document.getElementById("selection_params").setAttribute("y", (selected_y - dec_y) * tc);
+        document.getElementById("selection_params").setAttribute("x", (selected_x + selec_dec_x) * tc);
+        document.getElementById("selection_params").setAttribute("y", (selected_y + selec_dec_y) * tc);
     }
     //
     for(x = 0; x < tx; x++){
@@ -1568,18 +1573,22 @@ document.addEventListener('keydown', (event) => {
     if(document.activeElement.getAttribute("id") != "object_parameters"){
         if (nomTouche === 'ArrowUp') {
             dec_y -= 1;
+            selec_dec_y += 1;
             aff();
         }
         else if (nomTouche === 'ArrowDown') {
             dec_y += 1;
+            selec_dec_y -= 1;
             aff();
         }
         else if (nomTouche === 'ArrowLeft') {
             dec_x -= 1;
+            selec_dec_x += 1;
             aff();
         }
         else if (nomTouche === 'ArrowRight') {
             dec_x += 1;
+            selec_dec_x -= 1;
             aff();
         }
     }
@@ -1627,24 +1636,28 @@ if(viewport != null){
 function mclick(cx,cy){
     //
     if(mode == "parametres"){
-        var xx = dec_x + cx;
-        var yy = dec_y + cy;
+        var xx = cx;
+        var yy = cy;
         selected_x = xx;
         selected_y = yy;
+        selec_dec_x = 0;
+        selec_dec_y = 0;
         //
-        var k = ""+xx+"-"+yy;
+        var k = ""+selected_x+"-"+selected_y;
         //
         if(Object.keys(cases_objets).includes(k)){
             document.getElementById("selection_params").style.display = "initial";
-            document.getElementById("selection_params").setAttribute("x", xx * tc);
-            document.getElementById("selection_params").setAttribute("y", yy * tc);
+            document.getElementById("selection_params").setAttribute("x", selected_x * tc);
+            document.getElementById("selection_params").setAttribute("y", selected_y * tc);
             document.getElementById("object_parameters").value = cases_objets[k]["parametres"];
+            document.getElementById("texte_objets").innerHTML = "Vous avez sélectionné une objet de type : "+objets[cases_objets[k]["id_objet"]]["nom"];
         }
     }
     else{
         selected_x = null;
         selected_y = null;
         document.getElementById("object_parameters").value = "";
+        document.getElementById("texte_objets").innerHTML = "";
         document.getElementById("selection_params").style.display = "none";
     }
 }
