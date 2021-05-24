@@ -1565,21 +1565,23 @@ function search_e(){
 
 document.addEventListener('keydown', (event) => {
     const nomTouche = event.key;
-    if (nomTouche === 'ArrowUp') {
-        dec_y -= 1;
-        aff();
-    }
-    else if (nomTouche === 'ArrowDown') {
-        dec_y += 1;
-        aff();
-    }
-    else if (nomTouche === 'ArrowLeft') {
-        dec_x -= 1;
-        aff();
-    }
-    else if (nomTouche === 'ArrowRight') {
-        dec_x += 1;
-        aff();
+    if(document.activeElement.getAttribute("id") != "object_parameters"){
+        if (nomTouche === 'ArrowUp') {
+            dec_y -= 1;
+            aff();
+        }
+        else if (nomTouche === 'ArrowDown') {
+            dec_y += 1;
+            aff();
+        }
+        else if (nomTouche === 'ArrowLeft') {
+            dec_x -= 1;
+            aff();
+        }
+        else if (nomTouche === 'ArrowRight') {
+            dec_x += 1;
+            aff();
+        }
     }
 }, false);
 
