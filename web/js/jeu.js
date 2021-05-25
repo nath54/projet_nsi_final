@@ -64,7 +64,7 @@ function aff() {
     v.setAttribute("viewBox", "" + (px - tx / 2) + " " + (py - ty / 2) + " " + tx + " " + ty);
     // On affiche aussi tous les autres joueurs
     for (ap of Object.values(autres_joueurs)) {
-        if (ap == undefined) {
+        if (ap == undefined || ap.region_actu!=personnage.region_actu) {
             continue;
         }
         // var ap = autres_joueurs[k];
