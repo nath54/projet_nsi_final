@@ -228,6 +228,24 @@ function aff() {
  *
  */
 
+function update_actions(){
+    var div = document.getElementById("liste_actions");
+    // On nettoie
+    for(c of div.children){
+        div.removeChild(c);
+    }
+    div.innerHTML = "";
+    // On teste s'il y a un objet selectionné 
+    // selec = { "type": "objet", "x": xx, "y": yy };
+    if(selec != null && selec["type"]=="objet"){
+        k = ""+selec.x+"_"+selec.y;
+        if(Object.keys(cases_objets_parametres).includes(k)){
+            var ps = cases_objets_parametres[k];
+            console.log("test",ps);
+        }
+    }
+}
+
 function update_competence() {
     var comp = personnage.competences;
     for (ic of Object.keys(comp)) {
@@ -377,6 +395,7 @@ document.body.addEventListener('mousedown', event => {
     }
     //
     selectionne = selec;
+    update_actions();
 });
 
 /**

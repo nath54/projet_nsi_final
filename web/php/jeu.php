@@ -120,6 +120,10 @@ foreach($cases_objets as $i=>$data){
     $y = $data["y"];
     $tp = $data["id_objet"];
     $parametres = json_decode($data["parametres"]);
+    // if($data["parametres"] != "{}"){
+    //     print_r(array("aaa", $parametres, $data["parametres"]));
+    //     die();
+    // }
     $cases_objets_trait[$x."_".$y] = $tp;
     $cases_objets_parametres[$x."_".$y] = $parametres;
 }
@@ -187,10 +191,10 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                 <!-- Menu Princ -->
                 <div id="menu_princ" class="ui_box" style="display:none;">
                     <button onclick="set_menu('');" class="bt_x">X</button>
-                    <div class="row">
-                        <button onclick="window.location.href='accueil.php'">Quitter</button>
-                        <button onclick="set_menu('menu_stats');">Stats</button>
-                        <button onclick="set_menu('menu_inv');">Inventaire</button>
+                    <div class="row" style="margin: 15px; text-align: center;">
+                        <button class="bt_menu" onclick="window.location.href='accueil.php'">Quitter</button>
+                        <button class="bt_menu" onclick="set_menu('menu_stats');">Stats</button>
+                        <button class="bt_menu" onclick="set_menu('menu_inv');">Inventaire</button>
                     </div>
                 </div>
                 <!-- Menu inventaire -->
@@ -228,6 +232,17 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                             </div>
                         </div>
 
+                    </div>
+                    
+                    <div class="div_actions" style="display:none;">
+                        <h3>Actions : </h3>
+                        <div class="column" id="liste_actions">
+                            <div class="action_possible row">
+                                <span>- [<b>f</b>] </span>
+                                <div style="width: 10px;"> : </div>
+                                <span>ouvrir</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="column_end full">
