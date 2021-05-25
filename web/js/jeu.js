@@ -36,6 +36,14 @@ var test_var = null;
 
 var selectionne = null;
 
+var actions = {};
+
+var touches_actions = ["u", "i", "o", "p"]; // Il ne faudra jamais faire plus de 4 actions en meme temps sur le meme objet
+var touches_competences = ["&", "é", "\"", "'"];
+var touches_armes = ["(", "-", "è", "_"];
+var touches_munitions = ["j", "k", "l", "m"];
+var touche_selec_enn_plus_proche = "e";
+
 /**
  *
  * FONCTIONS POUR AFFICHER
@@ -229,6 +237,7 @@ function aff() {
  */
 
 function update_actions(){
+    actions = {};
     var div_list = document.getElementById("liste_actions");
     // On nettoie
     for(c of div_list.children){
@@ -239,8 +248,7 @@ function update_actions(){
     // selec = { "type": "objet", "x": xx, "y": yy };
     if(selec != null && selec["type"]=="objet"){
         var visible = false;
-        var touche_action = "f";
-        var compteur_action = 1;
+        var compteur_action = 0;
         k = ""+selec.x+"_"+selec.y;
         if(Object.keys(cases_objets_parametres).includes(k)){
             var ps = cases_objets_parametres[k];
@@ -250,16 +258,23 @@ function update_actions(){
                     tact = "change region";
                 }
                 //
-                if(tact != null){
+                if(tact != null && compteur_action<=3){
+                    var touche_action = touches_actions[compteur_action];
                     visible = true;
-                    var div = document.createElement("div");
-                    div.classList.add("action_possible");
-                    div.classList.add("row");
-                    var span = document.createElement("span");
-                    span.innerHTMl = "<span>- [<b>"+touche_action+"</b>] : "+tact;
-                    div.appendChild(span);
-                    div_list.appendChild(div);
-                    console.log(div);
+                    var ndiv = document.createElement("div");
+                    ndiv.classList.add("action_possible");
+                    ndiv.classList.add("row");
+                    var nspan = document.createElement("span");
+                    nspan.innerHTML = "<span>- [<b>"+touche_action+"</b>] : "+tact;
+                    ndiv.appendChild(nspan);
+                    document.getElementById("liste_actions").appendChild(ndiv);
+                    actions[touche_action] = {"action": act, "x": selec.x, "y": selec.y};
+                    if(act=="change_region"){
+                        actions[touche_action]["id_region"] = ps["change_region"];
+                        actions[touche_action]["npx"] = ps["x"];
+                        actions[touche_action]["npy"] = ps["y"];
+                    }
+                    compteur_action ++;
                 }
             }
         }
@@ -458,6 +473,36 @@ document.addEventListener('keydown', (event) => {
             }
             //
         }
+        /**
+         * ACTIONS
+         */
+        for(touche of Object.keys(actions)){
+            if(nomTouche == touche){
+                var data = {"action": "action", "nom_action": actions[touche]["action"]};
+                for(key of Object.keys(actions[touche])){
+                    if(key!="action"){
+                        data[key] = actions[touche][key];
+                    }
+                }
+                ws_send(data);
+            }
+        }
+        /**
+         * COMPETENCES
+         */
+
+        /**
+         * ARMES
+         */
+
+        /**
+         * MUNITIONS
+         */
+        
+
+        /**
+         * SELECTION ENNEMI PLUS PROCHE
+         */
     }
 }, false);
 

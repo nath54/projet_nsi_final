@@ -7,6 +7,7 @@ import random
 from datetime import datetime
 #
 from lib_comp import gere_competences
+from lib_act import gere_actions
 
 
 class ServeurWebsocket:
@@ -236,6 +237,9 @@ class ServeurWebsocket:
             elif data["action"] == "competence":  # Un autre exemple
                 user = self.USERS[websocket['id']]["id_utilisateur"]
                 gere_competences(self, websocket, data, user)
+            elif data["action"] == "action":
+                user = self.USERS[websocket['id']]["id_utilisateur"]
+                gere_actions(self, data, websocket, user)
         else:
             # Il faudra faire attention aux types d'event
             print("Unsupported event : ", data)
