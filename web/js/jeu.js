@@ -229,19 +229,45 @@ function aff() {
  */
 
 function update_actions(){
-    var div = document.getElementById("liste_actions");
+    var div_list = document.getElementById("liste_actions");
     // On nettoie
-    for(c of div.children){
-        div.removeChild(c);
+    for(c of div_list.children){
+        div_list.removeChild(c);
     }
-    div.innerHTML = "";
+    div_list.innerHTML = "";
     // On teste s'il y a un objet selectionné 
     // selec = { "type": "objet", "x": xx, "y": yy };
     if(selec != null && selec["type"]=="objet"){
+        var visible = false;
+        var touche_action = "f";
+        var compteur_action = 1;
         k = ""+selec.x+"_"+selec.y;
         if(Object.keys(cases_objets_parametres).includes(k)){
             var ps = cases_objets_parametres[k];
-            console.log("test",ps);
+            for(act of Object.keys(ps)){
+                tact = null;
+                if(act == "change_region"){
+                    tact = "change region";
+                }
+                //
+                if(tact != null){
+                    visible = true;
+                    var div = document.createElement("div");
+                    div.classList.add("action_possible");
+                    div.classList.add("row");
+                    var span = document.createElement("span");
+                    span.innerHTMl = "<span>- [<b>"+touche_action+"</b>] : "+tact;
+                    div.appendChild(span);
+                    div_list.appendChild(div);
+                    console.log(div);
+                }
+            }
+        }
+        if(visible){
+            document.getElementById("div_actions").style.display = "initial";
+        }
+        else{
+            document.getElementById("div_actions").style.display = "none";
         }
     }
 }

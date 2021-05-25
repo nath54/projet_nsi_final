@@ -32,7 +32,8 @@ class Region:
         objs = self.server.db.requete_db(sql, (self.id_region, ))
         for t in objs:
             self.cases_objets[str(t[0])+"_"+str(t[1])] = int(t[2])
-            self.cases_objets_parameters[str(t[0])+"_"+str(t[1])] = json.loads(t[3].replace("'",'"'))
+            dic = json.loads(t[3].replace("'",'"'))
+            self.cases_objets_parameters[str(t[0])+"_"+str(t[1])] = dic
 
         # on charge les monstres
         sql = "SELECT id_monstre_spawn, x, y, id_monstre FROM regions_monstres WHERE id_region=?"

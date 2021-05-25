@@ -105,8 +105,10 @@ foreach($r as $i=>$data){
 if(count($ennemis)>0){
     $je = json_encode($ennemis);
     echo "<script>var ennemis_data = JSON.parse(`$je`); </script>";
+    echo "<br/>";
 }else{
     echo "<script>var ennemis_data = {}; </script>";
+    echo "<br/>";
 }
 
 // On va passer les infos des cases des objets et des terrains à js
@@ -119,13 +121,15 @@ foreach($cases_objets as $i=>$data){
     $x = $data["x"];
     $y = $data["y"];
     $tp = $data["id_objet"];
-    $parametres = json_decode($data["parametres"]);
-    // if($data["parametres"] != "{}"){
-    //     print_r(array("aaa", $parametres, $data["parametres"]));
-    //     die();
-    // }
+    $p = $data["parametres"];
+    if(json_last_error() != JSON_ERROR_NONE){
+        echo json_last_error();
+        echo json_last_error_msg();
+        echo $p;
+        die();
+    }
     $cases_objets_trait[$x."_".$y] = $tp;
-    $cases_objets_parametres[$x."_".$y] = $parametres;
+    $cases_objets_parametres[$x."_".$y] = $p;
 }
 
 foreach($cases_terrains as $i=>$data){
@@ -138,7 +142,16 @@ $jco = json_encode($cases_objets_trait);
 $jct = json_encode($cases_terrains_trait);
 $jpo = json_encode($cases_objets_parametres);
 echo "<script>var cases_objets = JSON.parse(`$jco`); var cases_terrains = JSON.parse(`$jct`);</script>";
+echo "<br/>";
 script("var cases_objets_parametres = JSON.parse(`$jpo`);");
+echo "<br/>";
+script("
+for(key of Object.keys(cases_objets_parametres)){
+    var t = cases_objets_parametres[key];
+    t = t.replaceAll(\"'\",'\"');
+    cases_objets_parametres[key] = JSON.parse(t);
+}");
+echo "<br/>";
 
 // On prépare les data des compétences et on les envoie au js
 
@@ -234,14 +247,9 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
 
                     </div>
                     
-                    <div class="div_actions" style="display:none;">
+                    <div id="div_actions" style="display:none;">
                         <h3>Actions : </h3>
                         <div class="column" id="liste_actions">
-                            <div class="action_possible row">
-                                <span>- [<b>f</b>] </span>
-                                <div style="width: 10px;"> : </div>
-                                <span>ouvrir</span>
-                            </div>
                         </div>
                     </div>
 
