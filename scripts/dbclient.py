@@ -49,6 +49,7 @@ class dbClient:
 
     # effectue une requette et renvoie le resultat (ex: SELECT ...)
     def requete_db(self, requete, args = tuple(), debug = False):
+        self.connection.commit()
         if debug:
             nba = 0
             for l in requete:
