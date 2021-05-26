@@ -68,7 +68,7 @@ function on_message(event) {
     switch (data.action) {
 
         case 'prob_connection':
-            alert("QQun avec le meme id est déjà connecté !");
+            alert(data["message"]);
             window.location.href = "accueil.php";
             break;
 

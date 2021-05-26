@@ -609,6 +609,7 @@ if($region_selected != ""){
         $ido = $data["id_monstre"];
         $cases_ennemis["$x-$y"] = array("x" => $x, "y" =>$y , "id_monstre" => $ido);
     }
+    // alert("aaa  ".$cases_objets["15-6"]["parametres"]);
     script("var nom_region=\"" . $liste_regions[$region_selected] . "\"");
 }
 else{
@@ -1638,16 +1639,17 @@ if(viewport != null){
 }
 
 function mclick(cx,cy){
+    var xx = cx + dec_x;
+    var yy = cy + dec_y;
     //
     if(mode == "parametres"){
-        var xx = cx;
-        var yy = cy;
-        selected_x = xx;
-        selected_y = yy;
+        selected_x = cx;
+        selected_y = cy;
         selec_dec_x = 0;
         selec_dec_y = 0;
         //
         var k = ""+selected_x+"-"+selected_y;
+        console.log(k);
         //
         if(Object.keys(cases_objets).includes(k)){
             document.getElementById("selection_params").style.display = "initial";
