@@ -76,6 +76,7 @@ function aff() {
             newSvg.id = "player_" + ap.id_perso
             newSvg.setAttribute("x", apx);
             newSvg.setAttribute("y", apy);
+            //newSvg.setAttribute("opacity", 1);
             //
             for (child of newSvg.childNodes) {
                 if (child.getAttribute("id") == "img_perso_tete") {

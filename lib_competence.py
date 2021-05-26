@@ -32,9 +32,40 @@ def sort_teleportation(data,serveur,ws,id_joueur):
             serveur.server.send_to_user(p.id_utilisateur, {"action": "position_perso", "x":p.position["x"], "y":p.position["y"]})
             serveur.server.serveurWebsocket.send_all({"action": "j_pos", "id_perso":p.id_utilisateur, "x":p.position["x"], "y":p.position["y"], "region":p.region_actu}, [p.id_utilisateur])
 
-def sort_Foudre_celeste(data,serveur,ws,id_joueur):
+def boule_de_feu_supreme(data,serveur,ws,id_joueur):
     p = serveur.server.personnages[id_joueur]
-    m = serveur.server.monstres[id_monstre]
-    if self.server.monstre.position == {'x': npx, 'y': npy}:
-            self.server.monstre.modif_vie(dgt)
+    m = serveur.server.monstres[id_monstre_spawn]
+    id_monstre_spawn = data["id_monstre_spawn"]
+    ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
+    ennemi.modif_vie(-10)
 
+def coup_du_tonerre(data,serveur,ws,id_joueur):
+    p = serveur.server.personnages[id_joueur]
+    m = serveur.server.monstres[id_monstre_spawn]
+    id_monstre_spawn = data["id_monstre_spawn"]
+    ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
+    ennemi.modif_vie(-40)
+    
+
+def faisseau_de_lumiere(data,serveur,ws,id_joueur):
+    p = serveur.server.personnages[id_joueur]
+    m = serveur.server.monstres[id_monstre_spawn]
+    id_monstre_spawn = data["id_monstre_spawn"]
+    ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
+    ennemi.modif_vie(-25)
+
+
+def sort_Foudre_celeste(data,serveur,ws,id_joueur):
+    p = server.personnages[id_joueur]
+    m = server.monstres[id_monstre_spawn]
+    id_monstre_spawn = data["id_monstre_spawn"]
+    ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
+    ennemi.modif_vie(-100)
+
+def sort_Passionant(data,serveur,ws,id_joueur):
+    pass
+
+def sous_les_radars(data,serveur,ws,id_joueur):
+    p = server.personnages[id_joueur]
+    m = server.monstres[id_monstre_spawn]
+    pdivers
