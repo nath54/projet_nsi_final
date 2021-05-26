@@ -56,12 +56,8 @@ def gere_competences(ws_serv, websocket, data, id_user):
     elif data_comp["nom"] == "manger": ## Comp qui ne sera dispo que pour le chevalier et chasseur
         ## TODO : Dès que l'inventaire est dispo, faire en sorte de passer par l'inventaire pour manger 
         heure = time.time()
-<<<<<<< HEAD
         cooldown = 30
-        if not ('heure_last_manger' not in perso_joueur.divers.keys() or heure-data_comp['tp_recharge']>=perso_joueur.divers['heure_last_manger']):
-=======
         if not ('dernier_manger' not in perso_joueur.divers.keys() or heure-data_comp['faim_recharge']>=perso_joueur.divers['dernier_manger']):
->>>>>>> f2c4b92344c1241ee5fc7885c2eab08513b302cf
             # cd pas fini
             # a rendre plus propre
             return
