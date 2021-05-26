@@ -24,6 +24,11 @@ Dictionnaire {str: str|list(int)} : format `.json`
     "niveau": int niveau,
     "quete": [int id_quete_1, int id_quete_2, ...]
 }
+{
+    "classe": "chevalier",
+    "niveau": 10,
+    "quete": [int id_quete_1, int id_quete_2, ...]
+}
 ```
 
 ## `objectif`

@@ -1,7 +1,21 @@
 # region Imports :
 
 import json
+"""le déclenchement de la quête : à chaque action du personnage ( se déplacer, parler à quelqu'un ),
+         il faut appeller une fonction "Active", qui vérifie si une quète a été déclenché ( cette fonction 
+         vérifiera toutes les quètes ). Si c'est le cas, un booléen devra être mise à 1, pour signifier que 
+         la quête est activée."""
 
+class quete:
+def __init__:
+    pass
+    
+def active:
+    for i in range(len(id)):
+        try:
+    pass
+
+"""
 # Méthode 1 : mariadb
 try:
     import mariadb  # ignore unresolved-import error
@@ -15,7 +29,7 @@ except Exception as e:
 # endregion
 
 class Quete:
-    """Classe des quêtes
+    Classe des quêtes
 
     Attributes:
         id(int):
@@ -30,14 +44,14 @@ class Quete:
             Objectif de la quête ; voir `quete.md` pour le format
         recompense(dict<str: int|list<[int, int]>>)
             Récompense de la quête ; voir `quete.md` pour le format
-    """
+    
     def __init__(self, id, db):
         self.id = id
         self.load_quete(id, db)
         pass
 
     def load_quete(self, id, db):
-        """Charge la quête depuis la base de données
+        Charge la quête depuis la base de données
 
         Parameters:
             id(int): ID de la quête dans la base de données
@@ -45,10 +59,10 @@ class Quete:
 
         TODO: Ajuster les noms avec ceux de la base de données
 
-        """
-        sql = """SELECT nom, description_, condition_, objectif, recompense
+        
+        sql = SELECT nom, description_, condition_, objectif, recompense
                  FROM quete
-                 WHERE id = """ + id
+                 WHERE id =  + id
         curseur = db.cursor()
         curseur.execute(sql)
         res = [ligne for ligne in curseur]
@@ -57,7 +71,7 @@ class Quete:
         self.description = res[1]
         self.condition = json.loads(res[2])
         self.objectif = json.loads(res[3])
-        self.recompense = json.loads(res[4])
+        self.recompense = json.loads(res[4])"""
 
 
 if __name__ == "__main__":
