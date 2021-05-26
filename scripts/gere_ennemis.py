@@ -88,7 +88,7 @@ def gere_ennemis(server):
                             if joueur.region_actu == id_region:
                                 m_pos = (monstre.position["x"], monstre.position["y"])
                                 j_pos = (joueur.position["x"], joueur.position["y"])
-                                if dist_vec(m_pos, j_pos) < monstre.detection_joueur:
+                                if dist_vec(m_pos, j_pos) < monstre.detection_joueur and not "invisible" in joueur.divers.keys():
                                     monstre.joueur_detecte = joueur
                     #
                     if monstre.joueur_detecte is not None:
