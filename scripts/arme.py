@@ -40,4 +40,4 @@ class arme:
                 #self.quantite_mun = self.quantite_mun + 1
         pass
 
-    
+  
