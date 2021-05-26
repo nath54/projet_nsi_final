@@ -5,5 +5,3 @@ INSERT INTO quetes SET
     condition ,
     objectif ,
     recompense
-
-    lemoinea54460@gmail.com
