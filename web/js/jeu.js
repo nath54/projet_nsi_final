@@ -36,6 +36,14 @@ var test_var = null;
 
 var selectionne = null;
 
+var actions = {};
+
+var touches_actions = ["u", "i", "o", "p"]; // Il ne faudra jamais faire plus de 4 actions en meme temps sur le meme objet
+var touches_competences = ["&", "é", "\"", "'"];
+var touches_armes = ["(", "-", "è", "_"];
+var touches_munitions = ["j", "k", "l", "m"];
+var touche_selec_enn_plus_proche = "e";
+
 /**
  *
  * FONCTIONS POUR AFFICHER
@@ -56,7 +64,7 @@ function aff() {
     v.setAttribute("viewBox", "" + (px - tx / 2) + " " + (py - ty / 2) + " " + tx + " " + ty);
     // On affiche aussi tous les autres joueurs
     for (ap of Object.values(autres_joueurs)) {
-        if (ap == undefined) {
+        if (ap == undefined || ap.region_actu!=personnage.region_actu) {
             continue;
         }
         // var ap = autres_joueurs[k];
@@ -229,6 +237,57 @@ function aff() {
  *
  */
 
+function update_actions(){
+    actions = {};
+    var div_list = document.getElementById("liste_actions");
+    // On nettoie
+    for(c of div_list.children){
+        div_list.removeChild(c);
+    }
+    div_list.innerHTML = "";
+    // On teste s'il y a un objet selectionné 
+    // selec = { "type": "objet", "x": xx, "y": yy };
+    if(selec != null && selec["type"]=="objet"){
+        var visible = false;
+        var compteur_action = 0;
+        k = ""+selec.x+"_"+selec.y;
+        if(Object.keys(cases_objets_parametres).includes(k)){
+            var ps = cases_objets_parametres[k];
+            for(act of Object.keys(ps)){
+                tact = null;
+                if(act == "change_region"){
+                    tact = "change region";
+                }
+                //
+                if(tact != null && compteur_action<=3){
+                    var touche_action = touches_actions[compteur_action];
+                    visible = true;
+                    var ndiv = document.createElement("div");
+                    ndiv.classList.add("action_possible");
+                    ndiv.classList.add("row");
+                    var nspan = document.createElement("span");
+                    nspan.innerHTML = "<span>- [<b>"+touche_action+"</b>] : "+tact;
+                    ndiv.appendChild(nspan);
+                    document.getElementById("liste_actions").appendChild(ndiv);
+                    actions[touche_action] = {"action": act, "x": selec.x, "y": selec.y};
+                    if(act=="change_region"){
+                        actions[touche_action]["id_region"] = ps["change_region"];
+                        actions[touche_action]["npx"] = ps["x"];
+                        actions[touche_action]["npy"] = ps["y"];
+                    }
+                    compteur_action ++;
+                }
+            }
+        }
+        if(visible){
+            document.getElementById("div_actions").style.display = "initial";
+        }
+        else{
+            document.getElementById("div_actions").style.display = "none";
+        }
+    }
+}
+
 function update_competence() {
     var comp = personnage.competences;
     for (ic of Object.keys(comp)) {
@@ -378,6 +437,7 @@ document.body.addEventListener('mousedown', event => {
     }
     //
     selectionne = selec;
+    update_actions();
 });
 
 /**
@@ -414,6 +474,36 @@ document.addEventListener('keydown', (event) => {
             }
             //
         }
+        /**
+         * ACTIONS
+         */
+        for(touche of Object.keys(actions)){
+            if(nomTouche == touche){
+                var data = {"action": "action", "nom_action": actions[touche]["action"]};
+                for(key of Object.keys(actions[touche])){
+                    if(key!="action"){
+                        data[key] = actions[touche][key];
+                    }
+                }
+                ws_send(data);
+            }
+        }
+        /**
+         * COMPETENCES
+         */
+
+        /**
+         * ARMES
+         */
+
+        /**
+         * MUNITIONS
+         */
+        
+
+        /**
+         * SELECTION ENNEMI PLUS PROCHE
+         */
     }
 }, false);
 

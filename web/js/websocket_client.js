@@ -207,6 +207,10 @@ function on_message(event) {
                 autres_joueurs[id_joueur].mana_max = max_v;
             }
             break;
+        
+        case 'reload':
+            window.location.href = "jeu.php";
+            break;
 
         default:
             // Il faut faire attention aux types d'actions que l'on gère

@@ -105,20 +105,31 @@ foreach($r as $i=>$data){
 if(count($ennemis)>0){
     $je = json_encode($ennemis);
     echo "<script>var ennemis_data = JSON.parse(`$je`); </script>";
+    echo "<br/>";
 }else{
     echo "<script>var ennemis_data = {}; </script>";
+    echo "<br/>";
 }
 
 // On va passer les infos des cases des objets et des terrains à js
 
 // On va préparer les cases_objets
+$cases_objets_parametres = array();
 $cases_objets_trait = array();
 $cases_terrains_trait = array();
 foreach($cases_objets as $i=>$data){
     $x = $data["x"];
     $y = $data["y"];
     $tp = $data["id_objet"];
+    $p = $data["parametres"];
+    if(json_last_error() != JSON_ERROR_NONE){
+        echo json_last_error();
+        echo json_last_error_msg();
+        echo $p;
+        die();
+    }
     $cases_objets_trait[$x."_".$y] = $tp;
+    $cases_objets_parametres[$x."_".$y] = $p;
 }
 
 foreach($cases_terrains as $i=>$data){
@@ -129,7 +140,18 @@ foreach($cases_terrains as $i=>$data){
 }
 $jco = json_encode($cases_objets_trait);
 $jct = json_encode($cases_terrains_trait);
+$jpo = json_encode($cases_objets_parametres);
 echo "<script>var cases_objets = JSON.parse(`$jco`); var cases_terrains = JSON.parse(`$jct`);</script>";
+echo "<br/>";
+script("var cases_objets_parametres = JSON.parse(`$jpo`);");
+echo "<br/>";
+script("
+for(key of Object.keys(cases_objets_parametres)){
+    var t = cases_objets_parametres[key];
+    t = t.replaceAll(\"'\",'\"');
+    cases_objets_parametres[key] = JSON.parse(t);
+}");
+echo "<br/>";
 
 // On prépare les data des compétences et on les envoie au js
 
@@ -182,10 +204,10 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                 <!-- Menu Princ -->
                 <div id="menu_princ" class="ui_box" style="display:none;">
                     <button onclick="set_menu('');" class="bt_x">X</button>
-                    <div class="row">
-                        <button onclick="window.location.href='accueil.php'">Quitter</button>
-                        <button onclick="set_menu('menu_stats');">Stats</button>
-                        <button onclick="set_menu('menu_inv');">Inventaire</button>
+                    <div class="row" style="margin: 15px; text-align: center;">
+                        <button class="bt_menu" onclick="window.location.href='accueil.php'">Quitter</button>
+                        <button class="bt_menu" onclick="set_menu('menu_stats');">Stats</button>
+                        <button class="bt_menu" onclick="set_menu('menu_inv');">Inventaire</button>
                     </div>
                 </div>
                 <!-- Menu inventaire -->
@@ -223,6 +245,12 @@ clog($px." ".$py." ".$vx." ".$vy." ".$vx2." ".$vy2." ".$tx." ".$ty);
                             </div>
                         </div>
 
+                    </div>
+                    
+                    <div id="div_actions" style="display:none;">
+                        <h3>Actions : </h3>
+                        <div class="column" id="liste_actions">
+                        </div>
                     </div>
 
                     <div class="column_end full">
