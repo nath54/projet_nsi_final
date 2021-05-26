@@ -99,7 +99,7 @@ def gere_competences(ws_serv, websocket, data, id_user):
         perso_pos = (perso_joueur.position["x"], perso_joueur.position["y"])
         for ennemi in monstres:
             ennemi_pos = (ennemi.position["x"], ennemi.position["y"])
-            if distance(ennemi_pos, perso_pos) <= 5:
+            if dist_vec(ennemi_pos, perso_pos) <= 5: #distance ?
                 ennemi.joueur_detecte = perso_joueur
 
         x = data["x"]
@@ -165,7 +165,7 @@ def gere_competences(ws_serv, websocket, data, id_user):
                 if ennemi != None:
                     ennemi.modif_vie(-40)
 
-    elif data_comp["nom"] == "faisseau_de_lumiere":
+    elif data_comp["nom"] == "faisceau_de_lumiere":
         id_monstre_spawn = data["id_monstre_spawn"]
         ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
         rayon = 1
