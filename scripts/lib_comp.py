@@ -17,6 +17,8 @@ def gere_competences(ws_serv, websocket, data, id_user):
     data_comp = server.data_competences[data["id_competence"]]
     #
     if data_comp["nom"] == "moins_un":
+        rayon = 1
+        heure = time.time()
         id_monstre_spawn = data["id_monstre_spawn"]
         ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
         #
