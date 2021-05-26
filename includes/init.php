@@ -89,7 +89,7 @@ function random_str(
     $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 ) {
     $str = '';
-    $max = mb_strlen($keyspace, '8bit') - 1;
+    $max = strlen($keyspace) - 1;
     if ($max < 1) {
         throw new Exception('$keyspace must be at least two characters long');
     }
