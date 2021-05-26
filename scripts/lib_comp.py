@@ -56,13 +56,14 @@ def gere_competences(ws_serv, websocket, data, id_user):
     elif data_comp["nom"] == "manger": ## Comp qui ne sera dispo que pour le chevalier et chasseur
         ## TODO : Dès que l'inventaire est dispo, faire en sorte de passer par l'inventaire pour manger 
         heure = time.time()
-        if not ('heure_last_teleport' not in perso_joueur.divers.keys() or heure-data_comp['tp_recharge']>=perso_joueur.divers['heure_last_teleport']):
+        cooldown = 30
+        if not ('heure_last_manger' not in perso_joueur.divers.keys() or heure-data_comp['tp_recharge']>=perso_joueur.divers['heure_last_manger']):
             # cd pas fini
             # a rendre plus propre
             return
         if server.personnage.classe == "Chevalier" or server.personnage.classe == "Chasseur":
-            if "dernier_manger" not in perso_joueur.divers.keys() or time.time()-perso_joueur.divers["dernier_manger"] >= cooldown :
-                perso_joueur.divers["dernier_manger"] = time.time()
+            if "last_manger" not in perso_joueur.divers.keys() or time.time()-perso_joueur.divers["last_manger"] >= cooldown :
+                perso_joueur.divers["last_manger"] = time.time()
                 if server.monstre.joueur_detecte == True :
                     p = server.personnages[id_user]
                     p.vie += p.vie_max*0.1
