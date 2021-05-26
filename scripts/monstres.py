@@ -34,7 +34,7 @@ class Monstre:
         self.server.serveurWebsocket.send_all({"action":"new_monstre_pos", "id_spawn":self.id_monstre_spawn, "x": self.position["x"], "y": self.position["y"]})
 
     def load_monstre(self, id_region, position): ## On charge le monstre en lui attribuant ses capacités à partir de la BDD
-        sql = "SELECT nom, pv, niveau, dgt, loot FROM monstre WHERE id_monstre = ?;"
+        sql = "SELECT nom, pv, niveau, dgt, loot, rayon_detect, rayon_perdu, portee_attaque, temps_bouger, agressif, pacifique FROM monstre WHERE id_monstre = ?;"
         res = self.server.db.requete_db(sql, args = tuple([self.id_monstre]))[0]
 
         self.nom = res[0]
@@ -59,15 +59,18 @@ class Monstre:
 
         #
         self.joueur_detecte = None
-        self.detection_joueur = 3  # Rayon de détection des joueurs proches
-        self.perte_joueur = 6  # Si le joueur s'éloigne, le monstre le perd
-        self.portee_attaque = 1  # La portée d'attaque du monstre
+        self.detection_joueur = res[5]  # Rayon de détection des joueurs proches
+        self.perte_joueur = res[6]  # Si le joueur s'éloigne, le monstre le perd
+        self.portee_attaque = res[7]  # La portée d'attaque du monstre
 
         # Compteurs déplacements
         self.dernier_bouger = time.time() + float(random.randint(-100,  100) / 10.0)
-        self.tp_bouger = 0.8
+        self.tp_bouger = res[8]
         self.nb_bloque = 0
         self.patiente_bloque = 5
+        
+        self.agressif = res[9]
+        self.pacifique = res[10]
 
         # Compteur deplacements retours
         self.position_base = {"x": self.position["x"], "y": self.position["y"]}

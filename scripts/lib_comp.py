@@ -139,7 +139,7 @@ def gere_competences(ws_serv, websocket, data, id_user):
 
     elif data_comp["nom"] == "sort_passionanant":
         if monstre.joueur_detecte is not None:
-
+            pass
         
         
 
