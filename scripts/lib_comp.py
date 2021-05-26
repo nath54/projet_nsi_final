@@ -99,7 +99,7 @@ def gere_competences(ws_serv, websocket, data, id_user):
         perso_pos = (perso_joueur.position["x"], perso_joueur.position["y"])
         for ennemi in monstres:
             ennemi_pos = (ennemi.position["x"], ennemi.position["y"])
-            if distance(ennemi_pos, perso_pos) <= 5:
+            if dist_vec(ennemi_pos, perso_pos) <= 5: #distance ?
                 ennemi.joueur_detecte = perso_joueur
 
         x = data["x"]
