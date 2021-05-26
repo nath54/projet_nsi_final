@@ -17,8 +17,8 @@ def fait_competence(data,serveur,ws,id_joueur):
     if data['nom_competence']=="sous_les_radars":
         sous_les_radars(data,serveur,ws,id_joueur)
 
-    if data['nom_competence']=="faisseau_de_lumiere":
-        faisseau_de_lumiere(data,serveur,ws,id_joueur)
+    if data['nom_competence']=="faisceau_de_lumiere":
+        faisceau_de_lumiere(data,serveur,ws,id_joueur)
     
 
 
