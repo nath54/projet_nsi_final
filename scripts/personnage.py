@@ -81,7 +81,9 @@ class Personnage:
         self.id_bas = 1
         self.id_pied = 1
         self.server = server
-        self.divers = {}
+        self.divers = {
+            "cooldowns": {}
+        }
         self.load_perso()
 
     def load_perso(self):
@@ -261,6 +263,10 @@ class Personnage:
             self.mana = 0
         self.server.send_to_user(self.id_utilisateur, {"action":"mana", "value":self.mana, "max_v": self.mana_max})
         self.server.serveurWebsocket.send_all({"action": "mana_joueur", "id_joueur":self.id_utilisateur, "value":self.mana, "max_v": self.mana_max}, [self.id_utilisateur])
+
+    def update_cooldown(self, nom_comp):
+        # Ici, le but est d'envoyer l'information que la compétence a été utilisée
+        self.server.send_to_user(self.id_utilisateur, {"action":"cooldown_comp", "nom_comp":nom_comp, "time": self.divers["cooldown"][nc]})
 
     def meurt(self):
         self.position["x"] = 0

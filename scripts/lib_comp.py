@@ -15,6 +15,23 @@ def gere_competences(ws_serv, websocket, data, id_user):
         return
     #
     data_comp = server.data_competences[data["id_competence"]]
+    # TODO : mettre le cooldown ici, au lieu de le mettre dans chaque
+    # data_comp["tp_recharge"]
+    nc = data_compt["nom"] # Pour raccourcir le nom de la variable
+    if nc in perso_joueur.divers["cooldowns"].keys():
+        if time.time() - perso_joueur.divers["cooldowns"][nc] < data_comp["tp_recharge"]:
+            # Ici, le temps n'est pas fini
+            # On ne fais donc pas la competence
+            return
+    # TODO : enlever et mettre a jour le mana
+    if perso_joueur.mana < data_comp["cout_mana"]:
+        # Ici, il n'y a pas assez de mana
+        # On ne fais donc pas la competence
+        return
+    #
+    perso_joueur.divers["cooldowns"][nc] = time.time()
+    perso_joueur.change_mana(-data_comp["cout_mana"])
+    perso_joueur.update_cooldown(nc)
     #
     if data_comp["nom"] == "moins_un":
         rayon = 1

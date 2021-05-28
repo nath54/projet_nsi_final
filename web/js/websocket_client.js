@@ -208,6 +208,10 @@ function on_message(event) {
             }
             break;
         
+        case 'cooldown_comp':
+            //TODO
+            break;
+
         case 'reload':
             window.location.href = "jeu.php";
             break;
