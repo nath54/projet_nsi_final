@@ -17,7 +17,7 @@ def gere_competences(ws_serv, websocket, data, id_user):
     data_comp = server.data_competences[data["id_competence"]]
     # TODO : mettre le cooldown ici, au lieu de le mettre dans chaque
     # data_comp["tp_recharge"]
-    nc = data_compt["nom"] # Pour raccourcir le nom de la variable
+    nc = data_comp["nom"] # Pour raccourcir le nom de la variable
     if nc in perso_joueur.divers["cooldowns"].keys():
         if time.time() - perso_joueur.divers["cooldowns"][nc] < data_comp["tp_recharge"]:
             # Ici, le temps n'est pas fini
@@ -30,7 +30,7 @@ def gere_competences(ws_serv, websocket, data, id_user):
         return
     #
     perso_joueur.divers["cooldowns"][nc] = time.time()
-    perso_joueur.change_mana(-data_comp["cout_mana"])
+    # perso_joueur.change_mana(-data_comp["cout_mana"])
     perso_joueur.update_cooldown(nc)
     #
     if data_comp["nom"] == "moins_un":
@@ -54,12 +54,12 @@ def gere_competences(ws_serv, websocket, data, id_user):
 
     elif data_comp["nom"] == "teleportation":
         rayon = 5
-        heure = time.time()
-        if not ('heure_last_teleport' not in perso_joueur.divers.keys() or heure-data_comp['tp_recharge']>=perso_joueur.divers['heure_last_teleport']):
+        # heure = time.time()
+        #if not ('heure_last_teleport' not in perso_joueur.divers.keys() or heure-data_comp['tp_recharge']>=perso_joueur.divers['heure_last_teleport']):
             # cd pas fini
             # a rendre plus propre
-            return
-        elif dist_vec((perso_joueur.position["x"], perso_joueur.position["y"]), (data["x"], data["y"])) < rayon:
+            # return
+        if dist_vec((perso_joueur.position["x"], perso_joueur.position["y"]), (data["x"], data["y"])) < rayon:
             x = data["x"]
             y = data["y"]
             dx = data["x"] - perso_joueur.position["x"]
@@ -76,11 +76,11 @@ def gere_competences(ws_serv, websocket, data, id_user):
 
     elif data_comp["nom"] == "manger": ## Comp qui ne sera dispo que pour le chevalier et chasseur
         ## TODO : Dès que l'inventaire est dispo, faire en sorte de passer par l'inventaire pour manger 
-        heure = time.time()
-        if not ('dernier_manger' not in perso_joueur.divers.keys() or heure-data_comp['faim_recharge']>=perso_joueur.divers['dernier_manger']):
+        # heure = time.time()
+        # if not ('dernier_manger' not in perso_joueur.divers.keys() or heure-data_comp['faim_recharge']>=perso_joueur.divers['dernier_manger']):
             # cd pas fini
             # a rendre plus propre
-            return
+            # return
         if server.personnage.classe == "Chevalier" or server.personnage.classe == "Chasseur":
             if server.monstre.joueur_detecte == None :
                 p = server.personnages[id_user]

@@ -4,7 +4,7 @@ INSERT INTO competences SET
     nom = "moins_un",
     description_ = "Enleve 1 à l'ennemi selectionné",
     type_cible = "ennemi",
-    cout_mana = 15,
+    cout_mana = 3,
     tp_recharge = 5,
     img_icon = "moins_un.png";
 

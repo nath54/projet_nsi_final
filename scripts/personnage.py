@@ -266,7 +266,7 @@ class Personnage:
 
     def update_cooldown(self, nom_comp):
         # Ici, le but est d'envoyer l'information que la compétence a été utilisée
-        self.server.send_to_user(self.id_utilisateur, {"action":"cooldown_comp", "nom_comp":nom_comp, "time": self.divers["cooldown"][nc]})
+        self.server.send_to_user(self.id_utilisateur, {"action":"cooldown_comp", "nom_comp":nom_comp, "time": self.divers["cooldowns"][nom_comp]})
 
     def meurt(self):
         self.position["x"] = 0

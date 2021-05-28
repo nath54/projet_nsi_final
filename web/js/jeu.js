@@ -450,6 +450,7 @@ document.body.addEventListener('mousedown', event => {
 document.addEventListener('keydown', (event) => {
     if (!en_chargement) {
         const nomTouche = event.key;
+        
         if (nomTouche === 'ArrowUp') {
             ws_send({ "action": "deplacement", "deplacement": [0, -1] });
         } else if (nomTouche === 'ArrowDown') {
