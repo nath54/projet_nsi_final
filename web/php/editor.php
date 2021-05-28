@@ -1643,18 +1643,18 @@ function mclick(cx,cy){
     var yy = cy + dec_y;
     //
     if(mode == "parametres"){
-        selected_x = cx;
-        selected_y = cy;
-        selec_dec_x = 0;
-        selec_dec_y = 0;
+        selected_x = xx;
+        selected_y = yy;
+        selec_dec_x = -dec_x;
+        selec_dec_y = -dec_y;
         //
         var k = ""+selected_x+"-"+selected_y;
         console.log(k);
         //
         if(Object.keys(cases_objets).includes(k)){
             document.getElementById("selection_params").style.display = "initial";
-            document.getElementById("selection_params").setAttribute("x", selected_x * tc);
-            document.getElementById("selection_params").setAttribute("y", selected_y * tc);
+            document.getElementById("selection_params").setAttribute("x", (selected_x + selec_dec_x) * tc);
+            document.getElementById("selection_params").setAttribute("y", (selected_y + selec_dec_y) * tc);
             document.getElementById("object_parameters").value = cases_objets[k]["parametres"];
             document.getElementById("texte_objets").innerHTML = "Vous avez sélectionné une objet de type : "+objets[cases_objets[k]["id_objet"]]["nom"];
         }
