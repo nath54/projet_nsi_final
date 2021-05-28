@@ -1,6 +1,7 @@
 """Calcul formel
 
 Classes:
+---
     Sum: Traite les éléments de type somme
     Mul: Traite les éléments de type multiplication
     Div: Traite les éléments de division
@@ -621,7 +622,7 @@ def test_str_to_expr():
     var = substituer_expr("11037+53*x", "x", 12)
     assert var == 11673, f"{var}"
 
-    print("Fin du test : substituer_expr")
+    print("Fin du test : Fonction substituer_expr")
 # endregion
 
 

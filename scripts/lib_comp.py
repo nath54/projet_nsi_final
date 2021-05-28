@@ -40,7 +40,7 @@ def gere_competences(ws_serv, websocket, data, id_user):
         ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
         #
         ennemi.modif_vie(-1)
-    
+
     elif data_comp["nom"] == "premiers_secours":
         if "id_joueur" in data.keys():
             p = server.personnages[data["id_joueur"]]
@@ -79,7 +79,7 @@ def gere_competences(ws_serv, websocket, data, id_user):
         pass
 
     elif data_comp["nom"] == "manger": ## Comp qui ne sera dispo que pour le chevalier et chasseur
-        ## TODO : Dès que l'inventaire est dispo, faire en sorte de passer par l'inventaire pour manger 
+        ## TODO : Dès que l'inventaire est dispo, faire en sorte de passer par l'inventaire pour manger
         # heure = time.time()
         # if not ('dernier_manger' not in perso_joueur.divers.keys() or heure-data_comp['faim_recharge']>=perso_joueur.divers['dernier_manger']):
             # cd pas fini
@@ -92,7 +92,7 @@ def gere_competences(ws_serv, websocket, data, id_user):
                 if p.vie > p.vie_max:
                     p.vie = p.vie_max
                 server.send_to_user(p.id_utilisateur, {"action":"vie", "value":p.vie, "max_v": p.vie_max})
-    
+
     elif data_comp["nom"] == "moins_un_zone":
         id_monstre_spawn = data["id_monstre_spawn"]
         ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
@@ -104,7 +104,7 @@ def gere_competences(ws_serv, websocket, data, id_user):
                 if ennemi != None:
                     ennemi.modif_vie(-1)
 
-    
+
     # elif data_comp["nom"] == "manger":
     #     p = server.personnages[id_user]
     #     p.vie += p.vie_max*0.1
@@ -113,20 +113,22 @@ def gere_competences(ws_serv, websocket, data, id_user):
     #     server.send_to_user(p.id_utilisateur, {"action":"vie", "value":p.vie, "max_v": p.vie_max})
 
     elif data_comp["nom"] == "provocation" and\
-            perso_joueur.classe == "chevalier":
+            perso_joueur.classe == "Chevalier":
         """Permet d'attirer un ennemi vers le joueur dans un rayon de 5"""
+        rayon = 5
         monstres = server.carte.regions[perso_joueur.region_actu].ennemis
         perso_pos = (perso_joueur.position["x"], perso_joueur.position["y"])
         for ennemi in monstres:
             ennemi_pos = (ennemi.position["x"], ennemi.position["y"])
-            if dist_vec(ennemi_pos, perso_pos) <= 5: #distance ?
+            if dist_vec(ennemi_pos, perso_pos) <= rayon:
                 ennemi.joueur_detecte = perso_joueur
-
+        """???
         x = data["x"]
         y = data["y"]
         dx = data["x"] - perso_joueur.position["x"]
         dy = data["y"] - perso_joueur.position["y"]
         perso_joueur.bouger((dx,dy))
+        """
 
     # elif data_comp["nom"] == "moins_un_zone":
     #     if server.personnage.classe == "Chevalier":
@@ -139,9 +141,9 @@ def gere_competences(ws_serv, websocket, data, id_user):
     #                 ennemi = server.carte.regions[perso_joueur.id_utilisateur].get_case_monstre(dx, dy)
     #                 if ennemi != None:
     #                     ennemi.modif_vie(-1)
-   
-    
-    
+
+
+
     elif data_comp["nom"] == "invisibilite":
         if "invisible" in perso_joueur.divers.keys():
             return
@@ -149,19 +151,19 @@ def gere_competences(ws_serv, websocket, data, id_user):
         tp_invisibilite = 10
         fininvisibilite = time.time()+tp_invisibilite
         perso_joueur.divers["invisible"] = fininvisibilite
-        
+
         def stop_invisibilite(tp,joueur):
             time.sleep(tp)
             del joueur.divers["invisible"]
 
         start_nt(stop_invisibilite,(10,perso_joueur))
-       
+
 
     elif data_comp["nom"] == "sort_passionanant":
         if monstre.joueur_detecte is not None:
             pass
-        
-        
+
+
 
     elif data_comp["nom"] == "boule_de_feu_supreme":
         id_monstre_spawn = data["id_monstre_spawn"]
@@ -212,5 +214,5 @@ def fininvisible(duree,joueur):
     time.sleep(duree)
     del joueur.divers['invisible']
 
-    
+
 
