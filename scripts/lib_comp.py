@@ -202,6 +202,13 @@ def gere_competences(ws_serv, websocket, data, id_user):
                 if ennemi is not None:
                     ennemi.modif_vie(-100)
 
+##Dernière compétence du chasseur, tir à distance infligeant beaucoup de dégâts
+    elif data_comp["nom"] == "tir_de_fusil":
+        rayon = 15
+        heure = time.time()
+        id_monstre_spawn = data["id_monstre_spawn"]
+        ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
+        ennemi.modif_vie(-10)
 
 def fininvisible(duree, joueur):
     time.sleep(duree)

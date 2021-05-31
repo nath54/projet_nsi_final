@@ -75,7 +75,14 @@ INSERT INTO competences SET
     tp_recharge = 30,
     img_icon = "invisible.png";
 
-
+INSERT INTO competences SET
+    id_competence = 9,
+    nom = "tir_de_fusil",
+    description_ = "Enlève 10 PV à un ennemi situé dans un rayon de 15 blocs",
+    type_cible = "ennemi",
+    cout_mana = 15,
+    tp_recharge = 15,
+    img_icon = "fusil.png";
 
 
 
@@ -90,3 +97,4 @@ INSERT INTO classes_competences SET id_competence = 5, nom_classe = "chasseur"
 INSERT INTO classes_competences SET id_competence = 6, nom_classe = "chevalier"
 INSERT INTO classes_competences SET id_competence = 7, nom_classe = "chevalier"
 INSERT INTO classes_competences SET id_competence = 8, nom_classe = "sorcier"
+INSERT INTO classes_competences SET id_competence = 9, nom_classe = "chasseur"
