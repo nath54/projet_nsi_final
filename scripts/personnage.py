@@ -133,7 +133,15 @@ class Personnage:
         self.dernier_bouger = 0
         # TODO: faire que si un perso est deja sur la case, on le décale
 
-        # 
+        #
+        sql = """SELECT competences.id_competence FROM competences INNER JOIN classes_competences ON classes_competences.id_competence = competences.id_competence WHERE nom_classe = ? AND niv_min <= ?;"""
+        res = self.server.db.requete_db(sql, (self.classe, self.niveau))
+
+        for compteur in range(len(res)):
+            self.competences[competence+1] = res[compteur][0]
+        
+        print(self.competences)
+
 
     def bouger(self, dep, cooldown=False):
         """S'assure que le personnage peut se déplacer et le déplace

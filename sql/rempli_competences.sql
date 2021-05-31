@@ -36,7 +36,7 @@ INSERT INTO competences SET
     type_cible = "",
     cout_mana = 15,
     tp_recharge = 20,
-    img_icon = "bouclier.png";
+    img_icon = "bouclier.png",
     niv_min = 1;
 
 INSERT INTO competences SET
@@ -46,7 +46,8 @@ INSERT INTO competences SET
     type_cible = "joueur",
     cout_mana = 10,
     tp_recharge = 15,
-    img_icon = "manger.png";
+    img_icon = "manger.png",
+    niv_min = 1;
 
 INSERT INTO competences SET
     id_competence = 6,
@@ -55,7 +56,8 @@ INSERT INTO competences SET
     type_cible = "ennemi",
     cout_mana = 4,
     tp_recharge = 5,
-    img_icon = "moins_un_zone.png";
+    img_icon = "moins_un_zone.png",
+    niv_min = 1;
 
 INSERT INTO competences SET
     id_competence = 7,
@@ -64,7 +66,8 @@ INSERT INTO competences SET
     type_cible = "joueur",
     cout_mana = 5,
     tp_recharge = 15,
-    img_icon = "provoc.png";
+    img_icon = "provoc.png",
+    niv_min = 1;
 
 INSERT INTO competences SET
     id_competence = 8,
@@ -73,7 +76,8 @@ INSERT INTO competences SET
     type_cible = "joueur",
     cout_mana = 20,
     tp_recharge = 30,
-    img_icon = "invisible.png";
+    img_icon = "invisible.png",
+    niv_min = 1;
 
 INSERT INTO competences SET
     id_competence = 9,
@@ -82,7 +86,8 @@ INSERT INTO competences SET
     type_cible = "ennemi",
     cout_mana = 5,
     tp_recharge = 5,
-    img_icon = "fusil.png";
+    img_icon = "fusil.png",
+    niv_min = 1;
 
 
 
