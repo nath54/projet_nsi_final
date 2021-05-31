@@ -117,8 +117,8 @@ class Personnage:
         self.xp_tot = int(res[10])
         comp = json.loads(res[11])
         self.competences = {}
-        for k,v in comp.items():
-            self.competences[int(k)] = v;
+        # for k,v in comp.items():
+        #     self.competences[int(k)] = v;
         self.quetes = res[12]
         self.region_actu = int(res[13])
         self.position = {"x": int(res[14]), "y": int(res[15])}
@@ -132,6 +132,8 @@ class Personnage:
         self.tp_bouger = 0.1
         self.dernier_bouger = 0
         # TODO: faire que si un perso est deja sur la case, on le décale
+
+        # 
 
     def bouger(self, dep, cooldown=False):
         """S'assure que le personnage peut se déplacer et le déplace
