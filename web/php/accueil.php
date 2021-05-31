@@ -85,11 +85,5 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
                 </form>
             </section>
         </form>
-		<?php
-			// TODO: Retirer pour la version finale
-			if (!empty($erreur)){
-				echo($erreur);
-			}
-		?>
     </body>
 </html>

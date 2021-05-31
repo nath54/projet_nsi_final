@@ -12,6 +12,7 @@ if (empty($_POST['pseudo']) OR empty($_POST['mdp']) OR empty($_POST['mdp_confirm
 {
 	$erreur = 'Une des variables est vide.';
 }
+#On vérifie que le sexe et la classe du joueur correspondent aux valeurs prédéfinies
 elseif( ! in_array($_POST['sexe'], ['Homme','Femme','Autre'])){
 	$erreur = 'Ce sexe n\'est pas valide.';
 }
@@ -28,16 +29,19 @@ else {
 
 	$sql = 'SELECT count(*) FROM utilisateurs WHERE pseudo=?';
 	$data = requete_prep($db, $sql, array($_POST["pseudo"]));
-	print_r($data);
+	// On ajoute l'utilisateur à la base de données
 	if ($data[0][0] == 0) {
 		$sql = 'INSERT INTO utilisateurs (pseudo,mdp,sexe,classe,competence) VALUES(:pseudo, MD5(:mdp), :sexe, :classe, :comp)';
 		$status = action_prep($db, $sql, $vars = array(":pseudo" => $_POST["pseudo"], ":mdp" => $_POST["mdp"], ":sexe" => $_POST["sexe"], ":classe" => $_POST["classe"], ":comp" => "{\"1\":1, \"2\":2, \"3\":3, \"4\":null}"),$debug);
 		$_SESSION["player_id"] = $db->lastInsertId();
 
+		// On l'envoie ensuite vers l'espace membre si l'inscription se déroule comme il faut
+		// Il pourra choisir d'aller vers création perso ou de revenir à l'accueil
 		if ($status){
 			$_SESSION['pseudo'] = $_POST['pseudo'];
 			header('Location: membre.php');
 			exit();
+		
 		} else {
 			$erreur = 'Problème lors de l\'insertion dans la base de données';
 			}

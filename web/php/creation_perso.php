@@ -8,7 +8,7 @@ include_once "../../includes/bdd.php";
 
 $db = load_db("../../includes/config.json");
 
-// On récupère les vetements du joueurs
+// On récupère les vêtements du joueurs dans la base de données
 $req = "SELECT id_tete, id_cheveux, id_barbe, id_haut, id_bas, id_pieds FROM utilisateurs WHERE id_utilisateur=:id_player";
 $vars = array(":id_player"=>$_SESSION["player_id"]);
 
