@@ -20,7 +20,7 @@ elseif( ! in_array($_POST['classe'], ['Chevalier','Chasseur','Sorcier'])){
 }
 
 // Sinon, on teste le mot de passe et la confirmation du mot de passe
-elseif($_POST['mdp'] != $_POST['mdp_confirm']) {
+elseif($_POST['mdp'] != $_POST['mdp_confirm']){
 	$erreur = "Les 2 mots de passe sont différents.";
 }
 
