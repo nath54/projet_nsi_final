@@ -32,7 +32,7 @@ INSERT INTO competences SET
 INSERT INTO competences SET
     id_competence = 4,
     nom = "bouclier",
-    description_ = "se protège de toutes attaques tout autours du joueur",
+    description_ = "Se protège de toutes attaques tout autour du joueur",
     type_cible = "",
     cout_mana = 15,
     tp_recharge = 20,
@@ -42,12 +42,35 @@ INSERT INTO competences SET
 INSERT INTO competences SET
     id_competence = 5,
     nom = "manger",
-    description_ = "mange et restaure 20% de ses PV",
+    description_ = "Mange et restaure 20% de ses PV",
     type_cible = "joueur",
     cout_mana = 10,
     tp_recharge = 15,
     img_icon = "manger.png";
 
-    
+INSERT INTO competences SET
+    id_competence = 6,
+    nom = "moins_un_zone",
+    description_ = "Enlève 1 PV aux ennemis dans un rayon d'une case autour du joueur",
+    type_cible = "ennemi",
+    cout_mana = 4,
+    tp_recharge = 5,
+    img_icon = "moins_un_zone.png";
 
-    
+INSERT INTO competences SET
+    id_competence = 7,
+    nom = "provocation",
+    description_ = "Provoque et attire les ennemis alentour",
+    type_cible = "joueur",
+    cout_mana = 5,
+    tp_recharge = 15,
+    img_icon = "provoc.png";
+
+INSERT INTO competences SET
+    id_competence = 8,
+    nom = "invisibilite",
+    description_ = "Devient invisible et indétectable des ennemis",
+    type_cible = "joueur",
+    cout_mana = 20,
+    tp_recharge = 30,
+    img_icon = "invisible.png";
