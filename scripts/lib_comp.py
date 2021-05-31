@@ -85,13 +85,14 @@ def gere_competences(ws_serv, websocket, data, id_user):
             # cd pas fini
             # a rendre plus propre
             # return
-        if server.personnage.classe == "Chevalier" or server.personnage.classe == "Chasseur":
-            if server.monstre.joueur_detecte == None :
-                p = server.personnages[id_user]
-                p.vie += p.vie_max*0.1
-                if p.vie > p.vie_max:
-                    p.vie = p.vie_max
-                server.send_to_user(p.id_utilisateur, {"action":"vie", "value":p.vie, "max_v": p.vie_max})
+        if perso_joueur.classe == "Sorcier":
+            return
+        else:
+            p = server.personnages[id_user]
+            p.vie += p.vie_max*0.2
+            if p.vie > p.vie_max:
+                p.vie = p.vie_max
+            server.send_to_user(p.id_utilisateur, {"action":"vie", "value":p.vie, "max_v": p.vie_max})
 
     elif data_comp["nom"] == "moins_un_zone":
         id_monstre_spawn = data["id_monstre_spawn"]

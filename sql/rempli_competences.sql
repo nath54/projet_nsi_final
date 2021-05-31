@@ -38,4 +38,16 @@ INSERT INTO competences SET
     tp_recharge = 20,
     img_icon = "bouclier.png";
     niv_min = 1;
+
+INSERT INTO competences SET
+    id_competence = 5,
+    nom = "manger",
+    description_ = "mange et restaure 20% de ses PV",
+    type_cible = "joueur",
+    cout_mana = 10,
+    tp_recharge = 15,
+    img_icon = "manger.png";
+
+    
+
     
