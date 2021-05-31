@@ -14,9 +14,6 @@ $db = load_db("../../includes/config.json");
 
     <?php
 
-    foreach($_POST as $k=>$v){
-        echo "$k = $v <br />";
-    }
     // Si le pseudo et le mot de passe entré ne correspondent pas, on renvoie l'utilisateur à l'accueil en lui indiquant qu'il y a une erreur
     if(!isset($_POST["pseudo"]) && !isset($_POST["mdp"])){
         $_SESSION["error"] = "Problème lors de la connexion !";

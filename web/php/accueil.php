@@ -4,7 +4,7 @@ include_once("../../includes/init.php");
 include_once("../../includes/bdd.php");
 $db = load_db("../../includes/config.json");
 
-#affiche un pop up qui redirige vers l'accueil s'il y a une erreur
+// Affiche un pop up qui redirige vers l'accueil s'il y a une erreur
 if(isset($_SESSION["error"])){
 	alert($_SESSION["error"]);
 	unset($_SESSION["error"]);
