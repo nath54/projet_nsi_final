@@ -15,15 +15,17 @@ $db = load_db("../../includes/config.json");
     <?php
 
     // Si le pseudo et le mot de passe entré ne correspondent pas, on renvoie l'utilisateur à l'accueil en lui indiquant qu'il y a une erreur
-    if(!isset($_POST["pseudo"]) && !isset($_POST["mdp"])){
+    if(!isset($_POST["pseudo"]) && !isset($_POST["mdp"]))
+    {
         $_SESSION["error"] = "Problème lors de la connexion !";
         header('Location: accueil.php');
     }
 
     // On recherche dans la bdd le pseudo entré et si le mot de passe y correspond
     $res = requete_prep($db, "SELECT * FROM utilisateurs WHERE pseudo = :pseudo AND mdp = MD5(:mdp);", array(":pseudo"=>$_POST["pseudo"], ":mdp"=>$_POST["mdp"]));
-    if (count($res)>0)
+
     // On laisse le joueur se connecter au jeu, si son mot de passe est bon
+    if (count($res)>0)
     {
         $_SESSION["player_id"] = $res[0]["id_utilisateur"];
         header('Location: jeu.php');
@@ -40,7 +42,8 @@ $db = load_db("../../includes/config.json");
             header('Location: jeu.php');
         }
     }
-    else // Sinon on ne laisse pas le joueur se connecter
+    // Sinon on ne laisse pas le joueur se connecter
+    else
     {
         $_SESSION["error"]="Pseudo ou mot de passe incorrect";
         header('Location: accueil.php');

@@ -70,12 +70,9 @@ if (isset($_POST['connexion']) && $_POST['connexion'] == 'Connexion') {
                 <div class="titre">Mathopia</div>
                 <form action="accueil.php" method="post">
                     <div class="soustitre">Nom d'utilisateur: </div>
-                    <input type="text" required title="Username" placeholder="Nom d'utilisateur" name="pseudo" data-icon="U" class="bouton">
-					</br>
+                    <input type="text" required title="Username" placeholder="Nom d'utilisateur" name="pseudo" data-icon="U" class="bouton"> </br>
                     <div class="soustitre">Mot de passe: </div>
-                    <input type="password" required title="Password" placeholder="Mot de passe" data-icon="x" name="mdp" class="bouton">
-                    </br>
-					</br>
+                    <input type="password" required title="Password" placeholder="Mot de passe" data-icon="x" name="mdp" class="bouton"> </br> </br>
 					<input type="submit" class="envoyer" value="Valider" />
 					<div class="oubli">
                         <div class="col"><a href="#" title="Retrouver mot de passe">Forgot Password ?</a></div>
