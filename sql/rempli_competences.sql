@@ -44,5 +44,11 @@ INSERT INTO competences SET
     tp_recharge = 15,
     img_icon = "manger.png";
 
-
-    
+INSERT INTO competences SET
+    id_competence = 6,
+    nom = "moins_un_zone",
+    description_ = "Enleve 1 PV aux ennemis dans un rayon d'une case autour du joueur",
+    type_cible = "ennemi",
+    cout_mana = 4,
+    tp_recharge = 5,
+    img_icon = "moins_un_zone.png";
