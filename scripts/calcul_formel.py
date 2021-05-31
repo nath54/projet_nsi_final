@@ -85,7 +85,8 @@ class Sum(Operation):
             all_denom = [comps.value().denom.value()
                          for comps in self.components]
             denom_final = lcm(*all_denom)
-            num_final = sum([comps.value().num.value() * denom_final // comps.value().denom.value()
+            num_final = sum([comps.value().num.value() * denom_final //
+                             comps.value().denom.value()
                              for comps in self.components])
             return Expr(Div(num_final, denom_final))
         # Sinon, on simplifie au maximum
@@ -305,7 +306,9 @@ class Div(Operation):
         elif isinstance(num, Operation) and isinstance(denom, Operation):
             # S'ils sont simplifiables en tant qu'`int`
             if is_int(num.value()) and is_int(denom.value()):
-                return self.__simplifie_ints(int(num.value()), int(denom.value()))
+                nval = num.value()
+                dval = denom.value()
+                return self.__simplifie_ints(int(nval), int(dval))
             # S'ils ne sont pas simplifiables en `int`
             return self.__simplifie_vars(num, denom)
         else:
@@ -549,7 +552,8 @@ def test_somme():
     assert var == "2 × a + 6",\
         f"Mauvaise valeur : {var} au lieu de '2 × a + 6'"
 
-    # FACTORISATION D'UNE SOMME AVEC PLUSIEURS ITÉRATIONS DE VARIABLES (PLUSIEURS VARS)
+    # FACTORISATION D'UNE SOMME AVEC PLUSIEURS ITÉRATIONS DE VARIABLES
+    # (PLUSIEURS VARS)
     var = str(Sum(1, 5, "a", "a", "a", "b", "b", "b").value())
     assert var == "3 × a + 3 × b + 6",\
         f"Mauvaise valeur : {var} au lieu de '3 × a + 3 × b + 6'"
@@ -558,8 +562,9 @@ def test_somme():
     var = str(Sum("a", Mul(3, "a")).value())
     assert var == "4 × a", f"{var}"
 
-    # FACTORISATION D'UNE SOMME AVEC UN COMPOSANT DE MULTIPLICATION (PLUSIEURS VARS)
-    var = str(Sum("a", Mul(3, "a").value(), "b", "b", Mul(40, "b").value()).value())
+    # FACTORISATION D'UNE SOMME AVEC UN COMPOSANT DE MULTIPLICATION
+    # (PLUSIEURS VARS)
+    var = str(Sum("a", Mul(3, "a"), "b", "b", Mul(40, "b")).value())
     assert var == "4 × a + 42 × b", f"{var}"
 
     # FACTORISATION D'UNE SOMME AVEC UN COMPOSANT DE DIVISION (1 VAR)
