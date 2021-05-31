@@ -74,3 +74,19 @@ INSERT INTO competences SET
     cout_mana = 20,
     tp_recharge = 30,
     img_icon = "invisible.png";
+
+
+
+
+
+
+INSERT INTO classes_competences SET id_competence = 1, nom_classe = "chevalier"
+INSERT INTO classes_competences SET id_competence = 1, nom_classe = "sorcier"
+INSERT INTO classes_competences SET id_competence = 2, nom_classe = "sorcier"
+INSERT INTO classes_competences SET id_competence = 3, nom_classe = "sorcier"
+INSERT INTO classes_competences SET id_competence = 4, nom_classe = "chevalier"
+INSERT INTO classes_competences SET id_competence = 5, nom_classe = "chevalier"
+INSERT INTO classes_competences SET id_competence = 5, nom_classe = "chasseur"
+INSERT INTO classes_competences SET id_competence = 6, nom_classe = "chevalier"
+INSERT INTO classes_competences SET id_competence = 7, nom_classe = "chevalier"
+INSERT INTO classes_competences SET id_competence = 8, nom_classe = "sorcier"
