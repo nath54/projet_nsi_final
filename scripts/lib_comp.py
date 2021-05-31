@@ -85,7 +85,9 @@ def gere_competences(ws_serv, websocket, data, id_user):
             # cd pas fini
             # a rendre plus propre
             # return
-        if perso_joueur.classe == "Chevalier" or perso_joueur.classe == "Chasseur":
+        if perso_joueur.classe == "Sorcier":
+            return
+        else:
             p = server.personnages[id_user]
             p.vie += p.vie_max*0.1
             if p.vie > p.vie_max:
