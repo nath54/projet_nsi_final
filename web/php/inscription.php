@@ -96,9 +96,9 @@ else {
 				</br></br>
 				Classe :
 					<select name="classe" size="1">
-						<option>Chevalier</option>
-						<option>Chasseur</option>
-						<option>Sorcier</option>
+						<option>chevalier</option>
+						<option>chasseur</option>
+						<option>sorcier</option>
 					</select>
 				</br>
 			</div>
