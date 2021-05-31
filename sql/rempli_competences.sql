@@ -6,7 +6,7 @@ INSERT INTO competences SET
     type_cible = "ennemi",
     cout_mana = 3,
     tp_recharge = 5,
-    img_icon = "moins_un.png";
+    img_icon = "moins_un.png",
     niv_min = 1;
 
 INSERT INTO competences SET
@@ -16,7 +16,7 @@ INSERT INTO competences SET
     type_cible = "terrain",
     cout_mana = 15,
     tp_recharge = 15,
-    img_icon = "teleportation.png";
+    img_icon = "teleportation.png",
     niv_min = 1;
 
 INSERT INTO competences SET
@@ -26,7 +26,7 @@ INSERT INTO competences SET
     type_cible = "joueur",
     cout_mana = 15,
     tp_recharge = 10,
-    img_icon = "premiers_secours.png";
+    img_icon = "premiers_secours.png",
     niv_min = 1;
 
 INSERT INTO competences SET
@@ -89,17 +89,14 @@ INSERT INTO competences SET
     img_icon = "fusil.png",
     niv_min = 1;
 
-
-
-
-INSERT INTO classes_competences SET id_competence = 1, nom_classe = "chevalier"
-INSERT INTO classes_competences SET id_competence = 1, nom_classe = "sorcier"
-INSERT INTO classes_competences SET id_competence = 2, nom_classe = "sorcier"
-INSERT INTO classes_competences SET id_competence = 3, nom_classe = "sorcier"
-INSERT INTO classes_competences SET id_competence = 4, nom_classe = "chevalier"
-INSERT INTO classes_competences SET id_competence = 5, nom_classe = "chevalier"
-INSERT INTO classes_competences SET id_competence = 5, nom_classe = "chasseur"
-INSERT INTO classes_competences SET id_competence = 6, nom_classe = "chevalier"
-INSERT INTO classes_competences SET id_competence = 7, nom_classe = "chevalier"
-INSERT INTO classes_competences SET id_competence = 8, nom_classe = "sorcier"
-INSERT INTO classes_competences SET id_competence = 9, nom_classe = "chasseur"
+INSERT INTO classes_competences SET id_competence = 1, nom_classe = "chevalier";
+INSERT INTO classes_competences SET id_competence = 1, nom_classe = "sorcier";
+INSERT INTO classes_competences SET id_competence = 2, nom_classe = "sorcier";
+INSERT INTO classes_competences SET id_competence = 3, nom_classe = "sorcier";
+INSERT INTO classes_competences SET id_competence = 4, nom_classe = "chevalier";
+INSERT INTO classes_competences SET id_competence = 5, nom_classe = "chevalier";
+INSERT INTO classes_competences SET id_competence = 5, nom_classe = "chasseur";
+INSERT INTO classes_competences SET id_competence = 6, nom_classe = "chevalier";
+INSERT INTO classes_competences SET id_competence = 7, nom_classe = "chevalier";
+INSERT INTO classes_competences SET id_competence = 8, nom_classe = "sorcier";
+INSERT INTO classes_competences SET id_competence = 9, nom_classe = "chasseur";
