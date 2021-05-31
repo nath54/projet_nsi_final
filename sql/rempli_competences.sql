@@ -56,3 +56,21 @@ INSERT INTO competences SET
     cout_mana = 4,
     tp_recharge = 5,
     img_icon = "moins_un_zone.png";
+
+INSERT INTO competences SET
+    id_competence = 7,
+    nom = "provocation",
+    description_ = "Provoque et attire les ennemis alentour",
+    type_cible = "joueur",
+    cout_mana = 5,
+    tp_recharge = 15,
+    img_icon = "provoc.png";
+
+INSERT INTO competences SET
+    id_competence = 8,
+    nom = "invisibilite",
+    description_ = "Devient invisible et indétectable des ennemis",
+    type_cible = "joueur",
+    cout_mana = 20,
+    tp_recharge = 30,
+    img_icon = "invisible.png";
