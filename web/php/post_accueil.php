@@ -14,6 +14,7 @@ $db = load_db("../../includes/config.json");
 
     <?php
 
+    #
     foreach($_POST as $k=>$v){
         echo "$k = $v <br />";
     }
@@ -22,6 +23,7 @@ $db = load_db("../../includes/config.json");
         header('Location: accueil.php');
     }
 
+    #on recherche dans la bdd le pseudo entré et si le mot de passe y correspond
     $res = requete_prep($db, "SELECT * FROM utilisateurs WHERE pseudo = :pseudo AND mdp = MD5(:mdp);", array(":pseudo"=>$_POST["pseudo"], ":mdp"=>$_POST["mdp"]));
     if (count($res)>0)
     // On laisse le joueur se connecter au jeu, si son mot de passe est bon
@@ -31,6 +33,7 @@ $db = load_db("../../includes/config.json");
 
         $req = requete_prep($db, "SELECT * FROM utilisateurs WHERE id_utilisateur = :id_utilisateur;", array($_SESSION["player_id"]));
 
+        #On redirige le joueur vers le menu de création de personnage, puis on le laisse se connecter une fois son personnage personnalisé
         if($req[0]['niveau'] == 0)
         {
             header('Location: creation_perso.php');

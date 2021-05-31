@@ -7,6 +7,7 @@ INSERT INTO competences SET
     cout_mana = 3,
     tp_recharge = 5,
     img_icon = "moins_un.png";
+    niv_min = 1;
 
 INSERT INTO competences SET
     id_competence = 2,
@@ -16,6 +17,7 @@ INSERT INTO competences SET
     cout_mana = 15,
     tp_recharge = 15,
     img_icon = "teleportation.png";
+    niv_min = 1;
 
 INSERT INTO competences SET
     id_competence = 3,
@@ -25,6 +27,7 @@ INSERT INTO competences SET
     cout_mana = 15,
     tp_recharge = 10,
     img_icon = "premiers_secours.png";
+    niv_min = 1;
 
 INSERT INTO competences SET
     id_competence = 4,
@@ -34,6 +37,7 @@ INSERT INTO competences SET
     cout_mana = 15,
     tp_recharge = 20,
     img_icon = "bouclier.png";
+    niv_min = 1;
 
 INSERT INTO competences SET
     id_competence = 5,
