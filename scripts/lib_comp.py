@@ -208,7 +208,7 @@ def gere_competences(ws_serv, websocket, data, id_user):
         heure = time.time()
         id_monstre_spawn = data["id_monstre_spawn"]
         ennemi = server.carte.regions[perso_joueur.region_actu].ennemis[id_monstre_spawn]
-        ennemi.modif_vie(-10)
+        ennemi.modif_vie(-5)
 
 def fininvisible(duree, joueur):
     time.sleep(duree)
