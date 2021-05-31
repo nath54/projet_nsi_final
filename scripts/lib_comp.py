@@ -107,8 +107,15 @@ def gere_competences(ws_serv, websocket, data, id_user):
             perso_joueur.classe == "Chevalier":
         """Permet d'attirer un ennemi vers le joueur dans un rayon de 5"""
         rayon = 5
-        monstres = server.carte.regions[perso_joueur.region_actu].ennemis
         perso_pos = (perso_joueur.position["x"], perso_joueur.position["y"])
+        region = server.carte.regions[perso_joueur.region_actu]
+        if len(region.ennemis) >= 100:
+            monstres = [region.get_case_monstre(x, y)
+                        for x in range(perso_pos[0] - 5, perso_pos[0] + 6)
+                        for y in range(perso_pos[1] - 5, perso_pos[1] + 6)
+                        if region.get_case_monstre(x, y) is not None]
+        else:
+            monstres = region.ennemis
         for ennemi in monstres:
             ennemi_pos = (ennemi.position["x"], ennemi.position["y"])
             if dist_vec(ennemi_pos, perso_pos) <= rayon:
