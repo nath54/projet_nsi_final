@@ -138,7 +138,7 @@ class Personnage:
         res = self.server.db.requete_db(sql, (self.classe, self.niveau))
 
         for compteur in range(len(res)):
-            self.competences[competence+1] = res[compteur][0]
+            self.competences[compteur+1] = res[compteur][0]
         
         print(self.competences)
 

@@ -89,7 +89,6 @@ INSERT INTO competences SET
     img_icon = "fusil.png",
     niv_min = 1;
 
-INSERT INTO classes_competences SET id_competence = 1, nom_classe = "chevalier";
 INSERT INTO classes_competences SET id_competence = 1, nom_classe = "sorcier";
 INSERT INTO classes_competences SET id_competence = 2, nom_classe = "sorcier";
 INSERT INTO classes_competences SET id_competence = 3, nom_classe = "sorcier";
