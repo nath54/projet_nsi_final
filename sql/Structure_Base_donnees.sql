@@ -212,7 +212,15 @@ CREATE TABLE competences (
 	description_ TEXT,
 	type_cible TEXT,
 	cout_mana INT NOT NULL,
-	tp_recharge FLOAT NOT NULL DEFAULT 10,
-	img_icon TEXT NOT NULL
+	tp_recharge FLOAT NOT NULL,
+	img_icon TEXT NOT NULL,
+	niv_min INT NOT NULL DEFAULT 1
+);
+
+
+CREATE TABLE classes_competences (
+	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	id_competence INT NOT NULL,
+	nom_classe TEXT NOT NULL
 );
 

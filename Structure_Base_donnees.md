@@ -436,6 +436,7 @@ CREATE TABLE arme (
  - `cout_mana` _INT NOT NULL_ : le coût en mana de la compétence
  - `tp_recharge` _FLOAT NOT NULL_ : le temps de recharge en secondes de la compétence
  - `img_icon` _TEXT NOT NULL_ : Le nom du fichier de l'icone de la compétence
+ - `niv_min` _INT NOT NULL DEFAULT 1
 
 Les effets de la compétence seront codés directement dans le serveur
 
@@ -447,15 +448,25 @@ CREATE TABLE competences (
 	type_cible TEXT,
 	cout_mana INT NOT NULL,
 	tp_recharge FLOAT NOT NULL,
-	img_icon TEXT NOT NULL
+	img_icon TEXT NOT NULL,
+	niv_min INT NOT NULL DEFAULT 1
 );
 ```
 
+## TABLE `classes_competences`
 
+- `id` INT NOT NULL PRIMARY_KEY AUTO_INCREMENT
+- `id_competence` INT NOT NULL
+- `nom_classe` TEXT NOT NULL
+
+```sql
+CREATE TABLE classes_competences (
+	id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	id_competence INT NOT NULL,
+	nom_classe TEXT NOT NULL
+);
+```
 
 ```sql
 -- A laisser, sinon, il manquera la derniere partie sql pour le programme python
 ```
-
-
-
