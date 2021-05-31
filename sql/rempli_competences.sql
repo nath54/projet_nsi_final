@@ -78,10 +78,10 @@ INSERT INTO competences SET
 INSERT INTO competences SET
     id_competence = 9,
     nom = "tir_de_fusil",
-    description_ = "Enlève 10 PV à un ennemi situé dans un rayon de 15 blocs",
+    description_ = "Enlève 5 PV à un ennemi situé dans un rayon de 15 blocs",
     type_cible = "ennemi",
-    cout_mana = 15,
-    tp_recharge = 15,
+    cout_mana = 5,
+    tp_recharge = 5,
     img_icon = "fusil.png";
 
 
