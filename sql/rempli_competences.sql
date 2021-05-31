@@ -29,7 +29,7 @@ INSERT INTO competences SET
 INSERT INTO competences SET
     id_competence = 4,
     nom = "bouclier",
-    description_ = "se protége de toutes attaques tout autours du joueur",
+    description_ = "se protège de toutes attaques tout autours du joueur",
     type_cible = "",
     cout_mana = 15,
     tp_recharge = 20,
