@@ -15,7 +15,7 @@ if (empty($_POST['pseudo']) OR empty($_POST['mdp']) OR empty($_POST['mdp_confirm
 elseif( ! in_array($_POST['sexe'], ['Homme','Femme','Autre'])){
 	$erreur = 'Ce sexe n\'est pas valide.';
 }
-elseif( ! in_array($_POST['classe'], ['Chevalier','Chasseur','Sorcier'])){
+elseif( ! in_array($_POST['classe'], ['chevalier','chasseur','sorcier'])){
 	$erreur = 'Ce sexe n\'est pas valide.';
 }
 
