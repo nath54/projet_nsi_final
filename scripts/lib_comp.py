@@ -75,16 +75,16 @@ def gere_competences(ws_serv, websocket, data, id_user):
             # perso_joueur.divers['heure_last_teleport'] = time.time()
 
     elif data_comp["nom"] == "bouclier":
-        #TODO
-        pass
+        perso_joueur.divers["bouclier"] = 50
+        
+        server.send_to_user(perso_joueur.id_utilisateur, {"action":"divers", "value":perso_joueur.divers})
+        server.serveurWebsocket.send_all({"action": "divers_joueur", "id_joueur":perso_joueur.id_utilisateur, "value":perso_joueur.divers_joueur}, [perso_joueur.id_utilisateur])
+
+
+
 
     elif data_comp["nom"] == "manger": ## Comp qui ne sera dispo que pour le chevalier et chasseur
         ## TODO : Dès que l'inventaire est dispo, faire en sorte de passer par l'inventaire pour manger
-        # heure = time.time()
-        # if not ('dernier_manger' not in perso_joueur.divers.keys() or heure-data_comp['faim_recharge']>=perso_joueur.divers['dernier_manger']):
-            # cd pas fini
-            # a rendre plus propre
-            # return
         if perso_joueur.classe == "Sorcier":
             return
         else:
