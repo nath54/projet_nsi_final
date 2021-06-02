@@ -48,8 +48,9 @@ foreach($res as $i=>$data){
 $cases_objets = array();
 $res = requete_prep($db, "SELECT x, y, id_objet, parametres FROM regions_objets WHERE id_region=:idr;", array(":idr"=>$id_region));
 if($res==NULL){
-    echo("L'objet n'a pas pu charger");
-    die();
+    // echo("L'objet n'a pas pu charger");
+    // die();
+    $res = array();
 }
 foreach($res as $i=>$data){
     $cases_objets[$i] = $data;
